@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nationals Bid Point Tracker</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    @font-face {
+      font-family: 'Ramboia';
+      src: url('../css/ramboia-font-family/RamboiaTestVF.ttf') format('truetype');
+      font-weight: 100 900;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Ramboia';
+      src: url('../css/ramboia-font-family/RamboiaTestVF-Italic.ttf') format('truetype');
+      font-weight: 100 900;
+      font-style: italic;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; cursor: none; }
+    ::selection { background: #E2793D33; }
+    body { font-family: 'Ramboia', 'Source Sans 3', 'Segoe UI', sans-serif; background: #FAF6F0; }
+    .cursor-dot {
+      position: fixed; top: 0; left: 0; width: 12px; height: 12px;
+      background: #E2793D; border-radius: 50%; pointer-events: none;
+      z-index: 99999; transform: translate(-50%, -50%);
+      transition: transform 0.15s ease, background 0.2s ease, width 0.15s ease, height 0.15s ease;
+    }
+    .cursor-dot.clicking {
+      transform: translate(-50%, -50%) scale(0.6);
+      background: #c4612a;
+    }
+    .cursor-dot.hovering {
+      width: 20px; height: 20px;
+      background: #E2793D88;
+      border: 2px solid #E2793D;
+    }
+    select {
+      appearance: none; -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23a09080'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 8px center; padding-right: 24px !important;
+      font-family: 'Ramboia', 'Source Sans 3', sans-serif;
+    }
+    select:focus { border-color: #E2793D !important; outline: none; }
+    select option { background: #FAF6F0; color: #3a3530; }
+    button { font-family: 'Ramboia', 'Source Sans 3', sans-serif; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useMemo, useCallback } = React;
+
+    const TEAM_REGISTRY = {
+      DSD:          { school: "Texas", danceName: "DSD", color: "#bf5700", aliases: ["Texas", "DSD"] },
+      GT:           { school: "Georgia Tech", danceName: "GT Raas", color: "#B3A369", aliases: ["GT"] },
+      Nakhraas:     { school: "Northeastern", danceName: "Nakhraas", color: "#d41b2c", aliases: ["Northeastern", "Nakhraas", "NEU"] },
+      Purdue:       { school: "Purdue", danceName: "Purdue Raas", color: "#CEB888", aliases: ["Purdue"] },
+      UTD:          { school: "UT Dallas", danceName: "TaRaas", color: "#e87500", aliases: ["UTD", "TaRaas"] },
+      CMU:          { school: "Carnegie Mellon", danceName: "CMU Raasta", color: "#c41230", aliases: ["CMU"] },
+      UCF:          { school: "UCF", danceName: "KnightRaas", color: "#FFC904", aliases: ["UCF"] },
+      UVA:          { school: "UVA", danceName: "HooRaas", color: "#232D4B", aliases: ["UVA"] },
+      UConn:        { school: "UConn", danceName: "Thunderaas", color: "#000E2F", aliases: ["UConn", "UCTR"] },
+      Raga:         { school: "Rutgers", danceName: "Raga", color: "#CC0033", aliases: ["Rutgers", "Raga", "RU"] },
+      Cornell:      { school: "Cornell", danceName: "Big Red Raas", color: "#B31B1B", aliases: ["Cornell"] },
+      TAMU:         { school: "Texas A&M", danceName: "Wreckin Raas", color: "#500000", aliases: ["TAMU"] },
+      UF:           { school: "Florida", danceName: "UF Raas", color: "#0021A5", aliases: ["UF"] },
+      UMD:          { school: "Maryland", danceName: "Entouraas", color: "#E21833", aliases: ["UMD"] },
+      Philthy:      { school: "Philadelphia", danceName: "Philthy", color: "#006bb6", aliases: ["Philthy"] },
+      Michigan:     { school: "Michigan", danceName: "Wolveraas", color: "#FFCB05", aliases: ["Michigan"] },
+      SBU:          { school: "Stony Brook", danceName: "Raaswalas", color: "#990000", aliases: ["SBU"] },
+      SteelCity:    { school: "Pitt", danceName: "Steel City", color: "#003594", aliases: ["Steel City"] },
+      USF:          { school: "South Florida", danceName: "SoFlo Raas", color: "#006747", aliases: ["USF"] },
+      UNC:          { school: "UNC", danceName: "Tar Heel Raas", color: "#7BAFD4", aliases: ["UNC"] },
+      Columbia:     { school: "Columbia", danceName: "Columbia Raas", color: "#B9D9EB", aliases: ["Columbia"] },
+      VCU:          { school: "VCU", danceName: "Ricochet Raas", color: "#F8B800", aliases: ["VCU"] },
+      UCLA:         { school: "UCLA", danceName: "Bataaka Nu Shaak", color: "#2D68C4", aliases: ["UCLA"] },
+      UCB:          { school: "UC Berkeley", danceName: "Raas Ramzat", color: "#003262", aliases: ["UCB"] },
+      UCSC:         { school: "UC Santa Cruz", danceName: "UCSC", color: "#003c6c", aliases: ["UCSC"] },
+      UCSD:         { school: "UC San Diego", danceName: "UCSD", color: "#182B49", aliases: ["UCSD"] },
+      IU:           { school: "Indiana", danceName: "Hoosierraas", color: "#990000", aliases: ["IU"] },
+      VT:           { school: "Virginia Tech", danceName: "Dhamaal", color: "#861F41", aliases: ["VT"] },
+      UIUC:         { school: "UIUC", danceName: "Illini", color: "#E84A27", aliases: ["UIUC"] },
+      WashU:        { school: "WashU", danceName: "WashU Raas", color: "#A51417", aliases: ["WashU"] },
+      GW:           { school: "GW", danceName: "GW Raas", color: "#033C5A", aliases: ["GW"] },
+      OSU:          { school: "Ohio State", danceName: "Buckraas", color: "#BB0000", aliases: ["OSU"] },
+      Emory:        { school: "Emory", danceName: "Emory Raas", color: "#012169", aliases: ["Emory"] },
+      BU:           { school: "Boston U", danceName: "Fatakada", color: "#CC0000", aliases: ["BU"] },
+    };
+
+    const ALIAS_TO_ID = {};
+    Object.entries(TEAM_REGISTRY).forEach(([id, info]) => {
+      info.aliases.forEach(alias => { ALIAS_TO_ID[alias] = id; });
+    });
+    function resolveTeam(name) { return ALIAS_TO_ID[name] || name; }
+    function getTeamInfo(id) {
+      return TEAM_REGISTRY[id] || { school: id, danceName: id, color: "#666", aliases: [id] };
+    }
+
+    const CURRENT_STANDINGS = {
+      DSD: 8, GT: 6, Nakhraas: 6, Purdue: 6, UTD: 6,
+      CMU: 5, UCF: 4, UVA: 3, UConn: 3, Raga: 2,
+      Cornell: 2, TAMU: 2, UF: 1, UMD: 1,
+    };
+
+    const CURRENT_SORTED = Object.entries(CURRENT_STANDINGS)
+      .sort((a, b) => b[1] - a[1])
+      .map(([team, pts], i) => ({ team, points: pts, rank: i + 1, info: getTeamInfo(team) }));
+
+    const COMPETITIONS_RAW = [
+      { id: "naach", name: "NAACH", date: "02/21", location: "New Brunswick",
+        teams: ["GW", "SBU", "Northeastern", "Texas", "UConn", "UVA", "VT", "Columbia"] },
+      { id: "gtr", name: "GTR", date: "02/21", location: "St. Louis",
+        teams: ["BU", "UF", "UIUC", "IU", "UCB", "VCU", "Steel City", "UCSC"] },
+      { id: "rds", name: "RDS", date: "02/28", location: "Storrs",
+        teams: ["Purdue", "Rutgers", "UCF", "Philthy", "CMU", "USF", "UMD", "UCB"] },
+      { id: "rodeo", name: "RODEO", date: "02/28", location: "Austin",
+        teams: ["UIUC", "GT", "UTD", "BU", "WashU", "UVA", "UCSD", "UCLA"] },
+      { id: "masti", name: "MASTI", date: "03/07", location: "College Park",
+        teams: ["Columbia", "UTD", "VCU", "Rutgers", "UF", "Cornell", "VT", "Purdue"] },
+      { id: "ats", name: "ATS", date: "03/07", location: "Atlanta", teams: [] },
+      { id: "ecs", name: "ECS", date: "03/14", location: "Charlottesville",
+        teams: ["GT", "Philthy", "UIUC", "Michigan", "SBU", "Steel City", "USF", "UNC"] },
+      { id: "ggg", name: "GGG", date: "03/14", location: "Berkeley",
+        teams: ["Northeastern", "Emory", "UCSC", "UMD", "BU", "TAMU"] },
+    ];
+
+    const COMPETITIONS = COMPETITIONS_RAW.map(comp => ({
+      ...comp,
+      teamIds: [...new Set(comp.teams.map(resolveTeam))],
+    }));
+
+    const ALL_TEAM_IDS = [...new Set([
+      ...Object.keys(CURRENT_STANDINGS),
+      ...COMPETITIONS.flatMap(c => c.teamIds),
+    ])].sort((a, b) => getTeamInfo(a).danceName.localeCompare(getTeamInfo(b).danceName));
+
+    const PLACEMENT_POINTS = { "1st": 4, "2nd": 2, "3rd": 1 };
+    const NATIONALS_CUTOFF = 9;
+
+    function getDefaultScenarios() {
+      const init = {};
+      COMPETITIONS.forEach(comp => {
+        if (comp.teamIds.length === 0) {
+          init[comp.id] = { "1st": "", "2nd": "", "3rd": "" };
+          return;
+        }
+        const sorted = [...comp.teamIds].sort((a, b) =>
+          (CURRENT_STANDINGS[b] || 0) - (CURRENT_STANDINGS[a] || 0)
+        );
+        init[comp.id] = { "1st": sorted[0] || "", "2nd": sorted[1] || "", "3rd": sorted[2] || "" };
+      });
+      return init;
+    }
+
+    function TeamPill({ id, small, faded }) {
+      const info = getTeamInfo(id);
+      return (
+        <span style={{
+          display: "inline-block", padding: small ? "1px 6px" : "2px 8px",
+          borderRadius: 4, fontSize: small ? 10 : 11, fontWeight: 600,
+          background: faded ? "rgba(0,0,0,0.03)" : `${info.color}14`,
+          color: faded ? "#bbb" : info.color,
+          border: `1px solid ${faded ? "#e5ddd0" : info.color + "25"}`,
+          whiteSpace: "nowrap",
+        }}>
+          {info.danceName}
+        </span>
+      );
+    }
+
+    function RankingCard({ entry, isUVA, qualifies, showAdded, atCutoff }) {
+      return (
+        <div style={{ display: "flex" }}>
+          <div style={{
+            width: 70, padding: "7px 4px", borderRadius: 8, textAlign: "center",
+            background: isUVA ? "#232D4B0D" : qualifies ? "#fff" : "#F2EDE5",
+            border: isUVA ? "2px solid #232D4B40" : qualifies ? "1px solid #E8E0D4" : "1px solid #E0D8CC",
+            opacity: qualifies ? 1 : 0.5, transition: "all 0.2s",
+          }}>
+            <div style={{
+              fontFamily: "'JetBrains Mono', monospace", fontSize: 10,
+              color: isUVA ? "#232D4B" : "#9a9080", fontWeight: 600,
+            }}>#{entry.rank}</div>
+            <div style={{
+              fontSize: 11, fontWeight: 700, marginTop: 1,
+              color: isUVA ? "#232D4B" : entry.info.color,
+              whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+            }}>{entry.info.danceName}</div>
+            <div style={{ fontSize: 8.5, color: "#a09888", marginTop: 0 }}>{entry.info.school}</div>
+            <div style={{
+              fontFamily: "'JetBrains Mono', monospace", fontSize: 15,
+              fontWeight: 700, color: isUVA ? "#232D4B" : "#3a3530", marginTop: 1,
+            }}>{entry.points}</div>
+            {showAdded && entry.added > 0 && (
+              <div style={{
+                fontFamily: "'JetBrains Mono', monospace", fontSize: 9,
+                color: "#2e7d32", fontWeight: 600,
+              }}>+{entry.added}</div>
+            )}
+          </div>
+          {atCutoff && (
+            <div style={{
+              width: 3, background: "linear-gradient(180deg, #c62828, #c6282800)",
+              borderRadius: 2, margin: "0 2px",
+            }} />
+          )}
+        </div>
+      );
+    }
+
+    function Btn({ children, onClick }) {
+      const [hov, setHov] = useState(false);
+      return (
+        <button onClick={onClick} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+          style={{
+            padding: "4px 12px", background: hov ? "#E2793D10" : "transparent",
+            border: `1px solid ${hov ? "#E2793D" : "#d8d0c4"}`,
+            borderRadius: 6, color: hov ? "#E2793D" : "#9a9080", fontSize: 11, cursor: "pointer",
+            transition: "all 0.15s", fontWeight: 500,
+          }}>{children}</button>
+      );
+    }
+
+    function CompCard({ comp, scenario, setPlacement }) {
+      const uvaHere = comp.teamIds.includes("UVA");
+      const empty = comp.teamIds.length === 0;
+      const selectedIds = Object.values(scenario).filter(Boolean);
+
+      return (
+        <div style={{
+          background: "#fff", borderRadius: 10,
+          border: uvaHere ? "1.5px solid #232D4B35" : "1px solid #E8E0D4",
+          padding: "14px 16px", boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+        }}>
+          <div style={{
+            display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10,
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontWeight: 700, fontSize: 15, color: "#1a1510" }}>{comp.name}</span>
+              {uvaHere && (
+                <span style={{
+                  background: "#232D4B12", color: "#232D4B",
+                  fontSize: 9, fontWeight: 700, padding: "2px 6px", borderRadius: 4,
+                }}>&#9733; HOORAAS</span>
+              )}
+            </div>
+            <span style={{
+              fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "#a09888",
+            }}>{comp.date} &middot; {comp.location}</span>
+          </div>
+
+          <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+            <div style={{ flex: "0 0 auto", minWidth: 130 }}>
+              <div style={{
+                fontFamily: "'JetBrains Mono', monospace", fontSize: 9,
+                color: "#b0a898", textTransform: "uppercase", letterSpacing: 1,
+                marginBottom: 5, fontWeight: 600,
+              }}>Lineup</div>
+              {empty ? (
+                <div style={{ fontSize: 11, color: "#bbb", fontStyle: "italic" }}>Teams TBD</div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                  {comp.teamIds.map(id => {
+                    const isPlaced = selectedIds.includes(id);
+                    const place = Object.entries(scenario).find(([, v]) => v === id)?.[0];
+                    const placeColor = place === "1st" ? "#b8860b" : place === "2nd" ? "#6b7c8a" : place === "3rd" ? "#a0704a" : null;
+                    return (
+                      <div key={id} style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                        <TeamPill id={id} small faded={!isPlaced && selectedIds.length > 0} />
+                        {place && (
+                          <span style={{
+                            fontFamily: "'JetBrains Mono', monospace", fontSize: 9,
+                            color: placeColor, fontWeight: 700,
+                          }}>{place}</span>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            <div style={{ flex: 1, display: "flex", gap: 8, minWidth: 0 }}>
+              {["1st", "2nd", "3rd"].map(place => {
+                const pts = PLACEMENT_POINTS[place];
+                const medalColor = place === "1st" ? "#b8860b" : place === "2nd" ? "#6b7c8a" : "#a0704a";
+                const sel = scenario[place];
+                const others = Object.entries(scenario)
+                  .filter(([p]) => p !== place).map(([, t]) => t).filter(Boolean);
+                const opts = (empty ? ALL_TEAM_IDS : comp.teamIds).filter(t => !others.includes(t));
+                const selInfo = sel ? getTeamInfo(sel) : null;
+
+                return (
+                  <div key={place} style={{ flex: 1 }}>
+                    <div style={{
+                      fontFamily: "'JetBrains Mono', monospace", fontSize: 10,
+                      fontWeight: 700, color: medalColor, marginBottom: 4,
+                      display: "flex", alignItems: "center", gap: 4,
+                    }}>
+                      {place === "1st" ? "\u{1F947}" : place === "2nd" ? "\u{1F948}" : "\u{1F949}"}
+                      {place} <span style={{ opacity: 0.5, fontWeight: 500 }}>+{pts}</span>
+                    </div>
+                    <select value={sel} onChange={e => setPlacement(place, e.target.value)}
+                      style={{
+                        width: "100%", padding: "6px 8px",
+                        background: sel ? "#FAF6F0" : "#fff",
+                        border: sel === "UVA" ? "1.5px solid #232D4B60" : "1px solid #d8d0c4",
+                        borderRadius: 6,
+                        color: sel ? (sel === "UVA" ? "#232D4B" : selInfo?.color || "#3a3530") : "#a09888",
+                        fontSize: 12, fontWeight: sel ? 600 : 400, cursor: "pointer",
+                      }}>
+                      <option value="">&mdash; select &mdash;</option>
+                      {opts.map(t => {
+                        const info = getTeamInfo(t);
+                        return <option key={t} value={t}>{info.danceName} ({info.school})</option>;
+                      })}
+                    </select>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function BidPointsPlanner() {
+      const [scenarios, setScenarios] = useState(getDefaultScenarios);
+
+      const setPlacement = useCallback((compId, place, team) => {
+        setScenarios(prev => ({ ...prev, [compId]: { ...prev[compId], [place]: team } }));
+      }, []);
+
+      const projectedStandings = useMemo(() => {
+        const points = {};
+        ALL_TEAM_IDS.forEach(t => { points[t] = CURRENT_STANDINGS[t] || 0; });
+        Object.values(scenarios).forEach(placements => {
+          Object.entries(placements).forEach(([place, team]) => {
+            if (team && PLACEMENT_POINTS[place]) {
+              points[team] = (points[team] || 0) + PLACEMENT_POINTS[place];
+            }
+          });
+        });
+        return Object.entries(points)
+          .filter(([, pts]) => pts > 0)
+          .sort((a, b) => b[1] - a[1])
+          .map(([team, pts], i) => ({
+            team, points: pts, rank: i + 1,
+            added: pts - (CURRENT_STANDINGS[team] || 0),
+            current: CURRENT_STANDINGS[team] || 0,
+            info: getTeamInfo(team),
+          }));
+      }, [scenarios]);
+
+      const uvaData = projectedStandings.find(t => t.team === "UVA");
+      const cutoffPts = projectedStandings.length >= NATIONALS_CUTOFF
+        ? projectedStandings[NATIONALS_CUTOFF - 1].points : 0;
+      const uvaQ = uvaData && uvaData.rank <= NATIONALS_CUTOFF;
+
+      const uvaCurrent = CURRENT_SORTED.find(t => t.team === "UVA");
+      const uvaCurrentRank = uvaCurrent?.rank || "?";
+
+      return (
+        <div style={{
+          color: "#3a3530",
+          minHeight: "100vh", padding: "20px 24px 40px",
+          maxWidth: 920, margin: "0 auto",
+        }}>
+          {/* Header */}
+          <div style={{ textAlign: "center", marginBottom: 18 }}>
+            <h1 style={{ fontSize: 22, fontWeight: 700, margin: 0, color: "#1a1510" }}>
+              Nationals Bid Point Tracker
+            </h1>
+            <p style={{ margin: "4px 0 0", fontSize: 12.5, color: "#9a9080" }}>
+              Top {NATIONALS_CUTOFF} teams qualify &middot; 1st = 4pts &middot; 2nd = 2pts &middot; 3rd = 1pt
+            </p>
+          </div>
+
+          {/* UVA Status */}
+          <div style={{
+            background: uvaQ ? "#e8f5e920" : "#fef2f210",
+            border: `1.5px solid ${uvaQ ? "#4caf5040" : "#e5393540"}`,
+            borderRadius: 10, padding: "12px 18px", marginBottom: 18,
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+          }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ fontWeight: 700, fontSize: 16, color: "#232D4B" }}>{"\u{1F9E1}"} HooRaas (UVA)</span>
+              </div>
+              <div style={{ fontSize: 13, color: "#8a8070", marginTop: 3 }}>
+                Currently <b>#{uvaCurrentRank}</b> with <b>{CURRENT_STANDINGS.UVA} pts</b>
+                {" \u00B7 "}
+                Projected <b>#{uvaData?.rank || "?"}</b> with <b>{uvaData?.points || 3} pts</b>
+                {" \u00B7 "}
+                {uvaQ
+                  ? <span style={{ color: "#2e7d32", fontWeight: 600 }}>Qualifies &#10003;</span>
+                  : <span style={{ color: "#c62828", fontWeight: 600 }}>
+                      Need {cutoffPts - (uvaData?.points || 0) + 1} more pts
+                    </span>
+                }
+              </div>
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: 10, color: "#a09888", fontWeight: 500 }}>PROJECTED</div>
+              <div style={{
+                fontFamily: "'JetBrains Mono', monospace", fontSize: 32, fontWeight: 700,
+                color: uvaQ ? "#2e7d32" : "#c62828", lineHeight: 1,
+              }}>#{uvaData?.rank || "?"}</div>
+            </div>
+          </div>
+
+          {/* Current Standings */}
+          <div style={{
+            background: "#F5F0E8", borderRadius: 10, border: "1px solid #E8E0D4",
+            padding: "12px 14px", marginBottom: 12,
+          }}>
+            <div style={{
+              fontFamily: "'JetBrains Mono', monospace", fontSize: 10,
+              letterSpacing: 1.5, color: "#9a9080", textTransform: "uppercase", fontWeight: 600,
+              marginBottom: 10,
+            }}>
+              Current Standings (Midseason)
+            </div>
+            <div style={{ overflowX: "auto", paddingBottom: 4 }}>
+              <div style={{ display: "flex", gap: 3, minWidth: "fit-content" }}>
+                {CURRENT_SORTED.map((entry, i) => {
+                  const isUVA = entry.team === "UVA";
+                  const qualifies = i < NATIONALS_CUTOFF;
+                  const atCutoff = i === NATIONALS_CUTOFF - 1;
+                  return (
+                    <RankingCard key={entry.team}
+                      entry={entry} isUVA={isUVA} qualifies={qualifies}
+                      showAdded={false} atCutoff={atCutoff}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Projected Standings */}
+          <div style={{
+            background: "#F5F0E8", borderRadius: 10, border: "1px solid #E8E0D4",
+            padding: "12px 14px", marginBottom: 22,
+          }}>
+            <div style={{
+              display: "flex", justifyContent: "space-between", alignItems: "center",
+              marginBottom: 10, flexWrap: "wrap", gap: 4,
+            }}>
+              <div style={{
+                fontFamily: "'JetBrains Mono', monospace", fontSize: 10,
+                letterSpacing: 1.5, color: "#9a9080", textTransform: "uppercase", fontWeight: 600,
+              }}>
+                Projected Standings
+              </div>
+              <div style={{
+                fontSize: 10, color: "#b0a898", fontStyle: "italic",
+                maxWidth: 420,
+              }}>
+                &#9888; Projection assumes teams with the most bid points place highest at each remaining competition — change placements below to explore scenarios
+              </div>
+            </div>
+            <div style={{ overflowX: "auto", paddingBottom: 4 }}>
+              <div style={{ display: "flex", gap: 3, minWidth: "fit-content" }}>
+                {projectedStandings.map((entry, i) => {
+                  const isUVA = entry.team === "UVA";
+                  const qualifies = i < NATIONALS_CUTOFF;
+                  const atCutoff = i === NATIONALS_CUTOFF - 1;
+                  return (
+                    <RankingCard key={entry.team}
+                      entry={entry} isUVA={isUVA} qualifies={qualifies}
+                      showAdded={true} atCutoff={atCutoff}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Competition Cards */}
+          <div style={{
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            marginBottom: 10, flexWrap: "wrap", gap: 6,
+          }}>
+            <div style={{
+              fontFamily: "'JetBrains Mono', monospace", fontSize: 10,
+              letterSpacing: 1.5, color: "#9a9080", textTransform: "uppercase", fontWeight: 600,
+            }}>
+              Competition Scenarios
+            </div>
+            <div style={{ display: "flex", gap: 6 }}>
+              <Btn onClick={() => setScenarios(getDefaultScenarios())}>Reset to Projected</Btn>
+              <Btn onClick={() => {
+                const init = {};
+                COMPETITIONS.forEach(c => { init[c.id] = { "1st": "", "2nd": "", "3rd": "" }; });
+                setScenarios(init);
+              }}>Clear All</Btn>
+            </div>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {COMPETITIONS.map(comp => (
+              <CompCard key={comp.id} comp={comp} scenario={scenarios[comp.id]}
+                setPlacement={(place, team) => setPlacement(comp.id, place, team)} />
+            ))}
+          </div>
+
+          <div style={{
+            textAlign: "center", fontSize: 11, color: "#b8b0a4",
+            marginTop: 24, padding: "12px 0", borderTop: "1px solid #E8E0D4",
+          }}>
+            Default projections assume teams with the most current bid points place highest &middot; Change any placement to explore scenarios
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<BidPointsPlanner />);
+  </script>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <script>
+    const dot = document.getElementById('cursorDot');
+    let mouseX = -50, mouseY = -50;
+    let dotX = -50, dotY = -50;
+
+    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+    document.addEventListener('mousedown', () => dot.classList.add('clicking'));
+    document.addEventListener('mouseup', () => dot.classList.remove('clicking'));
+
+    document.addEventListener('mouseover', e => {
+      const t = e.target;
+      if (t.tagName === 'BUTTON' || t.tagName === 'SELECT' || t.tagName === 'A' || t.closest('button') || t.closest('a')) {
+        dot.classList.add('hovering');
+      }
+    });
+    document.addEventListener('mouseout', e => {
+      const t = e.target;
+      if (t.tagName === 'BUTTON' || t.tagName === 'SELECT' || t.tagName === 'A' || t.closest('button') || t.closest('a')) {
+        dot.classList.remove('hovering');
+      }
+    });
+
+    function animate() {
+      dotX += (mouseX - dotX) * 0.18;
+      dotY += (mouseY - dotY) * 0.18;
+      dot.style.left = dotX + 'px';
+      dot.style.top = dotY + 'px';
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>
