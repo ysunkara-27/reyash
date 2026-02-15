@@ -112,7 +112,7 @@
     const CURRENT_STANDINGS = {
       DSD: 8, GT: 6, Nakhraas: 6, Purdue: 6, UTD: 6,
       CMU: 5, UCF: 4, UVA: 3, UConn: 3, Raga: 2,
-      Cornell: 2, TAMU: 2, UF: 1, UMD: 1,
+      Cornell: 2, TAMU: 2, UF: 1, UMD: 1, Michigan: 1,
     };
 
     const CURRENT_SORTED = Object.entries(CURRENT_STANDINGS)
@@ -135,7 +135,7 @@
       { id: "ecs", name: "ECS", date: "03/14", location: "Charlottesville",
         teams: ["GT", "Philthy", "UIUC", "Michigan", "SBU", "Steel City", "USF", "UNC"] },
       { id: "ggg", name: "GGG", date: "03/14", location: "Berkeley",
-        teams: ["Northeastern", "Emory", "UCSC", "UMD", "BU", "TAMU"] },
+        teams: ["Northeastern", "Emory", "UCSC", "UMD", "BU", "TAMU"], places: ["1st", "2nd"] },
     ];
 
     const COMPETITIONS = COMPETITIONS_RAW.map(comp => ({
@@ -154,14 +154,17 @@
     function getDefaultScenarios() {
       const init = {};
       COMPETITIONS.forEach(comp => {
+        const places = comp.places || ["1st", "2nd", "3rd"];
         if (comp.teamIds.length === 0) {
-          init[comp.id] = { "1st": "", "2nd": "", "3rd": "" };
+          const obj = {}; places.forEach(p => { obj[p] = ""; });
+          init[comp.id] = obj;
           return;
         }
         const sorted = [...comp.teamIds].sort((a, b) =>
           (CURRENT_STANDINGS[b] || 0) - (CURRENT_STANDINGS[a] || 0)
         );
-        init[comp.id] = { "1st": sorted[0] || "", "2nd": sorted[1] || "", "3rd": sorted[2] || "" };
+        const obj = {}; places.forEach((p, i) => { obj[p] = sorted[i] || ""; });
+        init[comp.id] = obj;
       });
       return init;
     }
@@ -295,7 +298,7 @@
             </div>
 
             <div style={{ flex: 1, display: "flex", gap: 8, minWidth: 0 }}>
-              {["1st", "2nd", "3rd"].map(place => {
+              {(comp.places || ["1st", "2nd", "3rd"]).map(place => {
                 const pts = PLACEMENT_POINTS[place];
                 const medalColor = place === "1st" ? "#b8860b" : place === "2nd" ? "#6b7c8a" : "#a0704a";
                 const sel = scenario[place];
@@ -506,7 +509,7 @@
               <Btn onClick={() => setScenarios(getDefaultScenarios())}>Reset to Projected</Btn>
               <Btn onClick={() => {
                 const init = {};
-                COMPETITIONS.forEach(c => { init[c.id] = { "1st": "", "2nd": "", "3rd": "" }; });
+                COMPETITIONS.forEach(c => { const obj = {}; (c.places || ["1st", "2nd", "3rd"]).forEach(p => { obj[p] = ""; }); init[c.id] = obj; });
                 setScenarios(init);
               }}>Clear All</Btn>
             </div>
