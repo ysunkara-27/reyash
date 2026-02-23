@@ -110,9 +110,9 @@
     }
 
     const CURRENT_STANDINGS = {
-      DSD: 8, GT: 6, Nakhraas: 6, Purdue: 6, UTD: 6,
-      CMU: 5, UCF: 4, UVA: 3, UConn: 3, Raga: 2,
-      Cornell: 2, TAMU: 2, UF: 1, UMD: 1, Michigan: 1,
+      DSD: 12, Nakhraas: 7, GT: 6, Purdue: 6, UTD: 6,
+      CMU: 5, UConn: 5, UF: 5, UCF: 4, UVA: 3,
+      Raga: 2, Cornell: 2, TAMU: 2, UCB: 2, UMD: 1, Michigan: 1, UIUC: 1,
     };
 
     const CURRENT_SORTED = Object.entries(CURRENT_STANDINGS)
@@ -120,10 +120,6 @@
       .map(([team, pts], i) => ({ team, points: pts, rank: i + 1, info: getTeamInfo(team) }));
 
     const COMPETITIONS_RAW = [
-      { id: "naach", name: "NAACH", date: "02/21", location: "New Brunswick",
-        teams: ["GW", "SBU", "Northeastern", "Texas", "UConn", "UVA", "VT", "Columbia"] },
-      { id: "gtr", name: "GTR", date: "02/21", location: "St. Louis",
-        teams: ["BU", "UF", "UIUC", "IU", "UCB", "VCU", "Steel City", "UCSC"] },
       { id: "rds", name: "RDS", date: "02/28", location: "Storrs",
         teams: ["Purdue", "Rutgers", "UCF", "Philthy", "CMU", "USF", "UMD", "UCB"] },
       { id: "rodeo", name: "RODEO", date: "02/28", location: "Austin",
