@@ -29,17 +29,9 @@
       font-weight: 100 900;
       font-style: italic;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; cursor: none; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     ::selection { background: #E2793D33; }
     body { font-family: 'Ramboia', 'Source Sans 3', 'Segoe UI', sans-serif; background: #FAF6F0; }
-    .cursor-dot {
-      position: fixed; top: 0; left: 0; width: 12px; height: 12px;
-      background: #E2793D; border-radius: 50%; pointer-events: none;
-      z-index: 99999; transform: translate(-50%, -50%);
-      transition: transform 0.15s ease, background 0.2s ease, width 0.15s ease, height 0.15s ease;
-    }
-    .cursor-dot.clicking { transform: translate(-50%, -50%) scale(0.6); background: #c4612a; }
-    .cursor-dot.hovering { width: 20px; height: 20px; background: #E2793D88; border: 2px solid #E2793D; }
     select {
       appearance: none; -webkit-appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23a09080'/%3E%3C/svg%3E");
@@ -118,7 +110,7 @@
 
     const COMPETITIONS_RAW = [
       { id: "ecs", name: "ECS", date: "03/14", location: "Charlottesville",
-        teams: ["GT", "Philthy", "UIUC", "Michigan", "SBU", "Steel City", "USF", "UNC"] },
+        teams: ["GT", "Philthy", "UIUC", "Michigan", "SBU", "Steel City", "USF", "UNC"], places: ["1st", "2nd"] },
       { id: "ggg", name: "GGG", date: "03/14", location: "Berkeley",
         teams: ["Northeastern", "Emory", "UCSC", "UMD", "BU", "TAMU"], places: ["1st", "2nd"] },
     ];
@@ -139,16 +131,46 @@
     // ─── ELO DATA & COMPUTATION ──────────────────────────────────────────────
     // Pairwise ELO: higher placer beats lower placer; unplaced teams draw each other.
     const COMPLETED_RESULTS = [
-      { id: "rds", name: "RDS", date: "02/28", location: "Storrs",
+      { id: "nasha",     name: "Nasha",           date: "01/25", location: "Boston",
+        placements: ["Nakhraas", "UConn", "CMU"],
+        teams: ["Nakhraas", "UConn", "CMU"] },
+      { id: "rampage",   name: "Rampage",          date: "01/25", location: "—",
+        placements: ["DSD", "UTD", "UVA"],
+        teams: ["DSD", "UTD", "UVA"] },
+      { id: "dtx",       name: "DTX",              date: "01/31", location: "Dallas",
+        placements: ["DSD", "TAMU", "UF"],
+        teams: ["DSD", "TAMU", "UF"] },
+      { id: "chaos",     name: "Chaos",            date: "02/01", location: "—",
+        placements: ["UCF", "UVA", "UConn"],
+        teams: ["UCF", "UVA", "UConn"] },
+      { id: "bkb",       name: "BKB",              date: "02/07", location: "—",
+        placements: ["GT", "Purdue", "Raga"],
+        teams: ["GT", "Purdue", "Raga"] },
+      { id: "rangeelo",  name: "RANGEElo",         date: "02/07", location: "—",
+        placements: ["CMU", "GT", "Raga"],
+        teams: ["CMU", "GT", "Raga"] },
+      { id: "rcr",       name: "River City Raas",  date: "02/14", location: "—",
+        placements: ["UTD", "Cornell", "UMD"],
+        teams: ["UTD", "Cornell", "UMD"] },
+      { id: "mania",     name: "Mania",            date: "02/14", location: "—",
+        placements: ["Purdue", "Nakhraas", "Michigan"],
+        teams: ["Purdue", "Nakhraas", "Michigan"] },
+      { id: "naach",     name: "NAACH",            date: "02/21", location: "—",
+        placements: ["DSD", "UConn", "Nakhraas"],
+        teams: ["DSD", "UConn", "Nakhraas"] },
+      { id: "gtr",       name: "GTR",              date: "02/21", location: "—",
+        placements: ["UF", "UCB", "UIUC"],
+        teams: ["UF", "UCB", "UIUC"] },
+      { id: "rds",       name: "RDS",              date: "02/28", location: "Storrs",
         placements: ["CMU", "UCF", "Purdue"],
         teams: ["Purdue", "Rutgers", "UCF", "Philthy", "CMU", "USF", "UMD", "UCB"] },
-      { id: "rodeo", name: "RODEO", date: "02/28", location: "Austin",
+      { id: "rodeo",     name: "RODEO",            date: "02/28", location: "Austin",
         placements: ["GT", "UTD", "UVA"],
         teams: ["UIUC", "GT", "UTD", "BU", "WashU", "UVA", "UCSD", "UCLA"] },
-      { id: "ats", name: "ATS", date: "03/07", location: "Atlanta",
+      { id: "ats",       name: "ATS",              date: "03/07", location: "Atlanta",
         placements: ["DSD", "UConn", "UCF"],
         teams: ["UConn", "DSD", "SBU", "UCSD", "UCF", "IU", "OSU", "Philthy"] },
-      { id: "masti", name: "MASTI", date: "03/07", location: "College Park",
+      { id: "masti",     name: "MASTI",            date: "03/07", location: "College Park",
         placements: ["Purdue", "Raga", "UTD"],
         teams: ["Columbia", "UTD", "VCU", "Raga", "UF", "Cornell", "VT", "Purdue"] },
     ];
@@ -604,7 +626,7 @@
           </div>
 
           <div style={{ textAlign: "center", fontSize: 11, color: "#b8b0a4", marginTop: 16, padding: "12px 0", borderTop: "1px solid #E8E0D4" }}>
-            NAACH & GTR results not included — send placements to add them &middot; 4 of 6 comps tracked
+            All 14 known competitions included &middot; ECS & GGG pending
           </div>
         </div>
       );
@@ -644,38 +666,6 @@
     }
 
     ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-  </script>
-  <div class="cursor-dot" id="cursorDot"></div>
-  <script>
-    const dot = document.getElementById('cursorDot');
-    let mouseX = -50, mouseY = -50;
-    let dotX = -50, dotY = -50;
-
-    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
-    document.addEventListener('mousedown', () => dot.classList.add('clicking'));
-    document.addEventListener('mouseup', () => dot.classList.remove('clicking'));
-
-    document.addEventListener('mouseover', e => {
-      const t = e.target;
-      if (t.tagName === 'BUTTON' || t.tagName === 'SELECT' || t.tagName === 'A' || t.closest('button') || t.closest('a')) {
-        dot.classList.add('hovering');
-      }
-    });
-    document.addEventListener('mouseout', e => {
-      const t = e.target;
-      if (t.tagName === 'BUTTON' || t.tagName === 'SELECT' || t.tagName === 'A' || t.closest('button') || t.closest('a')) {
-        dot.classList.remove('hovering');
-      }
-    });
-
-    function animate() {
-      dotX += (mouseX - dotX) * 0.18;
-      dotY += (mouseY - dotY) * 0.18;
-      dot.style.left = dotX + 'px';
-      dot.style.top = dotY + 'px';
-      requestAnimationFrame(animate);
-    }
-    animate();
   </script>
 </body>
 </html>
