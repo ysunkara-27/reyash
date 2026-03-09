@@ -84,6 +84,9 @@
       OSU:       { school: "Ohio State",     danceName: "Buckraas",         color: "#BB0000", aliases: ["OSU"] },
       Emory:     { school: "Emory",          danceName: "Emory Raas",       color: "#012169", aliases: ["Emory"] },
       BU:        { school: "Boston U",       danceName: "Fatakada",         color: "#CC0000", aliases: ["BU"] },
+      NUR:       { school: "Northwestern",   danceName: "Northwestern Raas",color: "#4E2A84", aliases: ["NUR", "Northwestern"] },
+      UW:        { school: "Wisconsin",      danceName: "UW Raas",          color: "#C5050C", aliases: ["UW", "Wisconsin"] },
+      CWRU:      { school: "Case Western",   danceName: "Case Western Raas",color: "#003A70", aliases: ["Case Western", "CWRU"] },
     };
 
     const ALIAS_TO_ID = {};
@@ -131,48 +134,48 @@
     // ─── ELO DATA & COMPUTATION ──────────────────────────────────────────────
     // Pairwise ELO: higher placer beats lower placer; unplaced teams draw each other.
     const COMPLETED_RESULTS = [
-      { id: "nasha",     name: "Nasha",           date: "01/25", location: "Boston",
+      { id: "nasha",    name: "Nasha",          date: "01/31", location: "West Lafayette",
         placements: ["Nakhraas", "UConn", "CMU"],
-        teams: ["Nakhraas", "UConn", "CMU"] },
-      { id: "rampage",   name: "Rampage",          date: "01/25", location: "—",
+        teams: ["UConn", "VCU", "UCSD", "Northeastern", "CMU", "Cornell", "Case Western", "GW"] },
+      { id: "rampage",  name: "Rampage",         date: "01/31", location: "Orlando",
         placements: ["DSD", "UTD", "UVA"],
-        teams: ["DSD", "UTD", "UVA"] },
-      { id: "dtx",       name: "DTX",              date: "01/31", location: "Dallas",
+        teams: ["UVA", "Michigan", "VT", "USF", "UF", "Texas", "UTD", "Steel City"] },
+      { id: "dtx",      name: "DTX",             date: "02/07", location: "Dallas",
         placements: ["DSD", "TAMU", "UF"],
-        teams: ["DSD", "TAMU", "UF"] },
-      { id: "chaos",     name: "Chaos",            date: "02/01", location: "—",
+        teams: ["Texas", "UIUC", "UF", "Michigan", "TAMU", "UW", "WashU", "UCSD"] },
+      { id: "chaos",    name: "Chaos",           date: "02/07", location: "Washington DC",
         placements: ["UCF", "UVA", "UConn"],
-        teams: ["UCF", "UVA", "UConn"] },
-      { id: "bkb",       name: "BKB",              date: "02/07", location: "—",
+        teams: ["UConn", "UMD", "UCLA", "UVA", "UCF", "Columbia", "UCB"] },
+      { id: "bkb",      name: "BKB",             date: "02/07", location: "Blacksburg",
         placements: ["GT", "Purdue", "Raga"],
-        teams: ["GT", "Purdue", "Raga"] },
-      { id: "rangeelo",  name: "RANGEElo",         date: "02/07", location: "—",
+        teams: ["GT", "Purdue", "VCU", "Rutgers", "IU", "Cornell", "UCSC", "UNC"] },
+      { id: "rangeelo", name: "RANGEElo",        date: "02/14", location: "Tampa",
         placements: ["CMU", "GT", "Raga"],
-        teams: ["CMU", "GT", "Raga"] },
-      { id: "rcr",       name: "River City Raas",  date: "02/14", location: "—",
+        teams: ["UCF", "GT", "Rutgers", "USF", "CMU", "TAMU", "UW", "NUR"] },
+      { id: "rcr",      name: "River City Raas", date: "02/14", location: "Richmond",
         placements: ["UTD", "Cornell", "UMD"],
-        teams: ["UTD", "Cornell", "UMD"] },
-      { id: "mania",     name: "Mania",            date: "02/14", location: "—",
+        teams: ["Cornell", "GW", "Philthy", "SBU", "UCLA", "UTD", "UMD", "VT"] },
+      { id: "mania",    name: "Mania",           date: "02/14", location: "Champaign",
         placements: ["Purdue", "Nakhraas", "Michigan"],
-        teams: ["Purdue", "Nakhraas", "Michigan"] },
-      { id: "naach",     name: "NAACH",            date: "02/21", location: "—",
+        teams: ["OSU", "Emory", "Michigan", "Northeastern", "Purdue", "WashU", "Steel City", "IU"] },
+      { id: "naach",    name: "NAACH",           date: "02/21", location: "New Brunswick",
         placements: ["DSD", "UConn", "Nakhraas"],
-        teams: ["DSD", "UConn", "Nakhraas"] },
-      { id: "gtr",       name: "GTR",              date: "02/21", location: "—",
+        teams: ["GW", "SBU", "Northeastern", "Texas", "UConn", "UVA", "VT", "Columbia"] },
+      { id: "gtr",      name: "GTR",             date: "02/21", location: "St. Louis",
         placements: ["UF", "UCB", "UIUC"],
-        teams: ["UF", "UCB", "UIUC"] },
-      { id: "rds",       name: "RDS",              date: "02/28", location: "Storrs",
+        teams: ["BU", "UF", "UIUC", "IU", "UCB", "VCU", "Steel City", "UCSC"] },
+      { id: "rds",      name: "RDS",             date: "02/28", location: "Storrs",
         placements: ["CMU", "UCF", "Purdue"],
-        teams: ["Purdue", "Rutgers", "UCF", "Philthy", "CMU", "USF", "UMD", "UCB"] },
-      { id: "rodeo",     name: "RODEO",            date: "02/28", location: "Austin",
+        teams: ["Purdue", "Rutgers", "Philthy", "UCF", "CMU", "USF", "UMD", "UCB"] },
+      { id: "rodeo",    name: "RODEO",           date: "02/28", location: "Austin",
         placements: ["GT", "UTD", "UVA"],
         teams: ["UIUC", "GT", "UTD", "BU", "WashU", "UVA", "UCSD", "UCLA"] },
-      { id: "ats",       name: "ATS",              date: "03/07", location: "Atlanta",
+      { id: "ats",      name: "ATS",             date: "03/07", location: "Atlanta",
         placements: ["DSD", "UConn", "UCF"],
         teams: ["UConn", "DSD", "SBU", "UCSD", "UCF", "IU", "OSU", "Philthy"] },
-      { id: "masti",     name: "MASTI",            date: "03/07", location: "College Park",
+      { id: "masti",    name: "MASTI",           date: "03/07", location: "College Park",
         placements: ["Purdue", "Raga", "UTD"],
-        teams: ["Columbia", "UTD", "VCU", "Raga", "UF", "Cornell", "VT", "Purdue"] },
+        teams: ["Columbia", "UTD", "VCU", "Rutgers", "UF", "Cornell", "VT", "Purdue"] },
     ];
 
     const ELO_BASE = 1000;
@@ -666,7 +669,7 @@
             </div>
           </div>
 
-          {/* Competition History with ELO deltas */}
+          {/* Competition History with full lineups + ELO deltas */}
           <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: 1.5, color: "#9a9080", textTransform: "uppercase", fontWeight: 600, marginBottom: 10 }}>
             Competitions Included
           </div>
@@ -674,34 +677,57 @@
             {COMPLETED_RESULTS.map((comp, compIdx) => {
               const step = ELO_HISTORY[compIdx];
               const placedIds = comp.placements.map(resolveTeam);
-              const others = comp.teams.map(resolveTeam).filter(t => !placedIds.includes(t));
+              const allIds = [...new Set(comp.teams.map(resolveTeam))];
+              const others = allIds.filter(t => !placedIds.includes(t));
               return (
                 <div key={comp.id} style={{ background: "#fff", borderRadius: 10, border: "1px solid #E8E0D4", padding: "12px 16px", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                    <span style={{ fontWeight: 700, fontSize: 15, color: "#1a1510" }}>{comp.name}</span>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+                      <span style={{ fontWeight: 700, fontSize: 15, color: "#1a1510" }}>{comp.name}</span>
+                      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: "#b0a090" }}>{allIds.length} teams</span>
+                    </div>
                     <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "#a09888" }}>{comp.date} &middot; {comp.location}</span>
                   </div>
-                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+
+                  {/* Placements */}
+                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center", marginBottom: 8 }}>
                     {comp.placements.map((teamName, i) => {
                       const tid = resolveTeam(teamName);
                       const medal = i === 0 ? "\u{1F947}" : i === 1 ? "\u{1F948}" : "\u{1F949}";
                       const delta = step?.deltas?.[tid];
                       return (
-                        <div key={tid} style={{ display: "flex", alignItems: "center", gap: 3 }}>
+                        <div key={tid} style={{ display: "flex", alignItems: "center", gap: 3, background: "#FAF6F0", border: "1px solid #E8E0D4", borderRadius: 6, padding: "3px 7px 3px 4px" }}>
                           <span style={{ fontSize: 13 }}>{medal}</span>
                           <TeamPill id={tid} small />
                           {delta != null && (
-                            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: delta >= 0 ? "#2e7d32" : "#c62828", fontWeight: 600 }}>
+                            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: delta >= 0 ? "#2e7d32" : "#c62828", fontWeight: 700, marginLeft: 1 }}>
                               {delta >= 0 ? "+" : ""}{Math.round(delta)}
                             </span>
                           )}
                         </div>
                       );
                     })}
-                    {others.length > 0 && (
-                      <span style={{ fontSize: 10, color: "#b0a898", marginLeft: 4 }}>+{others.length} others</span>
-                    )}
                   </div>
+
+                  {/* Non-placers with their deltas */}
+                  {others.length > 0 && (
+                    <div style={{ display: "flex", gap: 4, flexWrap: "wrap", alignItems: "center", paddingTop: 6, borderTop: "1px solid #F0EAE0" }}>
+                      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: "#c0b0a0", textTransform: "uppercase", letterSpacing: 0.5, marginRight: 2 }}>also competed:</span>
+                      {others.map(tid => {
+                        const delta = step?.deltas?.[tid];
+                        return (
+                          <div key={tid} style={{ display: "flex", alignItems: "center", gap: 2 }}>
+                            <TeamPill id={tid} small faded />
+                            {delta != null && (
+                              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: delta >= 0 ? "#5a9060" : "#b06060", fontWeight: 600 }}>
+                                {delta >= 0 ? "+" : ""}{Math.round(delta)}
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               );
             })}
