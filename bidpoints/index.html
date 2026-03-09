@@ -178,10 +178,12 @@
     const ELO_BASE = 1000;
     const ELO_K = 32;
 
-    function computeELO() {
+    function computeELOWithHistory() {
       const ratings = {};
       function getR(t) { return ratings[t] ?? ELO_BASE; }
       function expected(rA, rB) { return 1 / (1 + Math.pow(10, (rB - rA) / 400)); }
+
+      const history = [];
 
       COMPLETED_RESULTS.forEach(comp => {
         const teamIds = [...new Set(comp.teams.map(resolveTeam))];
@@ -206,12 +208,13 @@
           }
         }
         teamIds.forEach(t => { ratings[t] = getR(t) + deltas[t]; });
+        history.push({ id: comp.id, name: comp.name, date: comp.date, ratings: { ...ratings }, deltas: { ...deltas } });
       });
 
-      return ratings;
+      return { finalRatings: { ...ratings }, history };
     }
 
-    const ELO_RATINGS = computeELO();
+    const { finalRatings: ELO_RATINGS, history: ELO_HISTORY } = computeELOWithHistory();
     const ELO_SORTED = Object.entries(ELO_RATINGS)
       .sort((a, b) => b[1] - a[1])
       .map(([team, elo], i) => ({ team, elo: Math.round(elo), rank: i + 1, info: getTeamInfo(team) }));
@@ -257,25 +260,6 @@
       );
     }
 
-    function ELOCard({ entry, isUVA, atCutoff }) {
-      return (
-        <div style={{ display: "flex" }}>
-          <div style={{
-            width: 70, padding: "7px 4px", borderRadius: 8, textAlign: "center",
-            background: isUVA ? "#232D4B0D" : "#fff",
-            border: isUVA ? "2px solid #232D4B40" : "1px solid #E8E0D4",
-          }}>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: isUVA ? "#232D4B" : "#9a9080", fontWeight: 600 }}>#{entry.rank}</div>
-            <div style={{ fontSize: 11, fontWeight: 700, marginTop: 1, color: isUVA ? "#232D4B" : entry.info.color, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{entry.info.danceName}</div>
-            <div style={{ fontSize: 8.5, color: "#a09888", marginTop: 0 }}>{entry.info.school}</div>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, fontWeight: 700, color: isUVA ? "#232D4B" : "#3a3530", marginTop: 1 }}>{entry.elo}</div>
-          </div>
-          {atCutoff && (
-            <div style={{ width: 3, background: "linear-gradient(180deg, #c62828, #c6282800)", borderRadius: 2, margin: "0 2px" }} />
-          )}
-        </div>
-      );
-    }
 
     function Btn({ children, onClick }) {
       const [hov, setHov] = useState(false);
@@ -532,8 +516,31 @@
       const cutoffElo = ELO_SORTED.length >= NATIONALS_CUTOFF ? ELO_SORTED[NATIONALS_CUTOFF - 1].elo : 0;
       const uvaQ = uvaData && uvaData.rank <= NATIONALS_CUTOFF;
 
+      // Chart: top 8 teams
+      const CHART_N = 8;
+      const chartTeams = ELO_SORTED.slice(0, CHART_N).map(e => e.team);
+      const chartData = [{ id: "start", name: "Start", ratings: {} }, ...ELO_HISTORY];
+      const allChartElos = ELO_HISTORY.flatMap(s => chartTeams.map(t => s.ratings[t] ?? ELO_BASE));
+      const chartMin = Math.floor((Math.min(...allChartElos) - 15) / 20) * 20;
+      const chartMax = Math.ceil((Math.max(...allChartElos) + 15) / 20) * 20;
+
+      const W = 860, H = 230;
+      const padL = 46, padR = 12, padT = 14, padB = 54;
+      const iW = W - padL - padR, iH = H - padT - padB;
+      const xS = i => padL + (i / (chartData.length - 1)) * iW;
+      const yS = elo => padT + iH - ((elo - chartMin) / (chartMax - chartMin)) * iH;
+      const yTicks = [];
+      for (let e = chartMin; e <= chartMax; e += 40) yTicks.push(e);
+
+      // Bar chart
+      const allElos = ELO_SORTED.map(e => e.elo);
+      const barMin = Math.min(...allElos) - 20;
+      const barMax = Math.max(...allElos) + 10;
+      const barPct = elo => Math.max(2, ((elo - barMin) / (barMax - barMin)) * 100);
+
       return (
         <div style={{ color: "#3a3530", minHeight: "100vh", padding: "20px 24px 40px", maxWidth: 920, margin: "0 auto" }}>
+          {/* Header */}
           <div style={{ textAlign: "center", marginBottom: 18 }}>
             <h1 style={{ fontSize: 22, fontWeight: 700, margin: 0, color: "#1a1510" }}>ELO Power Rankings</h1>
             <p style={{ margin: "4px 0 0", fontSize: 12.5, color: "#9a9080" }}>
@@ -541,7 +548,7 @@
             </p>
           </div>
 
-          {/* UVA ELO Status */}
+          {/* UVA Status */}
           <div style={{
             background: uvaQ ? "#e8f5e920" : "#fef2f210",
             border: `1.5px solid ${uvaQ ? "#4caf5040" : "#e5393540"}`,
@@ -569,31 +576,105 @@
             </div>
           </div>
 
-          {/* ELO Rankings */}
+          {/* ELO Progression Chart */}
+          <div style={{ background: "#fff", borderRadius: 10, border: "1px solid #E8E0D4", padding: "14px 16px", marginBottom: 16, boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: 1.5, color: "#9a9080", textTransform: "uppercase", fontWeight: 600, marginBottom: 10 }}>
+              ELO Progression &mdash; Top {CHART_N}
+            </div>
+            <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "auto", display: "block" }}>
+              {/* Y grid + labels */}
+              {yTicks.map(e => (
+                <g key={e}>
+                  <line x1={padL} y1={yS(e)} x2={W - padR} y2={yS(e)} stroke="#F0EAE0" strokeWidth="1" />
+                  <text x={padL - 4} y={yS(e)} textAnchor="end" dominantBaseline="middle" fontSize="9" fill="#b8a898" fontFamily="monospace">{e}</text>
+                </g>
+              ))}
+              {/* Base ELO dashed */}
+              {ELO_BASE >= chartMin && ELO_BASE <= chartMax && (
+                <line x1={padL} y1={yS(ELO_BASE)} x2={W - padR} y2={yS(ELO_BASE)} stroke="#c8b098" strokeWidth="1" strokeDasharray="4,3" />
+              )}
+              {/* X tick marks */}
+              {chartData.map((_, i) => (
+                <line key={i} x1={xS(i)} y1={padT + iH} x2={xS(i)} y2={padT + iH + 4} stroke="#D8D0C4" strokeWidth="1" />
+              ))}
+              {/* X labels rotated */}
+              {chartData.map((step, i) => (
+                <text key={i} x={xS(i)} y={H - padB + 12} textAnchor="end" fontSize="8.5" fill="#a09080" fontFamily="sans-serif"
+                  transform={`rotate(-40, ${xS(i)}, ${H - padB + 12})`}>
+                  {step.name}
+                </text>
+              ))}
+              {/* Lines per team */}
+              {chartTeams.map(teamId => {
+                const info = getTeamInfo(teamId);
+                const pts = chartData.map((s, i) => `${xS(i)},${yS(s.ratings[teamId] ?? ELO_BASE)}`).join(' ');
+                return <polyline key={teamId} points={pts} fill="none" stroke={info.color} strokeWidth="2" strokeOpacity="0.85" strokeLinejoin="round" />;
+              })}
+              {/* Dots at each comp (not at start) */}
+              {chartTeams.map(teamId => {
+                const info = getTeamInfo(teamId);
+                return ELO_HISTORY.map((s, i) =>
+                  s.ratings[teamId] != null
+                    ? <circle key={`${teamId}-${i}`} cx={xS(i + 1)} cy={yS(s.ratings[teamId])} r="3" fill={info.color} fillOpacity="0.9" stroke="#fff" strokeWidth="1" />
+                    : null
+                );
+              })}
+            </svg>
+            {/* Legend */}
+            <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginTop: 8, paddingLeft: padL }}>
+              {chartTeams.map(teamId => {
+                const info = getTeamInfo(teamId);
+                return (
+                  <div key={teamId} style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                    <div style={{ width: 18, height: 3, background: info.color, borderRadius: 2, opacity: 0.85 }} />
+                    <span style={{ fontSize: 10, color: "#6a6060", fontWeight: 500 }}>{info.danceName}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* ELO Bar Rankings */}
           <div style={{ background: "#F5F0E8", borderRadius: 10, border: "1px solid #E8E0D4", padding: "12px 14px", marginBottom: 18 }}>
             <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: 1.5, color: "#9a9080", textTransform: "uppercase", fontWeight: 600, marginBottom: 10 }}>
               ELO Rankings
             </div>
-            <div style={{ overflowX: "auto", paddingBottom: 4 }}>
-              <div style={{ display: "flex", gap: 3, minWidth: "fit-content" }}>
-                {ELO_SORTED.map((entry, i) => (
-                  <ELOCard key={entry.team}
-                    entry={entry}
-                    isUVA={entry.team === "UVA"}
-                    atCutoff={i === NATIONALS_CUTOFF - 1}
-                  />
-                ))}
-              </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              {ELO_SORTED.map((entry, i) => {
+                const qualifies = i < NATIONALS_CUTOFF;
+                const isUVA = entry.team === "UVA";
+                return (
+                  <React.Fragment key={entry.team}>
+                    {i === NATIONALS_CUTOFF && (
+                      <div style={{ borderTop: "1.5px solid #c6282840", margin: "5px 0 3px", display: "flex", alignItems: "center", gap: 6 }}>
+                        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: "#c62828", fontWeight: 600, letterSpacing: 0.5 }}>
+                          &mdash; NATIONALS CUTOFF &mdash;
+                        </span>
+                      </div>
+                    )}
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "4px 2px", opacity: qualifies ? 1 : 0.4 }}>
+                      <div style={{ width: 24, textAlign: "right", fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: isUVA ? "#232D4B" : "#9a9080", fontWeight: 600 }}>#{entry.rank}</div>
+                      <div style={{ width: 94, fontSize: 11, fontWeight: 700, color: isUVA ? "#232D4B" : entry.info.color, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{entry.info.danceName}</div>
+                      <div style={{ flex: 1, height: 13, background: isUVA ? "#232D4B18" : "#E8E0D4", borderRadius: 3, overflow: "hidden" }}>
+                        <div style={{ height: "100%", width: `${barPct(entry.elo)}%`, background: isUVA ? "#232D4B" : entry.info.color, opacity: 0.72, borderRadius: 3 }} />
+                      </div>
+                      <div style={{ width: 44, textAlign: "right", fontFamily: "'JetBrains Mono', monospace", fontSize: 13, fontWeight: 700, color: isUVA ? "#232D4B" : "#3a3530" }}>{entry.elo}</div>
+                    </div>
+                  </React.Fragment>
+                );
+              })}
             </div>
           </div>
 
-          {/* Competition History */}
+          {/* Competition History with ELO deltas */}
           <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: 1.5, color: "#9a9080", textTransform: "uppercase", fontWeight: 600, marginBottom: 10 }}>
             Competitions Included
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
-            {COMPLETED_RESULTS.map(comp => {
-              const others = comp.teams.map(resolveTeam).filter(t => !comp.placements.map(resolveTeam).includes(t));
+            {COMPLETED_RESULTS.map((comp, compIdx) => {
+              const step = ELO_HISTORY[compIdx];
+              const placedIds = comp.placements.map(resolveTeam);
+              const others = comp.teams.map(resolveTeam).filter(t => !placedIds.includes(t));
               return (
                 <div key={comp.id} style={{ background: "#fff", borderRadius: 10, border: "1px solid #E8E0D4", padding: "12px 16px", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
@@ -604,16 +685,22 @@
                     {comp.placements.map((teamName, i) => {
                       const tid = resolveTeam(teamName);
                       const medal = i === 0 ? "\u{1F947}" : i === 1 ? "\u{1F948}" : "\u{1F949}";
+                      const delta = step?.deltas?.[tid];
                       return (
                         <div key={tid} style={{ display: "flex", alignItems: "center", gap: 3 }}>
                           <span style={{ fontSize: 13 }}>{medal}</span>
                           <TeamPill id={tid} small />
+                          {delta != null && (
+                            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: delta >= 0 ? "#2e7d32" : "#c62828", fontWeight: 600 }}>
+                              {delta >= 0 ? "+" : ""}{Math.round(delta)}
+                            </span>
+                          )}
                         </div>
                       );
                     })}
-                    <span style={{ fontSize: 10, color: "#b0a898", marginLeft: 4 }}>
-                      +{others.length} others (draw)
-                    </span>
+                    {others.length > 0 && (
+                      <span style={{ fontSize: 10, color: "#b0a898", marginLeft: 4 }}>+{others.length} others</span>
+                    )}
                   </div>
                 </div>
               );
