@@ -38,15 +38,8 @@
       z-index: 99999; transform: translate(-50%, -50%);
       transition: transform 0.15s ease, background 0.2s ease, width 0.15s ease, height 0.15s ease;
     }
-    .cursor-dot.clicking {
-      transform: translate(-50%, -50%) scale(0.6);
-      background: #c4612a;
-    }
-    .cursor-dot.hovering {
-      width: 20px; height: 20px;
-      background: #E2793D88;
-      border: 2px solid #E2793D;
-    }
+    .cursor-dot.clicking { transform: translate(-50%, -50%) scale(0.6); background: #c4612a; }
+    .cursor-dot.hovering { width: 20px; height: 20px; background: #E2793D88; border: 2px solid #E2793D; }
     select {
       appearance: none; -webkit-appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23a09080'/%3E%3C/svg%3E");
@@ -63,41 +56,42 @@
   <script type="text/babel">
     const { useState, useMemo, useCallback } = React;
 
+    // ─── TEAM REGISTRY ───────────────────────────────────────────────────────
     const TEAM_REGISTRY = {
-      DSD:          { school: "Texas", danceName: "DSD", color: "#bf5700", aliases: ["Texas", "DSD"] },
-      GT:           { school: "Georgia Tech", danceName: "GT Raas", color: "#B3A369", aliases: ["GT"] },
-      Nakhraas:     { school: "Northeastern", danceName: "Nakhraas", color: "#d41b2c", aliases: ["Northeastern", "Nakhraas", "NEU"] },
-      Purdue:       { school: "Purdue", danceName: "Purdue Raas", color: "#CEB888", aliases: ["Purdue"] },
-      UTD:          { school: "UT Dallas", danceName: "TaRaas", color: "#e87500", aliases: ["UTD", "TaRaas"] },
-      CMU:          { school: "Carnegie Mellon", danceName: "CMU Raasta", color: "#c41230", aliases: ["CMU"] },
-      UCF:          { school: "UCF", danceName: "KnightRaas", color: "#FFC904", aliases: ["UCF"] },
-      UVA:          { school: "UVA", danceName: "HooRaas", color: "#232D4B", aliases: ["UVA"] },
-      UConn:        { school: "UConn", danceName: "Thunderaas", color: "#000E2F", aliases: ["UConn", "UCTR"] },
-      Raga:         { school: "Rutgers", danceName: "Raga", color: "#CC0033", aliases: ["Rutgers", "Raga", "RU"] },
-      Cornell:      { school: "Cornell", danceName: "Big Red Raas", color: "#B31B1B", aliases: ["Cornell"] },
-      TAMU:         { school: "Texas A&M", danceName: "Wreckin Raas", color: "#500000", aliases: ["TAMU"] },
-      UF:           { school: "Florida", danceName: "UF Raas", color: "#0021A5", aliases: ["UF"] },
-      UMD:          { school: "Maryland", danceName: "Entouraas", color: "#E21833", aliases: ["UMD"] },
-      Philthy:      { school: "Philadelphia", danceName: "Philthy", color: "#006bb6", aliases: ["Philthy"] },
-      Michigan:     { school: "Michigan", danceName: "Wolveraas", color: "#FFCB05", aliases: ["Michigan"] },
-      SBU:          { school: "Stony Brook", danceName: "Raaswalas", color: "#990000", aliases: ["SBU"] },
-      SteelCity:    { school: "Pitt", danceName: "Steel City", color: "#003594", aliases: ["Steel City"] },
-      USF:          { school: "South Florida", danceName: "SoFlo Raas", color: "#006747", aliases: ["USF"] },
-      UNC:          { school: "UNC", danceName: "Tar Heel Raas", color: "#7BAFD4", aliases: ["UNC"] },
-      Columbia:     { school: "Columbia", danceName: "Columbia Raas", color: "#B9D9EB", aliases: ["Columbia"] },
-      VCU:          { school: "VCU", danceName: "Ricochet Raas", color: "#F8B800", aliases: ["VCU"] },
-      UCLA:         { school: "UCLA", danceName: "Bataaka Nu Shaak", color: "#2D68C4", aliases: ["UCLA"] },
-      UCB:          { school: "UC Berkeley", danceName: "Raas Ramzat", color: "#003262", aliases: ["UCB"] },
-      UCSC:         { school: "UC Santa Cruz", danceName: "UCSC", color: "#003c6c", aliases: ["UCSC"] },
-      UCSD:         { school: "UC San Diego", danceName: "UCSD", color: "#182B49", aliases: ["UCSD"] },
-      IU:           { school: "Indiana", danceName: "Hoosierraas", color: "#990000", aliases: ["IU"] },
-      VT:           { school: "Virginia Tech", danceName: "Dhamaal", color: "#861F41", aliases: ["VT"] },
-      UIUC:         { school: "UIUC", danceName: "Illini", color: "#E84A27", aliases: ["UIUC"] },
-      WashU:        { school: "WashU", danceName: "WashU Raas", color: "#A51417", aliases: ["WashU"] },
-      GW:           { school: "GW", danceName: "GW Raas", color: "#033C5A", aliases: ["GW"] },
-      OSU:          { school: "Ohio State", danceName: "Buckraas", color: "#BB0000", aliases: ["OSU"] },
-      Emory:        { school: "Emory", danceName: "Emory Raas", color: "#012169", aliases: ["Emory"] },
-      BU:           { school: "Boston U", danceName: "Fatakada", color: "#CC0000", aliases: ["BU"] },
+      DSD:       { school: "Texas",          danceName: "DSD",              color: "#bf5700", aliases: ["Texas", "DSD"] },
+      GT:        { school: "Georgia Tech",   danceName: "GT Raas",          color: "#B3A369", aliases: ["GT"] },
+      Nakhraas:  { school: "Northeastern",   danceName: "Nakhraas",         color: "#d41b2c", aliases: ["Northeastern", "Nakhraas", "NEU"] },
+      Purdue:    { school: "Purdue",         danceName: "Purdue Raas",      color: "#CEB888", aliases: ["Purdue"] },
+      UTD:       { school: "UT Dallas",      danceName: "TaRaas",           color: "#e87500", aliases: ["UTD", "TaRaas"] },
+      CMU:       { school: "Carnegie Mellon",danceName: "CMU Raasta",       color: "#c41230", aliases: ["CMU"] },
+      UCF:       { school: "UCF",            danceName: "KnightRaas",       color: "#FFC904", aliases: ["UCF"] },
+      UVA:       { school: "UVA",            danceName: "HooRaas",          color: "#232D4B", aliases: ["UVA"] },
+      UConn:     { school: "UConn",          danceName: "Thunderaas",       color: "#000E2F", aliases: ["UConn", "UCTR"] },
+      Raga:      { school: "Rutgers",        danceName: "Raga",             color: "#CC0033", aliases: ["Rutgers", "Raga", "RU"] },
+      Cornell:   { school: "Cornell",        danceName: "Big Red Raas",     color: "#B31B1B", aliases: ["Cornell"] },
+      TAMU:      { school: "Texas A&M",      danceName: "Wreckin Raas",     color: "#500000", aliases: ["TAMU"] },
+      UF:        { school: "Florida",        danceName: "UF Raas",          color: "#0021A5", aliases: ["UF"] },
+      UMD:       { school: "Maryland",       danceName: "Entouraas",        color: "#E21833", aliases: ["UMD"] },
+      Philthy:   { school: "Philadelphia",   danceName: "Philthy",          color: "#006bb6", aliases: ["Philthy"] },
+      Michigan:  { school: "Michigan",       danceName: "Wolveraas",        color: "#FFCB05", aliases: ["Michigan"] },
+      SBU:       { school: "Stony Brook",    danceName: "Raaswalas",        color: "#990000", aliases: ["SBU"] },
+      SteelCity: { school: "Pitt",           danceName: "Steel City",       color: "#003594", aliases: ["Steel City"] },
+      USF:       { school: "South Florida",  danceName: "SoFlo Raas",       color: "#006747", aliases: ["USF"] },
+      UNC:       { school: "UNC",            danceName: "Tar Heel Raas",    color: "#7BAFD4", aliases: ["UNC"] },
+      Columbia:  { school: "Columbia",       danceName: "Columbia Raas",    color: "#B9D9EB", aliases: ["Columbia"] },
+      VCU:       { school: "VCU",            danceName: "Ricochet Raas",    color: "#F8B800", aliases: ["VCU"] },
+      UCLA:      { school: "UCLA",           danceName: "Bataaka Nu Shaak", color: "#2D68C4", aliases: ["UCLA"] },
+      UCB:       { school: "UC Berkeley",    danceName: "Raas Ramzat",      color: "#003262", aliases: ["UCB"] },
+      UCSC:      { school: "UC Santa Cruz",  danceName: "UCSC",             color: "#003c6c", aliases: ["UCSC"] },
+      UCSD:      { school: "UC San Diego",   danceName: "UCSD",             color: "#182B49", aliases: ["UCSD"] },
+      IU:        { school: "Indiana",        danceName: "Hoosierraas",      color: "#990000", aliases: ["IU"] },
+      VT:        { school: "Virginia Tech",  danceName: "Dhamaal",          color: "#861F41", aliases: ["VT"] },
+      UIUC:      { school: "UIUC",           danceName: "Illini",           color: "#E84A27", aliases: ["UIUC"] },
+      WashU:     { school: "WashU",          danceName: "WashU Raas",       color: "#A51417", aliases: ["WashU"] },
+      GW:        { school: "GW",             danceName: "GW Raas",          color: "#033C5A", aliases: ["GW"] },
+      OSU:       { school: "Ohio State",     danceName: "Buckraas",         color: "#BB0000", aliases: ["OSU"] },
+      Emory:     { school: "Emory",          danceName: "Emory Raas",       color: "#012169", aliases: ["Emory"] },
+      BU:        { school: "Boston U",       danceName: "Fatakada",         color: "#CC0000", aliases: ["BU"] },
     };
 
     const ALIAS_TO_ID = {};
@@ -109,10 +103,13 @@
       return TEAM_REGISTRY[id] || { school: id, danceName: id, color: "#666", aliases: [id] };
     }
 
+    // ─── BID POINTS DATA ─────────────────────────────────────────────────────
     const CURRENT_STANDINGS = {
-      DSD: 12, Nakhraas: 7, GT: 6, Purdue: 6, UTD: 6,
-      CMU: 5, UConn: 5, UF: 5, UCF: 4, UVA: 3,
-      Raga: 2, Cornell: 2, TAMU: 2, UCB: 2, UMD: 1, Michigan: 1, UIUC: 1,
+      DSD: 16, Purdue: 11, GT: 10, UTD: 9, CMU: 9,
+      Nakhraas: 7, UConn: 7, UCF: 7,
+      UF: 5, UVA: 4, Raga: 4,
+      Cornell: 2, TAMU: 2, UCB: 2,
+      UMD: 1, Michigan: 1, UIUC: 1,
     };
 
     const CURRENT_SORTED = Object.entries(CURRENT_STANDINGS)
@@ -120,14 +117,6 @@
       .map(([team, pts], i) => ({ team, points: pts, rank: i + 1, info: getTeamInfo(team) }));
 
     const COMPETITIONS_RAW = [
-      { id: "rds", name: "RDS", date: "02/28", location: "Storrs",
-        teams: ["Purdue", "Rutgers", "UCF", "Philthy", "CMU", "USF", "UMD", "UCB"] },
-      { id: "rodeo", name: "RODEO", date: "02/28", location: "Austin",
-        teams: ["UIUC", "GT", "UTD", "BU", "WashU", "UVA", "UCSD", "UCLA"] },
-      { id: "masti", name: "MASTI", date: "03/07", location: "College Park",
-        teams: ["Columbia", "UTD", "VCU", "Rutgers", "UF", "Cornell", "VT", "Purdue"] },
-      { id: "ats", name: "ATS", date: "03/07", location: "Atlanta",
-        teams: ["UConn", "Texas", "SBU", "UCSD", "UCF", "IU", "OSU", "Philthy"] },
       { id: "ecs", name: "ECS", date: "03/14", location: "Charlottesville",
         teams: ["GT", "Philthy", "UIUC", "Michigan", "SBU", "Steel City", "USF", "UNC"] },
       { id: "ggg", name: "GGG", date: "03/14", location: "Berkeley",
@@ -147,24 +136,65 @@
     const PLACEMENT_POINTS = { "1st": 4, "2nd": 2, "3rd": 1 };
     const NATIONALS_CUTOFF = 9;
 
-    function getDefaultScenarios() {
-      const init = {};
-      COMPETITIONS.forEach(comp => {
-        const places = comp.places || ["1st", "2nd", "3rd"];
-        if (comp.teamIds.length === 0) {
-          const obj = {}; places.forEach(p => { obj[p] = ""; });
-          init[comp.id] = obj;
-          return;
+    // ─── ELO DATA & COMPUTATION ──────────────────────────────────────────────
+    // Pairwise ELO: higher placer beats lower placer; unplaced teams draw each other.
+    const COMPLETED_RESULTS = [
+      { id: "rds", name: "RDS", date: "02/28", location: "Storrs",
+        placements: ["CMU", "UCF", "Purdue"],
+        teams: ["Purdue", "Rutgers", "UCF", "Philthy", "CMU", "USF", "UMD", "UCB"] },
+      { id: "rodeo", name: "RODEO", date: "02/28", location: "Austin",
+        placements: ["GT", "UTD", "UVA"],
+        teams: ["UIUC", "GT", "UTD", "BU", "WashU", "UVA", "UCSD", "UCLA"] },
+      { id: "ats", name: "ATS", date: "03/07", location: "Atlanta",
+        placements: ["DSD", "UConn", "UCF"],
+        teams: ["UConn", "DSD", "SBU", "UCSD", "UCF", "IU", "OSU", "Philthy"] },
+      { id: "masti", name: "MASTI", date: "03/07", location: "College Park",
+        placements: ["Purdue", "Raga", "UTD"],
+        teams: ["Columbia", "UTD", "VCU", "Raga", "UF", "Cornell", "VT", "Purdue"] },
+    ];
+
+    const ELO_BASE = 1000;
+    const ELO_K = 32;
+
+    function computeELO() {
+      const ratings = {};
+      function getR(t) { return ratings[t] ?? ELO_BASE; }
+      function expected(rA, rB) { return 1 / (1 + Math.pow(10, (rB - rA) / 400)); }
+
+      COMPLETED_RESULTS.forEach(comp => {
+        const teamIds = [...new Set(comp.teams.map(resolveTeam))];
+        const placedIds = comp.placements.map(resolveTeam);
+        const others = teamIds.filter(t => !placedIds.includes(t));
+        const ranked = [...placedIds, ...others];
+
+        const deltas = {};
+        teamIds.forEach(t => { deltas[t] = 0; });
+
+        for (let i = 0; i < ranked.length; i++) {
+          for (let j = i + 1; j < ranked.length; j++) {
+            const a = ranked[i], b = ranked[j];
+            if (!teamIds.includes(a) || !teamIds.includes(b)) continue;
+            const rA = getR(a), rB = getR(b);
+            const aPlaced = placedIds.includes(a);
+            const bPlaced = placedIds.includes(b);
+            const scoreA = (!aPlaced && !bPlaced) ? 0.5 : 1;
+            const scoreB = (!aPlaced && !bPlaced) ? 0.5 : 0;
+            deltas[a] += ELO_K * (scoreA - expected(rA, rB));
+            deltas[b] += ELO_K * (scoreB - expected(rB, rA));
+          }
         }
-        const sorted = [...comp.teamIds].sort((a, b) =>
-          (CURRENT_STANDINGS[b] || 0) - (CURRENT_STANDINGS[a] || 0)
-        );
-        const obj = {}; places.forEach((p, i) => { obj[p] = sorted[i] || ""; });
-        init[comp.id] = obj;
+        teamIds.forEach(t => { ratings[t] = getR(t) + deltas[t]; });
       });
-      return init;
+
+      return ratings;
     }
 
+    const ELO_RATINGS = computeELO();
+    const ELO_SORTED = Object.entries(ELO_RATINGS)
+      .sort((a, b) => b[1] - a[1])
+      .map(([team, elo], i) => ({ team, elo: Math.round(elo), rank: i + 1, info: getTeamInfo(team) }));
+
+    // ─── SHARED COMPONENTS ───────────────────────────────────────────────────
     function TeamPill({ id, small, faded }) {
       const info = getTeamInfo(id);
       return (
@@ -190,32 +220,36 @@
             border: isUVA ? "2px solid #232D4B40" : qualifies ? "1px solid #E8E0D4" : "1px solid #E0D8CC",
             opacity: qualifies ? 1 : 0.5, transition: "all 0.2s",
           }}>
-            <div style={{
-              fontFamily: "'JetBrains Mono', monospace", fontSize: 10,
-              color: isUVA ? "#232D4B" : "#9a9080", fontWeight: 600,
-            }}>#{entry.rank}</div>
-            <div style={{
-              fontSize: 11, fontWeight: 700, marginTop: 1,
-              color: isUVA ? "#232D4B" : entry.info.color,
-              whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
-            }}>{entry.info.danceName}</div>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: isUVA ? "#232D4B" : "#9a9080", fontWeight: 600 }}>#{entry.rank}</div>
+            <div style={{ fontSize: 11, fontWeight: 700, marginTop: 1, color: isUVA ? "#232D4B" : entry.info.color, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{entry.info.danceName}</div>
             <div style={{ fontSize: 8.5, color: "#a09888", marginTop: 0 }}>{entry.info.school}</div>
-            <div style={{
-              fontFamily: "'JetBrains Mono', monospace", fontSize: 15,
-              fontWeight: 700, color: isUVA ? "#232D4B" : "#3a3530", marginTop: 1,
-            }}>{entry.points}</div>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 15, fontWeight: 700, color: isUVA ? "#232D4B" : "#3a3530", marginTop: 1 }}>{entry.points}</div>
             {showAdded && entry.added > 0 && (
-              <div style={{
-                fontFamily: "'JetBrains Mono', monospace", fontSize: 9,
-                color: "#2e7d32", fontWeight: 600,
-              }}>+{entry.added}</div>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: "#2e7d32", fontWeight: 600 }}>+{entry.added}</div>
             )}
           </div>
           {atCutoff && (
-            <div style={{
-              width: 3, background: "linear-gradient(180deg, #c62828, #c6282800)",
-              borderRadius: 2, margin: "0 2px",
-            }} />
+            <div style={{ width: 3, background: "linear-gradient(180deg, #c62828, #c6282800)", borderRadius: 2, margin: "0 2px" }} />
+          )}
+        </div>
+      );
+    }
+
+    function ELOCard({ entry, isUVA, atCutoff }) {
+      return (
+        <div style={{ display: "flex" }}>
+          <div style={{
+            width: 70, padding: "7px 4px", borderRadius: 8, textAlign: "center",
+            background: isUVA ? "#232D4B0D" : "#fff",
+            border: isUVA ? "2px solid #232D4B40" : "1px solid #E8E0D4",
+          }}>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: isUVA ? "#232D4B" : "#9a9080", fontWeight: 600 }}>#{entry.rank}</div>
+            <div style={{ fontSize: 11, fontWeight: 700, marginTop: 1, color: isUVA ? "#232D4B" : entry.info.color, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{entry.info.danceName}</div>
+            <div style={{ fontSize: 8.5, color: "#a09888", marginTop: 0 }}>{entry.info.school}</div>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, fontWeight: 700, color: isUVA ? "#232D4B" : "#3a3530", marginTop: 1 }}>{entry.elo}</div>
+          </div>
+          {atCutoff && (
+            <div style={{ width: 3, background: "linear-gradient(180deg, #c62828, #c6282800)", borderRadius: 2, margin: "0 2px" }} />
           )}
         </div>
       );
@@ -234,6 +268,7 @@
       );
     }
 
+    // ─── BID POINTS COMPONENTS ────────────────────────────────────────────────
     function CompCard({ comp, scenario, setPlacement }) {
       const uvaHere = comp.teamIds.includes("UVA");
       const empty = comp.teamIds.length === 0;
@@ -245,30 +280,19 @@
           border: uvaHere ? "1.5px solid #232D4B35" : "1px solid #E8E0D4",
           padding: "14px 16px", boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
         }}>
-          <div style={{
-            display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10,
-          }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <span style={{ fontWeight: 700, fontSize: 15, color: "#1a1510" }}>{comp.name}</span>
               {uvaHere && (
-                <span style={{
-                  background: "#232D4B12", color: "#232D4B",
-                  fontSize: 9, fontWeight: 700, padding: "2px 6px", borderRadius: 4,
-                }}>&#9733; HOORAAS</span>
+                <span style={{ background: "#232D4B12", color: "#232D4B", fontSize: 9, fontWeight: 700, padding: "2px 6px", borderRadius: 4 }}>&#9733; HOORAAS</span>
               )}
             </div>
-            <span style={{
-              fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "#a09888",
-            }}>{comp.date} &middot; {comp.location}</span>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "#a09888" }}>{comp.date} &middot; {comp.location}</span>
           </div>
 
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
             <div style={{ flex: "0 0 auto", minWidth: 130 }}>
-              <div style={{
-                fontFamily: "'JetBrains Mono', monospace", fontSize: 9,
-                color: "#b0a898", textTransform: "uppercase", letterSpacing: 1,
-                marginBottom: 5, fontWeight: 600,
-              }}>Lineup</div>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: "#b0a898", textTransform: "uppercase", letterSpacing: 1, marginBottom: 5, fontWeight: 600 }}>Lineup</div>
               {empty ? (
                 <div style={{ fontSize: 11, color: "#bbb", fontStyle: "italic" }}>Teams TBD</div>
               ) : (
@@ -280,12 +304,7 @@
                     return (
                       <div key={id} style={{ display: "flex", alignItems: "center", gap: 4 }}>
                         <TeamPill id={id} small faded={!isPlaced && selectedIds.length > 0} />
-                        {place && (
-                          <span style={{
-                            fontFamily: "'JetBrains Mono', monospace", fontSize: 9,
-                            color: placeColor, fontWeight: 700,
-                          }}>{place}</span>
-                        )}
+                        {place && <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: placeColor, fontWeight: 700 }}>{place}</span>}
                       </div>
                     );
                   })}
@@ -298,18 +317,13 @@
                 const pts = PLACEMENT_POINTS[place];
                 const medalColor = place === "1st" ? "#b8860b" : place === "2nd" ? "#6b7c8a" : "#a0704a";
                 const sel = scenario[place];
-                const others = Object.entries(scenario)
-                  .filter(([p]) => p !== place).map(([, t]) => t).filter(Boolean);
+                const others = Object.entries(scenario).filter(([p]) => p !== place).map(([, t]) => t).filter(Boolean);
                 const opts = (empty ? ALL_TEAM_IDS : comp.teamIds).filter(t => !others.includes(t));
                 const selInfo = sel ? getTeamInfo(sel) : null;
 
                 return (
                   <div key={place} style={{ flex: 1 }}>
-                    <div style={{
-                      fontFamily: "'JetBrains Mono', monospace", fontSize: 10,
-                      fontWeight: 700, color: medalColor, marginBottom: 4,
-                      display: "flex", alignItems: "center", gap: 4,
-                    }}>
+                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, fontWeight: 700, color: medalColor, marginBottom: 4, display: "flex", alignItems: "center", gap: 4 }}>
                       {place === "1st" ? "\u{1F947}" : place === "2nd" ? "\u{1F948}" : "\u{1F949}"}
                       {place} <span style={{ opacity: 0.5, fontWeight: 500 }}>+{pts}</span>
                     </div>
@@ -337,6 +351,24 @@
       );
     }
 
+    function getDefaultScenarios() {
+      const init = {};
+      COMPETITIONS.forEach(comp => {
+        const places = comp.places || ["1st", "2nd", "3rd"];
+        if (comp.teamIds.length === 0) {
+          const obj = {}; places.forEach(p => { obj[p] = ""; });
+          init[comp.id] = obj;
+          return;
+        }
+        const sorted = [...comp.teamIds].sort((a, b) =>
+          (CURRENT_STANDINGS[b] || 0) - (CURRENT_STANDINGS[a] || 0)
+        );
+        const obj = {}; places.forEach((p, i) => { obj[p] = sorted[i] || ""; });
+        init[comp.id] = obj;
+      });
+      return init;
+    }
+
     function BidPointsPlanner() {
       const [scenarios, setScenarios] = useState(getDefaultScenarios);
 
@@ -349,9 +381,7 @@
         ALL_TEAM_IDS.forEach(t => { points[t] = CURRENT_STANDINGS[t] || 0; });
         Object.values(scenarios).forEach(placements => {
           Object.entries(placements).forEach(([place, team]) => {
-            if (team && PLACEMENT_POINTS[place]) {
-              points[team] = (points[team] || 0) + PLACEMENT_POINTS[place];
-            }
+            if (team && PLACEMENT_POINTS[place]) points[team] = (points[team] || 0) + PLACEMENT_POINTS[place];
           });
         });
         return Object.entries(points)
@@ -366,24 +396,15 @@
       }, [scenarios]);
 
       const uvaData = projectedStandings.find(t => t.team === "UVA");
-      const cutoffPts = projectedStandings.length >= NATIONALS_CUTOFF
-        ? projectedStandings[NATIONALS_CUTOFF - 1].points : 0;
+      const cutoffPts = projectedStandings.length >= NATIONALS_CUTOFF ? projectedStandings[NATIONALS_CUTOFF - 1].points : 0;
       const uvaQ = uvaData && uvaData.rank <= NATIONALS_CUTOFF;
-
       const uvaCurrent = CURRENT_SORTED.find(t => t.team === "UVA");
       const uvaCurrentRank = uvaCurrent?.rank || "?";
 
       return (
-        <div style={{
-          color: "#3a3530",
-          minHeight: "100vh", padding: "20px 24px 40px",
-          maxWidth: 920, margin: "0 auto",
-        }}>
-          {/* Header */}
+        <div style={{ color: "#3a3530", minHeight: "100vh", padding: "20px 24px 40px", maxWidth: 920, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 18 }}>
-            <h1 style={{ fontSize: 22, fontWeight: 700, margin: 0, color: "#1a1510" }}>
-              Nationals Bid Point Tracker
-            </h1>
+            <h1 style={{ fontSize: 22, fontWeight: 700, margin: 0, color: "#1a1510" }}>Nationals Bid Point Tracker</h1>
             <p style={{ margin: "4px 0 0", fontSize: 12.5, color: "#9a9080" }}>
               Top {NATIONALS_CUTOFF} teams qualify &middot; 1st = 4pts &middot; 2nd = 2pts &middot; 3rd = 1pt
             </p>
@@ -403,104 +424,62 @@
               <div style={{ fontSize: 13, color: "#8a8070", marginTop: 3 }}>
                 Currently <b>#{uvaCurrentRank}</b> with <b>{CURRENT_STANDINGS.UVA} pts</b>
                 {" \u00B7 "}
-                Projected <b>#{uvaData?.rank || "?"}</b> with <b>{uvaData?.points || 3} pts</b>
+                Projected <b>#{uvaData?.rank || "?"}</b> with <b>{uvaData?.points || 4} pts</b>
                 {" \u00B7 "}
                 {uvaQ
                   ? <span style={{ color: "#2e7d32", fontWeight: 600 }}>Qualifies &#10003;</span>
-                  : <span style={{ color: "#c62828", fontWeight: 600 }}>
-                      Need {cutoffPts - (uvaData?.points || 0) + 1} more pts
-                    </span>
+                  : <span style={{ color: "#c62828", fontWeight: 600 }}>Need {cutoffPts - (uvaData?.points || 0) + 1} more pts</span>
                 }
               </div>
             </div>
             <div style={{ textAlign: "center" }}>
               <div style={{ fontSize: 10, color: "#a09888", fontWeight: 500 }}>PROJECTED</div>
-              <div style={{
-                fontFamily: "'JetBrains Mono', monospace", fontSize: 32, fontWeight: 700,
-                color: uvaQ ? "#2e7d32" : "#c62828", lineHeight: 1,
-              }}>#{uvaData?.rank || "?"}</div>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 32, fontWeight: 700, color: uvaQ ? "#2e7d32" : "#c62828", lineHeight: 1 }}>#{uvaData?.rank || "?"}</div>
             </div>
           </div>
 
           {/* Current Standings */}
-          <div style={{
-            background: "#F5F0E8", borderRadius: 10, border: "1px solid #E8E0D4",
-            padding: "12px 14px", marginBottom: 12,
-          }}>
-            <div style={{
-              fontFamily: "'JetBrains Mono', monospace", fontSize: 10,
-              letterSpacing: 1.5, color: "#9a9080", textTransform: "uppercase", fontWeight: 600,
-              marginBottom: 10,
-            }}>
-              Current Standings (Midseason)
+          <div style={{ background: "#F5F0E8", borderRadius: 10, border: "1px solid #E8E0D4", padding: "12px 14px", marginBottom: 12 }}>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: 1.5, color: "#9a9080", textTransform: "uppercase", fontWeight: 600, marginBottom: 10 }}>
+              Current Standings
             </div>
             <div style={{ overflowX: "auto", paddingBottom: 4 }}>
               <div style={{ display: "flex", gap: 3, minWidth: "fit-content" }}>
-                {CURRENT_SORTED.map((entry, i) => {
-                  const isUVA = entry.team === "UVA";
-                  const qualifies = i < NATIONALS_CUTOFF;
-                  const atCutoff = i === NATIONALS_CUTOFF - 1;
-                  return (
-                    <RankingCard key={entry.team}
-                      entry={entry} isUVA={isUVA} qualifies={qualifies}
-                      showAdded={false} atCutoff={atCutoff}
-                    />
-                  );
-                })}
+                {CURRENT_SORTED.map((entry, i) => (
+                  <RankingCard key={entry.team}
+                    entry={entry} isUVA={entry.team === "UVA"}
+                    qualifies={i < NATIONALS_CUTOFF} showAdded={false}
+                    atCutoff={i === NATIONALS_CUTOFF - 1}
+                  />
+                ))}
               </div>
             </div>
           </div>
 
           {/* Projected Standings */}
-          <div style={{
-            background: "#F5F0E8", borderRadius: 10, border: "1px solid #E8E0D4",
-            padding: "12px 14px", marginBottom: 22,
-          }}>
-            <div style={{
-              display: "flex", justifyContent: "space-between", alignItems: "center",
-              marginBottom: 10, flexWrap: "wrap", gap: 4,
-            }}>
-              <div style={{
-                fontFamily: "'JetBrains Mono', monospace", fontSize: 10,
-                letterSpacing: 1.5, color: "#9a9080", textTransform: "uppercase", fontWeight: 600,
-              }}>
-                Projected Standings
-              </div>
-              <div style={{
-                fontSize: 10, color: "#b0a898", fontStyle: "italic",
-                maxWidth: 420,
-              }}>
+          <div style={{ background: "#F5F0E8", borderRadius: 10, border: "1px solid #E8E0D4", padding: "12px 14px", marginBottom: 22 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, flexWrap: "wrap", gap: 4 }}>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: 1.5, color: "#9a9080", textTransform: "uppercase", fontWeight: 600 }}>Projected Standings</div>
+              <div style={{ fontSize: 10, color: "#b0a898", fontStyle: "italic", maxWidth: 420 }}>
                 &#9888; Projection assumes teams with the most bid points place highest at each remaining competition — change placements below to explore scenarios
               </div>
             </div>
             <div style={{ overflowX: "auto", paddingBottom: 4 }}>
               <div style={{ display: "flex", gap: 3, minWidth: "fit-content" }}>
-                {projectedStandings.map((entry, i) => {
-                  const isUVA = entry.team === "UVA";
-                  const qualifies = i < NATIONALS_CUTOFF;
-                  const atCutoff = i === NATIONALS_CUTOFF - 1;
-                  return (
-                    <RankingCard key={entry.team}
-                      entry={entry} isUVA={isUVA} qualifies={qualifies}
-                      showAdded={true} atCutoff={atCutoff}
-                    />
-                  );
-                })}
+                {projectedStandings.map((entry, i) => (
+                  <RankingCard key={entry.team}
+                    entry={entry} isUVA={entry.team === "UVA"}
+                    qualifies={i < NATIONALS_CUTOFF} showAdded={true}
+                    atCutoff={i === NATIONALS_CUTOFF - 1}
+                  />
+                ))}
               </div>
             </div>
           </div>
 
           {/* Competition Cards */}
-          <div style={{
-            display: "flex", alignItems: "center", justifyContent: "space-between",
-            marginBottom: 10, flexWrap: "wrap", gap: 6,
-          }}>
-            <div style={{
-              fontFamily: "'JetBrains Mono', monospace", fontSize: 10,
-              letterSpacing: 1.5, color: "#9a9080", textTransform: "uppercase", fontWeight: 600,
-            }}>
-              Competition Scenarios
-            </div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10, flexWrap: "wrap", gap: 6 }}>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: 1.5, color: "#9a9080", textTransform: "uppercase", fontWeight: 600 }}>Competition Scenarios</div>
             <div style={{ display: "flex", gap: 6 }}>
               <Btn onClick={() => setScenarios(getDefaultScenarios())}>Reset to Projected</Btn>
               <Btn onClick={() => {
@@ -518,17 +497,153 @@
             ))}
           </div>
 
-          <div style={{
-            textAlign: "center", fontSize: 11, color: "#b8b0a4",
-            marginTop: 24, padding: "12px 0", borderTop: "1px solid #E8E0D4",
-          }}>
+          <div style={{ textAlign: "center", fontSize: 11, color: "#b8b0a4", marginTop: 24, padding: "12px 0", borderTop: "1px solid #E8E0D4" }}>
             Default projections assume teams with the most current bid points place highest &middot; Change any placement to explore scenarios
           </div>
         </div>
       );
     }
 
-    ReactDOM.createRoot(document.getElementById("root")).render(<BidPointsPlanner />);
+    // ─── ELO COMPONENT ───────────────────────────────────────────────────────
+    function ELORankings() {
+      const uvaData = ELO_SORTED.find(t => t.team === "UVA");
+      const cutoffElo = ELO_SORTED.length >= NATIONALS_CUTOFF ? ELO_SORTED[NATIONALS_CUTOFF - 1].elo : 0;
+      const uvaQ = uvaData && uvaData.rank <= NATIONALS_CUTOFF;
+
+      return (
+        <div style={{ color: "#3a3530", minHeight: "100vh", padding: "20px 24px 40px", maxWidth: 920, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 18 }}>
+            <h1 style={{ fontSize: 22, fontWeight: 700, margin: 0, color: "#1a1510" }}>ELO Power Rankings</h1>
+            <p style={{ margin: "4px 0 0", fontSize: 12.5, color: "#9a9080" }}>
+              Based on {COMPLETED_RESULTS.length} competitions &middot; Base ELO: {ELO_BASE} &middot; K-factor: {ELO_K}
+            </p>
+          </div>
+
+          {/* UVA ELO Status */}
+          <div style={{
+            background: uvaQ ? "#e8f5e920" : "#fef2f210",
+            border: `1.5px solid ${uvaQ ? "#4caf5040" : "#e5393540"}`,
+            borderRadius: 10, padding: "12px 18px", marginBottom: 18,
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+          }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ fontWeight: 700, fontSize: 16, color: "#232D4B" }}>{"\u{1F9E1}"} HooRaas (UVA)</span>
+              </div>
+              <div style={{ fontSize: 13, color: "#8a8070", marginTop: 3 }}>
+                ELO: <b>{uvaData?.elo ?? ELO_BASE}</b>
+                {" \u00B7 "}
+                Ranked <b>#{uvaData?.rank ?? "?"}</b> by ELO
+                {" \u00B7 "}
+                {uvaQ
+                  ? <span style={{ color: "#2e7d32", fontWeight: 600 }}>Top {NATIONALS_CUTOFF} &#10003;</span>
+                  : <span style={{ color: "#c62828", fontWeight: 600 }}>{cutoffElo - (uvaData?.elo ?? ELO_BASE)} ELO below cutoff</span>
+                }
+              </div>
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: 10, color: "#a09888", fontWeight: 500 }}>ELO RANK</div>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 32, fontWeight: 700, color: uvaQ ? "#2e7d32" : "#c62828", lineHeight: 1 }}>#{uvaData?.rank ?? "?"}</div>
+            </div>
+          </div>
+
+          {/* ELO Rankings */}
+          <div style={{ background: "#F5F0E8", borderRadius: 10, border: "1px solid #E8E0D4", padding: "12px 14px", marginBottom: 18 }}>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: 1.5, color: "#9a9080", textTransform: "uppercase", fontWeight: 600, marginBottom: 10 }}>
+              ELO Rankings
+            </div>
+            <div style={{ overflowX: "auto", paddingBottom: 4 }}>
+              <div style={{ display: "flex", gap: 3, minWidth: "fit-content" }}>
+                {ELO_SORTED.map((entry, i) => (
+                  <ELOCard key={entry.team}
+                    entry={entry}
+                    isUVA={entry.team === "UVA"}
+                    atCutoff={i === NATIONALS_CUTOFF - 1}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Competition History */}
+          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: 1.5, color: "#9a9080", textTransform: "uppercase", fontWeight: 600, marginBottom: 10 }}>
+            Competitions Included
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
+            {COMPLETED_RESULTS.map(comp => {
+              const others = comp.teams.map(resolveTeam).filter(t => !comp.placements.map(resolveTeam).includes(t));
+              return (
+                <div key={comp.id} style={{ background: "#fff", borderRadius: 10, border: "1px solid #E8E0D4", padding: "12px 16px", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                    <span style={{ fontWeight: 700, fontSize: 15, color: "#1a1510" }}>{comp.name}</span>
+                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "#a09888" }}>{comp.date} &middot; {comp.location}</span>
+                  </div>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                    {comp.placements.map((teamName, i) => {
+                      const tid = resolveTeam(teamName);
+                      const medal = i === 0 ? "\u{1F947}" : i === 1 ? "\u{1F948}" : "\u{1F949}";
+                      return (
+                        <div key={tid} style={{ display: "flex", alignItems: "center", gap: 3 }}>
+                          <span style={{ fontSize: 13 }}>{medal}</span>
+                          <TeamPill id={tid} small />
+                        </div>
+                      );
+                    })}
+                    <span style={{ fontSize: 10, color: "#b0a898", marginLeft: 4 }}>
+                      +{others.length} others (draw)
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Methodology */}
+          <div style={{ background: "#F5F0E8", borderRadius: 8, border: "1px solid #E8E0D4", padding: "10px 14px", fontSize: 11, color: "#8a8070", lineHeight: 1.6 }}>
+            <b>How it works:</b> Each competition generates pairwise matchups between all teams in the field. Higher placers beat lower placers; unplaced teams draw against each other. ELO is updated simultaneously after all matchups in a comp. K={ELO_K}, base={ELO_BASE}.
+          </div>
+
+          <div style={{ textAlign: "center", fontSize: 11, color: "#b8b0a4", marginTop: 16, padding: "12px 0", borderTop: "1px solid #E8E0D4" }}>
+            NAACH & GTR results not included — send placements to add them &middot; 4 of 6 comps tracked
+          </div>
+        </div>
+      );
+    }
+
+    // ─── ROOT APP ─────────────────────────────────────────────────────────────
+    function App() {
+      const [tab, setTab] = useState("bidpoints");
+      return (
+        <div>
+          <div style={{
+            position: "sticky", top: 0, zIndex: 100,
+            background: "#FAF6F0CC", backdropFilter: "blur(8px)",
+            borderBottom: "1px solid #E8E0D4",
+            display: "flex", justifyContent: "center", padding: "10px 0", gap: 6,
+          }}>
+            {[
+              { id: "bidpoints", label: "Bid Points" },
+              { id: "elo",       label: "ELO" },
+            ].map(t => (
+              <button key={t.id} onClick={() => setTab(t.id)}
+                style={{
+                  padding: "6px 20px",
+                  background: tab === t.id ? "#E2793D" : "transparent",
+                  border: `1px solid ${tab === t.id ? "#E2793D" : "#d8d0c4"}`,
+                  borderRadius: 20, cursor: "pointer",
+                  color: tab === t.id ? "#fff" : "#9a9080",
+                  fontSize: 12, fontWeight: tab === t.id ? 600 : 400,
+                  transition: "all 0.15s",
+                }}
+              >{t.label}</button>
+            ))}
+          </div>
+          {tab === "bidpoints" ? <BidPointsPlanner /> : <ELORankings />}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
   </script>
   <div class="cursor-dot" id="cursorDot"></div>
   <script>
