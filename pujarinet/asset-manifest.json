@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/pujarinet/static/css/main.ec4bf2bf.css",
+    "main.js": "/pujarinet/static/js/main.ccb91564.js",
+    "index.html": "/pujarinet/index.html",
+    "main.ec4bf2bf.css.map": "/pujarinet/static/css/main.ec4bf2bf.css.map",
+    "main.ccb91564.js.map": "/pujarinet/static/js/main.ccb91564.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ec4bf2bf.css",
+    "static/js/main.ccb91564.js"
+  ]
+}
