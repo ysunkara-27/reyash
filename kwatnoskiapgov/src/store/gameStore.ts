@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 import { candidates, candidateIds } from "../data/candidates";
 import { cards } from "../data/cards";
 import { allMonths } from "../data/schedule";
@@ -449,6 +449,7 @@ export const useGameStore = create<GameStore>()(
     }),
     {
       name: "election-control-center",
+      storage: createJSONStorage(() => sessionStorage),
       partialize: (state) => ({
         ...getSerializable(state as GameStore),
         undoStack: (state as GameStore).undoStack,

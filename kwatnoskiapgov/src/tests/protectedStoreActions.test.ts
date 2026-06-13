@@ -46,4 +46,11 @@ describe("protected store actions", () => {
     expect(useGameStore.getState().primaryTokens["youth-voters"].blueA).toBe(0);
     expect(useGameStore.getState().activeRole).toBe("teacher");
   });
+
+  it("persists active classroom games in session storage instead of local storage", () => {
+    resetStore("teacher");
+    useGameStore.getState().adjustPrimaryToken("youth-voters", "blueA", 1);
+    expect(sessionStorage.getItem("election-control-center")).toContain("youth-voters");
+    expect(localStorage.getItem("election-control-center")).toBeNull();
+  });
 });

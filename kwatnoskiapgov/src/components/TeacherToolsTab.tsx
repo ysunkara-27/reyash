@@ -6,7 +6,7 @@ import { electionResultsToCsv, gameSummaryToCsv } from "../lib/exportCsv";
 import type { SerializableGameState } from "../types";
 import { getPermissions } from "../lib/permissions";
 import { setTeacherPassword } from "../lib/teacherAuth";
-import { Download, FileJson, KeyRound, RotateCcw, Save, ShieldCheck, Trash2, Upload } from "lucide-react";
+import { Clock3, Download, FileJson, KeyRound, RotateCcw, Save, ShieldCheck, Trash2, Upload } from "lucide-react";
 
 export default function TeacherToolsTab() {
   const store = useGameStore();
@@ -20,7 +20,16 @@ export default function TeacherToolsTab() {
     <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
       <section className="panel space-y-3">
         <h2 className="text-2xl font-black">Teacher Tools</h2>
-        <div className="text-sm text-slate-700">Autosave status: {store.autosaveAt ? `saved at ${store.autosaveAt}` : "ready"}</div>
+        <div className="border border-blue-100 bg-blue-50 p-3 text-sm text-blue-950" style={{ borderRadius: 8 }}>
+          <div className="flex items-center gap-2 font-black">
+            <Clock3 size={16} /> Classroom session autosave
+          </div>
+          <div className="mt-1">
+            Refreshing this page keeps the current game. Closing the browser tab starts a fresh class session unless you use
+            <span className="font-bold"> Save game</span> below.
+          </div>
+          <div className="mt-1 font-semibold">Autosave status: {store.autosaveAt ? `saved at ${store.autosaveAt}` : "ready"}</div>
+        </div>
         <div className="grid gap-2 border-t border-slate-200 pt-3">
           <div className="text-sm font-black uppercase text-slate-500">Save and move data</div>
           <button
