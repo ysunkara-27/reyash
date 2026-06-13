@@ -52,6 +52,10 @@ export default function Layout({
           <div className="mt-3 text-sm text-slate-600">
             <span className="font-bold">Location:</span> {roleLabel} / {activeTab}
           </div>
+          <div className="mt-2 border border-blue-100 bg-blue-50 px-3 py-2 text-sm text-blue-950" style={{ borderRadius: 8 }}>
+            Use the tabs below from left to right for the normal game flow. Use <span className="font-bold">Switch Role</span>{" "}
+            when a different classroom user needs a simpler view.
+          </div>
           <nav className="mt-4 flex gap-2 overflow-x-auto pb-1">
             {tabs.map((tab) => (
               <button
