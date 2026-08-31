@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import { Landmark, Lock, Repeat2 } from "lucide-react";
+import SessionSwitcher from "./SessionSwitcher";
+import TurnBanner from "./TurnBanner";
 
 export type TabName = string;
 
@@ -72,7 +74,13 @@ export default function Layout({
           </nav>
         </div>
       </header>
-      <main className="mx-auto max-w-7xl px-4 py-5">{children}</main>
+      <main className="mx-auto max-w-7xl px-4 py-5">
+        <div className="mb-4 grid gap-4 lg:grid-cols-[1fr_1fr]">
+          <SessionSwitcher />
+          <TurnBanner />
+        </div>
+        {children}
+      </main>
     </div>
   );
 }

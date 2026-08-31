@@ -149,9 +149,12 @@ export interface DataIssue {
 }
 
 export interface SerializableGameState {
+  gameLocked: boolean;
   phase: Phase;
   currentMonth: Month;
   players: Player[];
+  turnOrdersByMonth: Partial<Record<Month, string[]>>;
+  currentTurnIndexByMonth: Partial<Record<Month, number>>;
   incumbentCandidateId: CandidateId | null;
   primaryTokens: CandidateTokenBoard;
   generalTokens: PartyTokenBoard;
@@ -166,4 +169,12 @@ export interface SerializableGameState {
   electionOverrides: Record<string, Party | "tie" | "unassigned">;
   electionResults: ElectionResults | null;
   actionLog: ActionLogEntry[];
+}
+
+export interface GameSessionRecord {
+  id: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  state: SerializableGameState;
 }

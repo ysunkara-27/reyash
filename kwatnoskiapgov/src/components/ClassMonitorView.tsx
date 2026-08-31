@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { candidateById, candidateIds } from "../data/candidates";
 import { states } from "../data/states";
 import { voterGroups } from "../data/voterGroups";
@@ -9,10 +9,25 @@ import StateResultTable from "./StateResultTable";
 export default function ClassMonitorView({ onSwitchRole }: { onSwitchRole: () => void }) {
   const store = useGameStore();
   const [presentationMode, setPresentationMode] = useState(false);
-  const selectedStates = store.selectedStatesByMonth[store.currentMonth] ?? [];
-  const blueControlled = voterGroups.filter((group) => getPartyController(store.generalTokens, group.id) === "blue").length;
-  const redControlled = voterGroups.filter((group) => getPartyController(store.generalTokens, group.id) === "red").length;
-  const primaryMode = store.phase === "setup" || store.phase === "primary" || store.phase === "convention";
+  const [cycleIndex, setCycleIndex] = useState(0);
+  const sessions = store.sessions.length ? store.sessions : [{ id: store.activeSessionId, name: "Game 1", state: store.serializable(), createdAt: "", updatedAt: "" }];
+  const activeSession = sessions[cycleIndex % sessions.length];
+  const viewState = activeSession.state;
+  const selectedStates = viewState.selectedStatesByMonth[viewState.currentMonth] ?? [];
+  const blueControlled = voterGroups.filter((group) => getPartyController(viewState.generalTokens, group.id) === "blue").length;
+  const redControlled = voterGroups.filter((group) => getPartyController(viewState.generalTokens, group.id) === "red").length;
+  const primaryMode = viewState.phase === "setup" || viewState.phase === "primary" || viewState.phase === "convention";
+  const currentTurn = useMemo(() => {
+    const order = viewState.turnOrdersByMonth[viewState.currentMonth] ?? [];
+    const index = viewState.currentTurnIndexByMonth[viewState.currentMonth] ?? 0;
+    return viewState.players.find((player) => player.id === order[index]);
+  }, [viewState]);
+
+  useEffect(() => {
+    if (sessions.length <= 1) return undefined;
+    const id = window.setInterval(() => setCycleIndex((index) => (index + 1) % sessions.length), 8000);
+    return () => window.clearInterval(id);
+  }, [sessions.length]);
 
   return (
     <main className={`min-h-screen bg-classroom ${presentationMode ? "p-6" : "px-4 py-5"}`}>
@@ -21,7 +36,7 @@ export default function ClassMonitorView({ onSwitchRole }: { onSwitchRole: () =>
           <header className="mb-4 flex flex-wrap items-end justify-between gap-3">
             <div>
               <h1 className="text-4xl font-black">Class Monitor View</h1>
-              <p className="text-lg font-semibold text-slate-700">Safe projector dashboard</p>
+              <p className="text-lg font-semibold text-slate-700">Safe projector dashboard cycling through classroom games</p>
             </div>
             <div className="flex gap-2">
               <button className="btn" onClick={() => setPresentationMode(true)}>
@@ -42,8 +57,13 @@ export default function ClassMonitorView({ onSwitchRole }: { onSwitchRole: () =>
         )}
 
         <section className="mb-4 grid gap-3 lg:grid-cols-4">
-          <BigCard title="Phase" value={phaseLabel(store.phase)} />
-          <BigCard title="Month" value={store.currentMonth} />
+          <BigCard title="Game" value={activeSession.name} />
+          <BigCard title="Phase" value={phaseLabel(viewState.phase)} />
+          <BigCard title="Month" value={viewState.currentMonth} />
+          <BigCard title="Turn" value={viewState.gameLocked ? "Locked" : currentTurn?.name ?? "Not set"} />
+        </section>
+
+        <section className="mb-4 grid gap-3 lg:grid-cols-2">
           <BigCard title="Blue Groups" value={blueControlled} tone="blue" />
           <BigCard title="Red Groups" value={redControlled} tone="red" />
         </section>
@@ -55,16 +75,16 @@ export default function ClassMonitorView({ onSwitchRole }: { onSwitchRole: () =>
               {candidateIds.map((id) => (
                 <div key={id} className={`border p-4 ${id.startsWith("blue") ? "border-blue-200 bg-blue-50" : "border-red-200 bg-red-50"}`} style={{ borderRadius: 8 }}>
                   <div className="text-xl font-black">{id}</div>
-                  <div className="text-5xl font-black">{store.delegateTotals[id]}</div>
+                  <div className="text-5xl font-black">{viewState.delegateTotals[id]}</div>
                 </div>
               ))}
             </div>
           </section>
         ) : (
           <section className="mb-4 grid gap-3 md:grid-cols-3">
-            <BigCard title="Blue EV" value={store.electionResults?.blueElectoralVotes ?? 0} tone="blue" />
-            <BigCard title="Red EV" value={store.electionResults?.redElectoralVotes ?? 0} tone="red" />
-            <BigCard title="Winner" value={store.electionResults?.winner ?? "Pending"} />
+            <BigCard title="Blue EV" value={viewState.electionResults?.blueElectoralVotes ?? 0} tone="blue" />
+            <BigCard title="Red EV" value={viewState.electionResults?.redElectoralVotes ?? 0} tone="red" />
+            <BigCard title="Winner" value={viewState.electionResults?.winner ?? "Pending"} />
           </section>
         )}
 
@@ -92,13 +112,13 @@ export default function ClassMonitorView({ onSwitchRole }: { onSwitchRole: () =>
               <div className="border border-blue-200 bg-blue-50 p-4" style={{ borderRadius: 8 }}>
                 <div className="text-lg font-bold text-blue-900">Blue</div>
                 <div className="text-2xl font-black text-blue-900">
-                  {store.nominees.blue ? candidateById[store.nominees.blue].name : "Not chosen"}
+                  {viewState.nominees.blue ? candidateById[viewState.nominees.blue].name : "Not chosen"}
                 </div>
               </div>
               <div className="border border-red-200 bg-red-50 p-4" style={{ borderRadius: 8 }}>
                 <div className="text-lg font-bold text-red-900">Red</div>
                 <div className="text-2xl font-black text-red-900">
-                  {store.nominees.red ? candidateById[store.nominees.red].name : "Not chosen"}
+                  {viewState.nominees.red ? candidateById[viewState.nominees.red].name : "Not chosen"}
                 </div>
               </div>
             </div>
@@ -109,7 +129,7 @@ export default function ClassMonitorView({ onSwitchRole }: { onSwitchRole: () =>
           <h2 className="mb-3 text-3xl font-black">Voter Group Control Summary</h2>
           <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
             {voterGroups.map((group) => {
-              const controller = getPartyController(store.generalTokens, group.id);
+              const controller = getPartyController(viewState.generalTokens, group.id);
               return (
                 <div key={group.id} className="border border-slate-200 p-3 text-lg" style={{ borderRadius: 8 }}>
                   <span className="font-black">{group.name}</span>: {controller ?? "No control"}
@@ -121,10 +141,10 @@ export default function ClassMonitorView({ onSwitchRole }: { onSwitchRole: () =>
 
         <section className="panel mb-4">
           <h2 className="mb-3 text-3xl font-black">Recent Actions</h2>
-          {store.actionLog.length === 0 ? (
+          {viewState.actionLog.length === 0 ? (
             <div className="text-xl text-slate-700">No actions logged yet.</div>
           ) : (
-            [...store.actionLog]
+            [...viewState.actionLog]
               .reverse()
               .slice(0, 8)
               .map((entry) => (
@@ -135,10 +155,10 @@ export default function ClassMonitorView({ onSwitchRole }: { onSwitchRole: () =>
           )}
         </section>
 
-        {store.electionResults && (
+        {viewState.electionResults && (
           <section className="panel">
             <h2 className="mb-3 text-3xl font-black">State Results</h2>
-            <StateResultTable results={store.electionResults.stateResults} showExplanations={false} onOverride={() => undefined} readOnly />
+            <StateResultTable results={viewState.electionResults.stateResults} showExplanations={false} onOverride={() => undefined} readOnly />
           </section>
         )}
       </div>

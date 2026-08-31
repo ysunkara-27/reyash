@@ -1,5 +1,4 @@
-import { useState } from "react";
-import ActionLogPanel from "./components/ActionLogPanel";
+import { useEffect, useState } from "react";
 import CardsEffectsTab from "./components/CardsEffectsTab";
 import CalendarTab from "./components/CalendarTab";
 import ClassMonitorView from "./components/ClassMonitorView";
@@ -12,6 +11,7 @@ import PrimaryCounterTab from "./components/PrimaryCounterTab";
 import ResultsReflectionTab from "./components/ResultsReflectionTab";
 import RoleSelection from "./components/RoleSelection";
 import SetupTab from "./components/SetupTab";
+import StateCardsTab from "./components/StateCardsTab";
 import StudentHub from "./components/StudentHub";
 import TeacherLogin from "./components/TeacherLogin";
 import TeacherToolsTab from "./components/TeacherToolsTab";
@@ -23,6 +23,7 @@ import { dataIssues, useGameStore } from "./store/gameStore";
 const teacherTabs = [
   "Setup",
   "Game Board",
+  "State Cards",
   "Calendar",
   "Cards & Effects",
   "Primaries",
@@ -33,13 +34,15 @@ const teacherTabs = [
   "Teacher Tools"
 ] as const;
 
-const scorekeeperTabs = ["Quick Token Board", "Apply Card", "Primary Counter", "General Election Board", "Action Log"] as const;
-
 export default function App() {
   const activeRole = useGameStore((state) => state.activeRole);
   const setActiveRole = useGameStore((state) => state.setActiveRole);
   const [activeTab, setActiveTab] = useState<TabName>("Setup");
   const [teacherLoginOpen, setTeacherLoginOpen] = useState(false);
+
+  useEffect(() => {
+    if (activeRole === "scorekeeper") setActiveRole("student");
+  }, [activeRole, setActiveRole]);
 
   const switchRole = () => {
     setActiveRole(null);
@@ -57,7 +60,7 @@ export default function App() {
       return;
     }
     setActiveRole(role);
-    setActiveTab(role === "scorekeeper" ? "Quick Token Board" : "Setup");
+    setActiveTab("Setup");
   };
 
   if (teacherLoginOpen && activeRole !== "teacher") {
@@ -77,24 +80,12 @@ export default function App() {
     return <RoleSelection onChooseRole={chooseRole} />;
   }
 
-  if (activeRole === "student") {
+  if (activeRole === "student" || activeRole === "scorekeeper") {
     return <StudentHub onSwitchRole={switchRole} />;
   }
 
   if (activeRole === "monitor") {
     return <ClassMonitorView onSwitchRole={switchRole} />;
-  }
-
-  if (activeRole === "scorekeeper") {
-    return (
-      <Layout tabs={scorekeeperTabs} activeTab={activeTab} onTabChange={setActiveTab} roleLabel={roleLabel(activeRole)} onSwitchRole={switchRole}>
-        {activeTab === "Quick Token Board" && <VoterGroupsTab />}
-        {activeTab === "Apply Card" && <CardsEffectsTab />}
-        {activeTab === "Primary Counter" && <PrimaryCounterTab />}
-        {activeTab === "General Election Board" && <GeneralElectionTab />}
-        {activeTab === "Action Log" && <ActionLogPanel />}
-      </Layout>
-    );
   }
 
   return (
@@ -117,6 +108,7 @@ export default function App() {
       )}
       {activeTab === "Setup" && <SetupTab />}
       {activeTab === "Game Board" && <VoterGroupsTab />}
+      {activeTab === "State Cards" && <StateCardsTab />}
       {activeTab === "Calendar" && <CalendarTab goToPrimaryCounter={() => setActiveTab("Primaries")} />}
       {activeTab === "Cards & Effects" && <CardsEffectsTab />}
       {activeTab === "Primaries" && <PrimaryCounterTab />}

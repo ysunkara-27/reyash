@@ -16,6 +16,9 @@ export default function ConventionTab() {
     <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
       <section className="panel space-y-4">
         <h2 className="text-2xl font-black">Delegate Count</h2>
+        <p className="text-sm text-slate-700">
+          Starting the general election clears candidate primary tokens, restores the base red/blue party board, applies five selected platform cards per party, and applies nominee card effects.
+        </p>
         <div className="grid gap-2 sm:grid-cols-2">
           {candidateIds.map((id) => (
             <div key={id} className={`border p-3 ${id.startsWith("blue") ? "border-blue-200 bg-blue-50" : "border-red-200 bg-red-50"}`} style={{ borderRadius: 8 }}>

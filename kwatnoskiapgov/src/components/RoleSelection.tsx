@@ -1,5 +1,5 @@
 import type { UserRole } from "../lib/permissions";
-import { ArrowRight, ClipboardCheck, GraduationCap, Landmark, MonitorUp, Route } from "lucide-react";
+import { ArrowRight, GraduationCap, Landmark, MonitorUp, Route } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 const roles: Array<{ role: UserRole; title: string; description: string; Icon: LucideIcon; tone: string }> = [
@@ -11,16 +11,9 @@ const roles: Array<{ role: UserRole; title: string; description: string; Icon: L
     tone: "bg-blue-700 text-white"
   },
   {
-    role: "scorekeeper",
-    title: "Scorekeeper Mode",
-    description: "Fast token updates, card effects, primary previews, notes, and action logging.",
-    Icon: ClipboardCheck,
-    tone: "bg-red-700 text-white"
-  },
-  {
     role: "student",
     title: "Student Candidate View",
-    description: "Candidate strengths, delegate totals, target groups, and recent changes.",
+    description: "Candidate strengths, delegate totals, target groups, recent changes, and read-only scorekeeper context.",
     Icon: GraduationCap,
     tone: "bg-slate-900 text-white"
   },
@@ -86,8 +79,7 @@ export default function RoleSelection({ onChooseRole }: { onChooseRole: (role: U
             <div className="mb-3 text-xl font-black">Which Role Should I Pick?</div>
             <div className="grid gap-2 text-sm text-slate-700 sm:grid-cols-2">
               <GuideItem title="Teacher" text="Unlocks setup, final decisions, overrides, imports, exports, and reset controls." />
-              <GuideItem title="Scorekeeper" text="Best for the student entering tokens, cards, notes, and primary previews during play." />
-              <GuideItem title="Student Candidate" text="Read-only candidate dashboard for strengths, weak states, delegate totals, and target groups." />
+              <GuideItem title="Students" text="Use Student Candidate View for strengths, weak states, delegate totals, target groups, and class scoreboard context." />
               <GuideItem title="Class Monitor" text="Projector-safe scoreboard for the whole room. Use Presentation Mode for a larger display." />
             </div>
           </div>

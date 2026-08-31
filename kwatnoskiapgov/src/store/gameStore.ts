@@ -2,13 +2,14 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { candidates, candidateIds } from "../data/candidates";
 import { cards } from "../data/cards";
-import { allMonths } from "../data/schedule";
+import { allMonths, defaultPrimarySchedule } from "../data/schedule";
 import { stateById, states } from "../data/states";
 import { voterGroups } from "../data/voterGroups";
 import type {
   CandidateId,
   CandidateTokenBoard,
   ElectionResults,
+  GameSessionRecord,
   Month,
   Party,
   PartyTokenBoard,
@@ -30,11 +31,21 @@ import { hasPermission, type PermissionName, type UserRole } from "../lib/permis
 
 interface GameStore extends SerializableGameState {
   activeRole: UserRole | null;
+  activeSessionId: string;
+  sessions: GameSessionRecord[];
   undoStack: SerializableGameState[];
   autosaveAt: string | null;
   commit: (recipe: (draft: SerializableGameState) => SerializableGameState, message: string) => void;
   recordAction: (message: string, permission?: PermissionName) => void;
   setActiveRole: (role: UserRole | null) => void;
+  createSession: (name?: string) => void;
+  switchSession: (sessionId: string) => void;
+  renameSession: (sessionId: string, name: string) => void;
+  deleteSession: (sessionId: string) => void;
+  setGameLocked: (locked: boolean) => void;
+  setAllGamesLocked: (locked: boolean) => void;
+  randomizeTurnOrder: (month?: Month) => void;
+  nextTurn: () => void;
   undo: () => void;
   resetGame: () => void;
   loadSampleGame: () => void;
@@ -68,6 +79,10 @@ function nowId() {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
+function sessionId() {
+  return `session-${nowId()}`;
+}
+
 function emptyGeneralBoard(): PartyTokenBoard {
   return Object.fromEntries(voterGroups.map((group) => [group.id, { blue: 0, red: 0 }])) as PartyTokenBoard;
 }
@@ -82,6 +97,7 @@ function emptyLocks(): Record<VoterGroupId, boolean> {
 
 export function createInitialGameState(): SerializableGameState {
   return {
+    gameLocked: false,
     phase: "setup",
     currentMonth: "January",
     players: candidates.map((candidate) => ({
@@ -90,13 +106,15 @@ export function createInitialGameState(): SerializableGameState {
       party: candidate.party,
       candidateId: candidate.id
     })),
+    turnOrdersByMonth: {},
+    currentTurnIndexByMonth: {},
     incumbentCandidateId: null,
     primaryTokens: createEmptyPrimaryBoard(),
     generalTokens: emptyGeneralBoard(),
     lockedGroups: emptyLocks(),
     notes: emptyNotes(),
     delegateTotals: emptyDelegateTotals(),
-    selectedStatesByMonth: { January: ["IA", "NH", "SC"] },
+    selectedStatesByMonth: { ...defaultPrimarySchedule },
     completedPrimaryStates: [],
     playedCards: [],
     nominees: { blue: null, red: null },
@@ -109,9 +127,12 @@ export function createInitialGameState(): SerializableGameState {
 
 function getSerializable(store: GameStore): SerializableGameState {
   return {
+    gameLocked: store.gameLocked,
     phase: store.phase,
     currentMonth: store.currentMonth,
     players: store.players,
+    turnOrdersByMonth: store.turnOrdersByMonth,
+    currentTurnIndexByMonth: store.currentTurnIndexByMonth,
     incumbentCandidateId: store.incumbentCandidateId,
     primaryTokens: store.primaryTokens,
     generalTokens: store.generalTokens,
@@ -135,6 +156,9 @@ function ensureState(state: SerializableGameState): SerializableGameState {
   return {
     ...createInitialGameState(),
     ...state,
+    gameLocked: state.gameLocked ?? false,
+    turnOrdersByMonth: state.turnOrdersByMonth ?? {},
+    currentTurnIndexByMonth: state.currentTurnIndexByMonth ?? {},
     primaryTokens: { ...createEmptyPrimaryBoard(), ...state.primaryTokens },
     generalTokens: { ...emptyGeneralBoard(), ...state.generalTokens },
     lockedGroups: { ...emptyLocks(), ...state.lockedGroups },
@@ -148,14 +172,57 @@ function ensureState(state: SerializableGameState): SerializableGameState {
 }
 
 function canUse(store: GameStore, permission: PermissionName): boolean {
+  const pausedPermissions: PermissionName[] = [
+    "canEditSetup",
+    "canEditTokens",
+    "canApplyCards",
+    "canFinalizePrimaries",
+    "canRunConvention",
+    "canRunElectionNight",
+    "canOverrideResults",
+    "canResetGame",
+    "canUndo",
+    "canManageCalendar"
+  ];
+  if (store.gameLocked && pausedPermissions.includes(permission)) return false;
   return hasPermission(store.activeRole, permission);
 }
+
+function makeSession(name: string, state = createInitialGameState()): GameSessionRecord {
+  const at = new Date().toISOString();
+  return { id: sessionId(), name, createdAt: at, updatedAt: at, state };
+}
+
+function syncActiveSession(store: GameStore, state: SerializableGameState): GameSessionRecord[] {
+  const at = new Date().toISOString();
+  const existing = store.sessions.find((session) => session.id === store.activeSessionId);
+  const active = existing ?? {
+    id: store.activeSessionId,
+    name: "Game 1",
+    createdAt: at,
+    updatedAt: at,
+    state
+  };
+  const synced = { ...active, updatedAt: at, state };
+  const next = store.sessions.map((session) => (session.id === store.activeSessionId ? synced : session));
+  return next.some((session) => session.id === store.activeSessionId) ? next : [synced, ...next];
+}
+
+function shuffledPlayerIds(players: Player[]): string[] {
+  return players
+    .map((player) => player.id)
+    .sort(() => Math.random() - 0.5);
+}
+
+const firstSession = makeSession("Game 1");
 
 export const useGameStore = create<GameStore>()(
   persist(
     (set, get) => ({
-      ...createInitialGameState(),
+      ...firstSession.state,
       activeRole: null,
+      activeSessionId: firstSession.id,
+      sessions: [firstSession],
       undoStack: [],
       autosaveAt: null,
       serializable: () => getSerializable(get()),
@@ -164,12 +231,109 @@ export const useGameStore = create<GameStore>()(
         const before = getSerializable(get());
         const after = ensureState(recipe(structuredClone(before)));
         const entry = { id: nowId(), at: new Date().toISOString(), message };
+        const nextSessions = syncActiveSession(get(), after);
         set({
           ...after,
           actionLog: [...after.actionLog, entry],
+          sessions: nextSessions.map((session) =>
+            session.id === get().activeSessionId ? { ...session, state: { ...after, actionLog: [...after.actionLog, entry] } } : session
+          ),
           undoStack: [...get().undoStack, before].slice(-60),
           autosaveAt: new Date().toLocaleTimeString()
         });
+      },
+      createSession: (name) => {
+        if (!hasPermission(get().activeRole, "canViewTeacherTools")) return;
+        const currentStore = get();
+        const syncedSessions = syncActiveSession(currentStore, getSerializable(currentStore));
+        const nextSession = makeSession(name?.trim() || `Game ${syncedSessions.length + 1}`);
+        set({
+          ...nextSession.state,
+          activeRole: currentStore.activeRole,
+          activeSessionId: nextSession.id,
+          sessions: [...syncedSessions, nextSession],
+          undoStack: [],
+          autosaveAt: new Date().toLocaleTimeString()
+        });
+      },
+      switchSession: (targetSessionId) => {
+        const currentStore = get();
+        const syncedSessions = syncActiveSession(currentStore, getSerializable(currentStore));
+        const target = syncedSessions.find((session) => session.id === targetSessionId);
+        if (!target) return;
+        set({
+          ...ensureState(target.state),
+          activeRole: currentStore.activeRole,
+          activeSessionId: target.id,
+          sessions: syncedSessions,
+          undoStack: [],
+          autosaveAt: new Date().toLocaleTimeString()
+        });
+      },
+      renameSession: (targetSessionId, name) => {
+        if (!hasPermission(get().activeRole, "canViewTeacherTools")) return;
+        const trimmed = name.trim();
+        if (!trimmed) return;
+        set({
+          sessions: get().sessions.map((session) => (session.id === targetSessionId ? { ...session, name: trimmed } : session))
+        });
+      },
+      deleteSession: (targetSessionId) => {
+        if (!hasPermission(get().activeRole, "canViewTeacherTools")) return;
+        const currentStore = get();
+        const syncedSessions = syncActiveSession(currentStore, getSerializable(currentStore));
+        const remaining = syncedSessions.filter((session) => session.id !== targetSessionId);
+        if (remaining.length === 0) return;
+        const nextActive = targetSessionId === currentStore.activeSessionId ? remaining[0] : syncedSessions.find((session) => session.id === currentStore.activeSessionId) ?? remaining[0];
+        set({
+          ...ensureState(nextActive.state),
+          activeRole: currentStore.activeRole,
+          activeSessionId: nextActive.id,
+          sessions: remaining,
+          undoStack: [],
+          autosaveAt: new Date().toLocaleTimeString()
+        });
+      },
+      setGameLocked: (locked) => {
+        if (!hasPermission(get().activeRole, "canViewTeacherTools")) return;
+        get().commit((draft) => ({ ...draft, gameLocked: locked }), locked ? "Locked this game." : "Unlocked this game.");
+      },
+      setAllGamesLocked: (locked) => {
+        if (!hasPermission(get().activeRole, "canViewTeacherTools")) return;
+        const currentStore = get();
+        const activeState = { ...getSerializable(currentStore), gameLocked: locked };
+        const syncedSessions = syncActiveSession(currentStore, activeState).map((session) => ({
+          ...session,
+          state: { ...session.state, gameLocked: locked }
+        }));
+        set({
+          ...activeState,
+          sessions: syncedSessions,
+          autosaveAt: new Date().toLocaleTimeString()
+        });
+      },
+      randomizeTurnOrder: (month = get().currentMonth) => {
+        if (!canUse(get(), "canManageCalendar")) return;
+        get().commit(
+          (draft) => ({
+            ...draft,
+            turnOrdersByMonth: { ...draft.turnOrdersByMonth, [month]: shuffledPlayerIds(draft.players) },
+            currentTurnIndexByMonth: { ...draft.currentTurnIndexByMonth, [month]: 0 }
+          }),
+          `Randomized turn order for ${month}.`
+        );
+      },
+      nextTurn: () => {
+        if (!canUse(get(), "canManageCalendar")) return;
+        get().commit((draft) => {
+          const order = draft.turnOrdersByMonth[draft.currentMonth] ?? shuffledPlayerIds(draft.players);
+          const currentIndex = draft.currentTurnIndexByMonth[draft.currentMonth] ?? 0;
+          return {
+            ...draft,
+            turnOrdersByMonth: { ...draft.turnOrdersByMonth, [draft.currentMonth]: order },
+            currentTurnIndexByMonth: { ...draft.currentTurnIndexByMonth, [draft.currentMonth]: (currentIndex + 1) % Math.max(order.length, 1) }
+          };
+        }, "Advanced turn.");
       },
       recordAction: (message, permission = "canViewActionLog") => {
         if (!canUse(get(), permission)) return;
@@ -192,6 +356,8 @@ export const useGameStore = create<GameStore>()(
           set({
             ...createInitialGameState(),
             activeRole: get().activeRole,
+            activeSessionId: get().activeSessionId,
+            sessions: syncActiveSession(get(), createInitialGameState()),
             undoStack: [],
             autosaveAt: new Date().toLocaleTimeString()
           });
@@ -209,13 +375,22 @@ export const useGameStore = create<GameStore>()(
         sample.incumbentCandidateId = "blueA";
         sample.phase = "primary";
         sample.actionLog = [{ id: nowId(), at: new Date().toISOString(), message: "Loaded sample game." }];
-        set({ ...sample, activeRole: get().activeRole, undoStack: [], autosaveAt: new Date().toLocaleTimeString() });
+        set({
+          ...sample,
+          activeRole: get().activeRole,
+          activeSessionId: get().activeSessionId,
+          sessions: syncActiveSession(get(), sample),
+          undoStack: [],
+          autosaveAt: new Date().toLocaleTimeString()
+        });
       },
       importGame: (state) => {
         if (!canUse(get(), "canImportExport")) return;
         set({
           ...ensureState(state),
           activeRole: get().activeRole,
+          activeSessionId: get().activeSessionId,
+          sessions: syncActiveSession(get(), ensureState(state)),
           undoStack: [],
           autosaveAt: new Date().toLocaleTimeString()
         });
@@ -313,7 +488,14 @@ export const useGameStore = create<GameStore>()(
                 : nextMonth === "Election Day"
                   ? "electionNight"
                   : draft.phase;
-          return { ...draft, currentMonth: nextMonth, phase: nextPhase };
+          const nextOrder = draft.turnOrdersByMonth[nextMonth] ?? shuffledPlayerIds(draft.players);
+          return {
+            ...draft,
+            currentMonth: nextMonth,
+            phase: nextPhase,
+            turnOrdersByMonth: { ...draft.turnOrdersByMonth, [nextMonth]: nextOrder },
+            currentTurnIndexByMonth: { ...draft.currentTurnIndexByMonth, [nextMonth]: draft.currentTurnIndexByMonth[nextMonth] ?? 0 }
+          };
         }, "Advanced month.");
       },
       finalizePrimaryStates: (stateIds) => {
@@ -452,6 +634,9 @@ export const useGameStore = create<GameStore>()(
       storage: createJSONStorage(() => sessionStorage),
       partialize: (state) => ({
         ...getSerializable(state as GameStore),
+        activeRole: (state as GameStore).activeRole,
+        activeSessionId: (state as GameStore).activeSessionId,
+        sessions: (state as GameStore).sessions,
         undoStack: (state as GameStore).undoStack,
         autosaveAt: (state as GameStore).autosaveAt
       }),
@@ -460,6 +645,9 @@ export const useGameStore = create<GameStore>()(
         return {
           ...current,
           ...ensureState(saved as SerializableGameState),
+          activeRole: saved.activeRole ?? null,
+          activeSessionId: saved.activeSessionId ?? firstSession.id,
+          sessions: saved.sessions ?? [firstSession],
           undoStack: saved.undoStack ?? [],
           autosaveAt: saved.autosaveAt ?? null
         };

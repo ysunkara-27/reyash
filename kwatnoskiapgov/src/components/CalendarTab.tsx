@@ -34,9 +34,14 @@ export default function CalendarTab({ goToPrimaryCounter }: { goToPrimaryCounter
               <div className="flex flex-wrap gap-2">
                 {item.primaryStateCount && (
                   <>
-                    <button className="btn" onClick={() => store.drawStatesForMonth(item.month, item.primaryStateCount!, item.fixedStates)} disabled={!permissions.canManageCalendar}>
-                      Draw states
+                    <button className="btn" onClick={() => store.drawStatesForMonth(item.month, item.primaryStateCount!, item.month === "January" ? item.fixedStates : [])} disabled={!permissions.canManageCalendar}>
+                      Random draw
                     </button>
+                    {item.fixedStates && (
+                      <button className="btn" onClick={() => store.setSelectedStates(item.month as Month, item.fixedStates ?? [])} disabled={!permissions.canManageCalendar}>
+                        Use preset
+                      </button>
+                    )}
                     <select
                       className="input w-56"
                       value={manualSelections[item.month] ?? ""}

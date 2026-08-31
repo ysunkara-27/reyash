@@ -5,6 +5,7 @@ import { voterGroups } from "../data/voterGroups";
 import { getPartyController } from "../lib/rules/generalElectionRules";
 import { useGameStore } from "../store/gameStore";
 import type { CandidateId, Party, VoterGroupId } from "../types";
+import SessionSwitcher from "./SessionSwitcher";
 
 type StudentChoice = CandidateId | "blueNominee" | "redNominee";
 
@@ -87,6 +88,10 @@ export default function StudentHub({ onSwitchRole }: { onSwitchRole: () => void 
             Switch Role
           </button>
         </header>
+
+        <div className="mb-4">
+          <SessionSwitcher />
+        </div>
 
         <section className="panel mb-4">
           <label>
