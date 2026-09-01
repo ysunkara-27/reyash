@@ -2,7 +2,7 @@ const json = (data, status = 200, headers = {}) => new Response(JSON.stringify(d
 const roster = [
   ['Ashiyana','Carrollton',0],['Ausdin','1718 JPA',1],['Tej','Main St / IRC',1],['Misthi','1725 JPA',0],['Mann','Main St / IRC',1],['Samai','Main St / IRC',0],['Kshema','Main St / IRC',0],['Radhika','1725 JPA',0],['Malav','1725 JPA',0],['Sruthika','Main St / IRC',0],['Syed','1718 JPA',0],['Shlok','Upper JPA / Stadium',0],['Yashaswi','Courtenay',0],['Simran','Carrollton',0],['Malhar','Carrollton',0],['Anjali','',0,1],['Ariya','Main St / IRC',0],['Shikha','Carrollton',0],['Shuprava','Upper JPA / Stadium',0],['Meera','1725 JPA',1],['Rahil','',0,1],['Shawn','',0],['Omkar','',0],['Sanju','',0],['Isha','',0],['Sarim','',0,1]
 ].map(([name,address,driver,exempt]) => ({ name, address, driver: Boolean(driver), exempt: Boolean(exempt), needsRide: !exempt, seats: driver ? 4 : 0 }));
-const defaultState = { date: '2026-09-06', location: 'AFC', time: '7:00–10:00 PM', note: '', published: false, roster };
+const defaultState = { date: '2026-09-01', location: 'AFC', time: '8:15–10:45 PM', note: '', published: false, roster };
 const encoder = new TextEncoder();
 const bytes = bytes => btoa(String.fromCharCode(...new Uint8Array(bytes)));
 const timingSafeEqual = (a, b) => { if (a.length !== b.length) return false; let result = 0; for (let i = 0; i < a.length; i++) result |= a.charCodeAt(i) ^ b.charCodeAt(i); return result === 0; };

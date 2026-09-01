@@ -41,13 +41,13 @@
     <section id="map" class="panel">
       <div class="section-heading"><div><p class="eyebrow">PICKUP ORDER</p><h2>Route map</h2></div><button class="button outline manager-only" id="optimizeButton">Optimize routes</button></div>
       <div class="map-wrap"><iframe id="uvaMap" title="Charlottesville practice map" loading="lazy"></iframe><div class="map-key" id="mapKey">Charlottesville, VA</div></div>
-      <div class="route-summary" id="routeSummary"></div>
+      <div class="route-summary" id="routeSummary"></div><details class="schedule"><summary>Fall practice schedule</summary><div id="scheduleList"></div></details>
     </section>
 
     <section id="manage" class="panel">
       <div class="section-heading"><div><p class="eyebrow">MANAGER SPACE</p><h2>Build today’s plan</h2></div><button class="button dark" id="savePlan">Save changes</button></div>
       <div class="manager-grid">
-        <form class="form-card" id="practiceForm"><h3>Practice details</h3><label>Date <input id="dateInput" type="date"></label><label>Location <select id="locationInput"><option value="AFC">Aquatic & Fitness Center (AFC)</option><option value="NRGC">North Grounds Recreation Center (NRGC)</option></select></label><label>Practice time <input id="timeInput" type="text" placeholder="7:00–10:00 PM"></label><label>Manager note <textarea id="noteInput" placeholder="Optional message for the team"></textarea></form>
+        <form class="form-card" id="practiceForm"><h3>Practice details</h3><label>Date <input id="dateInput" type="date"></label><label>Location <select id="locationInput"><option value="AFC">Aquatic & Fitness Center (AFC)</option><option value="NRGC">North Grounds Recreation Center (NRGC)</option><option value="SRC">Slaughter Recreation Center (SRC)</option></select></label><label>Practice time <input id="timeInput" type="text" placeholder="7:00–10:00 PM"></label><label>Manager note <textarea id="noteInput" placeholder="Optional message for the team"></textarea></form>
         <div class="form-card"><div class="form-title"><h3>Roster & availability</h3><button class="text-button" id="addRider">+ add person</button></div><p class="form-help">Drivers are marked with a wheel. Riders can update their own pickup address after signing in.</p><button class="button outline" id="showInvites">View unclaimed invite codes</button><div id="inviteList" class="form-help"></div><div id="rosterEditor" class="roster-editor"></div></div>
       </div>
     </section>
