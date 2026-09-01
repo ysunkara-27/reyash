@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="compact.css" />
+  <link rel="stylesheet" href="roles.css" />
 </head>
 <body>
   <header class="topbar">
@@ -36,6 +37,7 @@
       <div id="rideList" class="ride-list"></div>
       <div class="note"><span>i</span><p>Need to change your pickup, can’t make it, or have a seat? Update your status below. The manager will see it before publishing.</p></div>
       <div class="your-status"><div><p class="eyebrow">YOUR STATUS</p><h2 id="statusName">Sign in to update</h2></div><button class="button outline" id="updateStatus">Update my ride</button></div>
+      <div class="request-card"><p class="eyebrow">CHANGE REQUEST</p><p>Need a different pickup, no ride, or a seat?</p><textarea id="requestText" placeholder="Tell Meera and Yashaswi what changed."></textarea><button class="button dark" id="sendRequest">Send request</button></div>
     </section>
 
     <section id="map" class="panel">
@@ -49,6 +51,7 @@
       <div class="manager-grid">
         <form class="form-card" id="practiceForm"><h3>Practice details</h3><label>Date <input id="dateInput" type="date"></label><label>Location <select id="locationInput"><option value="AFC">Aquatic & Fitness Center (AFC)</option><option value="NRGC">North Grounds Recreation Center (NRGC)</option><option value="SRC">Slaughter Recreation Center (SRC)</option></select></label><label>Practice time <input id="timeInput" type="text" placeholder="7:00–10:00 PM"></label><label>Manager note <textarea id="noteInput" placeholder="Optional message for the team"></textarea></form>
         <div class="form-card"><div class="form-title"><h3>Roster & availability</h3><button class="text-button" id="addRider">+ add person</button></div><p class="form-help">Drivers are marked with a wheel. Riders can update their own pickup address after signing in.</p><button class="button outline" id="showInvites">View unclaimed invite codes</button><div id="inviteList" class="form-help"></div><div id="rosterEditor" class="roster-editor"></div></div>
+        <div class="form-card"><div class="form-title"><h3>Open changes</h3><button class="text-button" id="refreshRequests">Refresh</button></div><div id="requestQueue" class="roster-editor">No open requests.</div></div>
       </div>
     </section>
   </main>
