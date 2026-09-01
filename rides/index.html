@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f5f3ee" />
+  <title>HooRaas Rides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="wordmark" href="/">ysunkara<span>.com</span></a>
+    <div class="brand"><span class="brand-mark">H</span><span>hooraas rides</span></div>
+    <button class="profile-button" id="profileButton" aria-label="Open profile"><span id="profileInitial">?</span></button>
+  </header>
+
+  <main class="shell">
+    <section class="intro">
+      <div><p class="eyebrow">PRACTICE CARPOOL COORDINATOR</p><h1>Everybody gets<br><em>there together.</em></h1></div>
+      <div class="date-block"><p id="practiceDay">SUNDAY · SEPT 6</p><p class="muted" id="publishLabel">Not published yet</p></div>
+    </section>
+
+    <section class="status-card" id="statusCard">
+      <div class="status-icon">↗</div><div><p class="eyebrow">NEXT PRACTICE</p><h2 id="practiceLocation">Aquatic & Fitness Center <span>· AFC</span></h2><p id="practiceTime">7:00–10:00 PM · arrive by 6:50</p></div>
+      <div class="status-actions"><button class="button ghost" id="directionsButton">Directions ↗</button><button class="button dark manager-only" id="publishButton">Publish plan</button></div>
+    </section>
+
+    <nav class="tabs" aria-label="Rides navigation"><button class="tab active" data-tab="today">Today’s rides</button><button class="tab" data-tab="map">Route map</button><button class="tab manager-only" data-tab="manage">Manage</button></nav>
+
+    <section id="today" class="panel active">
+      <div class="section-heading"><div><p class="eyebrow">LIVE PLAN</p><h2>Ride assignments</h2></div><p class="ride-count" id="rideCount"></p></div>
+      <div id="rideList" class="ride-list"></div>
+      <div class="note"><span>i</span><p>Need to change your pickup, can’t make it, or have a seat? Update your status below. The manager will see it before publishing.</p></div>
+      <div class="your-status"><div><p class="eyebrow">YOUR STATUS</p><h2 id="statusName">Sign in to update</h2></div><button class="button outline" id="updateStatus">Update my ride</button></div>
+    </section>
+
+    <section id="map" class="panel">
+      <div class="section-heading"><div><p class="eyebrow">PICKUP ORDER</p><h2>Route map</h2></div><button class="button outline manager-only" id="optimizeButton">Optimize routes</button></div>
+      <div class="map-wrap"><div class="map-grid"></div><div class="road road-one"></div><div class="road road-two"></div><div class="road road-three"></div><div id="mapPins"></div><div class="destination-pin"><span>★</span><b id="mapDestination">AFC</b></div><div class="map-key">Charlottesville, VA · approximate pickup map</div></div>
+      <div class="route-summary" id="routeSummary"></div>
+    </section>
+
+    <section id="manage" class="panel">
+      <div class="section-heading"><div><p class="eyebrow">MANAGER SPACE</p><h2>Build today’s plan</h2></div><button class="button dark" id="savePlan">Save changes</button></div>
+      <div class="manager-grid">
+        <form class="form-card" id="practiceForm"><h3>Practice details</h3><label>Date <input id="dateInput" type="date"></label><label>Location <select id="locationInput"><option value="AFC">Aquatic & Fitness Center (AFC)</option><option value="NRGC">North Grounds Recreation Center (NRGC)</option></select></label><label>Practice time <input id="timeInput" type="text" placeholder="7:00–10:00 PM"></label><label>Manager note <textarea id="noteInput" placeholder="Optional message for the team"></textarea></form>
+        <div class="form-card"><div class="form-title"><h3>Roster & availability</h3><button class="text-button" id="addRider">+ add person</button></div><p class="form-help">Drivers are marked with a wheel. Riders can update their own pickup address after signing in.</p><div id="rosterEditor" class="roster-editor"></div></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="modalBackdrop" hidden>
+    <section class="modal" id="loginModal" aria-modal="true" role="dialog"><button class="close" data-close>×</button><p class="eyebrow">WELCOME</p><h2>Find your rides.</h2><p class="modal-copy">Enter your name and personal passcode. First time? Choose any 4–8 digit passcode and we’ll save it on this device.</p><label>Your name <select id="loginName"></select></label><label>Passcode <input id="loginCode" inputmode="numeric" maxlength="8" placeholder="••••"></label><button class="button dark full" id="loginSubmit">Continue</button><p class="login-error" id="loginError"></p><p class="manager-hint">Manager: sign in as Meera, then use your passcode.</p></section>
+    <section class="modal" id="riderModal" aria-modal="true" role="dialog" hidden><button class="close" data-close>×</button><p class="eyebrow">YOUR PICKUP</p><h2 id="riderTitle">Update your ride</h2><label>Pickup address / landmark <input id="pickupInput" placeholder="e.g. 1725 JPA"></label><label class="check"><input id="needRideInput" type="checkbox" checked> I need a ride to this practice</label><label class="check driver-check"><input id="driveInput" type="checkbox"> I can drive today</label><button class="button dark full" id="saveRider">Save my update</button></section>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>

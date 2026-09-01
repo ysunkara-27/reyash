@@ -1,0 +1,16 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "hooraas-rides-api",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-01",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "hooraas-rides",
+      "database_id": "f38ec3a1-a3a7-48e3-a0c7-a9cb8697f4d7"
+    }
+  ],
+  "vars": {
+    "ALLOWED_ORIGIN": "https://ysunkara.com"
+  }
+}
