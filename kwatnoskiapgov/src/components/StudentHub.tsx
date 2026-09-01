@@ -5,12 +5,12 @@ import { voterGroups } from "../data/voterGroups";
 import { getPartyController } from "../lib/rules/generalElectionRules";
 import { useGameStore } from "../store/gameStore";
 import type { CandidateId, Party, VoterGroupId } from "../types";
-import SessionSwitcher from "./SessionSwitcher";
 
 type StudentChoice = CandidateId | "blueNominee" | "redNominee";
 
 export default function StudentHub({ onSwitchRole }: { onSwitchRole: () => void }) {
   const store = useGameStore();
+  const activeSession = store.sessions.find((session) => session.id === store.activeSessionId);
   const [choice, setChoice] = useState<StudentChoice>("blueA");
   const [note, setNote] = useState(() => localStorage.getItem(`student-note-${choice}`) ?? "");
 
@@ -89,9 +89,14 @@ export default function StudentHub({ onSwitchRole }: { onSwitchRole: () => void 
           </button>
         </header>
 
-        <div className="mb-4">
-          <SessionSwitcher />
-        </div>
+        {activeSession && (
+          <section className="panel mb-4 border-blue-200 bg-blue-50">
+            <div className="text-sm font-black uppercase text-blue-900">Joined game</div>
+            <div className="text-2xl font-black text-blue-950">
+              {activeSession.name} <span className="font-mono text-lg tracking-widest">({activeSession.code})</span>
+            </div>
+          </section>
+        )}
 
         <section className="panel mb-4">
           <label>

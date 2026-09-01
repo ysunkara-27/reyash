@@ -39,7 +39,9 @@ interface GameStore extends SerializableGameState {
   recordAction: (message: string, permission?: PermissionName) => void;
   setActiveRole: (role: UserRole | null) => void;
   createSession: (name?: string) => void;
+  createClassroomGames: (count?: number) => void;
   switchSession: (sessionId: string) => void;
+  joinSessionByCode: (code: string) => boolean;
   renameSession: (sessionId: string, name: string) => void;
   deleteSession: (sessionId: string) => void;
   setGameLocked: (locked: boolean) => void;
@@ -81,6 +83,15 @@ function nowId() {
 
 function sessionId() {
   return `session-${nowId()}`;
+}
+
+function gameCode(existingCodes: string[] = []): string {
+  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  for (let attempt = 0; attempt < 200; attempt += 1) {
+    const code = Array.from({ length: 5 }, () => alphabet[Math.floor(Math.random() * alphabet.length)]).join("");
+    if (!existingCodes.includes(code)) return code;
+  }
+  return `${Date.now()}`.slice(-5);
 }
 
 function emptyGeneralBoard(): PartyTokenBoard {
@@ -190,19 +201,26 @@ function canUse(store: GameStore, permission: PermissionName): boolean {
 
 function makeSession(name: string, state = createInitialGameState()): GameSessionRecord {
   const at = new Date().toISOString();
-  return { id: sessionId(), name, createdAt: at, updatedAt: at, state };
+  return { id: sessionId(), code: gameCode(), name, createdAt: at, updatedAt: at, state };
+}
+
+function isBlankStarterSession(session: GameSessionRecord): boolean {
+  return session.name === "Game 1" && session.state.phase === "setup" && session.state.actionLog.length === 0;
 }
 
 function syncActiveSession(store: GameStore, state: SerializableGameState): GameSessionRecord[] {
   const at = new Date().toISOString();
   const existing = store.sessions.find((session) => session.id === store.activeSessionId);
-  const active = existing ?? {
-    id: store.activeSessionId,
-    name: "Game 1",
-    createdAt: at,
-    updatedAt: at,
-    state
-  };
+  const active = existing
+    ? { ...existing, code: existing.code ?? gameCode(store.sessions.map((session) => session.code).filter(Boolean)) }
+    : {
+        id: store.activeSessionId,
+        code: gameCode(store.sessions.map((session) => session.code).filter(Boolean)),
+        name: "Game 1",
+        createdAt: at,
+        updatedAt: at,
+        state
+      };
   const synced = { ...active, updatedAt: at, state };
   const next = store.sessions.map((session) => (session.id === store.activeSessionId ? synced : session));
   return next.some((session) => session.id === store.activeSessionId) ? next : [synced, ...next];
@@ -246,13 +264,37 @@ export const useGameStore = create<GameStore>()(
         if (!hasPermission(get().activeRole, "canViewTeacherTools")) return;
         const currentStore = get();
         const syncedSessions = syncActiveSession(currentStore, getSerializable(currentStore));
-        const nextSession = makeSession(name?.trim() || `Game ${syncedSessions.length + 1}`);
+        const nextSession = {
+          ...makeSession(name?.trim() || `Group ${syncedSessions.length + 1}`),
+          code: gameCode(syncedSessions.map((session) => session.code))
+        };
         set({
           ...nextSession.state,
           activeRole: currentStore.activeRole,
           activeSessionId: nextSession.id,
           sessions: [...syncedSessions, nextSession],
           undoStack: [],
+          autosaveAt: new Date().toLocaleTimeString()
+        });
+      },
+      createClassroomGames: (count = 5) => {
+        if (!hasPermission(get().activeRole, "canViewTeacherTools")) return;
+        const currentStore = get();
+        const syncedSessions = syncActiveSession(currentStore, getSerializable(currentStore));
+        const replaceStarter = syncedSessions.length === 1 && isBlankStarterSession(syncedSessions[0]);
+        const baseSessions = replaceStarter ? [] : syncedSessions;
+        const codes = baseSessions.map((session) => session.code);
+        const newSessions = Array.from({ length: count }, (_, index) => {
+          const nextCode = gameCode(codes);
+          codes.push(nextCode);
+          return { ...makeSession(`Group ${baseSessions.length + index + 1}`), code: nextCode };
+        });
+        const sessions = [...baseSessions, ...newSessions];
+        const activeSession = replaceStarter ? newSessions[0] : syncedSessions.find((session) => session.id === currentStore.activeSessionId);
+        set({
+          ...(activeSession ? ensureState(activeSession.state) : {}),
+          activeSessionId: activeSession?.id ?? currentStore.activeSessionId,
+          sessions,
           autosaveAt: new Date().toLocaleTimeString()
         });
       },
@@ -269,6 +311,22 @@ export const useGameStore = create<GameStore>()(
           undoStack: [],
           autosaveAt: new Date().toLocaleTimeString()
         });
+      },
+      joinSessionByCode: (code) => {
+        const normalized = code.trim().toUpperCase();
+        const currentStore = get();
+        const syncedSessions = syncActiveSession(currentStore, getSerializable(currentStore));
+        const target = syncedSessions.find((session) => session.code.toUpperCase() === normalized);
+        if (!target) return false;
+        set({
+          ...ensureState(target.state),
+          activeRole: "student",
+          activeSessionId: target.id,
+          sessions: syncedSessions,
+          undoStack: [],
+          autosaveAt: new Date().toLocaleTimeString()
+        });
+        return true;
       },
       renameSession: (targetSessionId, name) => {
         if (!hasPermission(get().activeRole, "canViewTeacherTools")) return;
@@ -631,7 +689,7 @@ export const useGameStore = create<GameStore>()(
     }),
     {
       name: "election-control-center",
-      storage: createJSONStorage(() => sessionStorage),
+      storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         ...getSerializable(state as GameStore),
         activeRole: (state as GameStore).activeRole,
@@ -647,7 +705,10 @@ export const useGameStore = create<GameStore>()(
           ...ensureState(saved as SerializableGameState),
           activeRole: saved.activeRole ?? null,
           activeSessionId: saved.activeSessionId ?? firstSession.id,
-          sessions: saved.sessions ?? [firstSession],
+          sessions: (saved.sessions ?? [firstSession]).map((session, index, allSessions) => ({
+            ...session,
+            code: session.code ?? gameCode(allSessions.map((item) => item.code).filter(Boolean))
+          })),
           undoStack: saved.undoStack ?? [],
           autosaveAt: saved.autosaveAt ?? null
         };

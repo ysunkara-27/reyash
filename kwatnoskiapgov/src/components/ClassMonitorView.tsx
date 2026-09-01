@@ -10,7 +10,9 @@ export default function ClassMonitorView({ onSwitchRole }: { onSwitchRole: () =>
   const store = useGameStore();
   const [presentationMode, setPresentationMode] = useState(false);
   const [cycleIndex, setCycleIndex] = useState(0);
-  const sessions = store.sessions.length ? store.sessions : [{ id: store.activeSessionId, name: "Game 1", state: store.serializable(), createdAt: "", updatedAt: "" }];
+  const sessions = store.sessions.length
+    ? store.sessions
+    : [{ id: store.activeSessionId, code: "LOCAL", name: "Game 1", state: store.serializable(), createdAt: "", updatedAt: "" }];
   const activeSession = sessions[cycleIndex % sessions.length];
   const viewState = activeSession.state;
   const selectedStates = viewState.selectedStatesByMonth[viewState.currentMonth] ?? [];

@@ -25,8 +25,8 @@ export default function TeacherToolsTab() {
             <Clock3 size={16} /> Classroom session autosave
           </div>
           <div className="mt-1">
-            Refreshing this page keeps the current game. Closing the browser tab starts a fresh class session unless you use
-            <span className="font-bold"> Save game</span> below.
+            This browser remembers the current classroom workspace after refresh. Use
+            <span className="font-bold"> Reset game</span> for a new class, or export JSON if you need to move computers.
           </div>
           <div className="mt-1 font-semibold">Autosave status: {store.autosaveAt ? `saved at ${store.autosaveAt}` : "ready"}</div>
         </div>

@@ -14,7 +14,10 @@ export default function TeacherLogin({ onUnlocked, onSwitchRole }: { onUnlocked:
             <LockKeyhole size={26} />
           </div>
           <h1 className="text-3xl font-black">Teacher Mode</h1>
-          <p className="text-sm text-slate-700">Enter the classroom password to unlock administrative controls.</p>
+          <p className="text-sm text-slate-700">
+            Enter the classroom password to unlock administrative controls. First-time teachers can use{" "}
+            <span className="font-mono font-black">pine</span>, then change it in Teacher Tools.
+          </p>
         </div>
         <label className="block">
           <span className="mb-1 block text-sm font-bold">Password</span>

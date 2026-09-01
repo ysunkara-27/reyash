@@ -173,6 +173,7 @@ export interface SerializableGameState {
 
 export interface GameSessionRecord {
   id: string;
+  code: string;
   name: string;
   createdAt: string;
   updatedAt: string;

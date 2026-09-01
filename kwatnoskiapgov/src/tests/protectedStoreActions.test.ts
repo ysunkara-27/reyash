@@ -6,7 +6,8 @@ function resetStore(role: "teacher" | "scorekeeper" | "student" | "monitor" | nu
   const state = createInitialGameState();
   const session: GameSessionRecord = {
     id: "test-session",
-    name: "Test Game",
+    code: "ABCDE",
+    name: "Game 1",
     createdAt: "2026-01-01T00:00:00.000Z",
     updatedAt: "2026-01-01T00:00:00.000Z",
     state
@@ -24,6 +25,7 @@ function resetStore(role: "teacher" | "scorekeeper" | "student" | "monitor" | nu
 describe("protected store actions", () => {
   beforeEach(() => {
     localStorage.clear();
+    sessionStorage.clear();
     resetStore(null);
   });
 
@@ -58,11 +60,11 @@ describe("protected store actions", () => {
     expect(useGameStore.getState().activeRole).toBe("teacher");
   });
 
-  it("persists active classroom games in session storage instead of local storage", () => {
+  it("persists the classroom workspace in local storage", () => {
     resetStore("teacher");
     useGameStore.getState().adjustPrimaryToken("youth-voters", "blueA", 1);
-    expect(sessionStorage.getItem("election-control-center")).toContain("youth-voters");
-    expect(localStorage.getItem("election-control-center")).toBeNull();
+    expect(localStorage.getItem("election-control-center")).toContain("youth-voters");
+    expect(sessionStorage.getItem("election-control-center")).toBeNull();
   });
 
   it("starts with the full primary calendar populated", () => {
@@ -81,6 +83,29 @@ describe("protected store actions", () => {
     useGameStore.getState().createSession("Period 2 Group 1");
     expect(useGameStore.getState().sessions).toHaveLength(2);
     expect(useGameStore.getState().sessions.at(-1)?.name).toBe("Period 2 Group 1");
+    expect(useGameStore.getState().sessions.at(-1)?.code).toHaveLength(5);
+  });
+
+  it("sets up five group games on a fresh classroom workspace", () => {
+    resetStore("teacher");
+    useGameStore.getState().createClassroomGames(5);
+    const sessions = useGameStore.getState().sessions;
+    expect(sessions).toHaveLength(5);
+    expect(sessions.map((session) => session.name)).toEqual(["Group 1", "Group 2", "Group 3", "Group 4", "Group 5"]);
+    expect(new Set(sessions.map((session) => session.code)).size).toBe(5);
+  });
+
+  it("lets a student join the right classroom game by code", () => {
+    resetStore(null);
+    expect(useGameStore.getState().joinSessionByCode("abcde")).toBe(true);
+    expect(useGameStore.getState().activeRole).toBe("student");
+    expect(useGameStore.getState().activeSessionId).toBe("test-session");
+  });
+
+  it("rejects an unknown student join code", () => {
+    resetStore(null);
+    expect(useGameStore.getState().joinSessionByCode("wrong")).toBe(false);
+    expect(useGameStore.getState().activeRole).toBeNull();
   });
 
   it("locked games prevent gameplay edits until unlocked", () => {
