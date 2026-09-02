@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=VT323&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* Retro Y2K Color Palette */
+  --retro-pink: #FF69B4;
+  --retro-blue: #00BFFF;
+  --retro-lime: #32CD32;
+  --retro-purple: #9932CC;
+  --retro-orange: #FF6600;
+  --retro-yellow: #FFD700;
+  --retro-cyan: #00FFFF;
+  
+  /* Background */
+  --background: #0a0a1a;
+  --foreground: #ffffff;
+  
+  /* Card backgrounds */
+  --card-bg: rgba(20, 20, 40, 0.8);
+  --card-border: rgba(255, 255, 255, 0.1);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-retro-pink: var(--retro-pink);
+  --color-retro-blue: var(--retro-blue);
+  --color-retro-lime: var(--retro-lime);
+  --color-retro-purple: var(--retro-purple);
+  --color-retro-orange: var(--retro-orange);
+  --color-retro-yellow: var(--retro-yellow);
+  --color-retro-cyan: var(--retro-cyan);
+  
+  --font-pixel: 'Press Start 2P', cursive;
+  --font-mono: 'Space Mono', monospace;
+  --font-retro: 'VT323', monospace;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Space Mono', monospace;
+  min-height: 100vh;
+}
+
+/* CRT Scanline Effect */
+.crt-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  z-index: 100;
+}
+
+/* Retro Card Style */
+.retro-card {
+  background: var(--card-bg);
+  border: 3px solid;
+  border-radius: 0;
+  box-shadow: 
+    8px 8px 0 rgba(0, 0, 0, 0.5),
+    inset 0 0 30px rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.retro-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+}
+
+/* Glowing text */
+.glow-text {
+  text-shadow: 
+    0 0 10px currentColor,
+    0 0 20px currentColor,
+    0 0 40px currentColor;
+}
+
+/* Blink animation */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.animate-blink {
+  animation: blink 1s infinite;
+}
+
+/* Float animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Pulse glow animation */
+@keyframes pulse-glow {
+  0%, 100% { 
+    box-shadow: 
+      8px 8px 0 rgba(0, 0, 0, 0.5),
+      0 0 20px currentColor;
+  }
+  50% { 
+    box-shadow: 
+      8px 8px 0 rgba(0, 0, 0, 0.5),
+      0 0 40px currentColor;
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Rainbow border animation */
+@keyframes rainbow-border {
+  0% { border-color: var(--retro-pink); }
+  20% { border-color: var(--retro-orange); }
+  40% { border-color: var(--retro-yellow); }
+  60% { border-color: var(--retro-lime); }
+  80% { border-color: var(--retro-blue); }
+  100% { border-color: var(--retro-pink); }
+}
+
+.animate-rainbow-border {
+  animation: rainbow-border 5s linear infinite;
+}
+
+/* Glitch effect */
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.animate-glitch:hover {
+  animation: glitch 0.3s ease infinite;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--retro-purple);
+  border: 2px solid var(--background);
+}
+
+/* Marquee ticker animation */
+@keyframes recMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.rec-marquee {
+  animation: recMarquee var(--marquee-duration, 10s) linear infinite;
+}
+
+/* Background grid pattern */
+.bg-grid {
+  background-image: 
+    linear-gradient(rgba(153, 50, 204, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(153, 50, 204, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+}

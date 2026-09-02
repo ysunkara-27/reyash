@@ -1,0 +1,20 @@
+{
+    "manifest_version": 3,
+    "name": "YouTube Music Now Playing",
+    "version": "1.0",
+    "description": "Sends YouTube Music now playing info to local server",
+    "permissions": [],
+    "host_permissions": [
+        "http://localhost:3000/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://music.youtube.com/*"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ]
+}
