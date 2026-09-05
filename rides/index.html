@@ -58,10 +58,10 @@
   </main>
 
   <div class="modal-backdrop" id="modalBackdrop" hidden>
-    <section class="modal" id="loginModal" aria-modal="true" role="dialog"><button class="close" data-close aria-label="Close">×</button><p class="eyebrow">TEAM ACCESS</p><h2>Sign in</h2><p class="modal-copy">Use your personal passcode. New members also need the one-time invite code from Meera.</p><label>Your name <select id="loginName"></select></label><label>Passcode <input id="loginCode" inputmode="numeric" maxlength="8" placeholder="4–8 digits"></label><label>Invite code <input id="inviteCode" inputmode="numeric" maxlength="6" placeholder="New members only"></label><button class="button dark full" id="loginSubmit">Continue</button><p class="login-error" id="loginError"></p></section>
+    <section class="modal" id="loginModal" aria-modal="true" role="dialog"><button class="close" data-close aria-label="Close">×</button><p class="eyebrow">TEAM ACCESS</p><h2>Sign in</h2><p class="modal-copy">Use your personal 4–8 digit passcode. New members also need the one-time invite code from Meera.</p><label>Your name <select id="loginName"></select></label><label>Personal passcode <input id="loginCode" inputmode="numeric" maxlength="8" placeholder="4–8 digits"></label><label>Invite code <input id="inviteCode" inputmode="numeric" maxlength="6" placeholder="New members only"></label><label id="managerSetupLabel" hidden>One-time manager setup code <input id="managerSetupCode" type="text" autocomplete="off" placeholder="Provided to Meera only"></label><button class="button dark full" id="loginSubmit">Continue</button><p class="login-error" id="loginError"></p></section>
     <section class="modal" id="riderModal" aria-modal="true" role="dialog" hidden><button class="close" data-close>×</button><p class="eyebrow">YOUR PICKUP</p><h2 id="riderTitle">Update your ride</h2><label>Pickup address / landmark <input id="pickupInput" placeholder="e.g. 1725 JPA"></label><label class="check"><input id="needRideInput" type="checkbox" checked> I need a ride to this practice</label><label class="check driver-check"><input id="driveInput" type="checkbox"> I can drive today</label><button class="button dark full" id="saveRider">Save my update</button></section>
   </div>
   <div class="toast" id="toast"></div>
-  <script src="app.js?v=9"></script>
+  <script src="app.js?v=10"></script>
 </body>
 </html>
