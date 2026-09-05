@@ -1,0 +1,3 @@
+[build]
+  command = "mkdir -p .netlify-publish/officehours && cp index.html .netlify-publish/ && cp -R assets bidpoints css js apgovelections rides pujarinet kwatnoskiapgov .netlify-publish/ && cd officehours/ux-studio-screen-main && npm ci && npm run build && cp -R out/. ../../.netlify-publish/officehours/"
+  publish = ".netlify-publish"
