@@ -69,8 +69,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event Listeners for Nav Items
     navItems.forEach(item => {
         item.addEventListener('click', (e) => {
-            e.preventDefault();
             const target = item.dataset.target;
+            if (!target) return;
+
+            e.preventDefault();
             showSection(target);
         });
     });
