@@ -229,6 +229,12 @@ body.section-active .profile-pic:hover {
     z-index: 100;
 }
 
+/* Left-side navigation labels expand into the page, not off-screen. */
+.writing-nav .tooltip {
+    left: 60px;
+    right: auto;
+}
+
 .nav-item {
     position: relative;
     width: 50px;
