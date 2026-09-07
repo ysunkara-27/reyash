@@ -221,6 +221,14 @@ body.section-active .profile-pic:hover {
     z-index: 100;
 }
 
+.writing-nav {
+    position: fixed;
+    left: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+}
+
 .nav-item {
     position: relative;
     width: 50px;
@@ -448,5 +456,9 @@ body.section-active .profile-pic:hover {
 
     .side-nav {
         right: 1rem;
+    }
+
+    .writing-nav {
+        left: 1rem;
     }
 }
