@@ -1,67 +1,8 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#f5f3ee" />
-  <title>HooRaas Rides</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="compact.css?v=7" />
-  <link rel="stylesheet" href="roles.css?v=7" />
-  <link rel="stylesheet" href="public.css?v=7" />
-</head>
-<body>
-  <header class="topbar">
-    <a class="wordmark" href="/">ysunkara<span>.com</span></a>
-    <div class="brand"><span class="brand-mark">H</span><span>hooraas rides</span></div>
-    <button class="profile-button" id="profileButton" aria-label="Open profile"><span id="profileInitial">?</span></button>
-  </header>
-
-  <main class="shell">
-    <section class="intro">
-      <div><p class="eyebrow">PRACTICE CARPOOL COORDINATOR</p><h1>Everybody gets<br><em>there together.</em></h1></div>
-      <div class="date-block"><p id="practiceDay">SUNDAY · SEPT 6</p><p class="muted" id="publishLabel">Not published yet</p></div>
-    </section>
-
-    <section class="status-card" id="statusCard">
-      <div class="status-icon">↗</div><div><p class="eyebrow">NEXT PRACTICE</p><h2 id="practiceLocation">Aquatic & Fitness Center <span>· AFC</span></h2><p id="practiceTime">7:00–10:00 PM · arrive by 6:50</p></div>
-      <div class="status-actions"><button class="button ghost" id="directionsButton">Open live route ↗</button><button class="button dark manager-only" id="publishButton">Publish plan</button></div>
-    </section>
-
-    <nav class="tabs" aria-label="Rides navigation"><button class="tab active" data-tab="today">Today’s rides</button><button class="tab" data-tab="map">Route map</button><button class="tab manager-only" data-tab="manage">Manage</button></nav>
-
-    <section id="today" class="panel active">
-      <div class="section-heading"><div><p class="eyebrow">LIVE PLAN</p><h2>Ride assignments</h2></div><p class="ride-count" id="rideCount"></p></div>
-      <div id="rideList" class="ride-list"></div>
-      <div class="note"><span>i</span><p>Need to change your pickup, can’t make it, or have a seat? Update your status below. The manager will see it before publishing.</p></div>
-      <div class="your-status"><div><p class="eyebrow">YOUR STATUS</p><h2 id="statusName">Sign in to update</h2></div><button class="button outline" id="updateStatus">Update my ride</button></div>
-      <div class="request-card"><p class="eyebrow">CHANGE REQUEST</p><p>Need a different pickup, no ride, or a seat?</p><textarea id="requestText" placeholder="Tell Meera and Yashaswi what changed."></textarea><button class="button dark" id="sendRequest">Send request</button></div>
-    </section>
-
-    <section id="map" class="panel">
-      <div class="section-heading"><div><p class="eyebrow">PICKUP ORDER</p><h2>Route map</h2></div><button class="button outline manager-only" id="optimizeButton">Optimize routes</button></div>
-      <div class="map-wrap"><iframe id="uvaMap" title="Charlottesville practice map" loading="lazy"></iframe><div class="map-key" id="mapKey">Charlottesville, VA</div></div>
-      <div class="route-summary" id="routeSummary"></div><details class="schedule"><summary>Fall practice schedule</summary><div id="scheduleList"></div></details>
-    </section>
-
-    <section id="manage" class="panel">
-      <div class="section-heading"><div><p class="eyebrow">MANAGER SPACE</p><h2>Build today’s plan</h2></div><button class="button dark" id="savePlan">Save changes</button></div>
-      <div class="manager-grid">
-        <form class="form-card" id="practiceForm"><h3>Practice details</h3><label>Date <input id="dateInput" type="date"></label><label>Location <select id="locationInput"><option value="AFC">Aquatic & Fitness Center (AFC)</option><option value="NRGC">North Grounds Recreation Center (NRGC)</option><option value="SRC">Slaughter Recreation Center (SRC)</option></select></label><label>Practice time <input id="timeInput" type="text" placeholder="7:00–10:00 PM"></label><label>Manager note <textarea id="noteInput" placeholder="Optional message for the team"></textarea></form>
-        <div class="form-card"><div class="form-title"><h3>Roster & availability</h3><button class="text-button" id="addRider">+ add person</button></div><p class="form-help">Drivers are marked with a wheel. Riders can update their own pickup address after signing in.</p><button class="button outline" id="showInvites">View unclaimed invite codes</button><div id="inviteList" class="form-help"></div><div id="rosterEditor" class="roster-editor"></div></div>
-        <div class="form-card"><div class="form-title"><h3>Open changes</h3><button class="text-button" id="refreshRequests">Refresh</button></div><div id="requestQueue" class="roster-editor">No open requests.</div></div>
-      </div>
-    </section>
-  </main>
-
-  <div class="modal-backdrop" id="modalBackdrop" hidden>
-    <section class="modal" id="loginModal" aria-modal="true" role="dialog"><button class="close" data-close aria-label="Close">×</button><p class="eyebrow">TEAM ACCESS</p><h2>Sign in</h2><p class="modal-copy">Use your personal 4–8 digit passcode. New members also need the one-time invite code from Meera.</p><label>Your name <select id="loginName"></select></label><label>Personal passcode <input id="loginCode" inputmode="numeric" maxlength="8" placeholder="4–8 digits"></label><label>Invite code <input id="inviteCode" inputmode="numeric" maxlength="6" placeholder="New members only"></label><label id="managerSetupLabel" hidden>One-time manager setup code <input id="managerSetupCode" type="text" autocomplete="off" placeholder="Provided to Meera only"></label><button class="button dark full" id="loginSubmit">Continue</button><p class="login-error" id="loginError"></p></section>
-    <section class="modal" id="riderModal" aria-modal="true" role="dialog" hidden><button class="close" data-close>×</button><p class="eyebrow">YOUR PICKUP</p><h2 id="riderTitle">Update your ride</h2><label>Pickup address / landmark <input id="pickupInput" placeholder="e.g. 1725 JPA"></label><label class="check"><input id="needRideInput" type="checkbox" checked> I need a ride to this practice</label><label class="check driver-check"><input id="driveInput" type="checkbox"> I can drive today</label><button class="button dark full" id="saveRider">Save my update</button></section>
-  </div>
-  <div class="toast" id="toast"></div>
-  <script src="app.js?v=10"></script>
-</body>
-</html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>HooRaas rides</title><link rel="stylesheet" href="simple.css?v=1"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"></head>
+<body><header><strong>HooRaas rides</strong><button id="access">Admin access</button></header><main id="app"><p role="status">Loading rides…</p></main><p id="notice" role="status" aria-live="polite"></p>
+<dialog id="login"><form id="loginForm"><div class="heading"><h2>Admin access</h2><button type="button" data-close="login" aria-label="Close">×</button></div><label>Name<select name="name"><option>Meera</option><option>Yashaswi</option></select></label><label>Personal PIN<input name="passcode" type="password" inputmode="numeric" pattern="[0-9]{4,8}" minlength="4" maxlength="8" required autocomplete="current-password"></label><details><summary>First time setting up admin access?</summary><p>Choose your personal PIN above, then enter the setup code here.</p><label>Admin setup code<input name="setupCode" autocomplete="off"></label></details><p id="loginError" class="error"></p><button class="primary">Sign in</button></form></dialog>
+<dialog id="person"><form id="personForm"><div class="heading"><h2 id="personTitle">Add person</h2><button type="button" data-close="person" aria-label="Close">×</button></div><input type="hidden" name="id"><label>Name<input name="name" required maxlength="80"></label><label>Usual pickup<select name="locationId" id="personLocations"></select></label><label>Pickup change applies to<select name="pickupScope"><option value="usual">Usual pickup (future rides)</option><option value="event">This event only</option></select></label><button type="button" id="newLocation">Add a pickup pin</button><label class="check"><input type="checkbox" name="needsRide" checked> Usually needs a ride</label><label class="check"><input type="checkbox" name="driver"> Driver</label><label>Passenger seats (excluding driver)<input name="capacity" type="number" min="1" max="5" value="5" required></label><label class="check"><input type="checkbox" name="active" checked> On the active roster</label><fieldset><legend>No ride needed to</legend><label class="check"><input type="checkbox" name="skip" value="AFC"> AFC</label><label class="check"><input type="checkbox" name="skip" value="NRGC"> North Grounds</label><label class="check"><input type="checkbox" name="skip" value="SRC"> Slaughter</label></fieldset><p>These are defaults. Change this event’s ride status in the attendance list.</p><button class="primary">Save person</button></form></dialog>
+<dialog id="location"><form id="locationForm"><div class="heading"><h2>Pickup pin</h2><button type="button" data-close="location" aria-label="Close">×</button></div><input type="hidden" name="id"><label>Place / meeting point<input name="name" required maxlength="140" placeholder="e.g. Carrollton front entrance"></label><p>Tap the map at the car-accessible pickup spot. Drag the pin to adjust.</p><div id="pinMap" aria-label="Pickup map"></div><div class="pair"><label>Latitude<input name="lat" type="number" step="any" min="-85" max="85" required></label><label>Longitude<input name="lng" type="number" step="any" min="-180" max="180" required></label></div><p id="pinHelp">Pin saves once and is reused for future rides.</p><button class="primary">Save pickup pin</button></form></dialog>
+<dialog id="event"><form id="eventForm"><div class="heading"><h2>Event details</h2><button type="button" data-close="event" aria-label="Close">×</button></div><input type="hidden" name="id"><label>Event name<input name="title" value="Practice" required maxlength="100"></label><div class="pair"><label>Date<input name="date" type="date" required></label><label>Time<input name="time" value="8–11 PM" required maxlength="50"></label></div><label>Destination<select name="location"><option value="AFC">AFC</option><option value="NRGC">North Grounds</option><option value="SRC">Slaughter</option></select></label><label>Or use a saved destination<select name="destinationId" id="eventLocations"></select></label><label>Note<input name="note" maxlength="300"></label><button class="primary">Save event</button></form></dialog>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script type="module" src="simple.mjs?v=1"></script></body></html>

@@ -1,3 +1,4 @@
+import {handle} from './v2.mjs';
 const json = (data, status = 200, headers = {}) => new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json', ...headers } });
 const roster = [
   ['Ashiyana','Carrollton',0],['Ausdin','1718 JPA',1],['Tej','Main St / IRC',1],['Misthi','1725 JPA',0],['Mann','Main St / IRC',1],['Samai','Main St / IRC',0],['Kshema','Main St / IRC',0],['Radhika','1725 JPA',0],['Malav','1725 JPA',0],['Sruthika','Main St / IRC',0],['Syed','1718 JPA',0],['Shlok','Upper JPA / Stadium',0],['Yashaswi','Courtenay',0],['Simran','Carrollton',0],['Malhar','Carrollton',0],['Anjali','',0,1],['Ariya','Main St / IRC',0],['Shikha','Carrollton',0],['Shuprava','Upper JPA / Stadium',0],['Meera','1725 JPA',1],['Rahil','',0,1],['Shawn','',0],['Omkar','',0],['Sanju','',0],['Isha','',0],['Sarim','',0,1]
@@ -14,33 +15,11 @@ function cors(request, env) { const origin = request.headers.get('Origin'); cons
 function validCode(code) { return /^\d{4,8}$/.test(code || ''); }
 export default {
   async fetch(request, env) {
-    const headers = cors(request, env); if (request.method === 'OPTIONS') return new Response(null, { headers: { ...headers, 'access-control-allow-methods': 'GET,POST,PUT,OPTIONS', 'access-control-allow-headers': 'authorization,content-type' } });
-    const url = new URL(request.url); const path = url.pathname;
-    if (path === '/health') return json({ ok: true }, 200, headers);
-    if (path === '/v1/bootstrap' && request.method === 'POST') {
-      const { passcode, setupCode } = await request.json();
-      if (!validCode(passcode) || setupCode !== env.MANAGER_SETUP_CODE) return json({ error: 'Invalid setup code or passcode.' }, 401, headers);
-      const existing = await env.DB.prepare('SELECT name FROM members WHERE name = ?').bind('Meera').first();
-      if (existing) return json({ error: 'Manager has already been set up.' }, 409, headers);
-      const salt = crypto.randomUUID(), codeHash = await hash(passcode, salt); await env.DB.prepare('INSERT INTO members (name, role, code_hash, salt) VALUES (?, ?, ?, ?)').bind('Meera', 'manager', codeHash, salt).run();
-      for (const rider of roster.filter(r => r.name !== 'Meera')) { const code = await inviteCode(); await env.DB.prepare('INSERT OR REPLACE INTO invite_codes (name, code, code_hash) VALUES (?, ?, ?)').bind(rider.name, code, await hash(code, rider.name)).run(); }
-      return json({ token: await tokenFor('Meera', 'manager', env.SESSION_SECRET), member: { name: 'Meera', role: 'manager' } }, 201, headers);
-    }
-    if (path === '/v1/login' && request.method === 'POST') {
-      const { name, passcode, inviteCode: claimCode } = await request.json(); if (!roster.some(r => r.name === name) || !validCode(passcode)) return json({ error: 'Invalid name or passcode.' }, 400, headers);
-      const member = await env.DB.prepare('SELECT * FROM members WHERE name = ?').bind(name).first();
-      if (!member) { if (name === 'Meera') return json({ error: 'The manager account must be set up first.' }, 403, headers); const invite = await env.DB.prepare('SELECT code_hash FROM invite_codes WHERE name = ?').bind(name).first(); if (!invite || !validCode(claimCode) || !timingSafeEqual(await hash(claimCode, name), invite.code_hash)) return json({ error: 'Enter the one-time invite code from Meera.' }, 401, headers); const role = name === 'Yashaswi' ? 'manager' : 'rider'; const salt = crypto.randomUUID(), codeHash = await hash(passcode, salt); await env.DB.prepare('INSERT INTO members (name, role, code_hash, salt) VALUES (?, ?, ?, ?)').bind(name, role, codeHash, salt).run(); await env.DB.prepare('DELETE FROM invite_codes WHERE name = ?').bind(name).run(); return json({ token: await tokenFor(name, role, env.SESSION_SECRET), member: { name, role } }, 201, headers); }
-      if (!timingSafeEqual(await hash(passcode, member.salt), member.code_hash)) return json({ error: 'That passcode does not match.' }, 401, headers);
-      return json({ token: await tokenFor(member.name, member.role, env.SESSION_SECRET), member: { name: member.name, role: member.role } }, 200, headers);
-    }
-    const user = await userFrom(request, env.SESSION_SECRET); if (!user && !(path === '/v1/state' && request.method === 'GET')) return json({ error: 'Sign in required.' }, 401, headers);
-    if (path === '/v1/state' && request.method === 'GET') { const row = await env.DB.prepare('SELECT data FROM app_state WHERE id = 1').first(); const state = row ? JSON.parse(row.data) : defaultState; if (!state.published && user?.role !== 'manager') { const { roster: _, ...draft } = state; return json({ ...draft, roster: user ? state.roster.filter(r => r.name === user.name) : [], published: false }, 200, headers); } return json(state, 200, headers); }
-    if (path === '/v1/state' && request.method === 'PUT') { if (user.role !== 'manager') return json({ error: 'Manager access required.' }, 403, headers); const state = await request.json(); if (!Array.isArray(state.roster) || !['AFC', 'NRGC'].includes(state.location)) return json({ error: 'Invalid plan.' }, 400, headers); await env.DB.prepare('INSERT INTO app_state (id, data, updated_at) VALUES (1, ?, CURRENT_TIMESTAMP) ON CONFLICT(id) DO UPDATE SET data = excluded.data, updated_at = CURRENT_TIMESTAMP').bind(JSON.stringify(state)).run(); return json({ ok: true }, 200, headers); }
-    if (path === '/v1/profile' && request.method === 'PUT') { const { address, needsRide, canDrive } = await request.json(); const row = await env.DB.prepare('SELECT data FROM app_state WHERE id = 1').first(); const state = row ? JSON.parse(row.data) : defaultState; const member = state.roster.find(r => r.name === user.name); if (!member) return json({ error: 'Member not found.' }, 404, headers); member.address = String(address || '').slice(0, 140); member.needsRide = Boolean(needsRide); member.driver = Boolean(canDrive); member.seats = member.driver ? 4 : 0; await env.DB.prepare('INSERT INTO app_state (id, data, updated_at) VALUES (1, ?, CURRENT_TIMESTAMP) ON CONFLICT(id) DO UPDATE SET data = excluded.data, updated_at = CURRENT_TIMESTAMP').bind(JSON.stringify(state)).run(); return json({ ok: true }, 200, headers); }
-    if (path === '/v1/invites' && request.method === 'GET') { if (user.role !== 'manager') return json({ error: 'Manager access required.' }, 403, headers); return json({ pending: (await env.DB.prepare('SELECT name, code FROM invite_codes ORDER BY name').all()).results }, 200, headers); }
-    if (path === '/v1/requests' && request.method === 'POST') { const { message } = await request.json(); if (!String(message || '').trim()) return json({ error: 'Write a request first.' }, 400, headers); await env.DB.prepare('INSERT INTO change_requests (name, message) VALUES (?, ?)').bind(user.name, String(message).slice(0, 500)).run(); return json({ ok: true }, 201, headers); }
-    if (path === '/v1/requests' && request.method === 'GET') { if (user.role !== 'manager') return json({ error: 'Manager access required.' }, 403, headers); return json({ requests: (await env.DB.prepare("SELECT * FROM change_requests WHERE status = 'open' ORDER BY id DESC").all()).results }, 200, headers); }
-    if (path.startsWith('/v1/requests/') && request.method === 'PUT') { if (user.role !== 'manager') return json({ error: 'Manager access required.' }, 403, headers); const { status } = await request.json(); if (!['approved','dismissed'].includes(status)) return json({ error: 'Invalid status.' }, 400, headers); await env.DB.prepare('UPDATE change_requests SET status = ? WHERE id = ?').bind(status, Number(path.split('/').pop())).run(); return json({ ok: true }, 200, headers); }
-    return json({ error: 'Not found.' }, 404, headers);
+    const headers = cors(request, env);
+    if (request.method === 'OPTIONS') return new Response(null, { headers: { ...headers, 'access-control-allow-methods': 'GET,POST,PUT,OPTIONS', 'access-control-allow-headers': 'authorization,content-type' } });
+    const path = new URL(request.url).pathname;
+    if(path==='/health') return json({ok:true,version:2},200,headers);
+    if(path.startsWith('/v2/')) return handle(request,env,{json,headers,hash,tokenFor,userFrom,defaultState});
+    return json({error:'This version has been replaced. Refresh /rides to use the new app.'},410,headers);
   }
 };
