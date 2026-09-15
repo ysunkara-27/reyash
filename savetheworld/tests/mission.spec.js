@@ -93,3 +93,39 @@ test('departments, promotional buttons and secret search perform their actions',
   await page.getByRole('button',{name:'ENTERPRISE EXCELLENCE ✓'}).click();
   await expect(page.getByRole('status').filter({hasText:'Enterprise excellence certificate'})).toBeVisible();
 });
+
+test.describe('phone touch controls',()=>{
+  test.use({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+  test('touch shopping, menus, checkout and finger erasing complete the mission',async({page})=>{
+    await begin(page);
+    await page.screenshot({path:'/private/tmp/yashability-mobile-shop.png',fullPage:false});
+    await page.getByRole('button',{name:/Refine your reality ▾/}).tap();
+    await expect(page.getByRole('combobox',{name:'Whiteboard safe'})).toBeVisible();
+    await page.getByRole('combobox',{name:'Whiteboard safe'}).selectOption('true');
+    await page.getByRole('button',{name:/Close refinement panel/}).tap();
+    await expect(page.getByRole('combobox',{name:'Whiteboard safe'})).not.toBeVisible();
+    await acquire(page);
+    await expect(page.locator('canvas')).toBeVisible();
+    await page.screenshot({path:'/private/tmp/yashability-mobile-erase.png',fullPage:false});
+    const box=await page.locator('canvas').boundingBox();
+    const session=await page.context().newCDPSession(page);
+    for(let y=box.y+4;y<box.y+box.height;y+=10){
+      if(await page.getByText('MISSION COMPLETE',{exact:true}).isVisible())break;
+      await session.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:box.x+3,y}]});
+      for(let x=box.x+3;x<box.x+box.width;x+=15)await session.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x,y}]});
+      await session.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+    }
+    await expect(page.getByRole('heading',{name:'HUMANITY RETAINS CONTROL.'})).toBeVisible();
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  });
+  test('small phones have no sideways overflow in the shop',async({page})=>{
+    for(const width of [320,375,430]){
+      await page.setViewportSize({width,height:844});await begin(page);
+      expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+      await page.getByRole('button',{name:'All departments ▾'}).tap();
+      await expect(page.getByRole('button',{name:'All products',exact:true})).toBeVisible();
+      await page.getByRole('button',{name:'All products',exact:true}).tap();
+      const search=await page.getByRole('button',{name:'Search →',exact:true}).boundingBox();expect(search.height).toBeGreaterThanOrEqual(44);
+    }
+  });
+});

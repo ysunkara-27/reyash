@@ -2,6 +2,8 @@
 
 A fictional university usability-engineering experiment from the Department of Yashability. A three-step briefing beside a readable emergency-shutdown diagram fits in one viewport. Named AI lab agents approach in the persistent header, including during shopping. The deliberately frustrating marketplace contains 101 products. No backend, accounts, real purchases, or payment details.
 
+On phones, the filters collapse above a full-width catalogue, menus stay within the viewport, and essential controls have touch-sized targets. The red palette, misleading hierarchy, terminology, and spacing remain intentional. Finger erasing uses a minimum 16px contact width; the same 88% ink threshold applies. Short landscape screens can scroll rather than clipping the mission.
+
 ## Run
 
 ```sh
