@@ -87,6 +87,13 @@ export function applyCarPreset(data,eventId,preset){
  }
  return {data:next,fallback};
 }
+export function removePerson(data,id){
+ if(!data.roster.some(p=>p.id===id))throw new Error('Person not found. Refresh and try again.');
+ const next=structuredClone(data);next.roster=next.roster.filter(p=>p.id!==id);
+ for(const event of next.events){delete event.overrides[id];for(const override of Object.values(event.overrides))if(override.carId===id)delete override.carId;event.verified=null}
+ for(const preset of next.carPresets||[])for(const [rider,driver] of Object.entries(preset.assignments))if(rider===id||driver===id)delete preset.assignments[rider];
+ return next;
+}
 export function validate(data){
  const fail=message=>{throw new Error(message)};
  const str=(s,max=140)=>typeof s==='string'&&s.length<=max;

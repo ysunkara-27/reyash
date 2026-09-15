@@ -1,7 +1,8 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {migrate,plan,validate,today,participants,recommendCars,applyCarPreset} from '../model.mjs';
+import {migrate,plan,validate,today,participants,recommendCars,applyCarPreset,removePerson} from '../model.mjs';
 function fixture(){const data=migrate({roster:[{name:'Ausdin',address:'1718',driver:true},{name:'Tej',address:'Main',driver:true},{name:'Syed',address:'1718'},{name:'Anjali',address:'Carrollton'},{name:'Rahil'},{name:'Sarim'},{name:'Yashaswi',address:'Courtenay'}]});data.locations.forEach((l,i)=>Object.assign(l,{lat:38+i*.001,lng:-78.5}));return data}
+test('removing riders or drivers clears all references without deleting locations',()=>{const d=fixture(),[driver,,rider]=d.roster;d.events[0].overrides[rider.id]={carId:driver.id,needsRide:true};d.events[1].overrides[driver.id]={needsRide:false};d.carPresets=[{id:'p',name:'Usual',assignments:{[rider.id]:driver.id}}];for(const id of [rider.id,driver.id]){const next=removePerson(d,id);validate(next);assert(!next.roster.some(p=>p.id===id));assert(next.events.every(e=>!e.overrides[id]&&Object.values(e.overrides).every(o=>o.carId!==id)));assert.deepEqual(next.carPresets[0].assignments,{});assert.deepEqual(next.locations,d.locations);assert.equal(d.roster.length,7);assert(next.events.every(e=>e.verified===null))}assert.throws(()=>removePerson(d,'missing'))});
 test('featured set only accepts safe YouTube links',()=>{const d=fixture();d.featuredSet={url:'https://www.youtube.com/watch?v=-u7ThyX0Pus',updated:'2026-09-15'};validate(d);for(const url of ['javascript:alert(1)','https://youtube.com.evil.test/video','https://user:password@youtube.com/watch']){d.featuredSet.url=url;assert.throws(()=>validate(d))}});
 test('presets move riders but preserve no-ride and pickup overrides; absent/full drivers fall back',()=>{
  const d=fixture(),e=d.events[0],[ausdin,tej,syed,anjali]=d.roster;
