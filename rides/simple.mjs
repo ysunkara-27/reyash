@@ -1,5 +1,6 @@
-import {plan,participants,destinations,today,pinned} from './model.mjs';
-const API=location.hostname==='localhost'||location.hostname==='127.0.0.1'?'http://127.0.0.1:8787':'https://hooraas-rides-api.sunkarayashaswi.workers.dev';
+import {plan,participants,destinations,today,pinned,recommendCars,applyCarPreset} from './model.mjs';
+import {mountGame} from './game-endless.mjs';
+const API=location.hostname==='localhost'||location.hostname==='127.0.0.1'?(location.port==='8094'?'http://127.0.0.1:8790':'http://127.0.0.1:8787'):'https://hooraas-rides-api.sunkarayashaswi.workers.dev';
 const $=id=>document.getElementById(id),esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let data,revision,admin=null,selected=new URLSearchParams(location.search).get('event'),token=localStorage.getItem('rides-admin-token')||localStorage.getItem('hooraas-token')||'',busy=false,map,marker;
 function notice(message){$('notice').textContent=message;$('notice').classList.add('show');setTimeout(()=>$('notice').classList.remove('show'),5000)}
@@ -13,6 +14,9 @@ const placeOptions=(value,blank='Choose pickup')=>option('',blank,value)+data.lo
 function destination(e){return data.locations.find(l=>l.id===e.destinationId)||destinations[e.location]}
 function routeLink(car,e){const end=destination(e);const point=l=>pinned(l)?l.lat+','+l.lng:l.name+', Charlottesville VA';const stops=car.stops.filter(s=>s.location.id!==car.driver.locationId);const chunks=[];let origin=point(car.driver.point||{name:car.driver.name+' pickup'});for(let i=0;i<stops.length||i===0;i+=3){const part=stops.slice(i,i+3);const final=i+3>=stops.length;const dest=final?(end.address||point(end)):point(part.at(-1).location);const via=final?part:part.slice(0,-1);const q=new URLSearchParams({api:'1',origin,destination:dest,travelmode:'driving'});if(via.length)q.set('waypoints',via.map(s=>point(s.location)).join('|'));chunks.push(`<a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?${esc(q)}">${chunks.length||!final?'Route part '+(chunks.length+1):'Directions'} ↗</a>`);origin=dest}return chunks.join(' · ')}
 function render(){
+ const adminOpen=document.getElementById('adminPanel')?.open;
+ document.getElementById('adminContent')?.replaceChildren();
+ document.getElementById('locationsContent')?.replaceChildren();
  $('access').textContent=admin?'Sign out · '+admin:'Admin access';if(!data)return;
  const e=event();if(!e){$('app').innerHTML='<p>No events scheduled.</p>';return}const result=plan(data,e);const end=destination(e);
  const dates=[...data.events].sort((a,b)=>a.date.localeCompare(b.date));
@@ -22,6 +26,11 @@ function render(){
  ${result.cars.map(c=>`<section class="car"><div class="carhead"><h2>${esc(c.driver.name)} drives</h2><small>${c.people.length} / ${c.driver.capacity} passengers</small></div><ol><li><strong>${esc(c.driver.point?.name||'Driver pickup missing')}</strong><span>${esc(c.driver.name)}${c.stops.filter(s=>s.location.id===c.driver.locationId).flatMap(s=>s.people).map(p=>', '+esc(p.name)).join('')}</span></li>${c.stops.filter(s=>s.location.id!==c.driver.locationId).map(s=>`<li><strong>${esc(s.location.name)}</strong><span>${s.people.map(p=>esc(p.name)).join(', ')}</span></li>`).join('')}<li>${esc(end.name)}</li></ol>${c.driver.point?routeLink(c,e):''}</section>`).join('')||'<p>No drivers available for this event.</p>'}
  <p class="muted">${result.excluded.length?'No ride: '+result.excluded.map(p=>esc(p.name)).join(', ')+'. ':''}Changes? Message an admin.</p>
  ${admin?`<section><div class="toolbar"><h2>Admin</h2><button id="verify" class="primary">Verify rides</button></div><p class="muted">Changes save and post immediately. Any edit clears verification.</p>${result.warnings.length?'<details><summary>'+result.warnings.length+' pickup pins need checking</summary>'+result.warnings.map(w=>'<div>'+esc(w)+'</div>').join('')+'</details>':''}<div class="toolbar"><button id="editEvent">Edit event</button><button id="newEvent">New event</button><button id="addPerson">Add person</button></div><h3>Attendance for this event</h3>${participants(data,e).map(p=>`<div class="adminrow"><div><strong>${esc(p.name)}</strong><small>${esc(p.point?.name||'Pickup needed')}</small></div><select aria-label="Ride status for ${esc(p.name)}" data-status="${p.id}">${option('no','No ride',!p.needsRide?'no':p.driver?'drive':'ride')+option('ride','Needs ride',!p.needsRide?'no':p.driver?'drive':'ride')+option('drive','Driving',!p.needsRide?'no':p.driver?'drive':'ride')}</select><select class="assignment" aria-label="Car for ${esc(p.name)}" data-car="${p.id}" ${!p.needsRide||p.driver?'disabled':''}>${option('','Automatic',e.overrides[p.id]?.carId||'')+result.cars.map(c=>option(c.driver.id,c.driver.name,e.overrides[p.id]?.carId)).join('')}</select><button data-person="${p.id}">Edit</button></div>`).join('')}<details><summary>Roster defaults & inactive people</summary>${data.roster.map(p=>`<div class="pinrow"><span>${esc(p.name)}${p.active?'':' (inactive)'}</span><button data-person="${p.id}">Edit</button></div>`).join('')}</details><details><summary>Saved pickup pins</summary><p>Set each pickup once. Pins suggest shorter routes using geographic distance; check driving directions for road access.</p>${data.locations.map(l=>`<div class="pinrow"><span>${esc(l.name)}${pinned(l)?'':' · pin needed'}</span><button data-location="${l.id}">Set pin</button></div>`).join('')}<button id="addLocation">Add location</button></details></section>`:''}`;
+ compactView(result,e,adminOpen);
+ mountGame($('app'),API);
+ const featured=data.featuredSet||{url:'https://www.youtube.com/watch?v=-u7ThyX0Pus',updated:'2026-09-15'};
+ const watch=document.createElement('footer');watch.className='raas-watch';watch.innerHTML=`<a href="${esc(featured.url)}" target="_blank" rel="noopener noreferrer">Watch this raas set today ↗</a><small>Updated ${Number(featured.updated.slice(5,7))}/${Number(featured.updated.slice(8,10))}</small>${admin==='Yashaswi'?'<button id="editFeaturedSet">Edit featured set</button>':''}`;$('app').append(watch);
+ if($('editFeaturedSet'))$('editFeaturedSet').onclick=()=>{$('routeContent').innerHTML=`<h2>Edit featured raas set</h2><form id="featuredForm"><label>YouTube link<input name="url" type="url" required maxlength="1000" value="${esc(featured.url)}"></label><label>Updated date<input name="updated" type="date" required value="${today()}"></label><button class="primary">Save featured set</button></form>`;$('featuredForm').onsubmit=async ev=>{ev.preventDefault();const next=structuredClone(data),fields=new FormData(ev.target);next.featuredSet={url:fields.get('url').trim(),updated:fields.get('updated')};try{await save(next);$('routePanel').close()}catch(err){notice(err.message)}};$('routePanel').showModal()};
  $('eventPicker').onchange=ev=>{selected=ev.target.value;history.replaceState(null,'','?event='+encodeURIComponent(selected));render()};
  $('copy').onclick=async()=>{const text=[heading+' · '+e.title+' · '+end.name+' · '+e.time,e.verified?'Verified by '+e.verified.by:'UNVERIFIED',...result.cars.map(c=>c.driver.name+': '+c.stops.map(s=>s.location.name+' ('+s.people.map(p=>p.name).join(', ')+')').join(' → ')+' → '+end.name),...result.pending.map(x=>'NEEDS ASSIGNMENT: '+x.person.name+' — '+x.reason)].join('\n');try{await navigator.clipboard.writeText(text);notice('Copied rides.')}catch{notice('Copy failed. You can share this page’s URL.')}};
  if(!admin)return;
@@ -31,6 +40,95 @@ function render(){
  document.querySelectorAll('[data-location]').forEach(b=>b.onclick=()=>editLocation(data.locations.find(l=>l.id===b.dataset.location)));
  document.querySelectorAll('[data-status],[data-car]').forEach(s=>s.onchange=async()=>{const next=structuredClone(data),ev=next.events.find(x=>x.id===selected),id=s.dataset.status||s.dataset.car;ev.overrides[id]??={};if(s.dataset.status){Object.assign(ev.overrides[id],{needsRide:s.value!=='no',driver:s.value==='drive'});delete ev.overrides[id].carId}else{ev.overrides[id].carId=s.value}try{await save(next)}catch(err){notice(err.message);render()}});
 }
+function compactView(result,e,adminOpen){
+ const app=$('app');
+ const grid=document.createElement('div');grid.className='cars';
+ app.querySelectorAll('.car').forEach((card,i)=>{
+   const car=result.cars[i];
+   const details=card.querySelector('ol').outerHTML+Array.from(card.querySelectorAll('a')).map(a=>a.outerHTML).join(' · ');
+   card.innerHTML=`<div class="carhead"><h2>${esc(car.driver.name)} <span>drives</span></h2><small>${car.people.length}/${car.driver.capacity} seats</small></div><p class="passengers">${car.people.map(p=>esc(p.name)).join(' · ')||'No passengers'}</p><button class="route-button" aria-label="Pickup route for ${esc(car.driver.name)}">Pickup route <span aria-hidden="true">↗</span></button>`;
+   card.querySelector('button').onclick=()=>{ $('routeContent').innerHTML=`<h2>${esc(car.driver.name)}’s pickup route</h2>`+details; $('routePanel').showModal() };
+   if(admin){
+     const move=document.createElement('button');move.className='move-riders';move.textContent='Move riders';move.setAttribute('aria-label','Move riders from '+car.driver.name);move.disabled=!car.people.length;
+     move.onclick=()=>{$('routeContent').innerHTML=`<h2>Move from ${esc(car.driver.name)}’s car</h2><p>Choose a rider, then choose their new driver.</p>`+car.people.map(p=>`<button class="move-person" data-move="${esc(p.id)}">${esc(p.name)} → Choose car</button>`).join('');$('routeContent').querySelectorAll('[data-move]').forEach(b=>b.onclick=()=>editRide(b.dataset.move));$('routePanel').showModal()};card.append(move);
+     const names=card.querySelector('.passengers');
+     names.innerHTML=car.people.map(p=>`<button class="rider-name" data-rider="${esc(p.id)}" aria-label="Change ride for ${esc(p.name)}">${esc(p.name)}</button>`).join(' · ')||'No passengers';
+     names.querySelectorAll('[data-rider]').forEach(b=>b.onclick=()=>editRide(b.dataset.rider));
+     const label=document.createElement('label');label.className='capacity-control';
+     label.innerHTML=`Total people <select aria-label="Total car capacity for ${esc(car.driver.name)}">${[1,2,3,4,5].map(n=>option(n,String(n+1),car.driver.capacity)).join('')}</select><small>Includes driver · up to 6 total</small>`;
+     const input=label.querySelector('select');
+     input.onchange=async()=>{const next=structuredClone(data);next.roster.find(p=>p.id===car.driver.id).capacity=Number(input.value);input.disabled=true;try{await save(next)}catch(err){notice(err.message);render()}};
+     card.append(label);
+   }
+   grid.append(card);
+ });
+ const warning=app.querySelector('.warning');
+ if(warning){warning.innerHTML='<strong>Needs a ride</strong> '+result.pending.map(x=>admin?`<button class="rider-name" data-rider="${esc(x.person.id)}" aria-label="Choose ride for ${esc(x.person.name)}">${esc(x.person.name)}</button>`:esc(x.person.name)).join(' · ');warning.querySelectorAll('[data-rider]').forEach(b=>b.onclick=()=>editRide(b.dataset.rider))}
+ const footer=app.querySelector('p.muted');
+ if(footer){const text=footer.innerHTML;footer.innerHTML='<button class="text-button">No-ride list & changes</button>';footer.querySelector('button').onclick=()=>{$('routeContent').innerHTML='<h2>Other updates</h2><p>'+text+'</p>';$('routePanel').showModal()};footer.before(grid)}else app.append(grid);
+ const adminSection=app.querySelector(':scope > section');
+ if(adminSection){
+   const saved=$('addLocation').closest('details');
+   saved.querySelector('summary').remove();
+   const content=$('locationsContent');
+   content.append($('addLocation'));
+   while(saved.firstChild)content.append(saved.firstChild);
+   saved.remove();
+   content.querySelectorAll('[data-location]').forEach(button=>{button.textContent='Edit';button.setAttribute('aria-label','Edit location '+data.locations.find(l=>l.id===button.dataset.location).name)});
+   $('adminContent').append(adminSection);
+   const button=document.createElement('button');button.textContent='Edit rides';button.className='primary';button.onclick=()=>$('adminPanel').showModal();app.querySelector('.toolbar').append(button);
+   const locationsButton=document.createElement('button');locationsButton.textContent='Locations';locationsButton.onclick=()=>$('locationsPanel').showModal();app.querySelector('.toolbar').append(locationsButton);
+   const presetsButton=document.createElement('button');presetsButton.textContent='Car presets';presetsButton.onclick=editPresets;app.querySelector('.toolbar').append(presetsButton);
+   const review=document.createElement('button');review.textContent='Review recommendations';review.onclick=reviewRecommendations;app.querySelector('.toolbar').append(review);
+   const hint=document.createElement('p');hint.className='muted';hint.textContent='Tap a rider’s name to move them to another car.';grid.before(hint);
+   if(adminOpen&&!$('adminPanel').open)$('adminPanel').showModal();
+ }
+ const cards=[...grid.children];let page=0;const size=4;
+ if(cards.length>size){const nav=document.createElement('div');nav.className='car-pages';nav.innerHTML='<button aria-label="Previous cars">←</button><span></span><button aria-label="Next cars">→</button>';grid.after(nav);const show=()=>{cards.forEach((c,i)=>c.hidden=i<page*size||i>=(page+1)*size);nav.querySelector('span').textContent=`Cars ${page*size+1}–${Math.min((page+1)*size,cards.length)} of ${cards.length}`;nav.firstElementChild.disabled=page===0;nav.lastElementChild.disabled=(page+1)*size>=cards.length};nav.firstElementChild.onclick=()=>{page--;show()};nav.lastElementChild.onclick=()=>{page++;show()};show()}
+}
+function reviewRecommendations(){
+ const proposed=applyCarPreset(data,selected,{assignments:{}}).data;
+ const before=plan(data,event()),after=plan(proposed,proposed.events.find(e=>e.id===selected));
+ const driverFor=(result,id)=>result.cars.find(c=>c.people.some(p=>p.id===id))?.driver.name||'Unassigned';
+ const changes=participants(data,event()).filter(p=>p.needsRide&&!p.driver).map(p=>({name:p.name,from:driverFor(before,p.id),to:driverFor(after,p.id)})).filter(p=>p.from!==p.to);
+ const total=result=>result.cars.every(c=>c.distanceKm!==null)?result.cars.reduce((s,c)=>s+c.distanceKm,0):null;
+ const a=total(before),b=total(after);
+ $('routeContent').innerHTML=`<h2>Review recommendations</h2><p>This compares your current cars with automatic location-based assignments. Applying replaces manual car choices for this event only. Attendance, pickups and capacities stay unchanged.</p>${a!==null&&b!==null?`<p>Estimated geographic route distance: ${a.toFixed(1)} → ${b.toFixed(1)} km across all cars.</p>`:'<p>Confirm pickup pins to compare geographic route distance.</p>'}<p class="muted">Geographic suggestions, not road or traffic optimization. Check pickup directions before verifying.</p>${changes.length?changes.map(c=>`<div class="pinrow"><strong>${esc(c.name)}</strong><span>${esc(c.from)} → ${esc(c.to)}</span></div>`).join(''):'<p>No car changes recommended. Your current assignments match the automatic plan.</p>'}<p>${after.pending.length} unassigned · ${after.warnings.length} pickup warnings</p><div class="toolbar">${changes.length?'<button id="applyRecommendations" class="primary">Apply recommendations</button>':''}<button id="verifyCurrent">Verify current plan</button></div>`;
+ if($('applyRecommendations'))$('applyRecommendations').onclick=async()=>{try{await save(proposed);reviewRecommendations()}catch(err){notice(err.message)}};
+ $('verifyCurrent').onclick=async()=>{try{await save(structuredClone(data),selected);$('routePanel').close()}catch(err){notice(err.message)}};
+ if(!$('routePanel').open)$('routePanel').showModal();
+}
+function editPresets(){
+ const content=$('routeContent');
+ content.innerHTML=`<h2>Car presets</h2><p>Save a lineup to reuse later. Only car assignments change; today’s attendance, pickups and capacities stay as they are. If a driver is absent or full, affected riders go back to automatic assignment.</p><form id="presetForm"><label>Save current cars as<input name="name" required maxlength="60" placeholder="e.g. Usual AFC cars"></label><button class="primary">Save preset</button></form><div id="presetList">${(data.carPresets||[]).map(p=>`<div class="pinrow"><span>${esc(p.name)}</span><button data-preset="${esc(p.id)}">Apply</button></div>`).join('')||'<p>No saved presets yet.</p>'}</div><button id="automaticCars">Reset this event to automatic cars</button>`;
+ $('presetForm').onsubmit=async ev=>{ev.preventDefault();const next=structuredClone(data);next.carPresets??=[];const name=new FormData(ev.target).get('name').trim();if(next.carPresets.some(p=>p.name.toLowerCase()===name.toLowerCase())){notice('That preset name exists. Choose a different name.');return}const assignments={};for(const car of plan(data,event()).cars)for(const p of car.people)assignments[p.id]=car.driver.id;next.carPresets.push({id:crypto.randomUUID(),name,assignments});try{await save(next);editPresets();notice('Car preset saved.')}catch(err){notice(err.message)}};
+ content.querySelectorAll('[data-preset]').forEach(b=>b.onclick=async()=>{const preset=data.carPresets.find(p=>p.id===b.dataset.preset),next=applyCarPreset(data,selected,preset);try{await save(next.data);$('routePanel').close();notice('Preset applied.'+(next.fallback?' '+next.fallback+' rider(s) returned to automatic assignment.':''))}catch(err){notice(err.message)}});
+ $('automaticCars').onclick=async()=>{const next=structuredClone(data);for(const o of Object.values(next.events.find(e=>e.id===selected).overrides))delete o.carId;try{await save(next);$('routePanel').close()}catch(err){notice(err.message)}};
+ if(!$('routePanel').open)$('routePanel').showModal();
+}
+function editRide(id){
+ const person=participants(data,event()).find(p=>p.id===id);
+ const content=$('routeContent');
+ content.innerHTML=`<h2>${esc(person.name)}</h2><form id="rideForm"><label>Pickup for this event<select name="locationId" required>${placeOptions(person.locationId)}</select></label><label>Driver<select name="carId"></select></label><p id="recommendation" class="muted"></p><div class="toolbar"><button class="primary">Save ride</button><button type="button" id="skipRide">No ride needed</button></div></form>`;
+ const form=$('rideForm');
+ const refresh=()=>{
+   const locationId=form.elements.locationId.value;
+   const rider={...person,locationId,point:data.locations.find(l=>l.id===locationId)};
+   const ranked=recommendCars(data,event(),rider);
+   const best=ranked.find(r=>r.available&&(r.same||r.extra!==null));
+   form.elements.carId.innerHTML=option('','Automatic',person.carId||'')+ranked.map(r=>`<option value="${esc(r.car.driver.id)}" ${r.car.driver.id===person.carId?'selected':''} ${!r.available?'disabled':''}>${esc(r.car.driver.name)}${r===best?' · Recommended':''}${!r.available?' · Full':''}</option>`).join('');
+   $('recommendation').textContent=best?(best.same?'Recommended: '+best.car.driver.name+' already starts or stops at this pickup.':'Recommended: '+best.car.driver.name+' adds the least geographic distance to the current route. Not a traffic estimate.'):(rider.point?'No location-based recommendation available. Check pins and open seats.':'Choose a pickup to get a recommendation.');
+ };
+ refresh();form.elements.locationId.onchange=refresh;
+ const current=plan(data,event()).cars.find(c=>c.people.some(p=>p.id===id));
+ const currentText=document.createElement('p');currentText.textContent='Current car: '+(current?.driver.name||'Unassigned');content.querySelector('h2').after(currentText);
+ const useRecommended=document.createElement('button');useRecommended.type='button';useRecommended.textContent='Choose recommended driver';useRecommended.onclick=()=>{const recommended=[...form.elements.carId.options].find(o=>o.textContent.includes('· Recommended'));if(recommended)form.elements.carId.value=recommended.value;else notice('No recommendation yet. Choose a pickup and check available seats.')};$('recommendation').after(useRecommended);
+ const update=async(needsRide)=>{const next=structuredClone(data),ev=next.events.find(e=>e.id===selected);ev.overrides[id]={...ev.overrides[id],needsRide,driver:false,locationId:form.elements.locationId.value,carId:needsRide?form.elements.carId.value:''};try{await save(next);$('routePanel').close()}catch(err){notice(err.message)}};
+ form.onsubmit=ev=>{ev.preventDefault();update(true)};
+ $('skipRide').onclick=()=>update(false);
+ $('routePanel').showModal();
+}
+for(const [id,title,content] of [['routePanel','Ride details','routeContent'],['adminPanel','Edit rides','adminContent'],['locationsPanel','Locations','locationsContent']]){const dialog=document.createElement('dialog');dialog.id=id;dialog.innerHTML=`<div class="heading"><strong>${title}</strong><button aria-label="Close ${title.toLowerCase()}">×</button></div><div id="${content}"></div>`;dialog.querySelector('button').onclick=()=>dialog.close();document.body.append(dialog)}
 function editPerson(p){const f=$('personForm');f.reset();f.elements.id.value=p?.id||'';$('personTitle').textContent=p?'Edit '+p.name:'Add person';for(const k of ['name','capacity'])if(p)f.elements[k].value=p[k];for(const k of ['needsRide','driver','active'])if(p)f.elements[k].checked=p[k];f.querySelectorAll('[name=skip]').forEach(x=>x.checked=p?.skip.includes(x.value)||false);$('personLocations').innerHTML=placeOptions(p?.locationId||'');$('person').showModal()}
 function editLocation(l){const f=$('locationForm');f.reset();f.elements.id.value=l?.id||'';f.elements.name.value=l?.name||'';f.elements.lat.value=l?.lat??'';f.elements.lng.value=l?.lng??'';$('location').showModal();if(!globalThis.L){$('pinHelp').textContent='Map could not load. Enter coordinates or refresh to retry.';return}if(!map){map=L.map('pinMap').setView([38.041,-78.505],14);L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);map.on('click',ev=>setPin(ev.latlng.lat,ev.latlng.lng))}if(marker){map.removeLayer(marker);marker=null}map.invalidateSize();if(pinned(l)){setPin(l.lat,l.lng);map.setView([l.lat,l.lng],17)}else map.setView([38.041,-78.505],14)}
 function setPin(lat,lng){const f=$('locationForm');f.elements.lat.value=lat.toFixed(6);f.elements.lng.value=lng.toFixed(6);if(!marker){marker=L.marker([lat,lng],{draggable:true}).addTo(map);marker.on('dragend',()=>{const p=marker.getLatLng();setPin(p.lat,p.lng)})}else marker.setLatLng([lat,lng])}

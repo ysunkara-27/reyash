@@ -1,7 +1,19 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {migrate,plan,validate,today} from '../model.mjs';
+import {migrate,plan,validate,today,participants,recommendCars,applyCarPreset} from '../model.mjs';
 function fixture(){const data=migrate({roster:[{name:'Ausdin',address:'1718',driver:true},{name:'Tej',address:'Main',driver:true},{name:'Syed',address:'1718'},{name:'Anjali',address:'Carrollton'},{name:'Rahil'},{name:'Sarim'},{name:'Yashaswi',address:'Courtenay'}]});data.locations.forEach((l,i)=>Object.assign(l,{lat:38+i*.001,lng:-78.5}));return data}
+test('featured set only accepts safe YouTube links',()=>{const d=fixture();d.featuredSet={url:'https://www.youtube.com/watch?v=-u7ThyX0Pus',updated:'2026-09-15'};validate(d);for(const url of ['javascript:alert(1)','https://youtube.com.evil.test/video','https://user:password@youtube.com/watch']){d.featuredSet.url=url;assert.throws(()=>validate(d))}});
+test('presets move riders but preserve no-ride and pickup overrides; absent/full drivers fall back',()=>{
+ const d=fixture(),e=d.events[0],[ausdin,tej,syed,anjali]=d.roster;
+ e.overrides[syed.id]={locationId:tej.locationId};
+ const preset={id:'preset',name:'Usual',assignments:{[syed.id]:tej.id,[anjali.id]:ausdin.id}};
+ d.carPresets=[preset];validate(d);
+ const moved=applyCarPreset(d,e.id,preset);assert.equal(moved.data.events[0].overrides[syed.id].carId,tej.id);assert.equal(moved.data.events[0].overrides[syed.id].locationId,tej.locationId);assert(plan(moved.data,moved.data.events[0]).excluded.some(p=>p.id===anjali.id));assert.equal(e.overrides[syed.id].carId,undefined);
+ e.overrides[syed.id].needsRide=false;assert.equal(applyCarPreset(d,e.id,preset).data.events[0].overrides[syed.id].carId,undefined);
+ e.overrides[syed.id].needsRide=true;e.overrides[tej.id]={needsRide:false};assert.equal(applyCarPreset(d,e.id,preset).fallback,1);
+ delete e.overrides[tej.id];tej.capacity=1;e.overrides[anjali.id]={needsRide:true};preset.assignments[anjali.id]=tej.id;const full=applyCarPreset(d,e.id,preset);assert.equal(full.fallback,1);assert(plan(full.data,full.data.events[0]).cars.every(c=>c.people.length<=c.driver.capacity));
+});
+test('recommendations prefer shared stops, respect capacity, and do not invent missing pins',()=>{const d=fixture(),e=d.events[0],syed=participants(d,e).find(p=>p.name==='Syed');assert.equal(recommendCars(d,e,syed)[0].car.driver.name,'Ausdin');d.roster[0].capacity=1;d.roster.push({...d.roster[2],id:'other',name:'AAA'});const ranked=recommendCars(d,e,{...syed,id:'new-rider'});assert.equal(ranked[0].car.driver.name,'Tej');assert.equal(ranked.find(r=>r.car.driver.name==='Ausdin').available,false);const missing=recommendCars(d,e,{...syed,locationId:'',point:undefined});assert(missing.every(r=>r.extra===null&&!r.same));});
 test('default exclusions, date-local overrides and stable home-first grouping',()=>{const d=fixture(),e=d.events[0],a=d.roster.find(p=>p.name==='Anjali');assert.equal(plan(d,e).excluded.length,4);e.overrides[a.id]={needsRide:true};const p=plan(d,e);assert(p.cars.some(c=>c.people.some(x=>x.id===a.id)));assert.equal(plan(d,d.events[1]).excluded.length,4);assert.equal(p.cars[0].stops[0].location.name,'1718');assert.deepEqual(plan(d,e),p);validate(d)});
 test('capacity never overflows; missing locations and seats are explicit',()=>{const d=fixture(),e=d.events[0];d.roster[1].active=false;for(let i=0;i<8;i++)d.roster.push({...d.roster[2],id:'extra'+i,name:'extra'+i});d.roster.push({...d.roster[2],id:'missing',name:'missing',locationId:''});const p=plan(d,e);assert.equal(p.cars[0].people.length,5);assert.equal(p.pending.length,5);assert(p.pending.some(x=>x.reason==='Choose pickup location'))});
 test('bad manual assignments remain pending, excluded riders never return',()=>{const d=fixture(),e=d.events[0];e.overrides[d.roster[2].id]={carId:'unavailable'};assert.equal(plan(d,e).pending[0].reason,'Selected car unavailable or full');assert.throws(()=>validate(d))});

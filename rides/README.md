@@ -14,7 +14,11 @@ Practice destination centers: OpenStreetMap ways [44528462](https://www.openstre
 
 `node --test rides/tests/model.test.mjs` tests routing and validation.
 
-Local integration tests use a separate D1 directory `/private/tmp/hooraas-v2-test`, API at 8787, static page at 8093, and dummy local credentials. `rides/tests/browser.mjs` uses the existing Playwright dependency in `savetheworld` and Chrome. Run it only against a fresh local test dataset, followed by `rides/tests/api.mjs`. Never point these write tests at production.
+Port 8093 / API 8787 is the user's local preview: do not run write tests there. The compact integration suite requires `RIDES_TEST_URL=http://127.0.0.1:8094/rides/`, a separate Worker on 8790, a dedicated D1 persistence directory, and disposable fixture data. Legacy browser/API test scripts target 8093/8787 and must not be run against a live preview. Browser tests use the existing Playwright dependency in `savetheworld` and Chrome. The game browser test mocks leaderboard submissions and does not edit preview rides or scores.
+
+`node --test rides/tests/model.test.mjs rides/tests/game-engine.test.mjs` checks routing, capacity, exclusions, presets, daily-course determinism, collision handling and ten minutes of survivable endless gameplay.
+
+Game scores use a separate `rides_endless_scores` table, created idempotently by the API. Daily scores use Charlottesville dates; all-time scores are separate from the retired timed game's scores. Scores and nicknames are public and unverified. Presets store car assignments only, preserving the selected event's attendance and pickups. Missing/full preset drivers fall back to automatic assignment.
 
 Worker migration/deployment (from `rides/api`):
 

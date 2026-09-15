@@ -62,11 +62,42 @@ export function plan(data,event){
  for(const car of cars)Object.assign(car,bestOrder(car,destination));
  return {cars,pending,warnings:[...new Set(warnings)],excluded:all.filter(p=>!p.needsRide)};
 }
+export function recommendCars(data,event,person,result=plan(data,event)){
+ const end=data.locations.find(l=>l.id===event.destinationId)||destinations[event.location];
+ return result.cars.map(car=>{
+   const people=car.people.filter(p=>p.id!==person.id),available=people.length<car.driver.capacity;
+   const same=!!person.point&&(car.driver.locationId===person.locationId||people.some(p=>p.locationId===person.locationId));
+   const measurable=pinned(person.point)&&pinned(car.driver.point)&&pinned(end)&&people.every(p=>pinned(p.point));
+   const extra=measurable?bestOrder({...car,people:[...people,person]},end).distanceKm-bestOrder({...car,people},end).distanceKm:null;
+   return {car,available,same,extra,rank:!available?Infinity:same?-1:extra??10000};
+ }).sort((a,b)=>a.rank-b.rank||a.car.driver.name.localeCompare(b.car.driver.name));
+}
+export function applyCarPreset(data,eventId,preset){
+ const next=structuredClone(data),event=next.events.find(e=>e.id===eventId);
+ if(!event)throw new Error('Event not found');
+ for(const override of Object.values(event.overrides))delete override.carId;
+ const people=participants(next,event),drivers=new Map(people.filter(p=>p.needsRide&&p.driver).map(p=>[p.id,p]));
+ const used=new Map();let fallback=0;
+ for(const [id,driverId] of Object.entries(preset.assignments)){
+   const rider=people.find(p=>p.id===id);
+   if(!rider?.needsRide||rider.driver)continue;
+   const driver=drivers.get(driverId),count=used.get(driverId)||0;
+   if(!driver||count>=driver.capacity){fallback++;continue}
+   event.overrides[id]??={};event.overrides[id].carId=driverId;used.set(driverId,count+1);
+ }
+ return {data:next,fallback};
+}
 export function validate(data){
  const fail=message=>{throw new Error(message)};
  const str=(s,max=140)=>typeof s==='string'&&s.length<=max;
  if(!data||!Array.isArray(data.roster)||!Array.isArray(data.locations)||!Array.isArray(data.events)||data.roster.length>200||data.locations.length>1000||data.events.length>500)fail('Invalid roster or events');
+ if(data.featuredSet!==undefined){const set=data.featuredSet;let url;try{url=new URL(set?.url)}catch{fail('Enter a valid YouTube link')}if(url.protocol!=='https:'||!['youtube.com','www.youtube.com','youtu.be'].includes(url.hostname)||url.username||url.password||!str(set.url,1000)||!/^\d{4}-\d{2}-\d{2}$/.test(set.updated))fail('Use an HTTPS YouTube link and a valid update date');}
  for(const list of [data.roster,data.locations,data.events])if(new Set(list.map(x=>x.id)).size!==list.length||list.some(x=>!str(x.id,80)||!x.id))fail('Duplicate or invalid IDs');
+ if(data.carPresets!==undefined){
+   if(!Array.isArray(data.carPresets)||data.carPresets.length>30)fail('Keep at most 30 car presets');
+   if(new Set(data.carPresets.map(p=>p.id)).size!==data.carPresets.length)fail('Duplicate presets');
+   for(const p of data.carPresets)if(!str(p.id,80)||!p.id||!str(p.name,60)||!p.name.trim()||!p.assignments||typeof p.assignments!=='object'||Array.isArray(p.assignments)||Object.entries(p.assignments).some(([r,d])=>r===d||!data.roster.some(p=>p.id===r)||!data.roster.some(p=>p.id===d)))fail('Invalid car preset');
+ }
  for(const l of data.locations)if(!str(l.name)||!l.name.trim()||!(l.lat===null&&l.lng===null)&&(!pinned(l)||Math.abs(l.lat)>85||Math.abs(l.lng)>180))fail('Invalid pickup pin');
  if(new Set(data.roster.map(p=>String(p.name).trim().toLowerCase())).size!==data.roster.length)fail('This name is already on the roster');
  for(const p of data.roster)if(!str(p.name,80)||!p.name.trim()||typeof p.active!=='boolean'||typeof p.needsRide!=='boolean'||typeof p.driver!=='boolean'||!Number.isInteger(p.capacity)||p.capacity<1||p.capacity>5||!Array.isArray(p.skip)||p.skip.some(s=>!destinations[s])||p.locationId&&!data.locations.some(l=>l.id===p.locationId))fail('Invalid person or capacity');
