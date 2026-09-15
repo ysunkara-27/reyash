@@ -83,8 +83,11 @@ function compactView(result,e,adminOpen){
    const hint=document.createElement('p');hint.className='muted';hint.textContent='Tap a rider’s name to move them to another car.';grid.before(hint);
    if(adminOpen&&!$('adminPanel').open)$('adminPanel').showModal();
  }
- const cards=[...grid.children];let page=0;const size=4;
- if(cards.length>size){const nav=document.createElement('div');nav.className='car-pages';nav.innerHTML='<button aria-label="Previous cars">←</button><span></span><button aria-label="Next cars">→</button>';grid.after(nav);const show=()=>{cards.forEach((c,i)=>c.hidden=i<page*size||i>=(page+1)*size);nav.querySelector('span').textContent=`Cars ${page*size+1}–${Math.min((page+1)*size,cards.length)} of ${cards.length}`;nav.firstElementChild.disabled=page===0;nav.lastElementChild.disabled=(page+1)*size>=cards.length};nav.firstElementChild.onclick=()=>{page--;show()};nav.lastElementChild.onclick=()=>{page++;show()};show()}
+ const cards=[...grid.children],count=cards.length;
+ grid.style.setProperty('--car-columns',Math.max(1,Math.ceil(count/Math.ceil(Math.max(1,count)/5))));
+ grid.classList.toggle('many-cars',count>4);
+ const summary=document.createElement('p');summary.className='car-count';summary.textContent=count+' cars · all shown';grid.before(summary);
+ cards.forEach((card,i)=>{const label=document.createElement('small');label.className='car-number';label.textContent='Car '+(i+1)+' of '+count;card.prepend(label)});
 }
 function reviewRecommendations(){
  const proposed=applyCarPreset(data,selected,{assignments:{}}).data;
