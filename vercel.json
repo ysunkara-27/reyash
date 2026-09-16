@@ -5,12 +5,37 @@
   "buildCommand": "npm run build --prefix savetheworld && npm run build --prefix officehours/ux-studio-screen-main && node scripts/build-site.mjs",
   "outputDirectory": "dist",
   "redirects": [
-    { "source": "/dog", "destination": "https://taskpup.lol/", "permanent": true },
-    { "source": "/dog/:path*", "destination": "https://taskpup.lol/:path*", "permanent": true },
-    { "source": "/kwatnoskiapgov", "destination": "/apgovelections/", "permanent": true }
+    {
+      "source": "/dog/",
+      "destination": "https://taskpup.lol/",
+      "permanent": true
+    },
+    {
+      "source": "/dog/:path+/",
+      "destination": "https://taskpup.lol/:path*/",
+      "permanent": true
+    },
+    {
+      "source": "/dog",
+      "destination": "https://taskpup.lol/",
+      "permanent": true
+    },
+    {
+      "source": "/dog/:path*",
+      "destination": "https://taskpup.lol/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/kwatnoskiapgov",
+      "destination": "/apgovelections/",
+      "permanent": true
+    }
   ],
   "rewrites": [
-    { "source": "/pujarinet/:path*", "destination": "/pujarinet/index.html" }
+    {
+      "source": "/pujarinet/:path*",
+      "destination": "/pujarinet/index.html"
+    }
   ],
   "headers": [
     {
