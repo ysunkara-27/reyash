@@ -4,7 +4,7 @@ The implemented flow is **Account → Connect Google Calendar → allow read-onl
 
 ## 1. Create the Google project and client
 
-1. Open [Google Cloud Console](https://console.cloud.google.com/) and create or select a project, e.g. **Good day**.
+1. Open [Google Cloud Console](https://console.cloud.google.com/) and create or select a project, e.g. **task pup**.
 2. In **APIs & Services → Library**, enable **Google Calendar API**.
 3. Open **Google Auth Platform**. Complete **Branding** with an app name, your support email, and developer contact email.
    Use these public URLs in Branding after publishing the static site:
