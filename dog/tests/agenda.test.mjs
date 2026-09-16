@@ -20,3 +20,15 @@ test('fixed conflicts remain visible and disconnect removes only external reserv
  assert.equal(buildAgenda(plan,[],day,zone).scheduled[0].start,540);
  assert.equal(buildAgenda(plan,events,'2026-09-17',zone).events.length,0);
 });
+
+test('local day boundaries exclude tomorrow and end-exclusive midnight events',()=>{
+ const timed=(id,start,end)=>({id,title:id,busy:true,start:{dateTime:start},end:{dateTime:end}});
+ const boundaryEvents=[
+  timed('tomorrow','2026-09-17T04:00:00Z','2026-09-17T05:00:00Z'),
+  timed('ended yesterday','2026-09-16T03:00:00Z','2026-09-16T04:00:00Z'),
+  timed('tonight','2026-09-17T03:00:00Z','2026-09-17T04:00:00Z'),
+  {id:'tomorrow all day',start:{date:'2026-09-17'},end:{date:'2026-09-18'}},
+ ];
+ assert.deepEqual(buildAgenda(plan,boundaryEvents,day,zone).events.map(e=>e.id),['tonight']);
+ assert.deepEqual(buildAgenda(plan,boundaryEvents,'2026-09-17',zone).events.map(e=>e.id),['tomorrow','tomorrow all day']);
+});

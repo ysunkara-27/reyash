@@ -17,7 +17,7 @@ const googleReturn=new URLSearchParams(location.hash.slice(1));
 if(googleReturn.has('google-code')||googleReturn.has('google-result'))history.replaceState(null,'',location.pathname+location.search);
 const escape=value=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 function notice(message,persistent=false){clearTimeout(noticeTimeout);$('notice').textContent=message;$('notice').hidden=false;if(!persistent)noticeTimeout=setTimeout(()=>$('notice').hidden=true,5000);}
-async function api(path,method='GET',body){let response;try{response=await fetch(`${API}/dog/${path}`,{method,headers:{...(token?{authorization:`Bearer ${token}`} :{}),...(body?{'content-type':'application/json'}:{})},body:body?JSON.stringify(body):undefined,signal:AbortSignal.timeout(15000)});}catch{throw new Error('Couldn’t connect. Your changes haven’t been saved. Please try again.');}let data;try{data=await response.json()}catch{throw new Error('The planner is unavailable. Please try again.');}if(!response.ok){if(response.status===401&&!['login','signup'].includes(path)){token='';localStorage.removeItem('good-day-token');showAuth();}if(response.status===409&&path.startsWith('day')){$('reload').hidden=false;}throw new Error(data.error||'Something went wrong. Please try again.');}return data;}
+async function api(path,method='GET',body){let response;try{response=await fetch(`${API}/dog/${path}`,{method,cache:path.startsWith('google/')?'no-store':'default',headers:{...(token?{authorization:`Bearer ${token}`} :{}),...(body?{'content-type':'application/json'}:{})},body:body?JSON.stringify(body):undefined,signal:AbortSignal.timeout(15000)});}catch{throw new Error('Couldn’t connect. Your changes haven’t been saved. Please try again.');}let data;try{data=await response.json()}catch{throw new Error('The planner is unavailable. Please try again.');}if(!response.ok){if(response.status===401&&!['login','signup'].includes(path)){token='';localStorage.removeItem('good-day-token');showAuth();}if(response.status===409&&path.startsWith('day')){$('reload').hidden=false;}throw new Error(data.error||'Something went wrong. Please try again.');}return data;}
 function setBusy(value){busy=value;for(const element of document.querySelectorAll('#workspace button,#workspace input,#workspace textarea,#workspace select,#task-form button,#task-form input,#task-form textarea,#focus button,#focus input,#focus select,#day,#today,#account,#edit-form button,#edit-form input,#focus-done'))element.disabled=value;$('timer-minutes').disabled=value||!!deadline;if(!value)renderCare();}
 function showAuth(){
  loadSequence++;agendaView='all';groupColors={};setBusy(false);signup=false;updateAuthMode();
@@ -43,7 +43,7 @@ function render(){const today=day===localDay(),date=new Date(`${day}T12:00:00`);
  const next=scheduled.find(t=>!t.done)?.id;
  $('timeline').innerHTML=rows.map(task=>{if(task.calendarEvent)return renderCalendarEvent(task);const {paper,accent}=groupColor(task.group,groupColors);return `<article class="task-row ${task.done?'done':''}"><div class="task-time"><button data-time="${task.id}" aria-label="Change start time for ${escape(task.name)}">${timeLabel(task.start).replace(' +','<br>+')}${task.fixed?'<span class="fixed-mark">set</span>':''}</button></div><div class="task-card" style="--paper:${paper};--accent:${accent};min-height:${Math.min(190,90+task.minutes*.5)}px"><button class="check" data-complete="${task.id}" role="checkbox" aria-checked="${task.done}" aria-label="${task.done?'Mark incomplete:':'Complete:'} ${escape(task.name)}">${task.done?'✓':''}</button><div class="task-content"><div class="task-title">${escape(task.name)}</div><div class="task-meta">${task.group?`<span class="group-chip">${escape(task.group)}</span>`:''}<span>${task.minutes} min</span><span>until ${timeLabel(task.end)}</span>${task.overlap?'<span class="overlap-chip">Time overlap</span>':''}${task.id===next?'<span class="next-chip">Up next</span>':''}</div></div><div class="task-actions">${!task.done?`<button data-focus="${task.id}" aria-label="Start timer for ${escape(task.name)}">▷ Start</button>`:''}<button data-edit="${task.id}" aria-label="Edit ${escape(task.name)}">···</button></div></div></article>`;}).join('');
  $('empty').hidden=!!rows.length||!!allDay.length;
- $('agenda-empty').textContent=agendaView==='calendar'?(calendar.loading?'Loading calendar events…':calendar.error||calendar.reconnect?'Calendar events are unavailable. Check the connection above.':'No Google events on this day.'):agendaView==='tasks'?'No tasks on this day. Add one to plan around your events.':'Add a task to start your day.';
+ $('agenda-empty').textContent=agendaView==='calendar'?(calendar.loading?'Loading calendar events…':calendar.error||calendar.reconnect?'Calendar events are unavailable. Open Calendar for connection details.':'No Google events on this day.'):agendaView==='tasks'?'No tasks on this day. Add one to plan around your events.':'Add a task to start your day.';
  document.querySelectorAll('[data-agenda]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.agenda===agendaView)));
  renderCalendarStatus();
  $('groups').innerHTML=[...new Set(['Work','Life','Me time',...plan.tasks.map(t=>t.group).filter(Boolean),...Object.keys(groupColors)])].map(group=>`<option value="${escape(group)}">`).join('');
@@ -225,28 +225,29 @@ function renderCalendarStatus(){
  const updated=calendar.updated?new Date(calendar.updated).toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'}):'';
  $('google-detail').textContent=calendar.connected?`Primary calendar · ${eventCount} ${eventCount===1?'event':'events'} on this day${updated?` · Last refreshed ${updated}`:''}. Events refresh every five minutes while the planner is visible.`:'Connect to see your events alongside your tasks.';
  $('agenda-controls').hidden=!calendar.connected;
- $('agenda-zone').textContent=Intl.DateTimeFormat().resolvedOptions().timeZone.replaceAll('_',' ');
+ $('agenda-zone').textContent='Events use your device time zone: '+Intl.DateTimeFormat().resolvedOptions().timeZone.replaceAll('_',' ');
  $('calendar-status').hidden=!calendar.connected;
  $('calendar-status').dataset.state=calendar.error||calendar.reconnect?'attention':calendar.connected?'connected':'disconnected';
- $('calendar-manage').textContent=calendar.connected?'Google Calendar · Primary':'Google Calendar';
+ $('calendar-manage').textContent=calendar.error||calendar.reconnect?'Calendar !':'Calendar';
  $('calendar-status-text').textContent=calendar.reconnect?'Google Calendar needs reconnecting.':calendar.error?(calendar.updated?'Calendar couldn’t refresh. Showing the last update.':calendar.error):calendar.loading?'Loading Google Calendar…':calendar.connected?`${eventCount} ${eventCount===1?'event':'events'} · Updated ${updated||'just now'}`:calendar.ready?'Plan around your events':'Connection not configured';
- $('calendar-retry').textContent=calendar.reconnect?'Reconnect':calendar.connected?'Refresh':calendar.ready?'Connect':'Details';
+ $('calendar-retry').textContent=calendar.reconnect?'Reconnect':calendar.loading?'Refreshing…':calendar.connected?'↻ Refresh':calendar.ready?'Connect':'Details';
  $('calendar-retry').disabled=calendar.loading||googleBusy;
+ $('calendar-manage').title=$('calendar-status-text').textContent;
 }
 async function loadCalendar(){
  if(!token||googleBusy)return;
  const sequence=++calendarSequence,requestedDay=day;
  lastCalendarAttempt=Date.now();calendar.loading=true;renderCalendarStatus();
  try{
-  const status=await api('google/status');if(sequence!==calendarSequence)return;
+  const status=await api('google/status');if(sequence!==calendarSequence||requestedDay!==day)return;
   Object.assign(calendar,status);
   if(status.connected&&!status.reconnect){
    const query=new URLSearchParams({date:requestedDay,...calendarWindow(requestedDay)});
-   const data=await api(`google/events?${query}`);if(sequence!==calendarSequence)return;
+   const data=await api(`google/events?${query}`);if(sequence!==calendarSequence||requestedDay!==day)return;
    Object.assign(calendar,data);if(data.reconnect||!data.connected){calendar.events=[];calendar.updated=null;}
   }else{calendar.events=[];calendar.updated=null;}
   calendar.error='';
- }catch(error){if(sequence!==calendarSequence)return;calendar.error=error.message;}
+ }catch(error){if(sequence!==calendarSequence||requestedDay!==day)return;calendar.error=error.message;}
  finally{if(sequence===calendarSequence){calendar.loading=false;if(!$('workspace').hidden)render();else renderCalendarStatus();}}
 }
 function restoreDraft(){

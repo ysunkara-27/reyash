@@ -88,19 +88,18 @@
 /* Keep task text and actions within a comfortable reading width. */
 .planner-page .schedule-panel{width:100%;max-width:760px;justify-self:center}
 
-/* Calendar controls stay above the scrolling agenda, regardless of event count. */
-.planner-page .calendar-status{flex:none;align-items:center;gap:12px;padding:10px 12px;border:1px solid #d7e1e5;border-radius:10px;background:#edf2f3;margin-bottom:10px;font-size:11px}
-.calendar-connection{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;min-width:0}
-.planner-page #calendar-manage{padding:0;min-height:26px;font-size:11px;font-weight:600;color:#405e68;text-align:left}
-.planner-page #calendar-retry{flex:none;font-size:11px}
-.planner-page .calendar-status[data-state=attention]{background:#fff3df;border-color:#e4cfaa;color:#795a31}
+/* Calendar actions share the filter row; details live in Account. */
+.planner-page .calendar-status{display:flex;align-items:center;gap:4px;margin:0;padding:0;border:0;background:none;flex:none}
+.planner-page #calendar-manage,.planner-page #calendar-retry{font-size:11px;padding:6px;min-height:32px;white-space:nowrap}
+.planner-page .calendar-status[data-state=attention] #calendar-manage{color:#795a31}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .agenda-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex:none}
 .agenda-filters{display:flex;gap:3px;border:1px solid #dce1d2;border-radius:8px;padding:3px;flex:none}
 .agenda-filters button{background:transparent;border-radius:5px;padding:7px 10px;font-size:11px;color:#657457}
 .agenda-filters button[aria-pressed=true]{background:#e1e9d6;color:#344b27}
 #agenda-zone{font-size:10px;color:#64715b;overflow-wrap:anywhere;text-align:right}
 .all-day-event a{color:inherit;text-underline-offset:3px}
-@media(max-width:699px){.planner-page .calendar-status{padding:7px 10px;margin-bottom:8px}.calendar-connection{gap:0 8px}.agenda-controls{gap:8px;margin-bottom:8px}#agenda-zone{font-size:9px}.agenda-filters button{padding:6px 8px}}
+@media(max-width:699px){.planner-page .calendar-status{padding:0;margin:0}.calendar-connection{gap:0 8px}.agenda-controls{gap:8px;margin-bottom:8px}#agenda-zone{font-size:9px}.agenda-filters button{padding:6px 8px}}
 /* Keep the selected day and its navigation together. */
 .planner-page:has(#workspace:not([hidden])) .heading{justify-content:flex-start;gap:20px}
 .planner-page .heading>div:first-child{order:0;flex:none}
