@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { LogIn } from "lucide-react";
 import { candidateById, candidateIds, partyCandidateIds } from "../data/candidates";
 import { states } from "../data/states";
 import { voterGroups } from "../data/voterGroups";
@@ -8,7 +9,7 @@ import type { CandidateId, Party, VoterGroupId } from "../types";
 
 type StudentChoice = CandidateId | "blueNominee" | "redNominee";
 
-export default function StudentHub({ onSwitchRole }: { onSwitchRole: () => void }) {
+export default function StudentHub({ onChangeGameCode }: { onChangeGameCode: () => void }) {
   const store = useGameStore();
   const activeSession = store.sessions.find((session) => session.id === store.activeSessionId);
   const [choice, setChoice] = useState<StudentChoice>("blueA");
@@ -84,8 +85,8 @@ export default function StudentHub({ onSwitchRole }: { onSwitchRole: () => void 
               Current class status: {phaseLabel(store.phase)} / {store.currentMonth}
             </p>
           </div>
-          <button className="btn" onClick={onSwitchRole}>
-            Switch Role
+          <button className="btn" onClick={onChangeGameCode}>
+            <LogIn size={16} /> Change Game Code
           </button>
         </header>
 
@@ -95,6 +96,9 @@ export default function StudentHub({ onSwitchRole }: { onSwitchRole: () => void 
             <div className="text-2xl font-black text-blue-950">
               {activeSession.name} <span className="font-mono text-lg tracking-widest">({activeSession.code})</span>
             </div>
+            <p className="mt-1 text-sm font-semibold text-blue-900">
+              If this is not your group, use Change Game Code and enter the code from your teacher.
+            </p>
           </section>
         )}
 

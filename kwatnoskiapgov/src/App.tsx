@@ -81,7 +81,7 @@ export default function App() {
   }
 
   if (activeRole === "student" || activeRole === "scorekeeper") {
-    return <StudentHub onSwitchRole={switchRole} />;
+    return <StudentHub onChangeGameCode={switchRole} />;
   }
 
   if (activeRole === "monitor") {
@@ -95,6 +95,7 @@ export default function App() {
       onTabChange={setActiveTab}
       roleLabel={roleLabel(activeRole)}
       onSwitchRole={switchRole}
+      onOpenMonitor={() => setActiveRole("monitor")}
       onLockTeacher={() => {
         lockTeacher();
         setActiveRole(null);

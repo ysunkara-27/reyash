@@ -1,4 +1,5 @@
 import {handle} from './v2.mjs';
+import {handleDog} from '../../../dog/api.mjs';
 const json = (data, status = 200, headers = {}) => new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json', ...headers } });
 const roster = [
   ['Ashiyana','Carrollton',0],['Ausdin','1718 JPA',1],['Tej','Main St / IRC',1],['Misthi','1725 JPA',0],['Mann','Main St / IRC',1],['Samai','Main St / IRC',0],['Kshema','Main St / IRC',0],['Radhika','1725 JPA',0],['Malav','1725 JPA',0],['Sruthika','Main St / IRC',0],['Syed','1718 JPA',0],['Shlok','Upper JPA / Stadium',0],['Yashaswi','Courtenay',0],['Simran','Carrollton',0],['Malhar','Carrollton',0],['Anjali','',0,1],['Ariya','Main St / IRC',0],['Shikha','Carrollton',0],['Shuprava','Upper JPA / Stadium',0],['Meera','1725 JPA',1],['Rahil','',0,1],['Shawn','',0],['Omkar','',0],['Sanju','',0],['Isha','',0],['Sarim','',0,1]
@@ -18,6 +19,7 @@ export default {
     const headers = cors(request, env);
     if (request.method === 'OPTIONS') return new Response(null, { headers: { ...headers, 'access-control-allow-methods': 'GET,POST,PUT,OPTIONS', 'access-control-allow-headers': 'authorization,content-type' } });
     const path = new URL(request.url).pathname;
+    if(path.startsWith('/dog/')) return handleDog(request,env,headers);
     if(path==='/health') return json({ok:true,version:2},200,headers);
     if(path.startsWith('/v2/')) return handle(request,env,{json,headers,hash,tokenFor,userFrom,defaultState});
     return json({error:'This version has been replaced. Refresh /rides to use the new app.'},410,headers);

@@ -45,7 +45,7 @@ export default function ClassMonitorView({ onSwitchRole }: { onSwitchRole: () =>
                 Presentation Mode
               </button>
               <button className="btn" onClick={onSwitchRole}>
-                Switch Role
+                Back to Join Screen
               </button>
             </div>
           </header>

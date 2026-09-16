@@ -21,7 +21,9 @@ export default function RoleSelection({ onChooseRole }: { onChooseRole: (role: U
             <Landmark size={18} /> AP Government Simulation
           </div>
           <h1 className="text-5xl font-black text-ink">Election Control Center</h1>
-          <p className="mt-2 text-xl font-semibold text-slate-700">Teacher control center plus student game-code access.</p>
+          <p className="mt-2 text-xl font-semibold text-slate-700">
+            Students enter a group code. Teachers control the games from the dashboard.
+          </p>
         </div>
 
         <section className="mb-4 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
@@ -29,9 +31,9 @@ export default function RoleSelection({ onChooseRole }: { onChooseRole: (role: U
             <div className="mb-4 flex h-12 w-12 items-center justify-center bg-blue-700 text-white" style={{ borderRadius: 8 }}>
               <GraduationCap size={28} />
             </div>
-            <h2 className="text-3xl font-black text-blue-950">Student: Join Your Game</h2>
+            <h2 className="text-3xl font-black text-blue-950">Students: Enter Your Game Code</h2>
             <p className="mt-1 text-sm text-blue-950">
-              Enter the group code from your teacher. Then choose your candidate inside the student dashboard.
+              Your teacher gives each group one code. After joining, choose your candidate or nominee team inside the dashboard.
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
               <input
@@ -59,7 +61,7 @@ export default function RoleSelection({ onChooseRole }: { onChooseRole: (role: U
               <div className="mb-4 flex h-12 w-12 items-center justify-center bg-blue-900 text-white" style={{ borderRadius: 8 }}>
                 <Landmark size={28} />
               </div>
-              <div className="text-2xl font-black text-slate-950">Teacher Control Center</div>
+              <div className="text-2xl font-black text-slate-950">Teacher Dashboard</div>
               <div className="mt-2 text-base text-slate-700">
                 Create group games, see all codes, switch between groups, lock games, and run the election.
               </div>
@@ -68,7 +70,7 @@ export default function RoleSelection({ onChooseRole }: { onChooseRole: (role: U
               <div className="mb-4 flex h-12 w-12 items-center justify-center border border-blue-200 bg-white text-blue-900" style={{ borderRadius: 8 }}>
                 <MonitorUp size={28} />
               </div>
-              <div className="text-2xl font-black text-slate-950">Class Monitor</div>
+              <div className="text-2xl font-black text-slate-950">Projector View</div>
               <div className="mt-2 text-base text-slate-700">Projector view that cycles through the active classroom games.</div>
             </button>
           </div>
@@ -85,8 +87,8 @@ export default function RoleSelection({ onChooseRole }: { onChooseRole: (role: U
                 and gives each group its join code.
               </p>
               <p>
-                Students enter their group code here and use the read-only candidate dashboard. The teacher keeps one control
-                center open to update tokens, run primaries, manage conventions, and calculate Election Night.
+                Students do not choose an admin role. They join the right game with their code, then choose their candidate
+                or nominee team inside the read-only dashboard.
               </p>
               <p>
                 Game flow: <span className="font-bold">Setup</span> <ArrowRight className="inline" size={14} />{" "}

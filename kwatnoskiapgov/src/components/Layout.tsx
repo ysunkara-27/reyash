@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Landmark, Lock, Repeat2 } from "lucide-react";
+import { Landmark, Lock, LogIn, MonitorUp } from "lucide-react";
 import SessionSwitcher from "./SessionSwitcher";
 import TurnBanner from "./TurnBanner";
 
@@ -11,6 +11,7 @@ export default function Layout({
   onTabChange,
   roleLabel,
   onSwitchRole,
+  onOpenMonitor,
   onLockTeacher,
   children
 }: {
@@ -19,6 +20,7 @@ export default function Layout({
   onTabChange: (tab: TabName) => void;
   roleLabel: string;
   onSwitchRole: () => void;
+  onOpenMonitor?: () => void;
   onLockTeacher?: () => void;
   children: ReactNode;
 }) {
@@ -42,8 +44,13 @@ export default function Layout({
                   <Lock size={16} /> Lock Teacher Mode
                 </button>
               )}
+              {onOpenMonitor && (
+                <button className="btn" onClick={onOpenMonitor}>
+                  <MonitorUp size={16} /> Projector View
+                </button>
+              )}
               <button className="btn" onClick={onSwitchRole}>
-                <Repeat2 size={16} /> Switch Role
+                <LogIn size={16} /> Back to Join Screen
               </button>
               <div className="flex overflow-hidden border border-slate-300 text-sm font-black" style={{ borderRadius: 8 }}>
                 <div className="bg-blue-700 px-4 py-2 text-white">Blue</div>
@@ -55,8 +62,8 @@ export default function Layout({
             <span className="font-bold">Location:</span> {roleLabel} / {activeTab}
           </div>
           <div className="mt-2 border border-blue-100 bg-blue-50 px-3 py-2 text-sm text-blue-950" style={{ borderRadius: 8 }}>
-            Use the tabs below from left to right for the normal game flow. Use <span className="font-bold">Switch Role</span>{" "}
-            when a different classroom user needs a simpler view.
+            Use the tabs below from left to right for the normal game flow. Students should join from the code screen instead
+            of using teacher controls.
           </div>
           <nav className="mt-4 flex gap-2 overflow-x-auto pb-1">
             {tabs.map((tab) => (
