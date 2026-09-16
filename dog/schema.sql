@@ -11,3 +11,4 @@ CREATE TABLE IF NOT EXISTS dog_care_receipts (user_id TEXT NOT NULL REFERENCES d
 CREATE TABLE IF NOT EXISTS dog_settings (user_id TEXT PRIMARY KEY REFERENCES dog_users(id), rollover INTEGER NOT NULL DEFAULT 1);
 -- Transient transfer rows exist only inside the atomic rollover batch.
 CREATE TABLE IF NOT EXISTS dog_rollover_moves (user_id TEXT NOT NULL, source_day TEXT NOT NULL, task_id TEXT NOT NULL, payload TEXT NOT NULL, PRIMARY KEY(user_id,source_day,task_id));
+CREATE TABLE IF NOT EXISTS dog_group_colors (user_id TEXT NOT NULL REFERENCES dog_users(id), name TEXT NOT NULL, color TEXT NOT NULL, PRIMARY KEY(user_id,name));

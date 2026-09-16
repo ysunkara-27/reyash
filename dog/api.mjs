@@ -1,6 +1,7 @@
 import {validateDay,validatePlan} from './model.mjs';
 import {defaultPet,validatePet} from './pet-profile.mjs';
 import {handleGoogle,googleCallback} from './google-calendar.mjs';
+import {readGroupColors,validateGroupColor} from './group-colors.mjs';
 import {carryForward} from './rollover.mjs';
 import {careDay} from './care-model.mjs';
 import {readCare,handleCare} from './care-api.mjs';
@@ -49,6 +50,14 @@ export async function handleDog(request,env,headers={}){
   if(!user)return reply({error:'Please log in to your day.'},401);
   if(path==='/dog/care')return await handleCare(request,env,user,body,reply);
   if(path.startsWith('/dog/google/'))return handleGoogle(request,env,{user,tokenHash,body,reply});
+  if(path==='/dog/groups'){
+   if(request.method==='PUT'){
+    const {name,color}=validateGroupColor(body);
+    if(color===null)await env.DB.prepare('DELETE FROM dog_group_colors WHERE user_id=? AND name=?').bind(user.id,name).run();
+    else await env.DB.prepare('INSERT INTO dog_group_colors(user_id,name,color) VALUES (?,?,?) ON CONFLICT(user_id,name) DO UPDATE SET color=excluded.color').bind(user.id,name,color).run();
+   }else if(request.method!=='GET')return reply({error:'Method not allowed.'},405);
+   return reply({groupColors:await readGroupColors(env,user.id)});
+  }
   if(path==='/dog/settings'){
    if(request.method==='PUT'){
     if(typeof body.rollover!=='boolean')return reply({error:'Choose whether unfinished tasks carry forward.'},400);
@@ -70,7 +79,7 @@ export async function handleDog(request,env,headers={}){
    const carried=day===careDay(zone)?await carryForward(env,user.id,day):{moved:0,pending:0};
    const row=await env.DB.prepare('SELECT data,revision FROM dog_days WHERE user_id=? AND day=?').bind(user.id,day).first();
    const profile=await env.DB.prepare('SELECT data FROM dog_profiles WHERE user_id=?').bind(user.id).first();
-   return reply({carried,care:await readCare(env,user.id,url.searchParams.get('zone')||'UTC'),username:user.username,pet:profile?JSON.parse(profile.data):defaultPet,plan:row?JSON.parse(row.data):null,revision:row?.revision??0});
+   return reply({groupColors:await readGroupColors(env,user.id),carried,care:await readCare(env,user.id,url.searchParams.get('zone')||'UTC'),username:user.username,pet:profile?JSON.parse(profile.data):defaultPet,plan:row?JSON.parse(row.data):null,revision:row?.revision??0});
   }
   if(request.method!=='PUT')return reply({error:'Method not allowed.'},405);
   careDay(url.searchParams.get('zone')||'UTC');

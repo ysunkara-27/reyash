@@ -110,3 +110,6 @@
 .planner-page .heading>.progress-card{order:2;margin-left:auto;margin-right:0}
 @media(max-width:699px){.planner-page:has(#workspace:not([hidden])) .heading{gap:10px;flex-wrap:wrap}.planner-page .heading>.date-control{padding:3px}.planner-page .date-control input{font-size:11px;padding:6px;max-width:132px}.planner-page .date-control #today{padding:6px 8px}}
 .planner-settings{margin-top:20px}.planner-settings h3{font-size:14px;margin-bottom:12px}.settings-copy{font-size:11px;line-height:1.65;color:#65735b;margin:12px 0}.setting-toggle{display:flex;flex-direction:row;align-items:flex-start;gap:10px;line-height:1.5}.setting-toggle input{margin:3px 0 0;accent-color:#74875c;flex:none}#onboarding-done{margin:16px 12px 0 0}
+.group-color-control{margin-top:10px;gap:6px}.group-color-control select{font-size:12px;min-height:36px;width:100%}#group-color-note,#group-color-status{margin-top:6px;max-width:190px}#group-color-status:empty,#edit-group-color-status:empty{display:none}
+/* Expanded task options stay reachable in shorter desktop workspaces. */
+.planner-page #workspace>.planner .task-form{max-height:100%;overflow-y:auto}

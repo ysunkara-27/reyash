@@ -28,8 +28,11 @@ try{
  await expect(page.locator('#percent')).toHaveText('0%');assert.equal(await page.locator('.calendar-event input,.calendar-event button').count(),0);
  assert.equal(await page.locator('.calendar-event img').count(),0);
  await page.locator('#start').fill('09:00');await page.locator('#start').press('Tab');
+ await page.locator('#group-details summary').click();await page.locator('#group').fill('Work');await page.locator('#group-color').selectOption('rose');await expect(page.locator('#group-color-status')).toHaveText('Group color saved.');
  await page.locator('#task-name').fill('Write a note');await page.locator('#add-task').click();
  await expect(page.getByRole('button',{name:'Change start time for Write a note'})).toContainText('10:00 am');
+ assert.equal(await page.locator('.task-row:not(.calendar-event) .task-card').first().evaluate(el=>el.style.getPropertyValue('--paper')),'#f1e1e5');
+ await page.reload();await expect(page.getByRole('checkbox',{name:'Complete: Write a note'})).toBeVisible();assert.equal(await page.locator('.task-row:not(.calendar-event) .task-card').first().evaluate(el=>el.style.getPropertyValue('--paper')),'#f1e1e5');
  await page.locator('[data-agenda="tasks"]').click();await expect(page.locator('.calendar-event')).toHaveCount(0);await expect(page.locator('#all-day-events')).toBeHidden();await expect(page.getByRole('button',{name:'Change start time for Write a note'})).toContainText('10:00 am');
  await page.locator('[data-agenda="calendar"]').click();await expect(page.locator('.calendar-event')).toHaveCount(2);await expect(page.getByRole('checkbox')).toHaveCount(0);
  await page.locator('[data-agenda="all"]').click();
@@ -40,7 +43,7 @@ try{
  }
  await page.setViewportSize({width:1440,height:1000});
 
- await page.getByRole('button',{name:'Change start time for Write a note'}).click();await page.locator('#edit-start').fill('09:15');await page.getByRole('button',{name:'Save',exact:true}).click();await expect(page.locator('.overlap-chip')).toHaveCount(1);
+ await page.getByRole('button',{name:'Change start time for Write a note'}).click();await page.locator('#edit-group-color').selectOption('lavender');await expect(page.locator('#edit-group-color-status')).toHaveText('Group color saved.');await page.locator('#edit-start').fill('09:15');await page.getByRole('button',{name:'Save',exact:true}).click();await expect(page.locator('.overlap-chip')).toHaveCount(1);
  await page.getByRole('checkbox',{name:'Complete: Write a note'}).click();await expect(page.locator('#percent')).toHaveText('100%');
  await page.locator('#account').click();await expect(page.locator('#google-status')).toHaveText('Connected');
  await page.screenshot({path:'/private/tmp/good-day-calendar-account.png',fullPage:true});

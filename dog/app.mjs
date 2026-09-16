@@ -2,6 +2,7 @@ import {localDay,progress,timeLabel,clockMinutes,clockValue} from './model.mjs';
 import {defaultPet} from './pet-profile.mjs';
 import {createCompanion,puppySVG} from './pet.mjs';
 import {calendarRows,calendarWindow} from './calendar-model.mjs';
+import {groupPalette,groupKey,groupColor} from './group-colors.mjs';
 import {buildAgenda} from './agenda.mjs';
 const $=id=>document.getElementById(id);
 const API=['localhost','127.0.0.1'].includes(location.hostname)?'http://127.0.0.1:8791':'https://hooraas-rides-api.sunkarayashaswi.workers.dev';
@@ -10,7 +11,7 @@ let knownToday=localDay();
 let pet={...defaultPet},care=null,careBusy=false;
 const zone=()=>encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC');
 let calendar={ready:false,connected:false,reconnect:false,events:[],updated:null,error:'',loading:false};
-let agendaView='all';
+let agendaView='all',groupColors={},groupColorBusy=false;
 let calendarSequence=0,lastCalendarAttempt=0,googleBusy=false,lastCareRefresh=0;
 const googleReturn=new URLSearchParams(location.hash.slice(1));
 if(googleReturn.has('google-code')||googleReturn.has('google-result'))history.replaceState(null,'',location.pathname+location.search);
@@ -19,13 +20,13 @@ function notice(message,persistent=false){clearTimeout(noticeTimeout);$('notice'
 async function api(path,method='GET',body){let response;try{response=await fetch(`${API}/dog/${path}`,{method,headers:{...(token?{authorization:`Bearer ${token}`} :{}),...(body?{'content-type':'application/json'}:{})},body:body?JSON.stringify(body):undefined,signal:AbortSignal.timeout(15000)});}catch{throw new Error('Couldn’t connect. Your changes haven’t been saved. Please try again.');}let data;try{data=await response.json()}catch{throw new Error('The planner is unavailable. Please try again.');}if(!response.ok){if(response.status===401&&!['login','signup'].includes(path)){token='';localStorage.removeItem('good-day-token');showAuth();}if(response.status===409&&path.startsWith('day')){$('reload').hidden=false;}throw new Error(data.error||'Something went wrong. Please try again.');}return data;}
 function setBusy(value){busy=value;for(const element of document.querySelectorAll('#workspace button,#workspace input,#workspace textarea,#workspace select,#task-form button,#task-form input,#task-form textarea,#focus button,#focus input,#focus select,#day,#today,#account,#edit-form button,#edit-form input,#focus-done'))element.disabled=value;$('timer-minutes').disabled=value||!!deadline;if(!value)renderCare();}
 function showAuth(){
- loadSequence++;agendaView='all';setBusy(false);signup=false;updateAuthMode();
+ loadSequence++;agendaView='all';groupColors={};setBusy(false);signup=false;updateAuthMode();
  $('edit-dialog').close();$('pet-dialog').close();$('account-dialog').close();calendarSequence++;calendar={ready:false,connected:false,reconnect:false,events:[],updated:null,error:'',loading:false};$('loading').hidden=true;$('auth').hidden=false;
  $('workspace').hidden=true;$('account').hidden=true;$('date-control').hidden=true;$('reload').hidden=true;
  care=null;resetTimer();plan={start:540,tasks:[]};pet={...defaultPet};companion.setProfile(pet);
  renderDog();renderFocus();$('date-label').textContent='';$('page-title').textContent='Your day.';
 }
-async function loadDay(){const sequence=++loadSequence;$('loading').hidden=false;$('workspace').hidden=true;$('auth').hidden=true;setBusy(true);try{const data=await api(`day?date=${day}&zone=${zone()}`);if(sequence!==loadSequence)return;care=data.care;username=data.username;revision=data.revision;pet={...defaultPet,...data.pet};companion.setProfile(pet);const now=new Date();plan=data.plan||{start:day===localDay()?Math.min(1425,Math.max(540,Math.ceil((now.getHours()*60+now.getMinutes())/15)*15)):540,tasks:[]};$('workspace').hidden=false;$('account').hidden=false;$('account').textContent='Account';$('account').title=`Signed in as ${username}`;$('date-control').hidden=false;$('reload').hidden=true;restoreDraft();render();loadCalendar();if(data.carried?.moved)notice(`${data.carried.moved} unfinished ${data.carried.moved===1?'task moved':'tasks moved'} into today.`);if(data.carried?.pending)notice(`${data.carried.pending} unfinished tasks remain on earlier days. Today is at its 100-task limit.`,true);}catch(error){if(sequence===loadSequence||!token)notice(error.message,true);if(token)$('reload').hidden=false;}finally{if(sequence===loadSequence){$('loading').hidden=true;setBusy(false);}}}
+async function loadDay(){const sequence=++loadSequence;$('loading').hidden=false;$('workspace').hidden=true;$('auth').hidden=true;setBusy(true);try{const data=await api(`day?date=${day}&zone=${zone()}`);if(sequence!==loadSequence)return;care=data.care;groupColors=data.groupColors||{};username=data.username;revision=data.revision;pet={...defaultPet,...data.pet};companion.setProfile(pet);const now=new Date();plan=data.plan||{start:day===localDay()?Math.min(1425,Math.max(540,Math.ceil((now.getHours()*60+now.getMinutes())/15)*15)):540,tasks:[]};$('workspace').hidden=false;$('account').hidden=false;$('account').textContent='Account';$('account').title=`Signed in as ${username}`;$('date-control').hidden=false;$('reload').hidden=true;restoreDraft();render();loadCalendar();if(data.carried?.moved)notice(`${data.carried.moved} unfinished ${data.carried.moved===1?'task moved':'tasks moved'} into today.`);if(data.carried?.pending)notice(`${data.carried.pending} unfinished tasks remain on earlier days. Today is at its 100-task limit.`,true);}catch(error){if(sequence===loadSequence||!token)notice(error.message,true);if(token)$('reload').hidden=false;}finally{if(sequence===loadSequence){$('loading').hidden=true;setBusy(false);}}}
 async function save(next){if(busy)return false;setBusy(true);try{const data=await api(`day?date=${day}&zone=${zone()}`,'PUT',{plan:next,revision});plan=data.plan;revision=data.revision;care=data.care;render();return true;}catch(error){notice(error.message,true);return false;}finally{setBusy(false);}}
 function renderDog(){
  const done=plan.tasks.filter(t=>t.done).length,pct=progress(plan.tasks);
@@ -40,14 +41,13 @@ function render(){const today=day===localDay(),date=new Date(`${day}T12:00:00`);
  $('all-day-events').hidden=!allDay.length;
  $('all-day-events').innerHTML=allDay.map(event=>`<div class="all-day-event"><span>All day</span> ${event.url?`<a href="${escape(event.url)}" target="_blank" rel="noopener noreferrer">${escape(event.title)} ↗</a>`:escape(event.title)} <small>Google Calendar · Does not block tasks</small></div>`).join('');
  const next=scheduled.find(t=>!t.done)?.id;
- const colors=[['#e9eedf','#b2c29c'],['#f3ead6','#d5bd82'],['#eee7ef','#c5afcb'],['#e4edf0','#a8c3cc'],['#f3e4da','#d7b49a']];
- $('timeline').innerHTML=rows.map(task=>{if(task.calendarEvent)return renderCalendarEvent(task);let hash=0;for(const char of task.group)hash=(hash*31+char.charCodeAt(0))>>>0;const [paper,accent]=task.group?colors[({'work':0,'life':1,'me time':2})[task.group.toLowerCase()]??hash%colors.length]:['#eeeedf','#b9bb97'];return `<article class="task-row ${task.done?'done':''}"><div class="task-time"><button data-time="${task.id}" aria-label="Change start time for ${escape(task.name)}">${timeLabel(task.start).replace(' +','<br>+')}${task.fixed?'<span class="fixed-mark">set</span>':''}</button></div><div class="task-card" style="--paper:${paper};--accent:${accent};min-height:${Math.min(190,90+task.minutes*.5)}px"><button class="check" data-complete="${task.id}" role="checkbox" aria-checked="${task.done}" aria-label="${task.done?'Mark incomplete:':'Complete:'} ${escape(task.name)}">${task.done?'✓':''}</button><div class="task-content"><div class="task-title">${escape(task.name)}</div><div class="task-meta">${task.group?`<span class="group-chip">${escape(task.group)}</span>`:''}<span>${task.minutes} min</span><span>until ${timeLabel(task.end)}</span>${task.overlap?'<span class="overlap-chip">Time overlap</span>':''}${task.id===next?'<span class="next-chip">Up next</span>':''}</div></div><div class="task-actions">${!task.done?`<button data-focus="${task.id}" aria-label="Start timer for ${escape(task.name)}">▷ Start</button>`:''}<button data-edit="${task.id}" aria-label="Edit ${escape(task.name)}">···</button></div></div></article>`;}).join('');
+ $('timeline').innerHTML=rows.map(task=>{if(task.calendarEvent)return renderCalendarEvent(task);const {paper,accent}=groupColor(task.group,groupColors);return `<article class="task-row ${task.done?'done':''}"><div class="task-time"><button data-time="${task.id}" aria-label="Change start time for ${escape(task.name)}">${timeLabel(task.start).replace(' +','<br>+')}${task.fixed?'<span class="fixed-mark">set</span>':''}</button></div><div class="task-card" style="--paper:${paper};--accent:${accent};min-height:${Math.min(190,90+task.minutes*.5)}px"><button class="check" data-complete="${task.id}" role="checkbox" aria-checked="${task.done}" aria-label="${task.done?'Mark incomplete:':'Complete:'} ${escape(task.name)}">${task.done?'✓':''}</button><div class="task-content"><div class="task-title">${escape(task.name)}</div><div class="task-meta">${task.group?`<span class="group-chip">${escape(task.group)}</span>`:''}<span>${task.minutes} min</span><span>until ${timeLabel(task.end)}</span>${task.overlap?'<span class="overlap-chip">Time overlap</span>':''}${task.id===next?'<span class="next-chip">Up next</span>':''}</div></div><div class="task-actions">${!task.done?`<button data-focus="${task.id}" aria-label="Start timer for ${escape(task.name)}">▷ Start</button>`:''}<button data-edit="${task.id}" aria-label="Edit ${escape(task.name)}">···</button></div></div></article>`;}).join('');
  $('empty').hidden=!!rows.length||!!allDay.length;
  $('agenda-empty').textContent=agendaView==='calendar'?(calendar.loading?'Loading calendar events…':calendar.error||calendar.reconnect?'Calendar events are unavailable. Check the connection above.':'No Google events on this day.'):agendaView==='tasks'?'No tasks on this day. Add one to plan around your events.':'Add a task to start your day.';
  document.querySelectorAll('[data-agenda]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.agenda===agendaView)));
  renderCalendarStatus();
- $('groups').innerHTML=[...new Set(['Work','Life','Me time',...plan.tasks.map(t=>t.group).filter(Boolean)])].map(group=>`<option value="${escape(group)}">`).join('');
- if(focusId&&!plan.tasks.some(t=>t.id===focusId&&!t.done)){resetTimer();}renderDog();renderFocus();requestAnimationFrame(()=>companion.settle());}
+ $('groups').innerHTML=[...new Set(['Work','Life','Me time',...plan.tasks.map(t=>t.group).filter(Boolean),...Object.keys(groupColors)])].map(group=>`<option value="${escape(group)}">`).join('');
+ if(focusId&&!plan.tasks.some(t=>t.id===focusId&&!t.done)){resetTimer();}renderDog();renderFocus();syncGroupColor();syncGroupColor('edit-');requestAnimationFrame(()=>companion.settle());}
 async function complete(id){const task=plan.tasks.find(t=>t.id===id);if(!task)return;const wasDone=task.done;if(await save({...plan,tasks:plan.tasks.map(t=>t.id===id?{...t,done:!t.done}:t)})){if(!wasDone&&day===localDay())companion.taskCompleted(id);}}
 function resetTimer(id=null){
  focusId=id;deadline=null;
@@ -78,7 +78,7 @@ function editTask(id,atTime=false){
  editId=id;const task=plan.tasks.find(task=>task.id===id);
  $('edit-name').value=task.name;$('edit-minutes').value=task.minutes;
  $('edit-group').value=task.group;$('edit-start').value=clockValue(task.scheduledStart);
- $('edit-dialog').showModal();if(atTime)$('edit-start').focus();
+ syncGroupColor('edit-');$('edit-dialog').showModal();if(atTime)$('edit-start').focus();
 }
 function updateAuthMode(){
  $('auth-submit').textContent=signup?'Create account →':'Log in →';
@@ -98,6 +98,24 @@ function updateComposer(){
  $('add-task').textContent=count>1?`+ Add ${count} tasks`:'+ Add task';
  $('batch-time-hint').hidden=count<2||!$('task-start').value;
  document.querySelectorAll('[data-minutes]').forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.minutes)===Number($('duration').value))));
+}
+function syncGroupColor(prefix=''){
+ const name=$(prefix+'group').value.trim(),select=$(prefix+'group-color');
+ const color=groupColor(name,groupColors);select.style.backgroundColor=color.paper;select.style.borderColor=color.accent;
+ select.value=Object.hasOwn(groupColors,groupKey(name))?groupColors[groupKey(name)]:'';select.disabled=!name||groupColorBusy;
+}
+for(const prefix of ['', 'edit-']){
+ const select=$(prefix+'group-color');select.innerHTML='<option value="">Automatic</option>'+Object.entries(groupPalette).map(([value,color])=>`<option value="${value}">${color.label}</option>`).join('');
+ $(prefix+'group').addEventListener('input',()=>{$(prefix+'group-color-status').textContent='';syncGroupColor(prefix);});
+ select.onchange=async()=>{
+  const name=$(prefix+'group').value.trim(),color=select.value||null,session=token;
+  if(!name||groupColorBusy)return;groupColorBusy=true;syncGroupColor();syncGroupColor('edit-');
+  $(prefix+'group-color-status').textContent='Saving…';
+  try{const data=await api('groups','PUT',{name,color});if(token!==session)return;groupColors=data.groupColors;render();$(prefix+'group-color-status').textContent='Group color saved.';}
+  catch(error){if(token===session)$(prefix+'group-color-status').textContent=error.message;}
+  finally{groupColorBusy=false;syncGroupColor();syncGroupColor('edit-');}
+ };
+ syncGroupColor(prefix);
 }
 $('duration').oninput=updateComposer;
 $('task-start').oninput=updateComposer;
@@ -232,7 +250,7 @@ async function loadCalendar(){
  finally{if(sequence===calendarSequence){calendar.loading=false;if(!$('workspace').hidden)render();else renderCalendarStatus();}}
 }
 function restoreDraft(){
- try{const draft=JSON.parse(sessionStorage.getItem('good-day-calendar-draft'));if(draft?.user===username&&draft.day===day){$('task-name').value=draft.name;$('duration').value=draft.minutes;$('group').value=draft.group;$('task-start').value=draft.start;$('task-time-details').open=!!draft.start;$('group-details').open=!!draft.group;sessionStorage.removeItem('good-day-calendar-draft');updateComposer();}}catch{}
+ try{const draft=JSON.parse(sessionStorage.getItem('good-day-calendar-draft'));if(draft?.user===username&&draft.day===day){$('task-name').value=draft.name;$('duration').value=draft.minutes;$('group').value=draft.group;$('task-start').value=draft.start;$('task-time-details').open=!!draft.start;$('group-details').open=!!draft.group;sessionStorage.removeItem('good-day-calendar-draft');updateComposer();syncGroupColor();}}catch{}
 }
 async function openAccount(onboarding=false){
  $('onboarding-intro').hidden=onboarding!==true;$('onboarding-done').hidden=onboarding!==true;

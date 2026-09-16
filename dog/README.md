@@ -71,3 +71,5 @@ The signed-in planner fits the viewport, with long schedules scrolling in a keyb
 The connected calendar data flow and UI state model are documented in [Calendar architecture](CALENDAR-ARCHITECTURE.md).
 
 Carryover adds `dog_settings` and a transient `dog_rollover_moves` table. Apply `schema.sql` before deploying the updated Worker. Tests: `node --test dog/tests/rollover.test.mjs` and `node dog/tests/rollover-api.mjs`. Calendar setup is shown in Account and optional post-signup onboarding; only an active connection appears in the agenda. Direct iCloud calendars are not supported.
+
+Task group colors are account-wide, case-insensitive assignments. Add/edit a task, enter its group, then choose Group color (Automatic or one of six themed colors). Changes immediately apply across days, including carried tasks. `dog_group_colors` is additive in `schema.sql`; apply the schema before deploying this API update.
