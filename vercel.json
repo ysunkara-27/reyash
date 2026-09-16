@@ -1,12 +1,16 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "installCommand": "npm ci --prefix savetheworld",
-  "buildCommand": "npm run build --prefix savetheworld && cp -R savetheworld/dist/. savetheworld/",
-  "outputDirectory": ".",
+  "installCommand": "npm ci --prefix savetheworld && npm ci --prefix officehours/ux-studio-screen-main",
+  "buildCommand": "npm run build --prefix savetheworld && npm run build --prefix officehours/ux-studio-screen-main && node scripts/build-site.mjs",
+  "outputDirectory": "dist",
   "redirects": [
     { "source": "/dog", "destination": "https://taskpup.lol/", "permanent": true },
-    { "source": "/dog/:path*", "destination": "https://taskpup.lol/:path*", "permanent": true }
+    { "source": "/dog/:path*", "destination": "https://taskpup.lol/:path*", "permanent": true },
+    { "source": "/kwatnoskiapgov", "destination": "/apgovelections/", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/pujarinet/:path*", "destination": "/pujarinet/index.html" }
   ],
   "headers": [
     {

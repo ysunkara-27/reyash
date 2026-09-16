@@ -1,0 +1,8 @@
+.netlify-publish/
+.wrangler/
+**/node_modules/
+**/.next/
+**/out/
+**/dist/
+**/.env*
+**/tests/

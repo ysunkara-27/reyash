@@ -4,3 +4,5 @@ dist/
 .env
 .netlify-publish/
 .wrangler/
+.vercel/
+.vercel

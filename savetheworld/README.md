@@ -13,7 +13,7 @@ npm run dev
 
 Open `http://localhost:5173/savetheworld/`. `npm test` checks catalogue invariants and timer behavior. `npm run build` produces `dist/`; `npm run preview` serves that build locally. `npm run test:e2e` tests the production build in installed Google Chrome (success, overtime completion, incorrect-purchase recovery, and mobile layout).
 
-The Vite base is `/savetheworld/`. The root `vercel.json` installs and builds this app, then copies the compiled HTML and assets into `savetheworld/` inside Vercel's disposable build checkout. Vercel publishes the repository root to preserve the existing static pages. Do not run that deployment copy command in your working tree: use `npm run build` and `npm run preview` for local work. The older Netlify configuration publishes to `.netlify-publish/savetheworld/`. No client-side route rewrites are required: all screens use React state at the same URL. For GitHub Pages, copy `dist/` into the published site's `savetheworld/` directory. Refresh starts a new experiment.
+The Vite base is `/savetheworld/`. The root `vercel.json` builds this app and Office Hours, then `scripts/build-site.mjs` assembles the portfolio's public files in `dist/`. Vercel publishes only that directory. No client-side route rewrites are required: all screens use React state at the same URL. Refresh starts a new experiment.
 
 ## Instructor walkthrough (spoilers)
 
