@@ -1,4 +1,4 @@
-import {migrate,validate,plan} from '../../model.mjs';
+import {migrate,validate,plan,stabilizeAssignments,publicState} from '../../model.mjs';
 import {dailyKey} from '../../game-engine.mjs';
 const admins=['Meera','Yashaswi'];
 export async function handle(request,env,h){
@@ -47,13 +47,14 @@ export async function handle(request,env,h){
   if(!row){const legacy=await env.DB.prepare('SELECT data FROM app_state WHERE id=1').first();const data=migrate(legacy?JSON.parse(legacy.data):h.defaultState);await env.DB.prepare('INSERT OR IGNORE INTO rides_v2(id,data,revision) VALUES(1,?,0)').bind(JSON.stringify(data)).run();row=await env.DB.prepare('SELECT * FROM rides_v2 WHERE id=1').first()}
   return {data:JSON.parse(row.data),revision:row.revision};
  };
- if(path==='/v2/state'&&request.method==='GET')return reply({...await read(),admin});
+ if(path==='/v2/state'&&request.method==='GET'){const state=await read();return reply({...state,data:admin?state.data:publicState(state.data),admin})}
  if(!admin)return reply({error:'Admin access required.'},401);
  if(path==='/v2/state'&&request.method==='PUT'){
    const body=await request.text();if(body.length>500000)return reply({error:'Update is too large.'},413);
    const {data,revision,verifyId}=JSON.parse(body);validate(data);
    const previous=await read();if(revision!==previous.revision)return reply({error:'Another admin saved changes. Reload before editing again.'},409);
    if(admin!=='Yashaswi'&&JSON.stringify(data.featuredSet)!==JSON.stringify(previous.data.featuredSet))return reply({error:'Only Yashaswi can change the featured raas set.'},403);
+   stabilizeAssignments(previous.data,data,verifyId);validate(data);
    const rosterChanged=JSON.stringify(data.roster)!==JSON.stringify(previous.data.roster)||JSON.stringify(data.locations)!==JSON.stringify(previous.data.locations);
    for(const event of data.events){const old=previous.data.events.find(e=>e.id===event.id);const clean=e=>({...e,verified:null});event.verified=!rosterChanged&&old&&JSON.stringify(clean(old))===JSON.stringify(clean(event))?old.verified:null}
    if(verifyId){const event=data.events.find(e=>e.id===verifyId);if(!event)return reply({error:'Event not found.'},400);const result=plan(data,event);if(result.pending.length||result.warnings.length)return reply({error:'Resolve missing pickups, missing pins, and seat shortages before verifying.'},400);event.verified={by:admin,at:new Date().toISOString()}}

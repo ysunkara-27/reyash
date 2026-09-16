@@ -1,10 +1,12 @@
 # Rides
 
-Static public UI with a Cloudflare Worker and D1 database. Public rides are automatic; only Meera and Yashaswi have admin editing access. No rider accounts are used.
+Static public UI with a Cloudflare Worker and D1 database. Initial ride recommendations are automatic; only Meera and Yashaswi have admin editing access. No rider accounts are used. Public rides appear only after admin verification.
 
 ## Data
 
-The `/v2/state` endpoint migrates the existing roster into the separate `rides_v2` table on first read. Legacy data and existing hashed PINs are preserved. Event attendance and car overrides are separate from roster defaults. Writes compare a revision number to prevent silent overwrites. Verification is set server-side and cleared by edits; all unverified plans stay public. Missing locations, missing pins and seat shortages block verification.
+The `/v2/state` endpoint migrates the existing roster into the separate `rides_v2` table on first read. Legacy data and existing hashed PINs are preserved. Event attendance and car overrides are separate from roster defaults. Writes compare a revision number to prevent silent overwrites. Verification is set server-side and cleared by edits; unverified plans are excluded from anonymous API responses. Public responses contain event metadata and only verified plans, with no full roster, private overrides, or presets. Missing locations, missing pins and seat shortages block verification.
+
+The first edit snapshots existing assignments server-side. Later manual edits keep other riders in place; unavailable drivers or reduced capacity leave affected riders pending rather than silently reassigning them. Explicit recommendation/reset/preset actions can recompute assignments. Verified plans include the event-specific Walking / No Ride Needed list. The game and featured set remain public while rides are awaiting verification.
 
 Pins are saved once. Initial apartment labels are retained **without invented coordinates**. Admins must confirm the actual car-accessible pickup spots. A driver collects their home cluster first; other riders are assigned by incremental geographic trip distance subject to passenger capacity. Up to five pickup stops are exhaustively ordered to minimize geographic distance per car. This is a deterministic geographic suggestion, not a road-network/traffic optimizer or an ETA service. Driving links include the saved stops and split routes when needed for Google Maps mobile waypoint limits.
 

@@ -44,6 +44,7 @@ export function plan(data,event){
    if(missing(p)){pending.push({person:p,reason:'Choose pickup location'});continue}
    if(!pinned(p.point))warnings.push(p.name+': confirm pickup pin');
    if(event.overrides?.[p.id]?.carId){if(!assign(p,cars.find(c=>c.driver.id===p.carId)))pending.push({person:p,reason:'Selected car unavailable or full'});continue}
+   if(event.assignmentsLocked){pending.push({person:p,reason:'Choose a driver'});continue}
    remaining.push(p);
  }
  // Reserve home-cluster seats first, before any distant pickup fills a car.
@@ -75,6 +76,7 @@ export function recommendCars(data,event,person,result=plan(data,event)){
 export function applyCarPreset(data,eventId,preset){
  const next=structuredClone(data),event=next.events.find(e=>e.id===eventId);
  if(!event)throw new Error('Event not found');
+ event.assignmentsLocked=false;event.replan=true;
  for(const override of Object.values(event.overrides))delete override.carId;
  const people=participants(next,event),drivers=new Map(people.filter(p=>p.needsRide&&p.driver).map(p=>[p.id,p]));
  const used=new Map();let fallback=0;
@@ -86,6 +88,21 @@ export function applyCarPreset(data,eventId,preset){
    event.overrides[id]??={};event.overrides[id].carId=driverId;used.set(driverId,count+1);
  }
  return {data:next,fallback};
+}
+export function stabilizeAssignments(previous,next,verifyId){
+ const rosterChanged=JSON.stringify(previous.roster)!==JSON.stringify(next.roster)||JSON.stringify(previous.locations)!==JSON.stringify(next.locations);
+ for(const e of next.events){const old=previous.events.find(x=>x.id===e.id);if(!old)continue;
+   const changed=rosterChanged||JSON.stringify({...e,verified:null})!==JSON.stringify({...old,verified:null});
+   if(!changed&&e.id!==verifyId)continue;
+   if(e.replan){delete e.replan;e.assignmentsLocked=false;const result=plan(next,e);for(const c of result.cars)for(const p of c.people){e.overrides[p.id]??={};e.overrides[p.id].carId=c.driver.id}}
+   else {const result=plan(previous,old);for(const c of result.cars)for(const p of c.people){if(!next.roster.some(x=>x.id===p.id)||!next.roster.some(x=>x.id===c.driver.id))continue;const prior=old.overrides[p.id]?.carId||'',requested=e.overrides[p.id]?.carId||'';if(prior===requested){e.overrides[p.id]??={};e.overrides[p.id].carId=c.driver.id}}}
+   e.assignmentsLocked=true;
+ }
+ return next;
+}
+export function publicState(data){
+ const destinationIds=new Set(data.events.map(e=>e.destinationId).filter(Boolean));
+ return {roster:[],locations:data.locations.filter(l=>destinationIds.has(l.id)),...(data.featuredSet?{featuredSet:data.featuredSet}:{}),events:data.events.map(e=>({id:e.id,date:e.date,title:e.title,location:e.location,time:e.time,destinationId:e.destinationId||'',verified:e.verified||null,overrides:{},...(e.verified?{note:e.note||'',publicPlan:plan(data,e)}:{})}))};
 }
 export function removePerson(data,id){
  if(!data.roster.some(p=>p.id===id))throw new Error('Person not found. Refresh and try again.');
