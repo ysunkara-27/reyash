@@ -4,6 +4,10 @@
   "installCommand": "npm ci --prefix savetheworld",
   "buildCommand": "npm run build --prefix savetheworld && cp -R savetheworld/dist/. savetheworld/",
   "outputDirectory": ".",
+  "redirects": [
+    { "source": "/dog", "destination": "https://taskpup.lol/", "permanent": true },
+    { "source": "/dog/:path*", "destination": "https://taskpup.lol/:path*", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/dog/:path*",

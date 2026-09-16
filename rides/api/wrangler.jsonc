@@ -11,6 +11,6 @@
     }
   ],
   "vars": {
-    "ALLOWED_ORIGIN": "https://ysunkara.com,https://www.ysunkara.com"
+    "ALLOWED_ORIGIN": "https://ysunkara.com,https://www.ysunkara.com,https://taskpup.lol,https://www.taskpup.lol"
   }
 }
