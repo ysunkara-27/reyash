@@ -3,5 +3,16 @@
   "framework": null,
   "installCommand": "npm ci --prefix savetheworld",
   "buildCommand": "npm run build --prefix savetheworld && cp -R savetheworld/dist/. savetheworld/",
-  "outputDirectory": "."
+  "outputDirectory": ".",
+  "headers": [
+    {
+      "source": "/dog/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    }
+  ]
 }

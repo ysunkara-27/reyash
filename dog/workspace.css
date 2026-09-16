@@ -113,3 +113,5 @@
 .group-color-control{margin-top:10px;gap:6px}.group-color-control select{font-size:12px;min-height:36px;width:100%}#group-color-note,#group-color-status{margin-top:6px;max-width:190px}#group-color-status:empty,#edit-group-color-status:empty{display:none}
 /* Expanded task options stay reachable in shorter desktop workspaces. */
 .planner-page #workspace>.planner .task-form{max-height:100%;overflow-y:auto}
+
+:root{--good-day-workspace-ready:1}

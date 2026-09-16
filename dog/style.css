@@ -28,3 +28,5 @@ dialog{border:1px solid #dce1ce;border-radius:17px;background:#fffef9;width:430p
 .pet-wanderer,.pet-wanderer button{width:56px;height:60px}.pet-reaction{bottom:56px}.pet-held-ball{left:23px;top:35px}
 
 .pet-play-controls{position:fixed;right:24px;bottom:24px;width:210px;background:#fffef9;border:1px solid #dce4d0;border-radius:12px;padding:10px;z-index:9;box-shadow:0 3px 16px #34452a12}.pet-play-controls p{margin-top:6px;text-align:center}
+
+:root{--good-day-base-ready:1}
