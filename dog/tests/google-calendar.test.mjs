@@ -19,6 +19,19 @@ function fixture(){
 }
 async function begin(f){const res=await f.request('connect','POST',{});assert.equal(res.status,200);return new URL((await res.json()).url);}
 const tokens=()=>({access_token:'fixture-access-token',refresh_token:'fixture-refresh-token',expires_in:3600,scope});
+test('calendar callback returns to the correct new or legacy app path',async()=>{
+ for(const [origin,path] of [['https://taskpup.lol','/'],['https://www.taskpup.lol','/'],['https://ysunkara.com','/dog/'],['https://www.ysunkara.com','/dog/']]){
+  const f=fixture();try{
+   f.env.ALLOWED_ORIGIN=origin;
+   const connect=await f.request('connect','POST',{},'one',origin);
+   const state=new URL((await connect.json()).url).searchParams.get('state');
+   const response=await googleCallback(new Request(`${API}/dog/google/callback?state=${state}&code=migration-test`),f.env,reply);
+   const target=new URL(response.headers.get('location'));
+   assert.equal(target.origin,origin);assert.equal(target.pathname,path);
+   assert.equal(new URLSearchParams(target.hash.slice(1)).get('google-code'),'migration-test');
+  }finally{f.close();}
+ }
+});
 const eventsPath='events?date=2026-09-16&from=2026-09-16T04%3A00%3A00Z&to=2026-09-17T04%3A00%3A00Z&zone=America%2FNew_York';
 
 test('OAuth is read-only, PKCE protected, account/session bound, one-time and encrypted',async()=>{

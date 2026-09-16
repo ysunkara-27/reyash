@@ -22,7 +22,7 @@ export async function openTokens(value,env,userId){
  return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(iv),additionalData:encoder.encode(userId)},await key(env),unb64(ciphertext))));
 }
 async function googleFetch(fetcher,url,options={}){return fetcher(url,{...options,signal:AbortSignal.timeout(10000)});}
-function returnURL(origin){return `${origin}/dog/`;}
+function returnURL(origin){const host=new URL(origin).hostname;return `${origin}${['ysunkara.com','www.ysunkara.com','localhost','127.0.0.1'].includes(host)?'/dog/':'/'}`;}
 function allowedOrigin(request,env){const origin=request.headers.get('origin');return (env.ALLOWED_ORIGIN||'').split(',').map(s=>s.trim()).includes(origin)?origin:null;}
 function redirect(location){return new Response(null,{status:303,headers:{location,'cache-control':'no-store','referrer-policy':'no-referrer'}});}
 export async function googleCallback(request,env,reply){
