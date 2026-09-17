@@ -1,3 +1,4 @@
+import {handleRequests} from '../../../dog/requests-api.mjs';
 import {handle} from './v2.mjs';
 import {handleDog} from '../../../dog/api.mjs';
 const json = (data, status = 200, headers = {}) => new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json', ...headers } });
@@ -19,6 +20,7 @@ export default {
     const headers = cors(request, env);
     if (request.method === 'OPTIONS') return new Response(null, { headers: { ...headers, 'access-control-allow-methods': 'GET,POST,PUT,OPTIONS', 'access-control-allow-headers': 'authorization,content-type' } });
     const path = new URL(request.url).pathname;
+    if(path==='/requests') return handleRequests(request,env,headers);
     if(path.startsWith('/dog/')) return handleDog(request,env,headers);
     if(path==='/health') return json({ok:true,version:2},200,headers);
     if(path.startsWith('/v2/')) return handle(request,env,{json,headers,hash,tokenFor,userFrom,defaultState});

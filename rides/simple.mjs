@@ -1,6 +1,8 @@
+import {mountFeatureLog} from './feature-log.mjs';
 import {plan,participants,destinations,today,pinned,recommendCars,applyCarPreset,removePerson} from './model.mjs';
 import {mountGame} from './game-endless.mjs';
 const API=location.hostname==='localhost'||location.hostname==='127.0.0.1'?(location.port==='8094'?'http://127.0.0.1:8790':'http://127.0.0.1:8787'):'https://hooraas-rides-api.sunkarayashaswi.workers.dev';
+mountFeatureLog({site:'rides',api:API,host:document.querySelector('footer')});
 const $=id=>document.getElementById(id),esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let data,revision,admin=null,selected=new URLSearchParams(location.search).get('event'),token=localStorage.getItem('rides-admin-token')||localStorage.getItem('hooraas-token')||'',busy=false,map,marker;
 function notice(message){$('notice').textContent=message;$('notice').classList.add('show');setTimeout(()=>$('notice').classList.remove('show'),5000)}

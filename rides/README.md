@@ -30,3 +30,11 @@ npx wrangler@4.128.0 deploy
 ```
 
 The static site needs no secret/environment variable. Worker secrets `SESSION_SECRET` and `MANAGER_SETUP_CODE` stay in Cloudflare. Existing admin PINs continue to work. First-time admins choose a numeric PIN and use the separate, unrestricted setup-code field. Public views refresh every minute; event links preserve the selected event.
+
+## Rush hour
+
+The game uses three lanes on a 480 × 640 road, with incoming cars, cones, potholes, collectible stars, and guaranteed open lanes in each wave. Tap a road lane or the large lane buttons; arrows move one lane, 1/2/3 choose a lane, and Space pauses from the road. Background tabs pause automatically. Desktop puts the leaderboard beside the road; mobile stacks it below the driving controls.
+
+The `mode=traffic` leaderboard uses a new `rides_traffic_scores` table so old two-lane scores remain intact and do not compete with the new course. Creation is idempotent. Daily and all-time leaderboards, best-per-nickname scoring, and submission limits remain in place. Scores remain casual/unverified. Model tests simulate ten minutes of dodgeable gameplay.
+
+Ideas & requests lives in a footer dialog. Its shared Worker endpoint `/requests?site=rides` stores a separate public request log; see the companion-club notes in `dog/README.md` for limits and storage. Deploy the shared Worker before publishing either updated frontend.

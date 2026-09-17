@@ -6,8 +6,9 @@ export async function handle(request,env,h){
  try{
  const path=new URL(request.url).pathname;
  if(path==='/v2/game'){
+  const scoreTable=new URL(request.url).searchParams.get('mode')==='traffic'?'rides_traffic_scores':'rides_endless_scores';
    const today=dailyKey(),yesterday=dailyKey(new Date(Date.now()-86400000));
-   await env.DB.prepare('CREATE TABLE IF NOT EXISTS rides_endless_scores (period TEXT NOT NULL, name TEXT NOT NULL, score INTEGER NOT NULL, updated INTEGER NOT NULL, PRIMARY KEY(period,name))').run();
+   await env.DB.prepare(`CREATE TABLE IF NOT EXISTS ${scoreTable} (period TEXT NOT NULL, name TEXT NOT NULL, score INTEGER NOT NULL, updated INTEGER NOT NULL, PRIMARY KEY(period,name))`).run();
    if(request.method==='POST'){
      const raw=await request.text();if(raw.length>300)return reply({error:'Score submission too large.'},400);
      const {name,score,day}=JSON.parse(raw);
@@ -17,10 +18,10 @@ export async function handle(request,env,h){
      const limit=await env.DB.prepare('SELECT attempts FROM rides_auth_limits WHERE key=?').bind(key).first();
      if(limit.attempts>10)return reply({error:'Too many submissions. Try again in a minute.'},429);
      await env.DB.prepare('DELETE FROM rides_auth_limits WHERE expires < ?').bind(Date.now()).run();
-     await env.DB.batch([day,'all'].map(period=>env.DB.prepare('INSERT INTO rides_endless_scores (period,name,score,updated) VALUES (?,?,?,?) ON CONFLICT(period,name) DO UPDATE SET score=excluded.score, updated=excluded.updated WHERE excluded.score > rides_endless_scores.score').bind(period,name.trim().toLowerCase(),score,Date.now())));
+     await env.DB.batch([day,'all'].map(period=>env.DB.prepare(`INSERT INTO ${scoreTable} (period,name,score,updated) VALUES (?,?,?,?) ON CONFLICT(period,name) DO UPDATE SET score=excluded.score, updated=excluded.updated WHERE excluded.score > ${scoreTable}.score`).bind(period,name.trim().toLowerCase(),score,Date.now())));
    }else if(request.method!=='GET')return reply({error:'Method not allowed'},405);
    const period=new URL(request.url).searchParams.get('scope')==='all'?'all':today;
-   const rows=await env.DB.prepare('SELECT name,score FROM rides_endless_scores WHERE period=? ORDER BY score DESC, updated ASC LIMIT 10').bind(period).all();
+   const rows=await env.DB.prepare(`SELECT name,score FROM ${scoreTable} WHERE period=? ORDER BY score DESC, updated ASC LIMIT 10`).bind(period).all();
    return reply({scores:rows.results,day:today});
  }
  const identity=await h.userFrom(request,env.SESSION_SECRET).catch(()=>null);

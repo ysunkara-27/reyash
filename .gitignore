@@ -6,3 +6,6 @@ dist/
 .wrangler/
 .vercel/
 .vercel
+
+# Prepared local release checkouts
+.release/
