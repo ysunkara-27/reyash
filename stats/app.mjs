@@ -14,6 +14,8 @@ function render(data){
  $('sites').innerHTML=data.sites.length?data.sites.map(site=>`<article class="site-card"><h3>${escape(labels[site.site]||site.site)}</h3><div class="site-metrics"><div><strong>${number(site.live)}</strong><span>LIVE</span></div><div><strong>${number(site.day)}</strong><span>24 HOURS</span></div><div><strong>${number(site.week)}</strong><span>7 DAYS</span></div></div><small class="site-last">Last seen ${ago(site.last_seen)}</small></article>`).join(''):'<p class="empty">Activity will appear as people visit the sites.</p>';
  $('hourly').innerHTML=bars(data.hourly,row=>new Date(row.start).toLocaleTimeString([],{hour:'numeric'}));
  $('daily').innerHTML=bars(data.daily,row=>new Date(row.day+'T12:00:00').toLocaleDateString([],{weekday:'short'}));
+ // Set chart sizing through the stylesheet API so the strict CSP can remain enabled.
+ document.querySelectorAll('.bar').forEach(bar=>{const height=bar.getAttribute('style')?.match(/--height:(\d+)%/)?.[1];if(height)bar.style.setProperty('--height',height+'%');});
  $('username-count').textContent=`${number(data.usernames.length)} in the tracked week`;
  $('usernames').innerHTML=data.usernames.length?data.usernames.map(user=>`<div class="person"><strong>@${escape(user.username)}</strong><span>${number(user.hits)} requests<br>${ago(user.last_seen)}</span></div>`).join(''):'<p class="empty">No signed-in Taskpup accounts have been tracked yet.</p>';
  $('legacy-users').innerHTML=data.recentAccounts.length?data.recentAccounts.map(user=>`<span>@${escape(user.username)} · ${escape(user.last_day)}</span>`).join(''):'<p class="empty">No recent account-day records.</p>';
