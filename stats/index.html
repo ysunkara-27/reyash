@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Site pulse · Yashaswi</title>
+  <link rel="stylesheet" href="/stats/style.css">
+  <script type="module" src="/stats/app.mjs"></script>
+</head>
+<body>
+  <main>
+    <section id="lock" class="lock-card">
+      <p class="eyebrow">PRIVATE ANALYTICS</p>
+      <h1>Site pulse</h1>
+      <p class="lede">One live view across Taskpup and ysunkara.com.</p>
+      <form id="login-form">
+        <label>Password<input id="password" type="password" autocomplete="current-password" required autofocus></label>
+        <button>Unlock dashboard</button>
+        <p id="login-error" class="error" role="alert"></p>
+      </form>
+    </section>
+    <section id="dashboard" hidden>
+      <header>
+        <div><p class="eyebrow">PRIVATE ANALYTICS</p><h1>Site pulse</h1><p id="freshness">Loading…</p></div>
+        <div class="header-actions"><span class="live-dot">LIVE</span><button id="refresh" class="secondary">Refresh</button><button id="lock-button" class="secondary">Lock</button></div>
+      </header>
+      <section id="totals" class="summary-grid" aria-label="All-site totals"></section>
+      <section class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">SOURCES</p><h2>Where people are</h2></div><p>Unique browsers or signed-in accounts</p></div>
+        <div id="sites" class="site-grid"></div>
+      </section>
+      <div class="split">
+        <section class="panel"><div class="panel-heading"><div><p class="eyebrow">PAST 24 HOURS</p><h2>Activity by hour</h2></div></div><div id="hourly" class="bars"></div></section>
+        <section class="panel"><div class="panel-heading"><div><p class="eyebrow">PAST WEEK</p><h2>Daily reach</h2></div></div><div id="daily" class="bars"></div></section>
+      </div>
+      <section class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">TASKPUP</p><h2>Known usernames</h2></div><p id="username-count"></p></div>
+        <div id="usernames" class="people"></div>
+        <details><summary>Recent pre-tracking account records</summary><p class="note">These account-day records make older Taskpup use visible, but they are calendar-day evidence rather than exact rolling timestamps.</p><div id="legacy-users" class="legacy-users"></div></details>
+      </section>
+      <p id="coverage" class="coverage"></p>
+    </section>
+  </main>
+</body>
+</html>

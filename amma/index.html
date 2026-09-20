@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#f5f8fc">
+  <title>Amma · Your next chapter</title>
+  <link rel="stylesheet" href="/amma/style.css">
+  <script type="module" src="/amma/app.mjs"></script>
+</head>
+<body>
+  <a class="skip" href="#opportunities">Skip to opportunities</a>
+  <header class="masthead"><a class="brand" href="/amma/" aria-label="Amma home"><span class="mark" aria-hidden="true">✳</span> amma<span class="brand-note">For your next chapter</span></a><span class="private-note">Made just for you</span></header>
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <div><h1 id="page-title">Your next opportunity.</h1><p>Technology leadership roles, selected for your experience.</p></div>
+      <div id="freshness" class="freshness" role="status">Checking job sources…</div>
+    </section>
+    <aside class="priority-panel" aria-label="Progressive priority"><strong>Progressive first</strong><span id="progressive-status">Your recruiter connection stays at the top.</span><a href="https://careers.progressive.com/search/category/technology/jobs/" target="_blank" rel="noopener noreferrer">Careers ↗</a></aside>
+    <section id="opportunities" aria-labelledby="feed-title">
+      <div class="section-heading"><div><h2 id="feed-title">Opportunities for you <span id="count" class="count">—</span></h2><p>Progressive first, then federal, contractors, and private companies.</p></div><button id="check" class="text-button" type="button">Check for updates ↻</button></div>
+      <form id="filters" class="filters" aria-label="Filter opportunities">
+        <label class="keyword-field">Search titles, companies & skills<input type="search" name="q" id="query" placeholder="Azure, Scrum, application operations…" maxlength="200"><span class="search-hint">Commas search alternatives. Searches the loaded matching jobs.</span></label>
+        <label>Application status<select name="status"><option value="all">All open matches</option><option value="unapplied">Not applied</option><option value="applied">Applied · including older jobs</option></select></label>
+        <button id="filter-toggle" class="filter-toggle" type="button" aria-expanded="false" aria-controls="more-filters">More filters</button>
+        <div id="more-filters" class="more-filters">
+        <label>Requirements<select name="eligibility"><option value="general">No active clearance required</option><option value="all">Include active-clearance roles</option></select></label>
+        <label>Role type<select name="role"><option value="all">All leadership roles</option><option value="it">IT management</option><option value="engineering">Engineering management</option><option value="program">Program management</option><option value="project">Project management</option><option value="agile">Scrum & Agile</option></select></label>
+        <label>Employer<select name="sector"><option value="all">All employers</option><option value="progressive">Progressive</option><option value="federal">Federal government</option><option value="contractor">Federal contractors</option><option value="private">Private companies</option></select></label>
+        <label>Work arrangement<select name="mode"><option value="all">Anywhere · any setup</option><option value="remote">Remote</option><option value="hybrid">Hybrid</option><option value="onsite">On-site</option><option value="unknown">Not specified</option></select></label>
+        <label>Date posted<select name="days"><option value="30">Past 30 days</option><option value="14">Past 14 days</option><option value="7">Past week</option><option value="3">Past 3 days</option><option value="1">Past 24 hours</option></select></label>
+        </div>
+      </form>
+      <div id="suggested-terms" class="suggested-terms" aria-label="Suggested search terms"></div>
+      <div class="feed-meta"><span id="results-label" role="status">Finding strong matches…</span><button id="reset" class="text-button" type="button" hidden>Clear filters</button></div>
+      <div id="notice" class="notice" role="status" hidden></div>
+      <div id="feed" aria-busy="true"><div class="loading-card"><span class="loader" aria-hidden="true"></span><h3>Checking recent leadership roles…</h3><p>Results appear as each group of sources finishes. You can browse and filter while more load.</p></div></div>
+      <nav id="pagination" class="pagination" aria-label="Job pages" hidden><button type="button" id="previous">← Previous</button><span id="page-label"></span><button type="button" id="next">Next →</button></nav>
+      <p class="tracking-note" id="tracking-note" role="status">Applied choices are saved in this browser only. Opening a posting does not mark it applied.</p>
+    </section>
+    <details class="sources custom-sites"><summary>Add your own career sites</summary>
+      <p>Paste a Greenhouse, Lever, or Ashby career board to bring its matching jobs into your feed. Other websites are saved as direct links. Your sites and applied choices stay in this browser.</p>
+      <form id="site-form" class="site-form"><label for="site-url">Career page link</label><div><input id="site-url" type="url" required maxlength="2000" placeholder="https://jobs.ashbyhq.com/company" autocomplete="url"><button type="submit">Add site</button></div></form>
+      <p id="site-notice" role="status"></p><ul id="saved-sites" aria-label="Your career sites"></ul>
+    </details>
+    <details class="sources"><summary>Search more career portals</summary><p>Official career pages with suggested terms. These additional portals are not automatically imported.</p><div id="portal-directory"></div></details>
+    <details class="sources"><summary>Where your opportunities come from <span>Sources & last check</span></summary><p>Public employer postings and USAJOBS, checked on visits and cached for up to six hours. Each source is checked independently; coverage is a curated selection, not every job on the web.</p><ul id="sources-list"><li>Source status will appear after the first check.</li></ul></details>
+    <footer><span class="mark" aria-hidden="true">✳</span><p>A simpler search. A thoughtful next step.</p><p class="fine">Match labels reflect resume overlap, not a hiring prediction. Check the original posting for full requirements and availability. Contractor labels describe the employer; individual roles may serve different clients.</p></footer>
+  </main>
+  <noscript><p class="notice">Please enable JavaScript to load the job feed. You can also browse <a href="https://careers.progressive.com/search/category/technology/jobs/">Progressive</a> or <a href="https://www.usajobs.gov/Search/Results?j=2210&hp=public">USAJOBS</a> directly.</p></noscript>
+</body>
+</html>

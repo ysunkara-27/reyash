@@ -1,4 +1,5 @@
 import {handleRequests} from '../../../dog/requests-api.mjs';
+import {handleAnalytics} from '../../../dog/analytics-api.mjs';
 import {handle} from './v2.mjs';
 import {handleDog} from '../../../dog/api.mjs';
 const json = (data, status = 200, headers = {}) => new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json', ...headers } });
@@ -18,8 +19,9 @@ function validCode(code) { return /^\d{4,8}$/.test(code || ''); }
 export default {
   async fetch(request, env) {
     const headers = cors(request, env);
-    if (request.method === 'OPTIONS') return new Response(null, { headers: { ...headers, 'access-control-allow-methods': 'GET,POST,PUT,OPTIONS', 'access-control-allow-headers': 'authorization,content-type' } });
+    if (request.method === 'OPTIONS') return new Response(null, { headers: { ...headers, 'access-control-allow-methods': 'GET,POST,PUT,OPTIONS', 'access-control-allow-headers': 'authorization,content-type,x-analytics-id' } });
     const path = new URL(request.url).pathname;
+    if(path.startsWith('/analytics/')||path.startsWith('/stats/')) return handleAnalytics(request,env,headers);
     if(path==='/requests') return handleRequests(request,env,headers);
     if(path.startsWith('/dog/')) return handleDog(request,env,headers);
     if(path==='/health') return json({ok:true,version:2},200,headers);

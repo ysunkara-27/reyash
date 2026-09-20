@@ -4,7 +4,16 @@
   "installCommand": "npm ci --prefix savetheworld && npm ci --prefix officehours/ux-studio-screen-main",
   "buildCommand": "npm run build --prefix savetheworld && npm run build --prefix officehours/ux-studio-screen-main && node scripts/build-site.mjs",
   "outputDirectory": "dist",
+  "functions": {
+    "api/amma/jobs.mjs": { "maxDuration": 60 },
+    "api/amma/custom.mjs": { "maxDuration": 60 }
+  },
   "redirects": [
+    {
+      "source": "/amma",
+      "destination": "/amma/",
+      "permanent": true
+    },
     {
       "source": "/dog/",
       "destination": "https://taskpup.lol/",
@@ -38,6 +47,25 @@
     }
   ],
   "headers": [
+    {
+      "source": "/amma/:path*",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Referrer-Policy", "value": "no-referrer" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://hooraas-rides-api.sunkarayashaswi.workers.dev; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'" }
+      ]
+    },
+    {
+      "source": "/stats/:path*",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
+        { "key": "Cache-Control", "value": "no-store" },
+        { "key": "Referrer-Policy", "value": "no-referrer" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self'; style-src 'self'; connect-src https://hooraas-rides-api.sunkarayashaswi.workers.dev; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'" }
+      ]
+    },
     {
       "source": "/dog/:path*",
       "headers": [

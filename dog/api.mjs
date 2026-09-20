@@ -5,6 +5,7 @@ import {readGroupColors,validateGroupColor} from './group-colors.mjs';
 import {carryForward} from './rollover.mjs';
 import {careDay} from './care-model.mjs';
 import {readCare,handleCare} from './care-api.mjs';
+import {recordActivity} from './analytics-api.mjs';
 const encoder=new TextEncoder();
 const hex=buffer=>Array.from(new Uint8Array(buffer),b=>b.toString(16).padStart(2,'0')).join('');
 const digest=async value=>hex(await crypto.subtle.digest('SHA-256',encoder.encode(value)));
@@ -48,6 +49,7 @@ export async function handleDog(request,env,headers={}){
   const tokenHash=await digest(token);
   const user=await env.DB.prepare('SELECT u.id,u.username FROM dog_sessions s JOIN dog_users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires>?').bind(tokenHash,Date.now()).first();
   if(!user)return reply({error:'Please log in to your day.'},401);
+  await recordActivity(env,{site:'taskpup',actor:request.headers.get('x-analytics-id')||user.id,username:user.username,path});
   if(path==='/dog/care')return await handleCare(request,env,user,body,reply);
   if(path.startsWith('/dog/google/'))return handleGoogle(request,env,{user,tokenHash,body,reply});
   if(path==='/dog/groups'){
