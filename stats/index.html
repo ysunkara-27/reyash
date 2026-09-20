@@ -13,7 +13,7 @@
     <section id="lock" class="lock-card">
       <p class="eyebrow">PRIVATE ANALYTICS</p>
       <h1>Site pulse</h1>
-      <p class="lede">One live view across Taskpup and ysunkara.com.</p>
+      <p class="lede">A private readout for Taskpup, ysunkara.com, and every tracked project.</p>
       <form id="login-form">
         <label>Password<input id="password" type="password" autocomplete="current-password" required autofocus></label>
         <button>Unlock dashboard</button>
@@ -23,7 +23,7 @@
     <section id="dashboard" hidden>
       <header>
         <div><p class="eyebrow">PRIVATE ANALYTICS</p><h1>Site pulse</h1><p id="freshness">Loading…</p></div>
-        <div class="header-actions"><span class="live-dot">LIVE</span><button id="refresh" class="secondary">Refresh</button><button id="lock-button" class="secondary">Lock</button></div>
+        <div class="header-actions"><span class="live-dot">LIVE WINDOW · 15 MIN</span><button id="refresh" class="secondary">Refresh data</button><button id="lock-button" class="secondary">Lock</button></div>
       </header>
       <section id="totals" class="summary-grid" aria-label="All-site totals"></section>
       <section class="panel">
@@ -39,6 +39,7 @@
         <div id="usernames" class="people"></div>
         <details><summary>Recent pre-tracking account records</summary><p class="note">These account-day records make older Taskpup use visible, but they are calendar-day evidence rather than exact rolling timestamps.</p><div id="legacy-users" class="legacy-users"></div></details>
       </section>
+      <p class="refresh-note">This page loads the current snapshot when you unlock it. It does not refresh in the background.</p>
       <p id="coverage" class="coverage"></p>
     </section>
   </main>
