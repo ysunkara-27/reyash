@@ -1,0 +1,9 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Task Pup companion</title><link rel="stylesheet" href="popup.css"></head><body>
+<header><span aria-hidden="true">✿</span><div><small>TASK PUP</small><h1>A little company.</h1></div></header>
+<p id="status" role="status">Checking your companion…</p>
+<button id="connect" class="primary">Open Task Pup to sync</button>
+<button id="allow">Show on websites…</button><p id="permission-note" class="help">Choose this to let your companion appear across ordinary websites. Chrome will ask for website access.</p>
+<section aria-label="Companion preferences"><label class="check"><input id="enabled" type="checkbox"> Keep me company</label><div class="row"><label>Size<select id="size"><option value="44">Tiny · 44 px</option><option value="52">Small · 52 px</option><option value="64">Roomy · 64 px</option></select></label><label>Corner<select id="corner"><option value="right">Bottom right</option><option value="left">Bottom left</option></select></label></div><label>Movement<select id="motion"><option value="still">Mostly still</option><option value="gentle">Gentle wandering</option></select></label><button id="snooze">Snooze for 1 hour</button></section>
+<details><summary>Hidden websites & connection</summary><p class="help">Hide a site from your pet’s menu. Only sites you choose to hide are saved.</p><ul id="muted"></ul><button id="forget">Disconnect companion</button></details>
+<p class="help">Care stays in Task Pup. Keep its tab open for live updates; with it closed, your pet keeps its last synced appearance. No browsing history, page text, passwords, or task names are collected.</p>
+<p class="help">Chrome’s internal pages, the Web Store, and some built-in viewers cannot show the pet. Click the toolbar icon here instead.</p><script type="module" src="popup.mjs"></script></body></html>

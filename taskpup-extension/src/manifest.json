@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Task Pup \u2014 little companion",
+  "version": "0.1.0",
+  "minimum_chrome_version": "116",
+  "description": "Your Task Pup dog or cat, quietly beside you across the web. Care stays in Task Pup. No browsing history collected.",
+  "permissions": [
+    "storage",
+    "scripting"
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
+  "background": {
+    "service_worker": "background.mjs",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Task Pup companion"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://taskpup.lol/*",
+        "https://www.taskpup.lol/*"
+      ],
+      "js": [
+        "bridge.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'; connect-src 'none'"
+  },
+  "incognito": "not_allowed"
+}
