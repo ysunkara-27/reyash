@@ -1,0 +1,224 @@
+{
+  "Austin, Texas": {
+    "lat": 30.26715,
+    "lon": -97.74306,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Austin&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:04.104Z"
+  },
+  "Atlanta, Georgia": {
+    "lat": 33.749,
+    "lon": -84.38798,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Atlanta&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:04.748Z"
+  },
+  "West Lafayette, Indiana": {
+    "lat": 40.42587,
+    "lon": -86.90807,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=West%20Lafayette&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:05.384Z"
+  },
+  "Boston, Massachusetts": {
+    "lat": 42.35843,
+    "lon": -71.05977,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Boston&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:06.086Z"
+  },
+  "Pittsburgh, Pennsylvania": {
+    "lat": 40.44062,
+    "lon": -79.99589,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Pittsburgh&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:06.603Z"
+  },
+  "Richardson, Texas": {
+    "lat": 32.94818,
+    "lon": -96.72972,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Richardson&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:07.241Z"
+  },
+  "Orlando, Florida": {
+    "lat": 28.53834,
+    "lon": -81.37924,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Orlando&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:07.787Z"
+  },
+  "Storrs, Connecticut": {
+    "lat": 41.80843,
+    "lon": -72.24952,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Storrs&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:08.300Z"
+  },
+  "Gainesville, Florida": {
+    "lat": 29.65163,
+    "lon": -82.32483,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Gainesville&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:08.821Z"
+  },
+  "Charlottesville, Virginia": {
+    "lat": 38.02931,
+    "lon": -78.47668,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Charlottesville&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:09.344Z"
+  },
+  "New Brunswick, New Jersey": {
+    "lat": 40.48622,
+    "lon": -74.45182,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=New%20Brunswick&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:09.869Z"
+  },
+  "College Station, Texas": {
+    "lat": 30.62798,
+    "lon": -96.33441,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=College%20Station&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:10.392Z"
+  },
+  "Champaign, Illinois": {
+    "lat": 40.11642,
+    "lon": -88.24338,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Champaign&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:10.915Z"
+  },
+  "Berkeley, California": {
+    "lat": 37.87159,
+    "lon": -122.27275,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Berkeley&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:11.565Z"
+  },
+  "Ithaca, New York": {
+    "lat": 42.44063,
+    "lon": -76.49661,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Ithaca&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:12.075Z"
+  },
+  "College Park, Maryland": {
+    "lat": 38.98067,
+    "lon": -76.93692,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=College%20Park&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:12.726Z"
+  },
+  "Ann Arbor, Michigan": {
+    "lat": 42.27756,
+    "lon": -83.74088,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Ann%20Arbor&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:13.232Z"
+  },
+  "Washington, District of Columbia": {
+    "lat": 38.89511,
+    "lon": -77.03637,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Washington&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:13.951Z"
+  },
+  "San Diego, California": {
+    "lat": 32.71571,
+    "lon": -117.16472,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=San%20Diego&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:14.474Z"
+  },
+  "Richmond, Virginia": {
+    "lat": 37.55376,
+    "lon": -77.46026,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Richmond&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:15.110Z"
+  },
+  "Cleveland, Ohio": {
+    "lat": 41.4995,
+    "lon": -81.69541,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Cleveland&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:15.758Z"
+  },
+  "Tampa, Florida": {
+    "lat": 27.94752,
+    "lon": -82.45843,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Tampa&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:16.298Z"
+  },
+  "Blacksburg, Virginia": {
+    "lat": 37.22957,
+    "lon": -80.41394,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Blacksburg&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:16.797Z"
+  },
+  "Seattle, Washington": {
+    "lat": 47.60621,
+    "lon": -122.33207,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Seattle&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:17.335Z"
+  },
+  "St. Louis, Missouri": {
+    "lat": 38.62727,
+    "lon": -90.19789,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=St.%20Louis&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:17.849Z"
+  },
+  "New York, New York": {
+    "lat": 40.71427,
+    "lon": -74.00597,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=New%20York&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:18.471Z"
+  },
+  "Los Angeles, California": {
+    "lat": 34.05223,
+    "lon": -118.24368,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Los%20Angeles&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:19.005Z"
+  },
+  "Bloomington, Indiana": {
+    "lat": 39.16533,
+    "lon": -86.52639,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Bloomington&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:19.714Z"
+  },
+  "Chapel Hill, North Carolina": {
+    "lat": 35.9132,
+    "lon": -79.05584,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Chapel%20Hill&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:20.355Z"
+  },
+  "Santa Cruz, California": {
+    "lat": 36.97412,
+    "lon": -122.0308,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Santa%20Cruz&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:20.986Z"
+  },
+  "Evanston, Illinois": {
+    "lat": 42.04114,
+    "lon": -87.69006,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Evanston&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:21.511Z"
+  },
+  "Stony Brook, New York": {
+    "lat": 40.92565,
+    "lon": -73.14094,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Stony%20Brook&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:22.034Z"
+  },
+  "Philadelphia, Pennsylvania": {
+    "lat": 39.95238,
+    "lon": -75.16362,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Philadelphia&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:22.666Z"
+  },
+  "Columbus, Ohio": {
+    "lat": 39.96118,
+    "lon": -82.99879,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Columbus&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:23.386Z"
+  },
+  "Houston, Texas": {
+    "lat": 29.76328,
+    "lon": -95.36327,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Houston&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:24.024Z"
+  },
+  "Madison, Wisconsin": {
+    "lat": 43.07305,
+    "lon": -89.40123,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Madison&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:24.659Z"
+  },
+  "Dallas, Texas": {
+    "lat": 32.78306,
+    "lon": -96.80667,
+    "source": "https://geocoding-api.open-meteo.com/v1/search?name=Dallas&count=100&countryCode=US",
+    "retrievedAt": "2026-09-27T18:47:25.295Z"
+  }
+}

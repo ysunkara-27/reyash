@@ -5,10 +5,19 @@
   "buildCommand": "npm run build --prefix savetheworld && npm run build --prefix officehours/ux-studio-screen-main && node scripts/build-site.mjs",
   "outputDirectory": "dist",
   "functions": {
-    "api/amma/jobs.mjs": { "maxDuration": 60 },
-    "api/amma/custom.mjs": { "maxDuration": 60 }
+    "api/amma/jobs.mjs": {
+      "maxDuration": 60
+    },
+    "api/amma/custom.mjs": {
+      "maxDuration": 60
+    }
   },
   "redirects": [
+    {
+      "source": "/atlas",
+      "destination": "/atlas/",
+      "permanent": false
+    },
     {
       "source": "/amma",
       "destination": "/amma/",
@@ -48,22 +57,70 @@
   ],
   "headers": [
     {
+      "source": "/atlas/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://raas-atlas-api.sunkarayashaswi.workers.dev https://hooraas-rides-api.sunkarayashaswi.workers.dev; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
+        }
+      ]
+    },
+    {
       "source": "/amma/:path*",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
-        { "key": "Referrer-Policy", "value": "no-referrer" },
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://hooraas-rides-api.sunkarayashaswi.workers.dev; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'" }
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://hooraas-rides-api.sunkarayashaswi.workers.dev; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
+        }
       ]
     },
     {
       "source": "/stats/:path*",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
-        { "key": "Cache-Control", "value": "no-store" },
-        { "key": "Referrer-Policy", "value": "no-referrer" },
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self'; style-src 'self'; connect-src https://hooraas-rides-api.sunkarayashaswi.workers.dev; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'" }
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self'; style-src 'self'; connect-src https://hooraas-rides-api.sunkarayashaswi.workers.dev; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
+        }
       ]
     },
     {

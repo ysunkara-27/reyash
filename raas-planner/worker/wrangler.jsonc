@@ -1,0 +1,9 @@
+{
+  "name":"raas-atlas-api",
+  "main":"index.mjs",
+  "compatibility_date":"2026-09-01",
+  "workers_dev":true,
+  "d1_databases":[{"binding":"DB","database_name":"raas-atlas","database_id":"b9d2d8ab-6c1e-4782-8136-6d9d3781cd54"}],
+  "triggers":{"crons":["*/5 * * * *"]},
+  "vars":{"ALLOWED_ORIGIN":"https://ysunkara.com,https://www.ysunkara.com,http://127.0.0.1:8107"}
+}

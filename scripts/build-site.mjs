@@ -1,3 +1,4 @@
+import {buildAtlas} from '../raas-planner/scripts/build_public.mjs';
 import { cp, mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { resolve, basename } from 'node:path';
 
@@ -32,5 +33,6 @@ async function injectAnalytics(directory) {
     }
   }
 }
+await buildAtlas(resolve(root,'raas-planner'),resolve(output,'atlas'));
 await injectAnalytics(output);
 console.log('Built portfolio and all public sub-sites in dist/');

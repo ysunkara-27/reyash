@@ -1,5 +1,5 @@
 const encoder=new TextEncoder();
-const SITES=new Set(['taskpup','home','amma','rides','bidpoints','apgovelections','pujarinet','writings','savetheworld','officehours','other']);
+const SITES=new Set(['taskpup','home','amma','atlas','rides','bidpoints','apgovelections','pujarinet','writings','savetheworld','officehours','other']);
 const FIVE_MINUTES=300000,DAY=86400000,WEEK=7*DAY;
 const FALLBACK_PASSWORD_HASH='5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
 const tableReady=new WeakMap();
