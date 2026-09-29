@@ -1,68 +1,55 @@
 # Raas Atlas
 
-Interactive attendance and season planner for 2026–2027. Run from the repository root:
+Public interactive 2026–27 lineup planner: https://ysunkara.com/atlas/
+
+Run `node raas-planner/server.mjs` from the repository root and open http://127.0.0.1:8107/. No npm install is needed for the app. The loopback server serves only the public asset allowlist; it no longer runs flight jobs or exposes fare APIs. The public site uses the same interface, with analytics added by the site build.
+
+## Views
+
+- **Lineups:** all 17 competitions grouped by weekend, complete team names, team colours, drive/fly labels, weekend/search filters, CSV export, and a compact view (default on phones).
+- **Tune model:** history/travel slider, break influence, zero/one/history break preferences, 1–5 attendance seasons, and optional difficulty preference. Presets recalculate the whole circuit. Changed teams are highlighted against the fixed five-year baseline.
+- **Teams:** competition target, automatic/prefer/avoid choices, unavailable weekends, optional required rest, and drive/fly cutoff. Compare baseline/current schedules and two teams side by side. Click a competition for weighted contributions and source cells.
+- **History:** independent five-year default, any single prior season, historical difficulty with coverage and workbook evidence, and circuit/team/year breakdowns of observed breaks.
+
+Source dates, hosts, city coordinates, and workbook records remain read-only. Scenario preferences stay on the viewer's device. No API key, fare, budget, hotel, or estimated trip-cost inputs are published. V1 preferences are not imported because their cost and spacing assumptions are incompatible with this model.
+
+## Evidence and rules
+
+`data.json` contains 38 teams, 17 upcoming competitions, 1,680 unique historical attendance records over 17 seasons, and 179 sourced team-season performance records for 2021–22 through 2025–26. The XLSX importer is unchanged; original workbook cells are retained. Nationals and duplicate show-order lists are excluded. Historical aliases SRC → SCR and AKD x DRD → DRD remain documented importer assumptions. UW Seattle and Wisconsin remain distinct. Confirmed hosts include ECS/UVA, BND/Wisconsin, Mania/Illini, and BNB/Northeastern + BU.
+
+`evidence.mjs` analyzes consecutive recorded spring appearances (January–April of the season's ending year). It deduplicates same-week appearances, excludes missing dates and fall-to-spring transitions, and never counts the weeks before the first or after the last appearance. Across five years:
+
+| Season | 0 off | 1 off | 2 off | 3+ off | Gaps |
+|---|---:|---:|---:|---:|---:|
+| 2021–22 | 32 | 29 | 4 | 0 | 65 |
+| 2022–23 | 43 | 34 | 8 | 4 | 89 |
+| 2023–24 | 35 | 37 | 18 | 3 | 93 |
+| 2024–25 | 44 | 34 | 2 | 1 | 81 |
+| 2025–26 | 38 | 39 | 6 | 3 | 86 |
+| Total | 192 | 173 | 38 | 11 | 414 |
+
+88% of observed gaps contain zero or one weekend off. These are attendance gaps, not evidence of deliberate rest: historical hosting and unsuccessful applications are not reliably recorded.
+
+Default rest frequencies blend each team's gap counts with two observations at circuit-wide rates. Schedule penalty is break influence × the difference between the team's most common smoothed bucket rate and each observed gap's bucket rate. The slider starts at 20. “One weekend off” penalizes consecutive weekends; “none” removes the soft penalty. Current hosting weekends count as commitments. Required rest is separately enforced as a hard constraint.
+
+Targets start at the rounded median number of recorded spring appearances during active seasons, or 3 when no recent evidence exists. Zero targets are allowed. Attendance fit is the fraction of comparable editions attended during active team seasons, equally weighted. Events without comparable editions use that team's overall observed spring attendance rate; completely unknown teams use a documented neutral fallback of 0.5.
+
+Default fit is 75% attendance and 25% travel ease. Travel ease is the percentile of straight-line distance among upcoming competitions, with half credit for ties. It is a practical travel proxy, not a dollar estimate. The drive/fly label defaults to a 500-mile cutoff and does not independently change fit. The slider weights, two-observation prior, and preference boosts are adjustable modelling choices, not learned probabilities. Optional field difficulty uses 25% of fit and scales history/travel proportionally. Prefer adds up to 20 points; avoid excludes the event.
+
+`lineups.mjs` uses deterministic multi-start construction and local reassignment: fill six places first, then remaining team targets up to eight. It enforces hosting conflicts, same-week conflicts, unavailable weekends, avoids, target upper bounds, and optional strict rest. Shortages remain explicit. This is a heuristic; it does not guarantee global optimality or prove infeasibility. Proposed lineups are not confirmed attendance or selection predictions.
+
+Historical team rating = 100 × bid points / (4 × appearances). Editions average known team ratings; the five-year baseline averages editions equally, using pooled five-year ratings. A selected prior year uses only that year's points and fields, without later results. Team schedule difficulty excludes that team from opponent fields. Unknown editions remain unknown and coverage is visible. These are retrospective results, not pre-event backtests or current roster ratings.
+
+Coordinates are city-level Open-Meteo/GeoNames data in `geography.json`. Source dates come from the supplied workbook/screenshots and are not independently organizer-confirmed. Colours supplement names. The earlier airfare implementation remains in the repository for archival purposes, but is excluded from the public build and no longer used by the application. Hosted searches were paused, and the scheduled Worker cron was removed.
+
+## Checks and release
 
 ```sh
-node raas-planner/server.mjs
+node --test raas-planner/tests/evidence.test.mjs
+node raas-planner/tests/public-browser.mjs
+node scripts/build-site.mjs
 ```
 
-Open http://127.0.0.1:8107/. No npm installation is required. The server binds to loopback only. The original workbook is unchanged; no existing apps or deployment settings are changed.
+Browser checks use the existing `savetheworld` Playwright installation and Chrome. They build a fresh public directory and check all lineups, filters, scenario changes, host blocking, team comparisons, saved preferences, historical views, mobile widths, absence of writes/fare requests, and asset isolation. Old model/backend tests describe the archived V1 implementation.
 
-The imported data includes 38 teams (37 from the workbook plus user-confirmed Wisconsin Raas), 17 upcoming competitions, and 1,680 unique team–competition attendance records over 17 historical seasons. `scripts/import_workbook.py` reads the source XLSX with Python's standard library. Each record retains its worksheet and cell. Nationals and duplicate show-order lists are excluded. Historical aliases `SRC` → `SCR` and `AKD x DRD` → `DRD` are explicit assumptions in the importer. UW and Wisconsin remain separate.
-
-## Model
-
-The default five recorded seasons inform a smoothed, recency-weighted attendance factor. Missing team-seasons and competitions without attendance observations are excluded from its denominator. A heuristic weighted average combines history, straight-line distance, airfare, estimated total trip cost, and travel time. Weights and costs are editable; these are not learned probabilities.
-
-The circuit allocator assigns teams jointly: fill each competition to six, place remaining team demand up to eight, then improve fit minus rest penalties through reassignment. Multiple deterministic starts improve the draft; this heuristic does not prove global optimality or infeasibility. Team event targets are upper limits. It blocks all competitions in a host team's Monday–Sunday week and disallows double-booking. Hosting and competing count toward rest requirements. A preferred rest gap adds a soft penalty; a strict gap rules out nearby events and can cause a shortfall. Budgets exclude unknown-cost trips.
-
-All complete lineups have 6–8 teams per event. Incomplete drafts explicitly show shortages, while maintaining the maximum of eight and team constraints. Actual selection decisions are not modeled. Missing prices receive a neutral factor rather than being treated as free. Default costs, airports, driving ratios, and travel-time estimates are assumptions. Geography is city-level, sourced from state-matched Open-Meteo/GeoNames responses in `geography.json`.
-
-## Live flight connection (SerpApi Free recommended)
-
-Use **Flight prices → Connect & fetch prices** to save a SerpApi Free key and start a backend queue. The account must be active with a zero-dollar monthly price. SerpApi advertises 250 searches/month and 50/hour (https://serpapi.com/pricing, checked 2026-09-27). The app allows at most 40 searches in a rolling hour and preserves 25 credits for manual searches. It checks the free Account API before each uncached lookup. No automatic paid upgrade is made.
-
-The initial queue can cover proposed schedules plus two flight alternatives per team (127 unique routes with default inputs), or all eligible flight routes (382). Identical airport/date routes are searched once; proposed trips have priority. Choose daily, weekly, fortnightly, or monthly refresh. These are desired intervals subject to free quota; 382 routes cannot all be fetched in one 250-search monthly allowance. The queue resumes after hourly limits and checks for monthly renewal. Browser closure does not stop the queue. The computer and local server must stay running; this is not a deployed hosted service or an operating-system startup job.
-
-`fare-store.mjs` persists the queue, rolling search counter, and price snapshots in `.local/fares.json`; credentials go in `.local/secrets.json`. The directory is mode 0700 and files are 0600, excluded by the app's `.gitignore`, and inaccessible through the static server. The key is never returned through an API, included in scenario exports, or stored in browser storage. Disconnect removes the saved key and pauses refresh. `SERPAPI_API_KEY` can alternatively be supplied in the server environment; an environment-provided key remains under the operator's control. `RAAS_DATA_DIR` can override the backend data directory.
-
-Round-trip USD searches use exact airports and dates, one adult, economy, and at most one stop: depart the day before competition, return the day after. Only the outbound itinerary is fetched. Saved prices remain available as dated planning estimates after the six-hour freshness window; this is not a booking guarantee or proof of group availability. Failed/no-result refreshes retain older estimates. Browser tabs merge backend quotes by exact airport pair and date; valid manual prices take precedence. Changes to scenario airports/dates require updating the queue from Flight prices. Manual quotes expire after 24 hours.
-
-Current limitations: academic calendars are verified only for UVA; lodging prices are assumptions. Organizers have not independently confirmed the workbook schedule. The UI discloses these gaps. Connection state and price coverage are visible in Flight prices.
-
-Sources: supplied workbook and screenshots; https://open-meteo.com/en/docs/geocoding-api ; https://registrar.virginia.edu/calendar/academic/2026-2027 ; https://duffel.com/docs/api/offer-requests ; University of Washington Board records linked in the app. User-confirmed host updates: Bucky Noh Dhol → Wisconsin Raas; Raas Mania → Illini; Boston Ni Baaje → Northeastern Nakhraas and BU. These supplement the workbook. Saved scenarios automatically receive this one-time update while keeping their dates, prices, and preferences.
-
-## Checks
-
-```sh
-node --test raas-planner/tests/model.test.mjs raas-planner/tests/backend.test.mjs
-node raas-planner/tests/browser.mjs
-```
-
-Browser checks use the existing repository Playwright installation and Chrome, and run against the local server with an isolated browser context. Scenario edits persist in localStorage; JSON export/restore and all-team CSV export are available. This app has not been deployed publicly.
-
-## Circuit and schedule comparisons
-
-Across the circuit has a competition calendar (all 17 events with suggested attendees), a 38-team weekend schedule grid, and the original fit-score matrix. Hosting, competing, unavailable, and free weekends are distinct; empty weekends between events remain visible. Schedule CSV exports include all teams and weekends.
-
-Compare schedules supports up to four teams side by side, showing costs with missing-fare counts, travel, free weekends, rest gaps, shared competitions, and each event’s fit. Save a baseline before changing inputs to compare a frozen snapshot against recalculated schedules; the baseline persists in browser storage and scenario JSON exports. Host/date/rest changes affect current schedules without rewriting the snapshot.
-
-## Explanations, what-if models, and historical strength
-
-Advanced weights are collapsed initially. Team colors reuse the existing bid-points registry; UW Seattle uses official purple, distinct from Wisconsin red. Names remain visible because some schools share colors.
-
-Competition details show exact signal calculations, normalized weights, score contributions, attendance weights and source cells, cost arithmetic, and historical opponent evidence. Schedule summaries expose the sum of fit scores minus rest penalties.
-
-Seven nonmutating what-if previews cover balanced weights, last-two-season history, travel cost, recovery, +25% entered airfare, stronger fields, and lighter fields. Applying a preset preserves unrelated inputs and an existing baseline; creates a baseline when absent. It is a heuristic comparison, not a fitted statistical forecast.
-
-Historical strength has 179 sourced team-season records across 2021–2022 through 2025–2026. The separate Strength history control supports the last 2, 3, 4, or 5 seasons (default 2), independently of attendance history. Team rating = 100 × summed bid points / (4 × regular-season appearances). Each past field averages known opponent ratings, excluding the selected team. Event strength averages available editions equally; schedule strength averages known events and displays coverage. No-data fields remain unknown in displays and use a documented neutral 0.5 only when strength is given nonzero ranking weight. Retrospective past-season schedule comparisons use pooled ratings over the selected strength window, so these are not pre-event forecasts or validation results. Nationals excluded. Strength is optional to display and defaults to zero influence on attendance fit.
-
-## Public Atlas and hosted refresh
-
-Production lives at `/atlas/` on ysunkara.com. The public build uses an explicit asset allowlist. Viewers can change their personal forecast weights, event targets, rest preferences, strength window, and what-if models in browser storage; competition/source inputs, quotes, imports, API credentials, and refresh controls are read-only. Historical strength has its own navigation tab and competition evidence selector. The rides page links to Atlas, and Atlas is a separate source in the private stats dashboard.
-
-`worker/` contains the isolated `raas-atlas-api` Cloudflare Worker and `raas-atlas` D1 database. A five-minute cron checks the queue, processes up to four due routes, and enforces the same 40/hour and 25-credit-reserve limits. Each route retains the selected refresh interval (currently monthly). D1 stores snapshots, route progress, and rate-limit history. A database lease prevents concurrent refresh workers. The free key and admin token are private Worker secrets. GET `/fares` is public; all `/admin/*` operations require the private admin token. Public page visits never trigger paid/provider searches.
-
-The initial hosted migration preserved the existing route list, quotes, monthly interval, and recent searches, then paused the local queue to avoid duplicate quota usage. The hosted scheduler continues without the laptop. `scripts/migrate_hosted.mjs` installs secrets through CLI stdin without printing them, verifies the free account, imports the saved store, and produces a public fallback snapshot. `--resume` skips reinstalling secrets. Do not rerun a migration over newer hosted data without first reconciling the local copy.
-
-Checks also include `node --test raas-planner/tests/worker.test.mjs` and `node raas-planner/tests/public-browser.mjs`.
+Public entry: `atlas.html`, `atlas.mjs`, `atlas.css`. Model: `evidence.mjs`, `lineups.mjs`, `planner-state.mjs`, `calendar.mjs`. `scripts/build_public.mjs` explicitly allowlists assets; `.local/`, worker code, keys, scripts and price data are never published. The root site build adds `/atlas/`; `/rides/` already links to it, and `/stats/` already tracks it separately.

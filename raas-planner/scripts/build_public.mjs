@@ -2,8 +2,8 @@ import {mkdir,readFile,writeFile,cp} from 'node:fs/promises';
 import {resolve} from 'node:path';
 export async function buildAtlas(source,destination){
  await mkdir(destination,{recursive:true});
- for(const name of ['index.html','style.css','app.mjs','model.mjs','circuit.mjs','scenario.mjs','fare-routes.mjs','locations.mjs','data.json','geography.json','fares.json']){
-  if(name==='index.html'){let html=await readFile(resolve(source,name),'utf8');html=html.replace('<html lang="en">','<html lang="en" data-mode="public">').replace('Local planning workspace','Your personal forecast').replace('Schedule & inputs','Published schedule').replace('Changes save in this browser.','Preferences stay in your browser; published data is read-only.');await writeFile(resolve(destination,name),html);}
+ for(const name of ['atlas.html','atlas.css','atlas.mjs','calendar.mjs','lineups.mjs','evidence.mjs','planner-state.mjs','locations.mjs','data.json','geography.json']){
+  if(name==='atlas.html'){const html=(await readFile(resolve(source,name),'utf8')).replace('<html lang="en">','<html lang="en" data-mode="public">');await writeFile(resolve(destination,'index.html'),html);}
   else await cp(resolve(source,name),resolve(destination,name));
  }
 }
