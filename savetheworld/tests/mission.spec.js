@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 async function begin(page){
   await page.goto('/savetheworld/');
   await page.getByRole('button',{name:'Okay, what do I need?'}).click();
-  await expect(page.getByText('Classification X7-B · Eraser',{exact:true})).toBeVisible();
+  await expect(page.getByText('Whiteboard-compatible eraser',{exact:true})).toBeVisible();
   await page.getByRole('button',{name:'Show me the plan'}).click();
   await page.getByRole('button',{name:'Begin mission'}).click();
   await page.getByRole('button',{name:'Find an eraser'}).click();
@@ -87,7 +87,7 @@ test('departments, promotional buttons and secret search perform their actions',
   await expect(page.locator('.product-card')).toHaveCount(1);
   await expect(page.getByRole('button',{name:'SKU EM-07237 · specifications'})).toBeVisible();
   await page.getByRole('button',{name:'SHOW SAFE SUPPLIES →'}).click();
-  await expect(page.getByRole('combobox',{name:'Whiteboard safe'})).toHaveValue('true');
+  await expect(page.getByRole('combobox',{name:'Whiteboard compatible'})).toHaveValue('true');
   await page.getByRole('button',{name:'BUY NOW ↗'}).click();
   await expect(page.locator('.specs')).toBeVisible();
   await page.getByRole('button',{name:'ENTERPRISE EXCELLENCE ✓'}).click();
@@ -100,10 +100,10 @@ test.describe('phone touch controls',()=>{
     await begin(page);
     await page.screenshot({path:'/private/tmp/yashability-mobile-shop.png',fullPage:false});
     await page.getByRole('button',{name:/Refine your reality ▾/}).tap();
-    await expect(page.getByRole('combobox',{name:'Whiteboard safe'})).toBeVisible();
-    await page.getByRole('combobox',{name:'Whiteboard safe'}).selectOption('true');
+    await expect(page.getByRole('combobox',{name:'Whiteboard compatible'})).toBeVisible();
+    await page.getByRole('combobox',{name:'Whiteboard compatible'}).selectOption('true');
     await page.getByRole('button',{name:/Close refinement panel/}).tap();
-    await expect(page.getByRole('combobox',{name:'Whiteboard safe'})).not.toBeVisible();
+    await expect(page.getByRole('combobox',{name:'Whiteboard compatible'})).not.toBeVisible();
     await acquire(page);
     await expect(page.locator('canvas')).toBeVisible();
     await page.screenshot({path:'/private/tmp/yashability-mobile-erase.png',fullPage:false});
@@ -128,4 +128,15 @@ test.describe('phone touch controls',()=>{
       const search=await page.getByRole('button',{name:'Search →',exact:true}).boundingBox();expect(search.height).toBeGreaterThanOrEqual(44);
     }
   });
+});
+
+test('three filters find the correct eraser without codes or style selections',async({page})=>{
+  await begin(page);
+  await page.getByRole('checkbox',{name:'Under $5',exact:true}).check();
+  await page.getByRole('combobox',{name:'AI readiness'}).selectOption('AI-Optimized');
+  await page.getByRole('combobox',{name:'Whiteboard compatible'}).selectOption('true');
+  await expect(page.locator('.product-card')).toHaveCount(1);
+  await expect(page.getByRole('button',{name:'SKU EM-07237 · specifications'})).toBeVisible();
+  await expect(page.getByRole('combobox',{name:'Enterprise certification'})).toHaveValue('');
+  await expect(page.getByRole('combobox',{name:'Enterprise form factor'})).toHaveValue('');
 });
