@@ -19,7 +19,7 @@ The Vite base is `/savetheworld/`. The root `vercel.json` builds this app and Of
 
 1. Complete the three briefing screens and begin the mission. The five-minute clock starts only here.
 2. Open the shop. The unique correct product is **EM-07237**, E-Z Wipe AI Optimized Dry-Erase Whiteboard Eraser — Compact Edition ($4.87).
-3. Either inspect product specifications or filter for Eraser, dry-erase YES, whiteboard-safe YES, AI-Optimized, Standard, Whiteboard, X7-B, and a maximum price between $4.87 and $5.00. Search **yashwipe** to return only the correct eraser, ignoring any conflicting filters. The exact SKU also works with compatible filters. There are 101 products; the unfiltered correct product is on page 7 (12 items/page).
+3. Use only three mission filters: **Whiteboard compatible = Yes**, **AI readiness = AI-Optimized**, and **Under $5**. These identify exactly one eraser. Size, style, classification, magnetism, and the other sidebar attributes are optional distractions, not purchase requirements. The correct eraser is also on the first catalogue page. Search **yashwipe** for the instructor shortcut, which ignores conflicting filters.
 4. Add it. Open Account settings → Item Vault / Purchase Bucket.
 5. Answer **No** to retain the cart and enter checkout; Yes removes the items (they can be added again).
 6. Make one selection on each screen. On human verification choose **A human buying an eraser**. Finalize the simulated purchase.
