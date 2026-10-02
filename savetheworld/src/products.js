@@ -28,6 +28,18 @@ export const products = Array.from({ length: 101 }, (_, index) => {
   p.shape = ['Rectangle','Round','Wedge'][i%3];
   return p;
 });
+export const PRODUCTS_PER_PAGE = 11;
+export function randomizeProducts(random = Math.random) {
+  const shuffled = [...products];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+export function makePricePuzzle(random = Math.random) {
+  return [10000 + Math.floor(random() * 90000), 10000 + Math.floor(random() * 90000)];
+}
 export function findProducts(query, filters) {
   if (query.trim().toLowerCase() === SECRET_SEARCH) return products.filter(isCorrect);
   const words = query.toLowerCase().trim().split(/\s+/).filter(Boolean);

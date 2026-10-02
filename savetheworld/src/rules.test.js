@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { products, isCorrect, findProducts, clockText } from './products.js';
+import { products, isCorrect, findProducts, clockText, PRODUCTS_PER_PAGE, randomizeProducts, makePricePuzzle } from './products.js';
 test('exactly one of 101 products meets every requirement',()=>{assert.equal(products.length,101);const matches=products.filter(isCorrect);assert.equal(matches.length,1);assert.equal(matches[0].price,4.87);assert.equal(new Set(products.map(p=>p.id)).size,101);});
 test('only the three mission filters identify the correct eraser',()=>{assert.equal(findProducts('',{}).length,101);const found=findProducts('',{compatibility:'Whiteboard compatible',ai:'AI-Optimized',price:'4.99'});assert.equal(found.length,1);assert.ok(isCorrect(found[0]));});
 test('AI and surface leave several price choices, with exactly one below $5',()=>{const found=findProducts('',{compatibility:'Whiteboard compatible',ai:'AI-Optimized'});assert.ok(found.length>12);assert.ok(new Set(found.map(p=>p.price)).size>8);assert.equal(found.filter(p=>p.price<5).length,1);for(const surface of ['Glass compatible','Desk compatible','Chalkboard compatible'])assert.ok(findProducts('',{compatibility:surface}).length>0);});
@@ -8,3 +8,6 @@ test('size, style and classification are not purchase requirements',()=>{const c
 test('search uses OR and supports exact SKU lookup',()=>{assert.equal(findProducts('whiteboard nonexistent',{}).length,101);assert.equal(findProducts(products.find(isCorrect).sku,{}).length,1);});
 test('three-and-a-half-minute timer continues after deadline',()=>{assert.equal(clockText(0),'3:30');assert.equal(clockText(209),'0:01');assert.equal(clockText(210),'0:00');assert.equal(clockText(211),'+0:01');assert.equal(clockText(275),'+1:05');});
 test('secret search reliably finds the right eraser despite conflicting filters',()=>{const found=findProducts(' YASHWIPE ',{safe:'false',type:'Pencil eraser',price:'1'});assert.equal(found.length,1);assert.ok(isCorrect(found[0]));});
+test('101 products make exactly ten catalogue pages of eleven',()=>{assert.equal(Math.ceil(products.length/PRODUCTS_PER_PAGE),10);assert.equal(products.length-(PRODUCTS_PER_PAGE*9),2);});
+test('catalogue order can vary without losing or duplicating products',()=>{const first=randomizeProducts(()=>0),second=randomizeProducts(()=>.5);assert.equal(first.length,101);assert.equal(new Set(first.map(p=>p.id)).size,101);assert.notDeepEqual(first.map(p=>p.id),second.map(p=>p.id));});
+test('authorization problem always uses two five-digit addends',()=>{const [a,b]=makePricePuzzle(()=>.25);assert.equal(a,32500);assert.equal(b,32500);assert.equal(String(a).length,5);assert.equal(String(b).length,5);assert.equal(a+b,65000);});

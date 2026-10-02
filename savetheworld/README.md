@@ -19,7 +19,7 @@ The Vite base is `/savetheworld/`. The root `vercel.json` builds this app and Of
 
 1. Complete the three briefing screens and begin the mission. The 3½-minute clock starts only here.
 2. Open the shop. The unique correct product is **EM-07237**, E-Z Wipe AI Optimized Dry-Erase Whiteboard Eraser — Compact Edition ($4.87).
-3. Use only three mission filters: **Compatible = Whiteboard compatible**, **AI readiness = AI-Optimized**, and the unlabeled **Price range** slider ($0.10–$100). These identify exactly one eraser. Size, style, classification, magnetism, and the other sidebar attributes are optional distractions, not purchase requirements. The AI and surface filters leave multiple prices; only one candidate costs less than $5. The correct eraser is also on the first catalogue page. Search **yashwipe** for the instructor shortcut, which ignores conflicting filters.
+3. There are 101 products across exactly ten catalogue pages (11 per page, with two on the last). Their order is randomized when the mission begins, so the correct product can appear on any page. The only purchase requirements are **Whiteboard-compatible**, **AI-Optimized**, and **under $5**. The price control starts locked; enter the sum of the two displayed five-digit numbers to unlock it. Pasting into that answer box is disabled. Search **yashwipe** for the instructor shortcut, which ignores conflicting filters.
 4. Add it. Open Account settings → Shopping cart.
 5. Answer **No** to retain the cart and enter checkout; Yes removes the items (they can be added again).
 6. Make one selection on each screen. On human verification choose **A human buying an eraser**. Final confirmation asks **Is this not the right information?** The **Yes** button occupies the previous Continue location and returns to the cart, retaining the item but restarting checkout. **No — information is correct** completes the simulated purchase.
@@ -35,19 +35,22 @@ Incorrect purchases return to the room with “You got the wrong eraser. Please 
 4. Consistency: four add-to-cart controls and changing cart terminology.
 5. Affordances: promotional banners dismiss with a brief joke rather than blocking the task; enterprise buttons show a certificate notice; tiny SKU links open details; product art accepts double-click to add.
 6. Search: OR matching, result order rotates on scrolling after escalation.
-7. Filtering: nine dropdowns (AI readiness and surface compatibility first), a distracting sidebar ad, and an unlabeled $0.10–$100 price slider near the bottom.
+7. Filtering: nine dropdowns (AI readiness and surface compatibility first), a distracting sidebar ad, and a price range that is unlocked only after a randomized arithmetic gate.
 8. Memory: requirements are visible in the sidebar and one click inside Account settings.
 9. Feedback: generic procurement status and detail-page responses.
 10. Confirmation: double-negative cart question.
-11. Pagination: misleading page labels and looping NEXTISH.
+11. Pagination: 101 items are spread over ten pages, and the correct product's position is randomized each run; use NEXTISH to move through the catalogue.
 12. Sizing: newsletter area dwarfs critical buttons.
 13. Attention: animated sale graphics and useful safety information disguised as a sidebar ad (banner blindness).
 14. Cart discovery: account settings.
 15. Back behavior: occasional filter loss; purchases/cart remain intact.
 16. Terminology: Cart/Bucket/Vault/Container; Board/Panel/Surface.
 17. Information overload: metadata hides below irrelevant corporate copy.
+
 18. Urgency: looping fake sale timers compete with the actual deadline.
 19. Errors: generic messages with deterministic recovery.
 20. Checkout: seven unnecessary steps.
+
+See [ASSIGNMENT-MAPPING.md](./ASSIGNMENT-MAPPING.md) for the course-brief mapping, source notes, and the testing caveat about measuring interaction cost with real participants.
 
 The shop opens with bright red and low-contrast text, adds result motion and a newsletter after 35 seconds or several actions, and adds additional poor contrast, a floating ad after 85 seconds or further interaction. The initial briefing remains clear and self-paced (roughly 20–30 seconds to read).

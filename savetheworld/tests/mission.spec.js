@@ -158,6 +158,18 @@ test.describe('phone touch controls',()=>{
 test('three filters find the correct eraser without codes or style selections',async({page})=>{
   await begin(page);
   const slider=page.getByRole('slider',{name:'Maximum price'});
+  await expect(slider).toBeHidden();
+  const challenge=(await page.locator('.price-gate form p').innerText()).match(/(\d{5}) \+ (\d{5})/);
+  expect(challenge).not.toBeNull();
+  const input=page.getByRole('textbox',{name:'Authorization total'});
+  await input.fill('123');
+  await input.evaluate(el=>{const data=new DataTransfer();data.setData('text/plain','456');el.dispatchEvent(new ClipboardEvent('paste',{bubbles:true,cancelable:true,clipboardData:data}));});
+  await expect(input).toHaveValue('123');
+  await page.getByRole('button',{name:'Open price control'}).click();
+  await expect(page.getByRole('status').filter({hasText:'Calculation rejected'})).toBeVisible();
+  await input.fill(String(Number(challenge[1])+Number(challenge[2])));
+  await page.getByRole('button',{name:'Open price control'}).click();
+  await expect(slider).toBeVisible();
   await expect(slider).toHaveAttribute('min','0.10');
   await expect(slider).toHaveAttribute('max','100');
   await slider.evaluate(el=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(el,'4.99');el.dispatchEvent(new Event('input',{bubbles:true}));});
@@ -169,6 +181,17 @@ test('three filters find the correct eraser without codes or style selections',a
   await expect(page.getByRole('button',{name:'SKU EM-07237 · specifications'})).toBeVisible();
   await expect(page.getByRole('combobox',{name:'Classification',exact:true})).toHaveValue('');
   await expect(page.getByRole('combobox',{name:'Style',exact:true})).toHaveValue('');
+});
+
+test('101 randomly ordered products occupy ten browsable pages',async({page})=>{
+  await begin(page);
+  await expect(page.locator('.pagination small')).toHaveText('Somewhere 1 of 10');
+  for(let current=1;current<10;current++){
+    await expect(page.locator('.product-card')).toHaveCount(11);
+    await page.getByRole('button',{name:'NEXTISH'}).click();
+    await expect(page.locator('.pagination small')).toHaveText(`Somewhere ${current+1} of 10`);
+  }
+  await expect(page.locator('.product-card')).toHaveCount(2);
 });
 
 test('surface and AI filters leave multiple prices, and shipping popup dismisses',async({page})=>{
