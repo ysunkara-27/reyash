@@ -53,7 +53,7 @@ function App() {
   const [catalog,setCatalog]=useState(()=>randomizeProducts()),[pricePuzzle,setPricePuzzle]=useState(()=>makePricePuzzle()),[priceUnlocked,setPriceUnlocked]=useState(false),[priceAnswer,setPriceAnswer]=useState(''),[priceMessage,setPriceMessage]=useState('');
   const dismissPromo=key=>{setDismissed(d=>({...d,[key]:true}));setNotice('JK — there’s no discount. Back to finding your eraser.');};
   useEffect(()=>{if(!notice)return;const id=setTimeout(()=>setNotice(''),5000);return()=>clearTimeout(id);},[notice]);
-  const startedRef=useRef(null), lastScroll=useRef(0);
+  const startedRef=useRef(null);
   useEffect(()=>{if(!started||finished!==null)return;const id=setInterval(()=>setElapsed((Date.now()-started)/1000),200);return()=>clearInterval(id);},[started,finished]);
   useEffect(()=>{const back=()=>{setScreen('shop');setDetail(null);setFilters({});setPage(0);setActions(n=>n+1);};window.addEventListener('popstate',back);return()=>window.removeEventListener('popstate',back);},[]);
   useEffect(()=>{if(!signal)return;const id=setTimeout(()=>setSignal(false),650);return()=>clearTimeout(id);},[signal]);
@@ -102,7 +102,7 @@ function App() {
       <nav className="store-nav"><button className="store-logo" onClick={back}>EraseMart</button><div className="store-links"><button onClick={()=>{setMenu(!menu);setDepartments(false);setHelp(0);}}>Account settings ☰</button><button className="return-room" onClick={()=>go('room')}><Icon name="room" size={14}/> Return to room</button></div><span className="procurement-status" role="status">{signal?'Action processed.':'Procurement online'}</span></nav>
       {notice&&<div className="shop-notice" role="status" onClick={()=>setNotice('')}>{notice}<button aria-label="Dismiss message" onClick={()=>setNotice('')}>×</button></div>}
       {menu&&<div className="account-menu"><b>Account settings</b><button onClick={()=>{go('cart');setStep(0);}}>Shopping cart ({cart.length})</button><button onClick={()=>setHelp(help?0:1)}>Mission requirements</button>{help>0&&<p>Whiteboard-compatible eraser · AI-Optimized · under $5.</p>}</div>}
-      {screen==='shop'&&<main className="shop-main" onWheel={()=>{if(chaos>=2&&Date.now()-lastScroll.current>7000){lastScroll.current=Date.now();setShuffle(n=>n+1);}}}>
+      {screen==='shop'&&<main className="shop-main">
         <div className="shop-breadcrumb">Home / Solutions / Workplace / Things that remove other things</div>
         <div className="shop-title"><div><span className="eyebrow">THE FUTURE OF REMOVING THE PAST</span><h1>Big wipe energy.</h1><p>{products.length} ways to make your mark disappear. Probably.</p></div>{!dismissed.sale&&<PromoBlock className="sale-badge" label="Dismiss sale advertisement" onDismiss={()=>dismissPromo('sale')}>AI ERASER WEEK<big>0.4% OFF*</big><span>*emotionally, not financially</span></PromoBlock>}</div>
         <form className="search" onSubmit={e=>{e.preventDefault();setQuery(draft);setPage(0);setNotice(`Search processed: ${findProducts(draft,filters).length} objects located.`);setActions(n=>n+1);}}><span>⌕</span><input aria-label="Search marketplace" value={draft} onChange={e=>setDraft(e.target.value)} placeholder="Search for your next eraser-shaped solution…"/><button>Search →</button></form>

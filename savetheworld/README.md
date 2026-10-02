@@ -34,7 +34,7 @@ Incorrect purchases return to the room with “You got the wrong eraser. Please 
 3. Contrast: bright red shop backgrounds with neon green, yellow, cyan, and pink text.
 4. Consistency: four add-to-cart controls and changing cart terminology.
 5. Affordances: promotional banners dismiss with a brief joke rather than blocking the task; enterprise buttons show a certificate notice; tiny SKU links open details; product art accepts double-click to add.
-6. Search: OR matching, result order rotates on scrolling after escalation.
+6. Search: OR matching; the randomized catalogue order stays stable while scrolling.
 7. Filtering: nine dropdowns (AI readiness and surface compatibility first), a distracting sidebar ad, and a price range that is unlocked only after a randomized arithmetic gate.
 8. Memory: requirements are visible in the sidebar and one click inside Account settings.
 9. Feedback: generic procurement status and detail-page responses.

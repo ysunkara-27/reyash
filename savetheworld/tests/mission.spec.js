@@ -194,6 +194,17 @@ test('101 randomly ordered products occupy ten browsable pages',async({page})=>{
   await expect(page.locator('.product-card')).toHaveCount(2);
 });
 
+test('scrolling does not reorder products after the shop gets busier',async({page})=>{
+  await page.clock.install();
+  await begin(page);
+  await page.clock.fastForward(90000);
+  await expect(page.locator('.app')).toHaveClass(/chaos-3/);
+  const before=await page.locator('.product-card .sku-link').allTextContents();
+  await page.mouse.wheel(0,1600);
+  const after=await page.locator('.product-card .sku-link').allTextContents();
+  expect(after).toEqual(before);
+});
+
 test('surface and AI filters leave multiple prices, and shipping popup dismisses',async({page})=>{
   await page.clock.install();await begin(page);
   await page.getByRole('combobox',{name:'Compatible'}).selectOption('Whiteboard compatible');
