@@ -2,7 +2,7 @@ const types = ['Eraser', 'Chalkboard eraser', 'Cleaning cloth', 'Replacement pad
 const brands = ['E-Z Wipe', 'Obliterate', 'BoardRoom', 'WipeGPT', 'FeltSense', 'Null & Void', 'EraseCorp', 'Sponge.AI'];
 const variants = ['Compact Edition', 'Enterprise Mini', 'Professional Max', 'Executive Felt', 'Cloud Edition', 'Studio Standard'];
 export const REQUIREMENTS = { type: 'Eraser', dry: true, safe: true, ai: 'AI-Optimized', surface: 'Whiteboard' };
-export const MISSION_SECONDS = 300;
+export const MISSION_SECONDS = 210;
 export const SECRET_SEARCH = 'yashwipe';
 export function isCorrect(p) { return Boolean(p && p.price < 5 && Object.entries(REQUIREMENTS).every(([key, value]) => p[key] === value)); }
 export const products = Array.from({ length: 101 }, (_, index) => {
@@ -12,16 +12,20 @@ export const products = Array.from({ length: 101 }, (_, index) => {
     switch (i % 9) {
       case 0: p.dry = false; break;
       case 1: p.safe = false; break;
-      case 2: p.price = 5.01 + (i % 7) * .13; break;
+      case 2: p.price = [5.09,6.49,8.99,12.50,19.95,34.99,59,99.95][Math.floor(i/9)%8]; break;
       case 3: p.ai = 'AI-Ready'; break;
       case 4: p.style = 'Mini'; p.dry = false; break;
       case 5: p.surface = 'Glass'; break;
-      case 6: p.type = types[1 + i % 5]; break;
-      case 7: p.code = 'X7-8'; p.price = 5.25; break;
+      case 6: p.surface = 'Chalkboard'; p.dry = false; break;
+      case 7: p.code = 'X7-8'; p.price = [5.25,7.75,11.99,24.50,45,79.95][Math.floor(i/9)%6]; break;
       case 8: p.ai = 'AI-Enhanced'; break;
     }
   } else p.name = 'E-Z Wipe AI Optimized Dry-Erase Whiteboard Eraser — Compact Edition';
   p.compatible = p.type === 'Eraser' && p.dry && p.safe && p.surface === 'Whiteboard';
+  if (i !== 137 && i%9 !== 2 && i%9 !== 7) p.price = Number((.10 + ((i*173)%9500)/100).toFixed(2));
+  p.compatibility = p.compatible ? 'Whiteboard compatible' : p.surface === 'Glass' ? 'Glass compatible' : p.surface === 'Chalkboard' ? 'Chalkboard compatible' : 'Desk compatible';
+  p.material = ['Felt','Foam','Microfiber'][i%3];
+  p.shape = ['Rectangle','Round','Wedge'][i%3];
   return p;
 });
 export function findProducts(query, filters) {
