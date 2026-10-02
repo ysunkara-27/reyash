@@ -251,7 +251,7 @@ print((mean-1.96*sd/np.sqrt(n),mean+1.96*sd/np.sqrt(n))) # (48.04,51.96)
 num('p4','Standardize','A value is 70, mean 50, standard deviation 10. What is its z-score?',2,'z=(70−50)/10=2.'),
 num('p5','Uncertainty','Sample standard deviation is 12 and n=36 independent observations. What is the estimated standard error of the mean?',2,'12/sqrt(36)=2. This measures uncertainty in the mean, not spread of individual observations.')
 ]);
-export const quiz = [...diagnostic.slice(13),
+export const quiz = [...diagnostic.slice(13).map(q=>({...q,id:'quiz-'+q.id})),
 mc('q1','Bagging vs boosting','Which describes bagging?',['Sequentially fitting errors','Combining models trained on resampled datasets','Removing every weak feature','Optimizing only precision'],[1],'Bagging trains models on resampled data and combines predictions; it often reduces variance. Boosting adds models sequentially to improve an objective.'),
 mc('q2','Activations','Select ALL correct matches.',['ReLU: max(0,x)','Sigmoid: values between 0 and 1','Softmax: outputs sum to 1 across classes','tanh: outputs only nonnegative values'],[0,1,2],'An activation adds nonlinearity to a neural network. tanh ranges from −1 to 1; softmax normalizes class scores.'),
 mc('q3','Scaling','Which methods typically need careful feature scaling? Select ALL.',['k-NN','k-means','Random forest','L2-regularized logistic regression'],[0,1,3],'k-NN predicts from nearby samples; k-means groups nearby samples. Their distances and regularization penalties depend on feature scale.'),
