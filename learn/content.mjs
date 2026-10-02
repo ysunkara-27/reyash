@@ -1,3 +1,4 @@
+import {extendPractice} from './practice.mjs';
 export const DATA = `import numpy as np
 import pandas as pd
 rng = np.random.default_rng(42)
@@ -327,3 +328,5 @@ result=(mean_absolute_error(truth,pred),mse,np.sqrt(mse),r2_score(truth,pred))`,
 lessons.find(l=>l.id==='windows').drills.push(code('c4','SQL','Running customer revenue','Write query returning id and running_total for all sales. Sum COALESCE(amount,0) within each customer in date,id order with a ROWS window. Order the final output by id.',`query='''SELECT id, SUM(COALESCE(amount,0)) OVER (
 PARTITION BY customer ORDER BY date,id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
 ) AS running_total FROM sales ORDER BY id'''`,["result=pd.read_sql_query(query,con)","assert result['id'].tolist()==[1,2,3,4,5,6]","assert result['running_total'].tolist()==[100,40,100,80,40,200]"],'COALESCE supplies a value for NULL. Use a window SUM rather than GROUP BY.',diagnostic[6].setup));
+
+extendPractice({lessons,quiz,exams,MODEL});
