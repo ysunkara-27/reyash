@@ -8,7 +8,7 @@ const output = resolve(root, 'dist');
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 const excluded = new Set(['api', 'tests', 'node_modules', 'README.md']);
-for (const path of ['index.html', 'assets', 'bidpoints', 'css', 'js', 'apgovelections', 'rides', 'pujarinet', 'writings', 'amma', 'stats']) {
+for (const path of ['index.html', 'assets', 'bidpoints', 'css', 'js', 'apgovelections', 'rides', 'pujarinet', 'writings', 'amma', 'stats', 'learn']) {
   await cp(resolve(root, path), resolve(output, path), {
     recursive: true,
     filter: source => !basename(source).startsWith('.') && !excluded.has(basename(source)),
