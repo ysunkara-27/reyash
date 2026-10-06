@@ -55,6 +55,10 @@
       "destination": "https://yashwrites-blindspot.hf.space/blindspot/"
     },
     {
+      "source": "/blindspot/",
+      "destination": "https://yashwrites-blindspot.hf.space/blindspot/"
+    },
+    {
       "source": "/blindspot/:path*",
       "destination": "https://yashwrites-blindspot.hf.space/blindspot/:path*"
     },
