@@ -1,6 +1,9 @@
 const API='https://hooraas-rides-api.sunkarayashaswi.workers.dev',TOKEN_KEY='ys-stats-token';
 const $=id=>document.getElementById(id),escape=value=>String(value??'').replace(/[&<>"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[char]));
-const labels={taskpup:'Taskpup',home:'ysunkara.com',amma:'Amma',atlas:'Raas Atlas',rides:'Rides',bidpoints:'Bidpoints',apgovelections:'AP Gov Elections',pujarinet:'PujariNet',writings:'Writings',savetheworld:'Save the World',officehours:'Office Hours',other:'Other'};
+const labels={taskpup:'Taskpup',home:'ysunkara.com',amma:'Amma',atlas:'Raas Atlas',rides:'Rides',bidpoints:'Bidpoints',apgovelections:'AP Gov Elections',pujarinet:'PujariNet',writings:'Writings',savetheworld:'Save the World',officehours:'Office Hours',blindspot:'Blindspot',other:'Other'};
+const eventLabels={session_start:'Sessions started',film_submitted:'Films read',debrief_live:'Claude debriefs',debrief_template:'Built-in debriefs',hint:'Hints',ask:'Tutor questions',reference_open:'Reference opened',tutorial_done:'Tutorials finished',set_complete:'Sets finished'};
+const SPEND_EVENT='tutor_spend_usd';
+const money=value=>'$'+Number(value||0).toFixed(2);
 let token=sessionStorage.getItem(TOKEN_KEY)||'';
 const number=value=>Number(value||0).toLocaleString();
 const ago=value=>{if(!value)return'No activity';const minutes=Math.max(0,Math.round((Date.now()-value)/60000));return minutes<1?'just now':minutes<60?`${minutes}m ago`:minutes<1440?`${Math.round(minutes/60)}h ago`:`${Math.round(minutes/1440)}d ago`;};
@@ -15,11 +18,19 @@ function bars(rows,label){
   return `<i class="bar level-${level}" data-tip="${escape(label(row))} · ${number(row.users)} users · ${number(row.hits)} views"></i>`;
  }).join(''):'<p class="empty">No tracked activity yet.</p>';
 }
+function interactions(site,events){
+ const rows=(events||[]).filter(row=>row.site===site);
+ if(!rows.length)return'';
+ const spend=rows.find(row=>row.event===SPEND_EVENT);
+ const list=rows.filter(row=>row.event!==SPEND_EVENT).map(row=>`<div><span>${escape(eventLabels[row.event]||row.event)}</span><strong>${number(row.day_count)} / ${number(row.week_count)}</strong></div>`).join('');
+ return `<div class="interactions"><small>Interactions · 24h / 7d</small>${list||'<p class="empty">No interactions yet.</p>'}${spend?`<p class="spend">Tutor spend ${money(spend.day_value)} (24h) · ${money(spend.week_value)} (7d)</p>`:''}</div>`;
+}
 function render(data){
  if(!data.sites.some(site=>site.site==='atlas'))data.sites.push({site:'atlas',live:0,day:0,week:0,period:0,last_seen:null});
+ if(!data.sites.some(site=>site.site==='blindspot')&&(data.events||[]).some(row=>row.site==='blindspot'))data.sites.push({site:'blindspot',live:0,day:0,week:0,period:0,last_seen:null});
  $('freshness').textContent=`Loaded ${new Date(data.generatedAt).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}`;
  $('totals').innerHTML=metrics(data);
- $('sites').innerHTML=data.sites.length?data.sites.map(site=>`<article class="site-card"><h3>${site.site==='atlas'?'<a href="/atlas/">Raas Atlas ↗</a>':escape(labels[site.site]||site.site)}</h3><div class="site-metrics"><div><strong>${number(site.live)}</strong><span>LIVE</span></div><div><strong>${number(site.day)}</strong><span>24 HOURS</span></div><div><strong>${number(site.week)}</strong><span>7 DAYS</span></div></div><small class="site-last">Last seen ${ago(site.last_seen)}</small></article>`).join(''):'<p class="empty">Activity will appear as people visit the sites.</p>';
+ $('sites').innerHTML=data.sites.length?data.sites.map(site=>`<article class="site-card"><h3>${site.site==='atlas'?'<a href="/atlas/">Raas Atlas ↗</a>':escape(labels[site.site]||site.site)}</h3><div class="site-metrics"><div><strong>${number(site.live)}</strong><span>LIVE</span></div><div><strong>${number(site.day)}</strong><span>24 HOURS</span></div><div><strong>${number(site.week)}</strong><span>7 DAYS</span></div></div><small class="site-last">Last seen ${ago(site.last_seen)}</small>${site.site==='blindspot'?interactions('blindspot',data.events):''}</article>`).join(''):'<p class="empty">Activity will appear as people visit the sites.</p>';
  $('hourly').innerHTML=bars(data.hourly,row=>new Date(row.start).toLocaleTimeString([],{hour:'numeric'}));
  $('daily').innerHTML=bars(data.daily,row=>new Date(row.day+'T12:00:00').toLocaleDateString([],{weekday:'short'}));
  $('username-count').textContent=`${number(data.usernames.length)} in the tracked week`;

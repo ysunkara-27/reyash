@@ -1,5 +1,7 @@
 const encoder=new TextEncoder();
-const SITES=new Set(['taskpup','home','amma','atlas','rides','bidpoints','apgovelections','pujarinet','writings','savetheworld','officehours','other']);
+const SITES=new Set(['taskpup','home','amma','atlas','rides','bidpoints','apgovelections','pujarinet','writings','savetheworld','officehours','blindspot','other']);
+const HOUR=3600000;
+const EVENT_NAME=/^[a-z0-9_]{1,40}$/;
 const FIVE_MINUTES=300000,DAY=86400000,WEEK=7*DAY;
 const FALLBACK_PASSWORD_HASH='5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
 const tableReady=new WeakMap();
@@ -16,6 +18,8 @@ async function ensureTables(env){
   await env.DB.prepare('CREATE TABLE IF NOT EXISTS analytics_activity (site TEXT NOT NULL, actor TEXT NOT NULL, bucket INTEGER NOT NULL, username TEXT, path TEXT NOT NULL, hits INTEGER NOT NULL DEFAULT 1, PRIMARY KEY(site,actor,bucket))').run();
   await env.DB.prepare('CREATE INDEX IF NOT EXISTS analytics_activity_bucket ON analytics_activity(bucket)').run();
   await env.DB.prepare('CREATE INDEX IF NOT EXISTS analytics_activity_site_bucket ON analytics_activity(site,bucket)').run();
+  await env.DB.prepare('CREATE TABLE IF NOT EXISTS analytics_events (site TEXT NOT NULL, event TEXT NOT NULL, bucket INTEGER NOT NULL, count INTEGER NOT NULL DEFAULT 0, value REAL NOT NULL DEFAULT 0, PRIMARY KEY(site,event,bucket))').run();
+  await env.DB.prepare('CREATE INDEX IF NOT EXISTS analytics_events_bucket ON analytics_events(bucket)').run();
   await env.DB.prepare('CREATE TABLE IF NOT EXISTS analytics_limits (key TEXT PRIMARY KEY,attempts INTEGER NOT NULL,expires INTEGER NOT NULL)').run();
  })());
  return tableReady.get(env.DB);
@@ -28,6 +32,16 @@ export async function recordActivity(env,{site,actor,username=null,path='/'},now
  const bucket=Math.floor(now/FIVE_MINUTES)*FIVE_MINUTES;
  const cleanName=typeof username==='string'&&username.length<=64?username:null;
  await env.DB.prepare('INSERT INTO analytics_activity(site,actor,bucket,username,path,hits) VALUES (?,?,?,?,?,1) ON CONFLICT(site,actor,bucket) DO UPDATE SET hits=hits+1,username=COALESCE(excluded.username,analytics_activity.username),path=excluded.path').bind(safeSite(site),await actorHash(env,actor),bucket,cleanName,safePath(path)).run();
+ return true;
+}
+
+export async function recordEvent(env,{site,event,value=1},now=Date.now()){
+ if(!SITES.has(site)||typeof event!=='string'||!EVENT_NAME.test(event))return false;
+ const amount=value===undefined?1:Number(value);
+ if(!Number.isFinite(amount)||amount<0)return false;
+ await ensureTables(env);
+ const bucket=Math.floor(now/HOUR)*HOUR;
+ await env.DB.prepare('INSERT INTO analytics_events(site,event,bucket,count,value) VALUES (?,?,?,1,?) ON CONFLICT(site,event,bucket) DO UPDATE SET count=count+1,value=value+excluded.value').bind(site,event,bucket,amount).run();
  return true;
 }
 
@@ -72,15 +86,22 @@ async function report(env,now){
  try{recentAccounts=await rows(env.DB.prepare(`SELECT u.username,MAX(c.day) AS last_day
    FROM dog_care_days c JOIN dog_users u ON u.id=c.user_id
    WHERE c.day>=date(?/1000,'unixepoch','-7 day') GROUP BY u.id,u.username ORDER BY last_day DESC,u.username`).bind(now));}catch{}
+ const events=await rows(env.DB.prepare(`SELECT site,event,
+  SUM(CASE WHEN bucket>=? THEN count ELSE 0 END) AS day_count,
+  SUM(count) AS week_count,
+  SUM(CASE WHEN bucket>=? THEN value ELSE 0 END) AS day_value,
+  SUM(value) AS week_value
+  FROM analytics_events WHERE bucket>=? GROUP BY site,event ORDER BY site,week_count DESC,event`).bind(day,day,week));
  await env.DB.prepare('DELETE FROM analytics_activity WHERE bucket<?').bind(now-90*DAY).run();
- return {generatedAt:now,trackingSince:(await env.DB.prepare('SELECT MIN(bucket) AS value FROM analytics_activity').first())?.value||null,windows:{liveMinutes:15},totals,sites,usernames,hourly,daily,recentAccounts};
+ await env.DB.prepare('DELETE FROM analytics_events WHERE bucket<?').bind(now-90*DAY).run();
+ return {generatedAt:now,trackingSince:(await env.DB.prepare('SELECT MIN(bucket) AS value FROM analytics_activity').first())?.value||null,windows:{liveMinutes:15},totals,sites,usernames,hourly,daily,recentAccounts,events};
 }
 
 export async function handleAnalytics(request,env,headers={}){
  const reply=(data,status=200)=>Response.json(data,{status,headers:{...headers,'cache-control':'no-store'}});
  const url=new URL(request.url),now=Date.now();
  try{
-  if(url.pathname==='/analytics/event'){
+  if(url.pathname==='/analytics/event'||url.pathname==='/analytics/track'){
    if(request.method!=='POST')return reply({error:'Method not allowed.'},405);
    await ensureTables(env);
    const limitKey=await digest(`${request.headers.get('CF-Connecting-IP')||'local'}:${Math.floor(now/60000)}`);
@@ -90,7 +111,13 @@ export async function handleAnalytics(request,env,headers={}){
    await env.DB.prepare('DELETE FROM analytics_limits WHERE expires<?').bind(now).run();
    const raw=await request.text();if(raw.length>1000)return reply({error:'Event too large.'},413);
    let body;try{body=JSON.parse(raw||'{}');}catch{return reply({error:'Invalid event.'},400);}
-   if(!SITES.has(body.site))return reply({error:'Unknown site.'},400);
+   if(!body||typeof body!=='object'||!SITES.has(body.site))return reply({error:'Unknown site.'},400);
+   if(url.pathname==='/analytics/track'){
+    if(typeof body.event!=='string'||!EVENT_NAME.test(body.event))return reply({error:'Invalid event name.'},400);
+    if(body.value!==undefined&&!(typeof body.value==='number'&&Number.isFinite(body.value)&&body.value>=0))return reply({error:'Invalid value.'},400);
+    const ok=await recordEvent(env,{site:body.site,event:body.event,value:body.value},now);
+    return ok?reply({ok:true}):reply({error:'Invalid event.'},400);
+   }
    const ok=await recordActivity(env,{site:body.site,actor:body.visitor,path:body.path},now);
    return ok?reply({ok:true}):reply({error:'Invalid visitor.'},400);
   }

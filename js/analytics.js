@@ -3,7 +3,7 @@
   var API='https://hooraas-rides-api.sunkarayashaswi.workers.dev',key='ys-analytics-id',visitor;
   try{visitor=localStorage.getItem(key);if(!/^[a-zA-Z0-9_-]{8,160}$/.test(visitor||'')){visitor=crypto.randomUUID();localStorage.setItem(key,visitor);}}catch{visitor=crypto.randomUUID();}
   window.siteAnalyticsId=visitor;
-  var first=location.pathname.split('/').filter(Boolean)[0]||'',site=location.hostname.includes('taskpup')?'taskpup':({dog:'taskpup',amma:'amma',atlas:'atlas',rides:'rides',bidpoints:'bidpoints',apgovelections:'apgovelections',kwatnoskiapgov:'apgovelections',pujarinet:'pujarinet',writings:'writings',savetheworld:'savetheworld',officehours:'officehours'}[first]||'home');
+  var first=location.pathname.split('/').filter(Boolean)[0]||'',site=location.hostname.includes('taskpup')?'taskpup':({dog:'taskpup',amma:'amma',atlas:'atlas',rides:'rides',bidpoints:'bidpoints',apgovelections:'apgovelections',kwatnoskiapgov:'apgovelections',pujarinet:'pujarinet',writings:'writings',savetheworld:'savetheworld',officehours:'officehours',blindspot:'blindspot'}[first]||'home');
   var body=JSON.stringify({site:site,path:location.pathname,visitor:visitor});
   if(navigator.sendBeacon){navigator.sendBeacon(API+'/analytics/event',new Blob([body],{type:'text/plain'}));}
   else fetch(API+'/analytics/event',{method:'POST',body:body,keepalive:true}).catch(function(){});

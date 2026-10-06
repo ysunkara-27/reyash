@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
-import {handleAnalytics,recordActivity} from '../analytics-api.mjs';
+import {handleAnalytics,recordActivity,recordEvent} from '../analytics-api.mjs';
 
 function fixture(){
  const db=new DatabaseSync(':memory:');
@@ -35,5 +35,56 @@ test('public event ingestion validates source and visitor',async()=>{
   let response=await f.request('/analytics/event',{method:'POST',body:JSON.stringify({site:'unknown',path:'/',visitor:'browser_one'})});assert.equal(response.status,400);
   response=await f.request('/analytics/event',{method:'POST',body:JSON.stringify({site:'amma',path:'/amma/?private=1',visitor:'browser_one'})});assert.equal(response.status,200);
   const row=f.db.prepare('SELECT site,path FROM analytics_activity').get();assert.equal(row.site,'amma');assert.equal(row.path,'/amma/');
+ }finally{f.db.close();}
+});
+
+test('blindspot page views are accepted as a tracked site',async()=>{
+ const f=fixture();try{
+  const response=await f.request('/analytics/event',{method:'POST',body:JSON.stringify({site:'blindspot',path:'/blindspot/?case=1',visitor:'browser_bs_one'})});assert.equal(response.status,200);
+  const row=f.db.prepare('SELECT site,path FROM analytics_activity').get();assert.equal(row.site,'blindspot');assert.equal(row.path,'/blindspot/');
+ }finally{f.db.close();}
+});
+
+test('interaction tracking validates site, event name and value, then aggregates per hour',async()=>{
+ const f=fixture();try{
+  const post=body=>f.request('/analytics/track',{method:'POST',body:JSON.stringify(body)});
+  assert.equal((await post({site:'nope',event:'session_start'})).status,400);
+  assert.equal((await post({site:'blindspot'})).status,400);
+  assert.equal((await post({site:'blindspot',event:'Bad-Name'})).status,400);
+  assert.equal((await post({site:'blindspot',event:'x'.repeat(41)})).status,400);
+  assert.equal((await post({site:'blindspot',event:'tutor_spend_usd',value:-1})).status,400);
+  assert.equal((await post({site:'blindspot',event:'tutor_spend_usd',value:'0.5'})).status,400);
+  assert.equal((await post({site:'blindspot',event:'tutor_spend_usd',value:Infinity})).status,400);
+  assert.equal((await f.request('/analytics/track',{method:'GET'})).status,405);
+  assert.equal((await post({site:'blindspot',event:'session_start',visitor:'browser_bs_one'})).status,200);
+  assert.equal((await post({site:'blindspot',event:'session_start'})).status,200);
+  assert.equal((await post({site:'blindspot',event:'tutor_spend_usd',value:0.012})).status,200);
+  assert.equal((await post({site:'blindspot',event:'tutor_spend_usd',value:0.03})).status,200);
+  const rows=f.db.prepare('SELECT site,event,bucket,count,value FROM analytics_events ORDER BY event').all();
+  assert.equal(rows.length,2);
+  assert.equal(rows[0].event,'session_start');assert.equal(rows[0].count,2);assert.equal(rows[0].value,2);
+  assert.equal(rows[1].event,'tutor_spend_usd');assert.equal(rows[1].count,2);assert.ok(Math.abs(rows[1].value-0.042)<1e-9);
+  assert.equal(rows[0].bucket%3600000,0);
+ }finally{f.db.close();}
+});
+
+test('report lists interaction events for the last week and prunes old rows',async()=>{
+ const f=fixture();try{
+  const now=Date.now();
+  await recordEvent(f.env,{site:'blindspot',event:'film_submitted'},now-2*86400000);
+  await recordEvent(f.env,{site:'blindspot',event:'film_submitted'},now);
+  await recordEvent(f.env,{site:'blindspot',event:'tutor_spend_usd',value:0.25},now);
+  await recordEvent(f.env,{site:'blindspot',event:'tutor_spend_usd',value:1},now-3*86400000);
+  await recordEvent(f.env,{site:'blindspot',event:'ancient',value:1},now-10*86400000);
+  await recordEvent(f.env,{site:'blindspot',event:'stale',value:1},now-91*86400000);
+  const token=(await (await f.request('/stats/login',{method:'POST',body:JSON.stringify({password:'password'})})).json()).token;
+  const report=await (await f.request('/stats/data',{headers:{authorization:'Bearer '+token}})).json();
+  assert.deepEqual(report.events.map(row=>row.event),['film_submitted','tutor_spend_usd']);
+  const films=report.events.find(row=>row.event==='film_submitted');
+  assert.equal(films.site,'blindspot');assert.equal(films.day_count,1);assert.equal(films.week_count,2);assert.equal(films.day_value,1);assert.equal(films.week_value,2);
+  const spend=report.events.find(row=>row.event==='tutor_spend_usd');
+  assert.equal(spend.day_count,1);assert.equal(spend.week_count,2);assert.equal(spend.day_value,0.25);assert.equal(spend.week_value,1.25);
+  assert.equal(f.db.prepare("SELECT COUNT(*) AS n FROM analytics_events WHERE event='stale'").get().n,0);
+  assert.equal(f.db.prepare("SELECT COUNT(*) AS n FROM analytics_events WHERE event='ancient'").get().n,1);
  }finally{f.db.close();}
 });
