@@ -14,6 +14,16 @@
   },
   "redirects": [
     {
+      "source": "/blindspots",
+      "destination": "/blindspot",
+      "permanent": false
+    },
+    {
+      "source": "/blindspots/:path*",
+      "destination": "/blindspot/:path*",
+      "permanent": false
+    },
+    {
       "source": "/atlas",
       "destination": "/atlas/",
       "permanent": false
