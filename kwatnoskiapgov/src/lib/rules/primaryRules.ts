@@ -61,7 +61,7 @@ function calculateClosedWinners(counts: Record<CandidateId, number>): PrimaryGro
       winners.push(partyWinners[0]);
     }
   });
-  if (hasTie) return "tie";
+  if (hasTie && winners.length === 0) return "none";
   return winners.length > 0 ? winners : "none";
 }
 

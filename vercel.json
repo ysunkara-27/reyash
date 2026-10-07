@@ -14,6 +14,11 @@
   },
   "redirects": [
     {
+      "source": "/elections",
+      "destination": "/elections/",
+      "permanent": false
+    },
+    {
       "source": "/blindspots",
       "destination": "/blindspot",
       "permanent": false
@@ -55,11 +60,23 @@
     },
     {
       "source": "/kwatnoskiapgov",
-      "destination": "/apgovelections/",
+      "destination": "/elections/",
       "permanent": true
     }
   ],
   "rewrites": [
+    {
+      "source": "/api/classes/:path*",
+      "destination": "https://apgov-classroom.sunkarayashaswi.workers.dev/api/classes/:path*"
+    },
+    {
+      "source": "/elections/",
+      "destination": "/apgovelections/index.html"
+    },
+    {
+      "source": "/elections/:path*",
+      "destination": "/apgovelections/:path*"
+    },
     {
       "source": "/blindspot",
       "destination": "https://yashwrites-blindspot.hf.space/blindspot/"

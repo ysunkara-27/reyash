@@ -1,0 +1,6497 @@
+{
+  "states": [
+    {
+      "id": "AL",
+      "name": "Alabama",
+      "electoralVotes": 9,
+      "printedElectoralVotes": 9,
+      "primaryType": "open",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 34,
+          "printedPercentage": 36
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 24,
+          "printedPercentage": 25
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 21,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "gun-owners",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 4,
+          "printedPercentage": 4
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "percentage": 3,
+          "printedPercentage": 3
+        }
+      ],
+      "printedTotal": 104,
+      "page": 1,
+      "image": "cards/state-AL.png"
+    },
+    {
+      "id": "AK",
+      "name": "Alaska",
+      "electoralVotes": 3,
+      "printedElectoralVotes": 3,
+      "primaryType": "open",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "indigenous-voters",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "percentage": 15,
+          "printedPercentage": 15
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 15,
+          "printedPercentage": 15
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "percentage": 10,
+          "printedPercentage": 10
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 8,
+          "printedPercentage": 8
+        }
+      ],
+      "printedTotal": 100,
+      "page": 1,
+      "image": "cards/state-AK.png"
+    },
+    {
+      "id": "AZ",
+      "name": "Arizona",
+      "electoralVotes": 11,
+      "printedElectoralVotes": 11,
+      "primaryType": "closed",
+      "safeColor": "purple",
+      "voterGroups": [
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 20,
+          "printedPercentage": 20
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "retirees",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 100,
+      "page": 1,
+      "image": "cards/state-AZ.png"
+    },
+    {
+      "id": "AR",
+      "name": "Arkansas",
+      "electoralVotes": 6,
+      "printedElectoralVotes": 6,
+      "primaryType": "open",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 34,
+          "printedPercentage": 36
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 24,
+          "printedPercentage": 25
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 21,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "gun-owners",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 4,
+          "printedPercentage": 4
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "percentage": 3,
+          "printedPercentage": 3
+        }
+      ],
+      "printedTotal": 104,
+      "page": 1,
+      "image": "cards/state-AR.png"
+    },
+    {
+      "id": "CA",
+      "name": "California",
+      "electoralVotes": 54,
+      "printedElectoralVotes": 54,
+      "primaryType": "open",
+      "safeColor": "blue",
+      "voterGroups": [
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 28,
+          "printedPercentage": 28
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 14,
+          "printedPercentage": 14
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "asian-americans",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 100,
+      "page": 1,
+      "image": "cards/state-CA.png"
+    },
+    {
+      "id": "CO",
+      "name": "Colorado",
+      "electoralVotes": 10,
+      "printedElectoralVotes": 11,
+      "primaryType": "closed",
+      "safeColor": "purple",
+      "voterGroups": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 28,
+          "printedPercentage": 28
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 16,
+          "printedPercentage": 16
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 15,
+          "printedPercentage": 15
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 14,
+          "printedPercentage": 14
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "percentage": 7,
+          "printedPercentage": 7
+        }
+      ],
+      "printedTotal": 100,
+      "page": 1,
+      "image": "cards/state-CO.png"
+    },
+    {
+      "id": "CT",
+      "name": "Connecticut",
+      "electoralVotes": 7,
+      "printedElectoralVotes": 7,
+      "primaryType": "closed",
+      "safeColor": "blue",
+      "voterGroups": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 28,
+          "printedPercentage": 28
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 14,
+          "printedPercentage": 14
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "percentage": 10,
+          "printedPercentage": 10
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 6,
+          "printedPercentage": 6
+        }
+      ],
+      "printedTotal": 100,
+      "page": 1,
+      "image": "cards/state-CT.png"
+    },
+    {
+      "id": "DE",
+      "name": "Delaware",
+      "electoralVotes": 3,
+      "printedElectoralVotes": 3,
+      "primaryType": "closed",
+      "safeColor": "blue",
+      "voterGroups": [
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 24,
+          "printedPercentage": 24
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "percentage": 15,
+          "printedPercentage": 15
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 11,
+          "printedPercentage": 11
+        },
+        {
+          "voterGroupId": "retirees",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 100,
+      "page": 1,
+      "image": "cards/state-DE.png"
+    },
+    {
+      "id": "FL",
+      "name": "Florida",
+      "electoralVotes": 30,
+      "printedElectoralVotes": 30,
+      "primaryType": "closed",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 20,
+          "printedPercentage": 20
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "retirees",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 100,
+      "page": 1,
+      "image": "cards/state-FL.png"
+    },
+    {
+      "id": "GA",
+      "name": "Georgia",
+      "electoralVotes": 16,
+      "printedElectoralVotes": 16,
+      "primaryType": "open",
+      "safeColor": "purple",
+      "voterGroups": [
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 20,
+          "printedPercentage": 20
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "retirees",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 100,
+      "page": 3,
+      "image": "cards/state-GA.png"
+    },
+    {
+      "id": "HI",
+      "name": "Hawaii",
+      "electoralVotes": 4,
+      "printedElectoralVotes": 4,
+      "primaryType": "open",
+      "safeColor": "blue",
+      "voterGroups": [
+        {
+          "voterGroupId": "asian-americans",
+          "percentage": 38,
+          "printedPercentage": 38
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 14,
+          "printedPercentage": 14
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 10,
+          "printedPercentage": 10
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "percentage": 7,
+          "printedPercentage": 7
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 5,
+          "printedPercentage": 5
+        }
+      ],
+      "printedTotal": 100,
+      "page": 3,
+      "image": "cards/state-HI.png"
+    },
+    {
+      "id": "ID",
+      "name": "Idaho",
+      "electoralVotes": 4,
+      "printedElectoralVotes": 4,
+      "primaryType": "closed",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 40,
+          "printedPercentage": 41
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 17,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "gun-owners",
+          "percentage": 10,
+          "printedPercentage": 10
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "percentage": 10,
+          "printedPercentage": 10
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 7,
+          "printedPercentage": 7
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 102,
+      "page": 3,
+      "image": "cards/state-ID.png"
+    },
+    {
+      "id": "IL",
+      "name": "Illinois",
+      "electoralVotes": 19,
+      "printedElectoralVotes": 19,
+      "primaryType": "open",
+      "safeColor": "blue",
+      "voterGroups": [
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 42,
+          "printedPercentage": 42
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 15,
+          "printedPercentage": 15
+        },
+        {
+          "voterGroupId": "suburban-women",
+          "percentage": 15,
+          "printedPercentage": 15
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 5,
+          "printedPercentage": 5
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "percentage": 3,
+          "printedPercentage": 3
+        }
+      ],
+      "printedTotal": 100,
+      "page": 3,
+      "image": "cards/state-IL.png"
+    },
+    {
+      "id": "IN",
+      "name": "Indiana",
+      "electoralVotes": 11,
+      "printedElectoralVotes": 11,
+      "primaryType": "open",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 42,
+          "printedPercentage": 42
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 15,
+          "printedPercentage": 15
+        },
+        {
+          "voterGroupId": "suburban-women",
+          "percentage": 15,
+          "printedPercentage": 15
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 5,
+          "printedPercentage": 5
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "percentage": 3,
+          "printedPercentage": 3
+        }
+      ],
+      "printedTotal": 100,
+      "page": 3,
+      "image": "cards/state-IN.png"
+    },
+    {
+      "id": "IA",
+      "name": "Iowa",
+      "electoralVotes": 6,
+      "printedElectoralVotes": 6,
+      "primaryType": "closed",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 42,
+          "printedPercentage": 42
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 15,
+          "printedPercentage": 15
+        },
+        {
+          "voterGroupId": "suburban-women",
+          "percentage": 15,
+          "printedPercentage": 15
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 5,
+          "printedPercentage": 5
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "percentage": 3,
+          "printedPercentage": 3
+        }
+      ],
+      "printedTotal": 100,
+      "page": 3,
+      "image": "cards/state-IA.png"
+    },
+    {
+      "id": "KS",
+      "name": "Kansas",
+      "electoralVotes": 6,
+      "printedElectoralVotes": 6,
+      "primaryType": "closed",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 42,
+          "printedPercentage": 42
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 16,
+          "printedPercentage": 16
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 15,
+          "printedPercentage": 15
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 4,
+          "printedPercentage": 4
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 3,
+          "printedPercentage": 3
+        }
+      ],
+      "printedTotal": 100,
+      "page": 3,
+      "image": "cards/state-KS.png"
+    },
+    {
+      "id": "KY",
+      "name": "Kentucky",
+      "electoralVotes": 8,
+      "printedElectoralVotes": 8,
+      "primaryType": "closed",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 34,
+          "printedPercentage": 36
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 24,
+          "printedPercentage": 25
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 21,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "gun-owners",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 4,
+          "printedPercentage": 4
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "percentage": 3,
+          "printedPercentage": 3
+        }
+      ],
+      "printedTotal": 104,
+      "page": 3,
+      "image": "cards/state-KY.png"
+    },
+    {
+      "id": "LA",
+      "name": "Louisiana",
+      "electoralVotes": 8,
+      "printedElectoralVotes": 8,
+      "primaryType": "closed",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 34,
+          "printedPercentage": 36
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 24,
+          "printedPercentage": 25
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 21,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "gun-owners",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 4,
+          "printedPercentage": 4
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "percentage": 3,
+          "printedPercentage": 3
+        }
+      ],
+      "printedTotal": 104,
+      "page": 3,
+      "image": "cards/state-LA.png"
+    },
+    {
+      "id": "ME",
+      "name": "Maine",
+      "electoralVotes": 4,
+      "printedElectoralVotes": 4,
+      "primaryType": "closed",
+      "safeColor": "purple",
+      "voterGroups": [
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 44,
+          "printedPercentage": 44
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "percentage": 10,
+          "printedPercentage": 10
+        },
+        {
+          "voterGroupId": "retirees",
+          "percentage": 10,
+          "printedPercentage": 10
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 6,
+          "printedPercentage": 6
+        }
+      ],
+      "printedTotal": 100,
+      "page": 5,
+      "image": "cards/state-ME.png"
+    },
+    {
+      "id": "MD",
+      "name": "Maryland",
+      "electoralVotes": 10,
+      "printedElectoralVotes": 10,
+      "primaryType": "closed",
+      "safeColor": "blue",
+      "voterGroups": [
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 28,
+          "printedPercentage": 28
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 14,
+          "printedPercentage": 14
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "asian-americans",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 100,
+      "page": 5,
+      "image": "cards/state-MD.png"
+    },
+    {
+      "id": "MA",
+      "name": "Massachusetts",
+      "electoralVotes": 11,
+      "printedElectoralVotes": 11,
+      "primaryType": "closed",
+      "safeColor": "blue",
+      "voterGroups": [
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 28,
+          "printedPercentage": 28
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 14,
+          "printedPercentage": 14
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "asian-americans",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 100,
+      "page": 5,
+      "image": "cards/state-MA.png"
+    },
+    {
+      "id": "MI",
+      "name": "Michigan",
+      "electoralVotes": 15,
+      "printedElectoralVotes": 15,
+      "primaryType": "open",
+      "safeColor": "purple",
+      "voterGroups": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 28,
+          "printedPercentage": 28
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 14,
+          "printedPercentage": 14
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "percentage": 10,
+          "printedPercentage": 10
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 6,
+          "printedPercentage": 6
+        }
+      ],
+      "printedTotal": 100,
+      "page": 5,
+      "image": "cards/state-MI.png"
+    },
+    {
+      "id": "MN",
+      "name": "Minnesota",
+      "electoralVotes": 10,
+      "printedElectoralVotes": 10,
+      "primaryType": "open",
+      "safeColor": "blue",
+      "voterGroups": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 28,
+          "printedPercentage": 28
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 14,
+          "printedPercentage": 14
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "percentage": 10,
+          "printedPercentage": 10
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 6,
+          "printedPercentage": 6
+        }
+      ],
+      "printedTotal": 100,
+      "page": 5,
+      "image": "cards/state-MN.png"
+    },
+    {
+      "id": "MS",
+      "name": "Mississippi",
+      "electoralVotes": 6,
+      "printedElectoralVotes": 6,
+      "primaryType": "open",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 20,
+          "printedPercentage": 20
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "retirees",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 100,
+      "page": 5,
+      "image": "cards/state-MS.png"
+    },
+    {
+      "id": "MO",
+      "name": "Missouri",
+      "electoralVotes": 10,
+      "printedElectoralVotes": 10,
+      "primaryType": "open",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 42,
+          "printedPercentage": 42
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 19,
+          "printedPercentage": 19
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 11,
+          "printedPercentage": 11
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 10,
+          "printedPercentage": 10
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 9,
+          "printedPercentage": 9
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 5,
+          "printedPercentage": 5
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 100,
+      "page": 5,
+      "image": "cards/state-MO.png"
+    },
+    {
+      "id": "MT",
+      "name": "Montana",
+      "electoralVotes": 4,
+      "printedElectoralVotes": 4,
+      "primaryType": "open",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 46,
+          "printedPercentage": 46
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 14,
+          "printedPercentage": 14
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "indigenous-voters",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "percentage": 7,
+          "printedPercentage": 7
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 7,
+          "printedPercentage": 7
+        },
+        {
+          "voterGroupId": "gun-owners",
+          "percentage": 6,
+          "printedPercentage": 6
+        }
+      ],
+      "printedTotal": 100,
+      "page": 5,
+      "image": "cards/state-MT.png"
+    },
+    {
+      "id": "NE",
+      "name": "Nebraska",
+      "electoralVotes": 5,
+      "printedElectoralVotes": 5,
+      "primaryType": "closed",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 45,
+          "printedPercentage": 45
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 15,
+          "printedPercentage": 15
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 7,
+          "printedPercentage": 7
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 5,
+          "printedPercentage": 5
+        }
+      ],
+      "printedTotal": 100,
+      "page": 5,
+      "image": "cards/state-NE.png"
+    },
+    {
+      "id": "NV",
+      "name": "Nevada",
+      "electoralVotes": 6,
+      "printedElectoralVotes": 6,
+      "primaryType": "closed",
+      "safeColor": "purple",
+      "voterGroups": [
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 20,
+          "printedPercentage": 20
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "retirees",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 100,
+      "page": 7,
+      "image": "cards/state-NV.png"
+    },
+    {
+      "id": "NH",
+      "name": "New Hampshire",
+      "electoralVotes": 4,
+      "printedElectoralVotes": 10,
+      "primaryType": "closed",
+      "safeColor": "purple",
+      "voterGroups": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 32,
+          "printedPercentage": 32
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 25,
+          "printedPercentage": 25
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 9,
+          "printedPercentage": 9
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 7,
+          "printedPercentage": 7
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "percentage": 7,
+          "printedPercentage": 7
+        }
+      ],
+      "printedTotal": 100,
+      "page": 7,
+      "image": "cards/state-NH.png"
+    },
+    {
+      "id": "NJ",
+      "name": "New Jersey",
+      "electoralVotes": 14,
+      "printedElectoralVotes": 14,
+      "primaryType": "closed",
+      "safeColor": "blue",
+      "voterGroups": [
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 28,
+          "printedPercentage": 28
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 14,
+          "printedPercentage": 14
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "asian-americans",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 100,
+      "page": 7,
+      "image": "cards/state-NJ.png"
+    },
+    {
+      "id": "NM",
+      "name": "New Mexico",
+      "electoralVotes": 5,
+      "printedElectoralVotes": 5,
+      "primaryType": "closed",
+      "safeColor": "blue",
+      "voterGroups": [
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 36,
+          "printedPercentage": 36
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 30,
+          "printedPercentage": 30
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "indigenous-voters",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 7,
+          "printedPercentage": 7
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "percentage": 4,
+          "printedPercentage": 4
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 3,
+          "printedPercentage": 3
+        }
+      ],
+      "printedTotal": 100,
+      "page": 7,
+      "image": "cards/state-NM.png"
+    },
+    {
+      "id": "NY",
+      "name": "New York",
+      "electoralVotes": 28,
+      "printedElectoralVotes": 28,
+      "primaryType": "closed",
+      "safeColor": "blue",
+      "voterGroups": [
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 28,
+          "printedPercentage": 28
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 14,
+          "printedPercentage": 14
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "asian-americans",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 100,
+      "page": 7,
+      "image": "cards/state-NY.png"
+    },
+    {
+      "id": "NC",
+      "name": "North Carolina",
+      "electoralVotes": 16,
+      "printedElectoralVotes": 16,
+      "primaryType": "closed",
+      "safeColor": "purple",
+      "voterGroups": [
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 20,
+          "printedPercentage": 20
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "retirees",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 100,
+      "page": 7,
+      "image": "cards/state-NC.png"
+    },
+    {
+      "id": "ND",
+      "name": "North Dakota",
+      "electoralVotes": 3,
+      "printedElectoralVotes": 10,
+      "primaryType": "open",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 44,
+          "printedPercentage": 44
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "indigenous-voters",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 7,
+          "printedPercentage": 7
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 5,
+          "printedPercentage": 5
+        }
+      ],
+      "printedTotal": 100,
+      "page": 7,
+      "image": "cards/state-ND.png"
+    },
+    {
+      "id": "OH",
+      "name": "Ohio",
+      "electoralVotes": 17,
+      "printedElectoralVotes": 17,
+      "primaryType": "open",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 28,
+          "printedPercentage": 28
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 14,
+          "printedPercentage": 14
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "percentage": 10,
+          "printedPercentage": 10
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 6,
+          "printedPercentage": 6
+        }
+      ],
+      "printedTotal": 100,
+      "page": 7,
+      "image": "cards/state-OH.png"
+    },
+    {
+      "id": "OK",
+      "name": "Oklahoma",
+      "electoralVotes": 7,
+      "printedElectoralVotes": 7,
+      "primaryType": "closed",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 46,
+          "printedPercentage": 46
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 16,
+          "printedPercentage": 16
+        },
+        {
+          "voterGroupId": "indigenous-voters",
+          "percentage": 10,
+          "printedPercentage": 10
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 9,
+          "printedPercentage": 9
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 7,
+          "printedPercentage": 7
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 6,
+          "printedPercentage": 6
+        }
+      ],
+      "printedTotal": 100,
+      "page": 7,
+      "image": "cards/state-OK.png"
+    },
+    {
+      "id": "OR",
+      "name": "Oregon",
+      "electoralVotes": 8,
+      "printedElectoralVotes": 8,
+      "primaryType": "closed",
+      "safeColor": "blue",
+      "voterGroups": [
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 28,
+          "printedPercentage": 28
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 14,
+          "printedPercentage": 14
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "asian-americans",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 100,
+      "page": 9,
+      "image": "cards/state-OR.png"
+    },
+    {
+      "id": "PA",
+      "name": "Pennsylvania",
+      "electoralVotes": 19,
+      "printedElectoralVotes": 19,
+      "primaryType": "closed",
+      "safeColor": "purple",
+      "voterGroups": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 28,
+          "printedPercentage": 28
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 14,
+          "printedPercentage": 14
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "percentage": 10,
+          "printedPercentage": 10
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 6,
+          "printedPercentage": 6
+        }
+      ],
+      "printedTotal": 100,
+      "page": 9,
+      "image": "cards/state-PA.png"
+    },
+    {
+      "id": "RI",
+      "name": "Rhode Island",
+      "electoralVotes": 4,
+      "printedElectoralVotes": 4,
+      "primaryType": "closed",
+      "safeColor": "blue",
+      "voterGroups": [
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 26,
+          "printedPercentage": 26
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 20,
+          "printedPercentage": 20
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "percentage": 14,
+          "printedPercentage": 14
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 100,
+      "page": 9,
+      "image": "cards/state-RI.png"
+    },
+    {
+      "id": "SC",
+      "name": "South Carolina",
+      "electoralVotes": 9,
+      "printedElectoralVotes": 9,
+      "primaryType": "open",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 34,
+          "printedPercentage": 36
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 24,
+          "printedPercentage": 25
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 21,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "gun-owners",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 4,
+          "printedPercentage": 4
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "percentage": 3,
+          "printedPercentage": 3
+        }
+      ],
+      "printedTotal": 104,
+      "page": 9,
+      "image": "cards/state-SC.png"
+    },
+    {
+      "id": "SD",
+      "name": "South Dakota",
+      "electoralVotes": 3,
+      "printedElectoralVotes": 3,
+      "primaryType": "closed",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 48,
+          "printedPercentage": 48
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 16,
+          "printedPercentage": 16
+        },
+        {
+          "voterGroupId": "indigenous-voters",
+          "percentage": 9,
+          "printedPercentage": 9
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 9,
+          "printedPercentage": 9
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 100,
+      "page": 9,
+      "image": "cards/state-SD.png"
+    },
+    {
+      "id": "TN",
+      "name": "Tennessee",
+      "electoralVotes": 11,
+      "printedElectoralVotes": 11,
+      "primaryType": "open",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 34,
+          "printedPercentage": 36
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 24,
+          "printedPercentage": 25
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 21,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "gun-owners",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 4,
+          "printedPercentage": 4
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "percentage": 3,
+          "printedPercentage": 3
+        }
+      ],
+      "printedTotal": 104,
+      "page": 9,
+      "image": "cards/state-TN.png"
+    },
+    {
+      "id": "TX",
+      "name": "Texas",
+      "electoralVotes": 40,
+      "printedElectoralVotes": 40,
+      "primaryType": "open",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 20,
+          "printedPercentage": 20
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "retirees",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 100,
+      "page": 9,
+      "image": "cards/state-TX.png"
+    },
+    {
+      "id": "UT",
+      "name": "Utah",
+      "electoralVotes": 6,
+      "printedElectoralVotes": 6,
+      "primaryType": "closed",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 35,
+          "printedPercentage": 35
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 24,
+          "printedPercentage": 24
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 16,
+          "printedPercentage": 16
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 10,
+          "printedPercentage": 10
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 7,
+          "printedPercentage": 7
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 5,
+          "printedPercentage": 5
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "percentage": 3,
+          "printedPercentage": 3
+        }
+      ],
+      "printedTotal": 100,
+      "page": 9,
+      "image": "cards/state-UT.png"
+    },
+    {
+      "id": "VT",
+      "name": "Vermont",
+      "electoralVotes": 3,
+      "printedElectoralVotes": 3,
+      "primaryType": "open",
+      "safeColor": "blue",
+      "voterGroups": [
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 24,
+          "printedPercentage": 24
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 10,
+          "printedPercentage": 10
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 6,
+          "printedPercentage": 6
+        }
+      ],
+      "printedTotal": 100,
+      "page": 9,
+      "image": "cards/state-VT.png"
+    },
+    {
+      "id": "VA",
+      "name": "Virginia",
+      "electoralVotes": 13,
+      "printedElectoralVotes": 13,
+      "primaryType": "open",
+      "safeColor": "blue",
+      "voterGroups": [
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 20,
+          "printedPercentage": 20
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 18,
+          "printedPercentage": 18
+        },
+        {
+          "voterGroupId": "retirees",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 100,
+      "page": 11,
+      "image": "cards/state-VA.png"
+    },
+    {
+      "id": "WA",
+      "name": "Washington",
+      "electoralVotes": 12,
+      "printedElectoralVotes": 12,
+      "primaryType": "open",
+      "safeColor": "blue",
+      "voterGroups": [
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 28,
+          "printedPercentage": 28
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 14,
+          "printedPercentage": 14
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "asian-americans",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 4,
+          "printedPercentage": 4
+        }
+      ],
+      "printedTotal": 100,
+      "page": 11,
+      "image": "cards/state-WA.png"
+    },
+    {
+      "id": "DC",
+      "name": "Washington, DC",
+      "electoralVotes": 3,
+      "printedElectoralVotes": 3,
+      "primaryType": "closed",
+      "safeColor": "blue",
+      "voterGroups": [
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 47,
+          "printedPercentage": 47
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 31,
+          "printedPercentage": 31
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 4,
+          "printedPercentage": 4
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 3,
+          "printedPercentage": 3
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "percentage": 1,
+          "printedPercentage": 1
+        }
+      ],
+      "printedTotal": 100,
+      "page": 11,
+      "image": "cards/state-DC.png"
+    },
+    {
+      "id": "WV",
+      "name": "West Virginia",
+      "electoralVotes": 4,
+      "printedElectoralVotes": 4,
+      "primaryType": "open",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "evangelical-christians",
+          "percentage": 34,
+          "printedPercentage": 36
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 24,
+          "printedPercentage": 25
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 21,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "gun-owners",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 4,
+          "printedPercentage": 4
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "percentage": 3,
+          "printedPercentage": 3
+        }
+      ],
+      "printedTotal": 104,
+      "page": 11,
+      "image": "cards/state-WV.png"
+    },
+    {
+      "id": "WI",
+      "name": "Wisconsin",
+      "electoralVotes": 10,
+      "printedElectoralVotes": 10,
+      "primaryType": "open",
+      "safeColor": "purple",
+      "voterGroups": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 28,
+          "printedPercentage": 28
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 22,
+          "printedPercentage": 22
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "percentage": 14,
+          "printedPercentage": 14
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "percentage": 12,
+          "printedPercentage": 12
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "percentage": 10,
+          "printedPercentage": 10
+        },
+        {
+          "voterGroupId": "african-americans",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "percentage": 6,
+          "printedPercentage": 6
+        }
+      ],
+      "printedTotal": 100,
+      "page": 11,
+      "image": "cards/state-WI.png"
+    },
+    {
+      "id": "WY",
+      "name": "Wyoming",
+      "electoralVotes": 3,
+      "printedElectoralVotes": 3,
+      "primaryType": "closed",
+      "safeColor": "red",
+      "voterGroups": [
+        {
+          "voterGroupId": "white-non-college",
+          "percentage": 48,
+          "printedPercentage": 48
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "percentage": 16,
+          "printedPercentage": 16
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "percentage": 14,
+          "printedPercentage": 14
+        },
+        {
+          "voterGroupId": "gun-owners",
+          "percentage": 8,
+          "printedPercentage": 8
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "percentage": 6,
+          "printedPercentage": 6
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "percentage": 5,
+          "printedPercentage": 5
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "percentage": 3,
+          "printedPercentage": 3
+        }
+      ],
+      "printedTotal": 100,
+      "page": 11,
+      "image": "cards/state-WY.png"
+    }
+  ],
+  "cards": [
+    {
+      "id": "card-1",
+      "title": "Union Boss Handshake",
+      "type": "Endorsement",
+      "description": "A major manufacturing union backs your campaign.",
+      "effects": [
+        {
+          "voterGroupId": "labor-unions",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 1,
+      "image": "cards/card-1.png"
+    },
+    {
+      "id": "card-2",
+      "title": "The Silicon Endorsement",
+      "type": "Endorsement",
+      "description": "A tech titan declares your tax plan \"the future.\"",
+      "effects": [
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "delta": -1
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 1,
+      "image": "cards/card-2.png"
+    },
+    {
+      "id": "card-3",
+      "title": "A-List Star Power",
+      "type": "Endorsement",
+      "description": "A massive pop star joins your rally in a swing state.",
+      "effects": [
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "retirees",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 1,
+      "image": "cards/card-3.png"
+    },
+    {
+      "id": "card-4",
+      "title": "The General's Nod",
+      "type": "Endorsement",
+      "description": "A retired 4-star General vouches for your character.",
+      "effects": [
+        {
+          "voterGroupId": "military-veterans",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "retirees",
+          "delta": 1
+        }
+      ],
+      "special": null,
+      "page": 1,
+      "image": "cards/card-4.png"
+    },
+    {
+      "id": "card-5",
+      "title": "Faith Leader Support",
+      "type": "Endorsement",
+      "description": "A prominent pastor endorses your traditional family values.",
+      "effects": [
+        {
+          "voterGroupId": "evangelical-christians",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "african-americans",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 1,
+      "image": "cards/card-5.png"
+    },
+    {
+      "id": "card-6",
+      "title": "Conservationist Pact",
+      "type": "Endorsement",
+      "description": "A leading climate group calls you their \"Top Pick.\"",
+      "effects": [
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 1,
+      "image": "cards/card-6.png"
+    },
+    {
+      "id": "card-7",
+      "title": "Small Business Alliance",
+      "type": "Endorsement",
+      "description": "The Chamber of Commerce backs your deregulation policy",
+      "effects": [
+        {
+          "voterGroupId": "small-business-owners",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 1,
+      "image": "cards/card-7.png"
+    },
+    {
+      "id": "card-8",
+      "title": "The \"Grey Lady\" Editorial",
+      "type": "Endorsement",
+      "description": "A prestigious national paper writes a glowing Op-Ed.",
+      "effects": [
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "retirees",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 1,
+      "image": "cards/card-8.png"
+    },
+    {
+      "id": "card-9",
+      "title": "Grade \u201cA+\u201d From 2A Group",
+      "type": "Endorsement",
+      "description": "A gun-rights lobby deems your record an \u201cA+\u201d for gun rights",
+      "effects": [
+        {
+          "voterGroupId": "gun-owners",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": -1
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 1,
+      "image": "cards/card-9.png"
+    },
+    {
+      "id": "card-10",
+      "title": "Underground Comedians",
+      "type": "Endorsement",
+      "description": "A comedian endorses you, for you \u201cspeak the truth\u201d",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 3,
+      "image": "cards/card-10.png"
+    },
+    {
+      "id": "card-11",
+      "title": "Tribal Council Support",
+      "type": "Endorsement",
+      "description": "A coalition of tribal leaders backs your land policy",
+      "effects": [
+        {
+          "voterGroupId": "indigenous-voters",
+          "delta": 2
+        }
+      ],
+      "special": null,
+      "page": 3,
+      "image": "cards/card-11.png"
+    },
+    {
+      "id": "card-12",
+      "title": "Civil Rights Legend",
+      "type": "Endorsement",
+      "description": "A historic activist takes the stage with you at a rally.",
+      "effects": [
+        {
+          "voterGroupId": "african-americans",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 1
+        }
+      ],
+      "special": null,
+      "page": 3,
+      "image": "cards/card-12.png"
+    },
+    {
+      "id": "card-13",
+      "title": "Advocacy for the Aged",
+      "type": "Endorsement",
+      "description": "A massive retiree group backs your social security plan.",
+      "effects": [
+        {
+          "voterGroupId": "retirees",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": 1
+        }
+      ],
+      "special": null,
+      "page": 3,
+      "image": "cards/card-13.png"
+    },
+    {
+      "id": "card-14",
+      "title": "High-Tech Lobby",
+      "type": "Endorsement",
+      "description": "The \"Future Lab\" PAC endorses your STEM funding.",
+      "effects": [
+        {
+          "voterGroupId": "asian-americans",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 1
+        }
+      ],
+      "special": null,
+      "page": 3,
+      "image": "cards/card-14.png"
+    },
+    {
+      "id": "card-15",
+      "title": "Local Sheriff\u2019s Badge",
+      "type": "Endorsement",
+      "description": "A group of rural sheriffs backs your \"law and order\" plan.",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 3,
+      "image": "cards/card-15.png"
+    },
+    {
+      "id": "card-16",
+      "title": "The Mayor\u2019s Key",
+      "type": "Endorsement",
+      "description": "The mayors of 5 major cities back your urban grants.",
+      "effects": [
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": 1
+        }
+      ],
+      "special": null,
+      "page": 3,
+      "image": "cards/card-16.png"
+    },
+    {
+      "id": "card-17",
+      "title": "Ag-Tech Conglomerate",
+      "type": "Endorsement",
+      "description": "A massive seed and chemical corp backs you",
+      "effects": [
+        {
+          "voterGroupId": "rural-farmers",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "indigenous-voters",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 3,
+      "image": "cards/card-17.png"
+    },
+    {
+      "id": "card-18",
+      "title": "The Rationalist Society",
+      "type": "Endorsement",
+      "description": "A hard-line atheist organization endorses your \"Science First\" platform",
+      "effects": [
+        {
+          "voterGroupId": "secular-non-religious",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 3,
+      "image": "cards/card-18.png"
+    },
+    {
+      "id": "card-19",
+      "title": "School Choice Endorsement",
+      "type": "Endorsement",
+      "description": "A group of high-end suburban parents backs your zoning plan",
+      "effects": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": -1
+        },
+        {
+          "voterGroupId": "african-americans",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 5,
+      "image": "cards/card-19.png"
+    },
+    {
+      "id": "card-20",
+      "title": "Conservative Farm Bureau",
+      "type": "Endorsement",
+      "description": "A traditionalist agriculture group backs your rural values",
+      "effects": [
+        {
+          "voterGroupId": "rural-farmers",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 5,
+      "image": "cards/card-20.png"
+    },
+    {
+      "id": "card-21",
+      "title": "National Women\u2019s League",
+      "type": "Endorsement",
+      "description": "A progressive suburban advocacy group backs your budget cuts to defense to fund local childcare.",
+      "effects": [
+        {
+          "voterGroupId": "suburban-women",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 5,
+      "image": "cards/card-21.png"
+    },
+    {
+      "id": "card-22",
+      "title": "Suburban Safety Alliance",
+      "type": "Endorsement",
+      "description": "A coalition of \"Safety First\" parents backs your strict licensing plan",
+      "effects": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "suburban-women",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "gun-owners",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 5,
+      "image": "cards/card-22.png"
+    },
+    {
+      "id": "card-23",
+      "title": "Western Water Coalition",
+      "type": "Endorsement",
+      "description": "A powerful irrigation lobby backs your dam project",
+      "effects": [
+        {
+          "voterGroupId": "rural-farmers",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "indigenous-voters",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 5,
+      "image": "cards/card-23.png"
+    },
+    {
+      "id": "card-24",
+      "title": "Affirmative Action",
+      "type": "Endorsement",
+      "description": "Civil Rights activists endorse your Affirmative Action proposal",
+      "effects": [
+        {
+          "voterGroupId": "african-americans",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "asian-americans",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 5,
+      "image": "cards/card-24.png"
+    },
+    {
+      "id": "card-25",
+      "title": "Luxury Development Board",
+      "type": "Endorsement",
+      "description": "Real estate moguls back your \"Property Value Protection\" plan",
+      "effects": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 5,
+      "image": "cards/card-25.png"
+    },
+    {
+      "id": "card-26",
+      "title": "The Green New Deal",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": 4
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 5,
+      "image": "cards/card-26.png"
+    },
+    {
+      "id": "card-27",
+      "title": "Border Wall Fund",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "retirees",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 5,
+      "image": "cards/card-27.png"
+    },
+    {
+      "id": "card-28",
+      "title": "Student Debt Eraser",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 4
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "delta": -1
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "retirees",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 7,
+      "image": "cards/card-28.png"
+    },
+    {
+      "id": "card-29",
+      "title": "School Vouchers",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "evangelical-christians",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 7,
+      "image": "cards/card-29.png"
+    },
+    {
+      "id": "card-30",
+      "title": "Fracking Ban",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -4
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 7,
+      "image": "cards/card-30.png"
+    },
+    {
+      "id": "card-31",
+      "title": "Universal Pre-School",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "retirees",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 7,
+      "image": "cards/card-31.png"
+    },
+    {
+      "id": "card-32",
+      "title": "Corporate Tax Hike",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "labor-unions",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -4
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 7,
+      "image": "cards/card-32.png"
+    },
+    {
+      "id": "card-33",
+      "title": "Concealed Carry Law",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "gun-owners",
+          "delta": 4
+        },
+        {
+          "voterGroupId": "suburban-women",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 7,
+      "image": "cards/card-33.png"
+    },
+    {
+      "id": "card-34",
+      "title": "English-Only Mandate",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": -4
+        }
+      ],
+      "special": null,
+      "page": 7,
+      "image": "cards/card-34.png"
+    },
+    {
+      "id": "card-35",
+      "title": "Free Trade Agreement",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 7,
+      "image": "cards/card-35.png"
+    },
+    {
+      "id": "card-36",
+      "title": "Path to Citizenship",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": 4
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 7,
+      "image": "cards/card-36.png"
+    },
+    {
+      "id": "card-37",
+      "title": "Clean Air Standards",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 9,
+      "image": "cards/card-37.png"
+    },
+    {
+      "id": "card-38",
+      "title": "Right-to- Work BilL",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "delta": -4
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 9,
+      "image": "cards/card-38.png"
+    },
+    {
+      "id": "card-39",
+      "title": "Rural Broadband Act",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "rural-farmers",
+          "delta": 4
+        },
+        {
+          "voterGroupId": "indigenous-voters",
+          "delta": 1
+        }
+      ],
+      "special": null,
+      "page": 9,
+      "image": "cards/card-39.png"
+    },
+    {
+      "id": "card-40",
+      "title": "Luxury Tax",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "suburban-women",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 9,
+      "image": "cards/card-40.png"
+    },
+    {
+      "id": "card-41",
+      "title": "Nuclear Expansion",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 9,
+      "image": "cards/card-41.png"
+    },
+    {
+      "id": "card-42",
+      "title": "Anti-Trust Suit",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "small-business-owners",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 9,
+      "image": "cards/card-42.png"
+    },
+    {
+      "id": "card-43",
+      "title": "Federal Gun Buyback",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "suburban-women",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "gun-owners",
+          "delta": -4
+        }
+      ],
+      "special": null,
+      "page": 9,
+      "image": "cards/card-43.png"
+    },
+    {
+      "id": "card-44",
+      "title": "Traditional Values Bill",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "evangelical-christians",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "retirees",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "african-americans",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 9,
+      "image": "cards/card-44.png"
+    },
+    {
+      "id": "card-45",
+      "title": "Drug Legalization",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 9,
+      "image": "cards/card-45.png"
+    },
+    {
+      "id": "card-46",
+      "title": "Police Union Boost",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "african-americans",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 11,
+      "image": "cards/card-46.png"
+    },
+    {
+      "id": "card-47",
+      "title": "Infrastructure Rail",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "labor-unions",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "retirees",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 11,
+      "image": "cards/card-47.png"
+    },
+    {
+      "id": "card-48",
+      "title": "Military Spending Hike",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "military-veterans",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 11,
+      "image": "cards/card-48.png"
+    },
+    {
+      "id": "card-49",
+      "title": "Affordable Housing",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "african-americans",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 11,
+      "image": "cards/card-49.png"
+    },
+    {
+      "id": "card-50",
+      "title": "Capital Gains Cut",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 11,
+      "image": "cards/card-50.png"
+    },
+    {
+      "id": "card-51",
+      "title": "Healthcare for All",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "african-americans",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 11,
+      "image": "cards/card-51.png"
+    },
+    {
+      "id": "card-52",
+      "title": "Coal Mine Restart",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 4
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": -4
+        }
+      ],
+      "special": null,
+      "page": 11,
+      "image": "cards/card-52.png"
+    },
+    {
+      "id": "card-53",
+      "title": "Tech Training Grants",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "asian-americans",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 11,
+      "image": "cards/card-53.png"
+    },
+    {
+      "id": "card-54",
+      "title": "National Service Act",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "military-veterans",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "retirees",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -4
+        }
+      ],
+      "special": null,
+      "page": 11,
+      "image": "cards/card-54.png"
+    },
+    {
+      "id": "card-55",
+      "title": "Sovereignty Act",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "indigenous-voters",
+          "delta": 4
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 13,
+      "image": "cards/card-55.png"
+    },
+    {
+      "id": "card-56",
+      "title": "School Prayer Push",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "evangelical-christians",
+          "delta": 4
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "delta": -4
+        }
+      ],
+      "special": null,
+      "page": 13,
+      "image": "cards/card-56.png"
+    },
+    {
+      "id": "card-57",
+      "title": "Rent Control Law",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "african-americans",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 13,
+      "image": "cards/card-57.png"
+    },
+    {
+      "id": "card-58",
+      "title": "Agricultural Export Subsidy",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "rural-farmers",
+          "delta": 4
+        }
+      ],
+      "special": null,
+      "page": 13,
+      "image": "cards/card-58.png"
+    },
+    {
+      "id": "card-59",
+      "title": "Offshore Drilling",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "rural-farmers",
+          "delta": 4
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "african-americans",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 13,
+      "image": "cards/card-59.png"
+    },
+    {
+      "id": "card-60",
+      "title": "Small Business Tax Break",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "small-business-owners",
+          "delta": 4
+        }
+      ],
+      "special": null,
+      "page": 13,
+      "image": "cards/card-60.png"
+    },
+    {
+      "id": "card-61",
+      "title": "Voter ID Mandate",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "evangelical-christians",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "african-americans",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "retirees",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 13,
+      "image": "cards/card-61.png"
+    },
+    {
+      "id": "card-62",
+      "title": "Meat Emissions Tax",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "delta": -5
+        }
+      ],
+      "special": null,
+      "page": 13,
+      "image": "cards/card-62.png"
+    },
+    {
+      "id": "card-63",
+      "title": "Electric Vehicle Subsidy",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 13,
+      "image": "cards/card-63.png"
+    },
+    {
+      "id": "card-64",
+      "title": "Wealth Tax Pilot",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -4
+        }
+      ],
+      "special": null,
+      "page": 15,
+      "image": "cards/card-64.png"
+    },
+    {
+      "id": "card-65",
+      "title": "Protectionist Tariffs",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 15,
+      "image": "cards/card-65.png"
+    },
+    {
+      "id": "card-66",
+      "title": "Cyber-Security Fund",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "retirees",
+          "delta": 1
+        }
+      ],
+      "special": null,
+      "page": 15,
+      "image": "cards/card-66.png"
+    },
+    {
+      "id": "card-67",
+      "title": "HBCU Funding",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "african-americans",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 1
+        }
+      ],
+      "special": null,
+      "page": 15,
+      "image": "cards/card-67.png"
+    },
+    {
+      "id": "card-68",
+      "title": "Term Limits Pledge",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 2
+        }
+      ],
+      "special": null,
+      "page": 15,
+      "image": "cards/card-68.png"
+    },
+    {
+      "id": "card-69",
+      "title": "Space Exploration Fund",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 1
+        }
+      ],
+      "special": null,
+      "page": 15,
+      "image": "cards/card-69.png"
+    },
+    {
+      "id": "card-70",
+      "title": "Bilingual Education",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "asian-americans",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 15,
+      "image": "cards/card-70.png"
+    },
+    {
+      "id": "card-71",
+      "title": "Arts and Music Grant",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 15,
+      "image": "cards/card-71.png"
+    },
+    {
+      "id": "card-72",
+      "title": "Urban Enterprise Zones",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "african-americans",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "delta": 1
+        }
+      ],
+      "special": null,
+      "page": 15,
+      "image": "cards/card-72.png"
+    },
+    {
+      "id": "card-73",
+      "title": "Lead Pipe Replacement",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "african-americans",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 2
+        }
+      ],
+      "special": null,
+      "page": 17,
+      "image": "cards/card-73.png"
+    },
+    {
+      "id": "card-74",
+      "title": "Farmland Purchase Ban",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "rural-farmers",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 17,
+      "image": "cards/card-74.png"
+    },
+    {
+      "id": "card-75",
+      "title": "Child Tax Credit Plus",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "suburban-women",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "asian-americans",
+          "delta": 1
+        }
+      ],
+      "special": null,
+      "page": 17,
+      "image": "cards/card-75.png"
+    },
+    {
+      "id": "card-76",
+      "title": "Gig Worker Protection",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 17,
+      "image": "cards/card-76.png"
+    },
+    {
+      "id": "card-77",
+      "title": "Ethanol Mandate",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "rural-farmers",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 17,
+      "image": "cards/card-77.png"
+    },
+    {
+      "id": "card-78",
+      "title": "School Safety Officers",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 17,
+      "image": "cards/card-78.png"
+    },
+    {
+      "id": "card-79",
+      "title": "Sanctuary City Crackdown",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 17,
+      "image": "cards/card-79.png"
+    },
+    {
+      "id": "card-80",
+      "title": "Affirmative Action Renewal",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "african-americans",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "asian-americans",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 17,
+      "image": "cards/card-80.png"
+    },
+    {
+      "id": "card-81",
+      "title": "Small Town Revival",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "delta": 2
+        }
+      ],
+      "special": null,
+      "page": 17,
+      "image": "cards/card-81.png"
+    },
+    {
+      "id": "card-82",
+      "title": "Coastal Fishery Grant",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 19,
+      "image": "cards/card-82.png"
+    },
+    {
+      "id": "card-83",
+      "title": "Women-in- Tech Grant",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "suburban-women",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 2
+        }
+      ],
+      "special": null,
+      "page": 19,
+      "image": "cards/card-83.png"
+    },
+    {
+      "id": "card-84",
+      "title": "Anti-Hate Crime Bill",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "african-americans",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "asian-americans",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": 3
+        }
+      ],
+      "special": null,
+      "page": 19,
+      "image": "cards/card-84.png"
+    },
+    {
+      "id": "card-85",
+      "title": "Public Transit Surge",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "african-americans",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 19,
+      "image": "cards/card-85.png"
+    },
+    {
+      "id": "card-86",
+      "title": "STEM Visa Expansion",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "asian-americans",
+          "delta": 4
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 19,
+      "image": "cards/card-86.png"
+    },
+    {
+      "id": "card-87",
+      "title": "Grazing Rights Win",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "rural-farmers",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 19,
+      "image": "cards/card-87.png"
+    },
+    {
+      "id": "card-88",
+      "title": "Drug Price Ceiling",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "military-veterans",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 19,
+      "image": "cards/card-88.png"
+    },
+    {
+      "id": "card-89",
+      "title": "Renewable Energy Park",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "delta": 2
+        }
+      ],
+      "special": null,
+      "page": 19,
+      "image": "cards/card-89.png"
+    },
+    {
+      "id": "card-90",
+      "title": "Estate Tax Increase",
+      "type": "Platform Idea",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -4
+        }
+      ],
+      "special": null,
+      "page": 19,
+      "image": "cards/card-90.png"
+    },
+    {
+      "id": "card-91",
+      "title": "Inflation Spike",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "suburban-women",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 21,
+      "image": "cards/card-91.png"
+    },
+    {
+      "id": "card-92",
+      "title": "Stock Market Crash",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -4
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "retirees",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 21,
+      "image": "cards/card-92.png"
+    },
+    {
+      "id": "card-93",
+      "title": "Foreign War Erupts",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "military-veterans",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 21,
+      "image": "cards/card-93.png"
+    },
+    {
+      "id": "card-94",
+      "title": "Supreme Court Vacancy",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "evangelical-christians",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 21,
+      "image": "cards/card-94.png"
+    },
+    {
+      "id": "card-95",
+      "title": "Cyber-Grid Attack",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "retirees",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 21,
+      "image": "cards/card-95.png"
+    },
+    {
+      "id": "card-96",
+      "title": "The Great Drought",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "rural-farmers",
+          "delta": -5
+        },
+        {
+          "voterGroupId": "indigenous-voters",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 21,
+      "image": "cards/card-96.png"
+    },
+    {
+      "id": "card-97",
+      "title": "Peace Treaty Signed",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "military-veterans",
+          "delta": 4
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 2
+        }
+      ],
+      "special": null,
+      "page": 21,
+      "image": "cards/card-97.png"
+    },
+    {
+      "id": "card-98",
+      "title": "Epidemic Scare",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 21,
+      "image": "cards/card-98.png"
+    },
+    {
+      "id": "card-99",
+      "title": "Energy Independence",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 21,
+      "image": "cards/card-99.png"
+    },
+    {
+      "id": "card-100",
+      "title": "Housing Bubble Burst",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -4
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 23,
+      "image": "cards/card-100.png"
+    },
+    {
+      "id": "card-101",
+      "title": "Climate Disaster",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "indigenous-voters",
+          "delta": 1
+        }
+      ],
+      "special": null,
+      "page": 23,
+      "image": "cards/card-101.png"
+    },
+    {
+      "id": "card-102",
+      "title": "Foreign Trade War",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "rural-farmers",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 23,
+      "image": "cards/card-102.png"
+    },
+    {
+      "id": "card-103",
+      "title": "Military Pay Raise",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "military-veterans",
+          "delta": 4
+        }
+      ],
+      "special": null,
+      "page": 23,
+      "image": "cards/card-103.png"
+    },
+    {
+      "id": "card-104",
+      "title": "Lead Water Scandal",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "african-americans",
+          "delta": -4
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 23,
+      "image": "cards/card-104.png"
+    },
+    {
+      "id": "card-105",
+      "title": "Oil Pipeline Leak",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": -4
+        },
+        {
+          "voterGroupId": "indigenous-voters",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 23,
+      "image": "cards/card-105.png"
+    },
+    {
+      "id": "card-106",
+      "title": "Tech Boom",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 2
+        }
+      ],
+      "special": null,
+      "page": 23,
+      "image": "cards/card-106.png"
+    },
+    {
+      "id": "card-107",
+      "title": "Supply Chain Crisis",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 23,
+      "image": "cards/card-107.png"
+    },
+    {
+      "id": "card-108",
+      "title": "Social Media Crash",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 23,
+      "image": "cards/card-108.png"
+    },
+    {
+      "id": "card-109",
+      "title": "VA Hospital Scandal",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "military-veterans",
+          "delta": -5
+        }
+      ],
+      "special": null,
+      "page": 25,
+      "image": "cards/card-109.png"
+    },
+    {
+      "id": "card-110",
+      "title": "Base Closure",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 25,
+      "image": "cards/card-110.png"
+    },
+    {
+      "id": "card-111",
+      "title": "DACA Court Ruling",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 25,
+      "image": "cards/card-111.png"
+    },
+    {
+      "id": "card-112",
+      "title": "National Strike",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "labor-unions",
+          "delta": 4
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 25,
+      "image": "cards/card-112.png"
+    },
+    {
+      "id": "card-113",
+      "title": "Farm Bankruptcy Wave",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "rural-farmers",
+          "delta": -5
+        }
+      ],
+      "special": null,
+      "page": 25,
+      "image": "cards/card-113.png"
+    },
+    {
+      "id": "card-114",
+      "title": "Record Heatwave",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 1
+        }
+      ],
+      "special": null,
+      "page": 25,
+      "image": "cards/card-114.png"
+    },
+    {
+      "id": "card-115",
+      "title": "Global Currency Dip",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 25,
+      "image": "cards/card-115.png"
+    },
+    {
+      "id": "card-116",
+      "title": "Standardized Test Fail",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 25,
+      "image": "cards/card-116.png"
+    },
+    {
+      "id": "card-117",
+      "title": "Passport Office Delay",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 25,
+      "image": "cards/card-117.png"
+    },
+    {
+      "id": "card-118",
+      "title": "Rare Earth Discovery",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": 4
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 2
+        }
+      ],
+      "special": null,
+      "page": 27,
+      "image": "cards/card-118.png"
+    },
+    {
+      "id": "card-119",
+      "title": "Supreme Court School Prayer Ruling",
+      "type": "Important Event",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "evangelical-christians",
+          "delta": -5
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "delta": 3
+        }
+      ],
+      "special": null,
+      "page": 27,
+      "image": "cards/card-119.png"
+    },
+    {
+      "id": "card-120",
+      "title": "\"Deplorables\" Gaffe",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -4
+        }
+      ],
+      "special": null,
+      "page": 27,
+      "image": "cards/card-120.png"
+    },
+    {
+      "id": "card-121",
+      "title": "Tax Returns Leaked",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "labor-unions",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 27,
+      "image": "cards/card-121.png"
+    },
+    {
+      "id": "card-122",
+      "title": "Private Jet Scandal",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "labor-unions",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 27,
+      "image": "cards/card-122.png"
+    },
+    {
+      "id": "card-123",
+      "title": "Hot Mic Profanity",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "evangelical-christians",
+          "delta": -4
+        }
+      ],
+      "special": null,
+      "page": 27,
+      "image": "cards/card-123.png"
+    },
+    {
+      "id": "card-124",
+      "title": "Old Photo Scandal",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "evangelical-christians",
+          "delta": -4
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 27,
+      "image": "cards/card-124.png"
+    },
+    {
+      "id": "card-125",
+      "title": "Draft Dodger Rumor",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "military-veterans",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 27,
+      "image": "cards/card-125.png"
+    },
+    {
+      "id": "card-126",
+      "title": "The Milk Price Gaffe",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 27,
+      "image": "cards/card-126.png"
+    },
+    {
+      "id": "card-127",
+      "title": "Donor Quid-Pro- Quo",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 29,
+      "image": "cards/card-127.png"
+    },
+    {
+      "id": "card-128",
+      "title": "Flip-Flop Montage",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -4
+        },
+        {
+          "voterGroupId": "retirees",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 29,
+      "image": "cards/card-128.png"
+    },
+    {
+      "id": "card-129",
+      "title": "Fact-Check Failure",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 29,
+      "image": "cards/card-129.png"
+    },
+    {
+      "id": "card-130",
+      "title": "Voter Purge Scandal",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "african-americans",
+          "delta": -4
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 29,
+      "image": "cards/card-130.png"
+    },
+    {
+      "id": "card-131",
+      "title": "Family Feud",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "suburban-women",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 29,
+      "image": "cards/card-131.png"
+    },
+    {
+      "id": "card-132",
+      "title": "Offshore Account",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "labor-unions",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 29,
+      "image": "cards/card-132.png"
+    },
+    {
+      "id": "card-133",
+      "title": "Plagiarism Charge",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": -4
+        }
+      ],
+      "special": null,
+      "page": 29,
+      "image": "cards/card-133.png"
+    },
+    {
+      "id": "card-134",
+      "title": "Lobbyist Secret Gala",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "labor-unions",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 29,
+      "image": "cards/card-134.png"
+    },
+    {
+      "id": "card-135",
+      "title": "Campaign Finance Fine",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 29,
+      "image": "cards/card-135.png"
+    },
+    {
+      "id": "card-136",
+      "title": "Nepotism Hire",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 31,
+      "image": "cards/card-136.png"
+    },
+    {
+      "id": "card-137",
+      "title": "\"Inner City\" Comment",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "african-americans",
+          "delta": -5
+        }
+      ],
+      "special": null,
+      "page": 31,
+      "image": "cards/card-137.png"
+    },
+    {
+      "id": "card-138",
+      "title": "Missed Vote Scandal",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "military-veterans",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 31,
+      "image": "cards/card-138.png"
+    },
+    {
+      "id": "card-139",
+      "title": "Fake Grassroots",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -4
+        }
+      ],
+      "special": null,
+      "page": 31,
+      "image": "cards/card-139.png"
+    },
+    {
+      "id": "card-140",
+      "title": "Broken Pledge",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "evangelical-christians",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 31,
+      "image": "cards/card-140.png"
+    },
+    {
+      "id": "card-141",
+      "title": "The Ghostwriter",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 31,
+      "image": "cards/card-141.png"
+    },
+    {
+      "id": "card-142",
+      "title": "Real Estate Scheme",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "african-americans",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 31,
+      "image": "cards/card-142.png"
+    },
+    {
+      "id": "card-143",
+      "title": "Foreign Trip Blunder",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "military-veterans",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 31,
+      "image": "cards/card-143.png"
+    },
+    {
+      "id": "card-144",
+      "title": "Campaign Finance Fine",
+      "type": "Scandal",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 31,
+      "image": "cards/card-144.png"
+    },
+    {
+      "id": "card-145",
+      "title": "The Knockout Zinger",
+      "type": "Debate",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "asian-americans",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "african-americans",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "retirees",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "rural-farmers",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "environmental-activists",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "gun-owners",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "indigenous-voters",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "military-veterans",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "suburban-women",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 2
+        }
+      ],
+      "special": "all",
+      "page": 33,
+      "image": "cards/card-145.png"
+    },
+    {
+      "id": "card-146",
+      "title": "Word Salad Gaffe",
+      "type": "Debate",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 33,
+      "image": "cards/card-146.png"
+    },
+    {
+      "id": "card-147",
+      "title": "Relatable Diner Talk",
+      "type": "Debate",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 3
+        }
+      ],
+      "special": null,
+      "page": 33,
+      "image": "cards/card-147.png"
+    },
+    {
+      "id": "card-148",
+      "title": "The \"Commander\" Look",
+      "type": "Debate",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "military-veterans",
+          "delta": 3
+        }
+      ],
+      "special": null,
+      "page": 33,
+      "image": "cards/card-148.png"
+    },
+    {
+      "id": "card-149",
+      "title": "The Eye-Roll",
+      "type": "Debate",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 33,
+      "image": "cards/card-149.png"
+    },
+    {
+      "id": "card-150",
+      "title": "Sharp Policy Answer",
+      "type": "Debate",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 3
+        }
+      ],
+      "special": null,
+      "page": 33,
+      "image": "cards/card-150.png"
+    },
+    {
+      "id": "card-151",
+      "title": "Emotional Story",
+      "type": "Debate",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": 3
+        }
+      ],
+      "special": null,
+      "page": 33,
+      "image": "cards/card-151.png"
+    },
+    {
+      "id": "card-152",
+      "title": "The \"Youth\" Meme",
+      "type": "Debate",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 4
+        }
+      ],
+      "special": null,
+      "page": 33,
+      "image": "cards/card-152.png"
+    },
+    {
+      "id": "card-153",
+      "title": "Sweating on Camera",
+      "type": "Debate",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 33,
+      "image": "cards/card-153.png"
+    },
+    {
+      "id": "card-154",
+      "title": "\"Normal Guy\" Moment",
+      "type": "Debate",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "labor-unions",
+          "delta": 3
+        }
+      ],
+      "special": null,
+      "page": 35,
+      "image": "cards/card-154.png"
+    },
+    {
+      "id": "card-155",
+      "title": "The Viral Laugh",
+      "type": "Debate",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 2
+        }
+      ],
+      "special": null,
+      "page": 35,
+      "image": "cards/card-155.png"
+    },
+    {
+      "id": "card-156",
+      "title": "Debate Walk-Off",
+      "type": "Debate",
+      "description": "",
+      "effects": [],
+      "special": "skip",
+      "page": 35,
+      "image": "cards/card-156.png"
+    },
+    {
+      "id": "card-157",
+      "title": "Split-Screen Face",
+      "type": "Debate",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "secular-non-religious",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 35,
+      "image": "cards/card-157.png"
+    },
+    {
+      "id": "card-158",
+      "title": "\"I Served\" Moment",
+      "type": "Debate",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "military-veterans",
+          "delta": 4
+        }
+      ],
+      "special": null,
+      "page": 35,
+      "image": "cards/card-158.png"
+    },
+    {
+      "id": "card-159",
+      "title": "The Mic Drop",
+      "type": "Debate",
+      "description": "",
+      "effects": [],
+      "special": "double",
+      "page": 35,
+      "image": "cards/card-159.png"
+    },
+    {
+      "id": "card-160",
+      "title": "The \"Base-Fire\" Speech",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "labor-unions",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 35,
+      "image": "cards/card-160.png"
+    },
+    {
+      "id": "card-161",
+      "title": "The \"Malaise\" Speech",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 35,
+      "image": "cards/card-161.png"
+    },
+    {
+      "id": "card-162",
+      "title": "The \"Dean Scream\"",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 35,
+      "image": "cards/card-162.png"
+    },
+    {
+      "id": "card-163",
+      "title": "Extremism Keynote",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "gun-owners",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "asian-americans",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 37,
+      "image": "cards/card-163.png"
+    },
+    {
+      "id": "card-164",
+      "title": "The \"Moderate\" Pivot",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "asian-americans",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 37,
+      "image": "cards/card-164.png"
+    },
+    {
+      "id": "card-165",
+      "title": "The \"Basket\" Remark",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -4
+        }
+      ],
+      "special": null,
+      "page": 37,
+      "image": "cards/card-165.png"
+    },
+    {
+      "id": "card-166",
+      "title": "The \"Globalist\" Gala",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "asian-americans",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 37,
+      "image": "cards/card-166.png"
+    },
+    {
+      "id": "card-167",
+      "title": "\"I\u2019m the Outsider\"",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 37,
+      "image": "cards/card-167.png"
+    },
+    {
+      "id": "card-168",
+      "title": "The \"Tear- Jerker\"",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": 1
+        }
+      ],
+      "special": null,
+      "page": 37,
+      "image": "cards/card-168.png"
+    },
+    {
+      "id": "card-169",
+      "title": "Policy Wonk Address",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 37,
+      "image": "cards/card-169.png"
+    },
+    {
+      "id": "card-170",
+      "title": "The \"Fire & Brimstone\"",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "evangelical-christians",
+          "delta": 4
+        },
+        {
+          "voterGroupId": "secular-non-religious",
+          "delta": -4
+        }
+      ],
+      "special": null,
+      "page": 37,
+      "image": "cards/card-170.png"
+    },
+    {
+      "id": "card-171",
+      "title": "The \"Unity\" Blunder",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "african-americans",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 37,
+      "image": "cards/card-171.png"
+    },
+    {
+      "id": "card-172",
+      "title": "\"America is Back\"",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "military-veterans",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 39,
+      "image": "cards/card-172.png"
+    },
+    {
+      "id": "card-173",
+      "title": "The \"By the Numbers\"",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "asian-americans",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "small-business-owners",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 39,
+      "image": "cards/card-173.png"
+    },
+    {
+      "id": "card-174",
+      "title": "The \"Identity\" Speech",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "african-americans",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 39,
+      "image": "cards/card-174.png"
+    },
+    {
+      "id": "card-175",
+      "title": "The \"Sighing\" Debate",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -2
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 39,
+      "image": "cards/card-175.png"
+    },
+    {
+      "id": "card-176",
+      "title": "The \"Red State\" Tour",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "rural-farmers",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 39,
+      "image": "cards/card-176.png"
+    },
+    {
+      "id": "card-177",
+      "title": "The \"Blue Wall\" Plea",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "labor-unions",
+          "delta": 4
+        },
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 39,
+      "image": "cards/card-177.png"
+    },
+    {
+      "id": "card-178",
+      "title": "The \"Dog Whistle\"",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "white-non-college",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "african-americans",
+          "delta": -4
+        },
+        {
+          "voterGroupId": "hispanic-latino",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 39,
+      "image": "cards/card-178.png"
+    },
+    {
+      "id": "card-179",
+      "title": "\"The Future is Female\"",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": 3
+        },
+        {
+          "voterGroupId": "evangelical-christians",
+          "delta": -1
+        }
+      ],
+      "special": null,
+      "page": 39,
+      "image": "cards/card-179.png"
+    },
+    {
+      "id": "card-180",
+      "title": "The \"Wealth is Good\"",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "corporate-executives",
+          "delta": 4
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 39,
+      "image": "cards/card-180.png"
+    },
+    {
+      "id": "card-181",
+      "title": "\"Defund\" Slip-up",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "youth-voters",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": -3
+        },
+        {
+          "voterGroupId": "white-non-college",
+          "delta": -3
+        }
+      ],
+      "special": null,
+      "page": 41,
+      "image": "cards/card-181.png"
+    },
+    {
+      "id": "card-182",
+      "title": "The \"Old School\" Rally",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "military-veterans",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "labor-unions",
+          "delta": 1
+        },
+        {
+          "voterGroupId": "youth-voters",
+          "delta": -2
+        }
+      ],
+      "special": null,
+      "page": 41,
+      "image": "cards/card-182.png"
+    },
+    {
+      "id": "card-183",
+      "title": "\"Bridge to Somewhere\"",
+      "type": "Speech",
+      "description": "",
+      "effects": [
+        {
+          "voterGroupId": "urban-professionals",
+          "delta": 2
+        },
+        {
+          "voterGroupId": "suburban-professionals",
+          "delta": 2
+        }
+      ],
+      "special": null,
+      "page": 41,
+      "image": "cards/card-183.png"
+    },
+    {
+      "id": "card-184",
+      "title": "The \"Last Stand\"",
+      "type": "Speech",
+      "description": "",
+      "effects": [],
+      "special": "choose",
+      "page": 41,
+      "image": "cards/card-184.png"
+    },
+    {
+      "id": "card-185",
+      "title": "Campaign Cover-Up",
+      "type": "Campaign Cover-Up",
+      "description": "",
+      "effects": [],
+      "special": "cover",
+      "page": 41,
+      "image": "cards/card-185.png"
+    },
+    {
+      "id": "card-186",
+      "title": "Campaign Cover-Up",
+      "type": "Campaign Cover-Up",
+      "description": "",
+      "effects": [],
+      "special": "cover",
+      "page": 41,
+      "image": "cards/card-186.png"
+    },
+    {
+      "id": "card-187",
+      "title": "Campaign Cover-Up",
+      "type": "Campaign Cover-Up",
+      "description": "",
+      "effects": [],
+      "special": "cover",
+      "page": 41,
+      "image": "cards/card-187.png"
+    },
+    {
+      "id": "card-188",
+      "title": "Campaign Cover-Up",
+      "type": "Campaign Cover-Up",
+      "description": "",
+      "effects": [],
+      "special": "cover",
+      "page": 41,
+      "image": "cards/card-188.png"
+    },
+    {
+      "id": "card-189",
+      "title": "Campaign Cover-Up",
+      "type": "Campaign Cover-Up",
+      "description": "",
+      "effects": [],
+      "special": "cover",
+      "page": 41,
+      "image": "cards/card-189.png"
+    },
+    {
+      "id": "card-190",
+      "title": "Campaign Cover-Up",
+      "type": "Campaign Cover-Up",
+      "description": "",
+      "effects": [],
+      "special": "cover",
+      "page": 43,
+      "image": "cards/card-190.png"
+    },
+    {
+      "id": "card-191",
+      "title": "Campaign Cover-Up",
+      "type": "Campaign Cover-Up",
+      "description": "",
+      "effects": [],
+      "special": "cover",
+      "page": 43,
+      "image": "cards/card-191.png"
+    },
+    {
+      "id": "card-192",
+      "title": "Campaign Cover-Up",
+      "type": "Campaign Cover-Up",
+      "description": "",
+      "effects": [],
+      "special": "cover",
+      "page": 43,
+      "image": "cards/card-192.png"
+    },
+    {
+      "id": "card-193",
+      "title": "Campaign Cover-Up",
+      "type": "Campaign Cover-Up",
+      "description": "",
+      "effects": [],
+      "special": "cover",
+      "page": 43,
+      "image": "cards/card-193.png"
+    },
+    {
+      "id": "card-194",
+      "title": "Campaign Cover-Up",
+      "type": "Campaign Cover-Up",
+      "description": "",
+      "effects": [],
+      "special": "cover",
+      "page": 43,
+      "image": "cards/card-194.png"
+    },
+    {
+      "id": "card-195",
+      "title": "Campaign Cover-Up",
+      "type": "Campaign Cover-Up",
+      "description": "",
+      "effects": [],
+      "special": "cover",
+      "page": 43,
+      "image": "cards/card-195.png"
+    },
+    {
+      "id": "card-196",
+      "title": "Campaign Cover-Up",
+      "type": "Campaign Cover-Up",
+      "description": "",
+      "effects": [],
+      "special": "cover",
+      "page": 43,
+      "image": "cards/card-196.png"
+    },
+    {
+      "id": "card-197",
+      "title": "Campaign Cover-Up",
+      "type": "Campaign Cover-Up",
+      "description": "",
+      "effects": [],
+      "special": "cover",
+      "page": 43,
+      "image": "cards/card-197.png"
+    },
+    {
+      "id": "card-198",
+      "title": "Campaign Cover-Up",
+      "type": "Campaign Cover-Up",
+      "description": "",
+      "effects": [],
+      "special": "cover",
+      "page": 43,
+      "image": "cards/card-198.png"
+    }
+  ],
+  "base": {
+    "asian-americans": {
+      "blue": 1,
+      "red": 1
+    },
+    "retirees": {
+      "blue": 1,
+      "red": 2
+    },
+    "african-americans": {
+      "blue": 3,
+      "red": 0
+    },
+    "rural-farmers": {
+      "blue": 0,
+      "red": 2
+    },
+    "corporate-executives": {
+      "blue": 0,
+      "red": 3
+    },
+    "secular-non-religious": {
+      "blue": 2,
+      "red": 0
+    },
+    "environmental-activists": {
+      "blue": 2,
+      "red": 0
+    },
+    "small-business-owners": {
+      "blue": 0,
+      "red": 2
+    },
+    "evangelical-christians": {
+      "blue": 0,
+      "red": 2
+    },
+    "suburban-professionals": {
+      "blue": 0,
+      "red": 0
+    },
+    "gun-owners": {
+      "blue": 0,
+      "red": 1
+    },
+    "suburban-women": {
+      "blue": 0,
+      "red": 0
+    },
+    "hispanic-latino": {
+      "blue": 2,
+      "red": 1
+    },
+    "urban-professionals": {
+      "blue": 1,
+      "red": 0
+    },
+    "indigenous-voters": {
+      "blue": 1,
+      "red": 1
+    },
+    "white-non-college": {
+      "blue": 0,
+      "red": 1
+    },
+    "labor-unions": {
+      "blue": 2,
+      "red": 1
+    },
+    "youth-voters": {
+      "blue": 1,
+      "red": 0
+    },
+    "military-veterans": {
+      "blue": 1,
+      "red": 1
+    }
+  }
+}
