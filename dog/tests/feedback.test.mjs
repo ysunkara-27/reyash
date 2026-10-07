@@ -76,12 +76,12 @@ test('feedbackReport and /stats/data expose counts, averages, verdicts and recen
  }finally{f.db.close();}
 });
 
-test('feedback replies carry the CORS headers the worker computed for scanblindspot.com',async()=>{
+test('feedback replies carry the CORS headers the worker computed for readblindspot.com',async()=>{
  const f=fixture();try{
-  const request=new Request('https://test/feedback/submit',{method:'POST',headers:{Origin:'https://scanblindspot.com','content-type':'application/json'},body:JSON.stringify({...valid,ease:9})});
+  const request=new Request('https://test/feedback/submit',{method:'POST',headers:{Origin:'https://readblindspot.com','content-type':'application/json'},body:JSON.stringify({...valid,ease:9})});
   const response=await handleFeedback(request,f.env,publicCorsHeaders(request));
   assert.equal(response.status,400);
-  assert.equal(response.headers.get('access-control-allow-origin'),'https://scanblindspot.com');
+  assert.equal(response.headers.get('access-control-allow-origin'),'https://readblindspot.com');
   assert.equal(response.headers.get('vary'),'Origin');
   assert.equal(f.db.prepare('SELECT COUNT(*) AS n FROM blindspot_feedback').get().n,0);
  }finally{f.db.close();}
