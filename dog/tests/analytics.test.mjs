@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
-import {handleAnalytics,recordActivity,recordEvent} from '../analytics-api.mjs';
+import {handleAnalytics,publicCorsHeaders,recordActivity,recordEvent} from '../analytics-api.mjs';
 
 function fixture(){
  const db=new DatabaseSync(':memory:');
@@ -87,4 +87,19 @@ test('report lists interaction events for the last week and prunes old rows',asy
   assert.equal(f.db.prepare("SELECT COUNT(*) AS n FROM analytics_events WHERE event='stale'").get().n,0);
   assert.equal(f.db.prepare("SELECT COUNT(*) AS n FROM analytics_events WHERE event='ancient'").get().n,1);
  }finally{f.db.close();}
+});
+
+test('publicCorsHeaders admits the Blindspot domain and Vercel previews without touching the base allow-list',()=>{
+ const from=origin=>publicCorsHeaders(new Request('https://test/analytics/track',{method:'POST',headers:origin?{Origin:origin}:{}}));
+ assert.deepEqual(from('https://scanblindspot.com'),{'access-control-allow-origin':'https://scanblindspot.com',vary:'Origin'});
+ assert.deepEqual(from('https://www.scanblindspot.com'),{'access-control-allow-origin':'https://www.scanblindspot.com',vary:'Origin'});
+ assert.deepEqual(from('https://scanblindspot-abc123-ysunkara-27s-projects.vercel.app'),{'access-control-allow-origin':'https://scanblindspot-abc123-ysunkara-27s-projects.vercel.app',vary:'Origin'});
+ assert.deepEqual(from('http://scanblindspot.com'),{});
+ assert.deepEqual(from('https://scanblindspot.com.evil.example'),{});
+ assert.deepEqual(from('https://evil.example/.vercel.app'),{});
+ assert.deepEqual(from('https://a.b.vercel.app'),{});
+ assert.deepEqual(from(null),{});
+ const base={'access-control-allow-origin':'https://www.ysunkara.com',vary:'Origin'};
+ assert.deepEqual(publicCorsHeaders(new Request('https://test/analytics/track',{headers:{Origin:'https://www.ysunkara.com'}}),base),base);
+ assert.deepEqual(publicCorsHeaders(new Request('https://test/analytics/track',{headers:{Origin:'https://evil.example'}}),{vary:'Origin'}),{vary:'Origin'});
 });

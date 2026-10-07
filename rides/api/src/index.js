@@ -1,5 +1,5 @@
 import {handleRequests} from '../../../dog/requests-api.mjs';
-import {handleAnalytics} from '../../../dog/analytics-api.mjs';
+import {handleAnalytics,publicCorsHeaders} from '../../../dog/analytics-api.mjs';
 import {handleFeedback} from '../../../dog/feedback-api.mjs';
 import {handle} from './v2.mjs';
 import {handleDog} from '../../../dog/api.mjs';
@@ -19,9 +19,10 @@ function cors(request, env) { const origin = request.headers.get('Origin'); cons
 function validCode(code) { return /^\d{4,8}$/.test(code || ''); }
 export default {
   async fetch(request, env) {
-    const headers = cors(request, env);
-    if (request.method === 'OPTIONS') return new Response(null, { headers: { ...headers, 'access-control-allow-methods': 'GET,POST,PUT,OPTIONS', 'access-control-allow-headers': 'authorization,content-type,x-analytics-id' } });
     const path = new URL(request.url).pathname;
+    const publicRoute = path.startsWith('/analytics/') || path.startsWith('/feedback/');
+    const headers = publicRoute ? publicCorsHeaders(request, cors(request, env)) : cors(request, env);
+    if (request.method === 'OPTIONS') return new Response(null, { headers: { ...headers, 'access-control-allow-methods': 'GET,POST,PUT,OPTIONS', 'access-control-allow-headers': 'authorization,content-type,x-analytics-id' } });
     if(path.startsWith('/analytics/')||path.startsWith('/stats/')) return handleAnalytics(request,env,headers);
     if(path==='/requests') return handleRequests(request,env,headers);
     if(path.startsWith('/feedback/')) return handleFeedback(request,env,headers);

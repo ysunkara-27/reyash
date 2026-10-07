@@ -13,6 +13,15 @@ const safeSite=value=>SITES.has(value)?value:'other';
 const timingSafeEqual=(a,b)=>{let difference=a.length^b.length;for(let i=0;i<a.length;i++)difference|=a.charCodeAt(i)^b.charCodeAt(i);return difference===0;};
 const base64url=value=>btoa(value).replaceAll('+','-').replaceAll('/','_').replace(/=+$/,'');
 const fromBase64url=value=>atob(value.replaceAll('-','+').replaceAll('_','/'));
+// Tracking and feedback also arrive from Blindspot's own domain and its Vercel preview deployments.
+// Only /analytics/* and /feedback/* get these extra origins; every other route keeps the base allow-list.
+const PUBLIC_ORIGINS=new Set(['https://scanblindspot.com','https://www.scanblindspot.com']);
+const VERCEL_PREVIEW=/^https:\/\/[a-z0-9-]+\.vercel\.app$/i;
+export function publicCorsHeaders(request,base={}){
+ if(base['access-control-allow-origin'])return base;
+ const origin=request.headers.get('Origin');
+ return origin&&(PUBLIC_ORIGINS.has(origin)||VERCEL_PREVIEW.test(origin))?{...base,'access-control-allow-origin':origin,vary:'Origin'}:base;
+}
 
 async function ensureTables(env){
  if(!tableReady.has(env.DB))tableReady.set(env.DB,(async()=>{
