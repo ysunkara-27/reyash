@@ -14,6 +14,26 @@
   },
   "redirects": [
     {
+      "source": "/blindspot",
+      "destination": "https://scanblindspot.vercel.app/",
+      "permanent": true
+    },
+    {
+      "source": "/blindspot/",
+      "destination": "https://scanblindspot.vercel.app/",
+      "permanent": true
+    },
+    {
+      "source": "/blindspot/:path*",
+      "destination": "https://scanblindspot.vercel.app/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/feedback",
+      "destination": "https://scanblindspot.vercel.app/feedback",
+      "permanent": true
+    },
+    {
       "source": "/elections",
       "destination": "/elections/",
       "permanent": false
@@ -76,18 +96,6 @@
     {
       "source": "/elections/:path*",
       "destination": "/apgovelections/:path*"
-    },
-    {
-      "source": "/blindspot",
-      "destination": "https://yashwrites-blindspot.hf.space/blindspot/"
-    },
-    {
-      "source": "/blindspot/",
-      "destination": "https://yashwrites-blindspot.hf.space/blindspot/"
-    },
-    {
-      "source": "/blindspot/:path*",
-      "destination": "https://yashwrites-blindspot.hf.space/blindspot/:path*"
     },
     {
       "source": "/pujarinet/:path*",
