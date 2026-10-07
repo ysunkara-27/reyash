@@ -91,11 +91,11 @@ test('report lists interaction events for the last week and prunes old rows',asy
 
 test('publicCorsHeaders admits the Blindspot domain and Vercel previews without touching the base allow-list',()=>{
  const from=origin=>publicCorsHeaders(new Request('https://test/analytics/track',{method:'POST',headers:origin?{Origin:origin}:{}}));
- assert.deepEqual(from('https://readblindspot.com'),{'access-control-allow-origin':'https://readblindspot.com',vary:'Origin'});
- assert.deepEqual(from('https://www.readblindspot.com'),{'access-control-allow-origin':'https://www.readblindspot.com',vary:'Origin'});
- assert.deepEqual(from('https://readblindspot-abc123-ysunkara-27s-projects.vercel.app'),{'access-control-allow-origin':'https://readblindspot-abc123-ysunkara-27s-projects.vercel.app',vary:'Origin'});
- assert.deepEqual(from('http://readblindspot.com'),{});
- assert.deepEqual(from('https://readblindspot.com.evil.example'),{});
+ assert.deepEqual(from('https://scanblindspot.com'),{'access-control-allow-origin':'https://scanblindspot.com',vary:'Origin'});
+ assert.deepEqual(from('https://www.scanblindspot.com'),{'access-control-allow-origin':'https://www.scanblindspot.com',vary:'Origin'});
+ assert.deepEqual(from('https://scanblindspot-abc123-ysunkara-27s-projects.vercel.app'),{'access-control-allow-origin':'https://scanblindspot-abc123-ysunkara-27s-projects.vercel.app',vary:'Origin'});
+ assert.deepEqual(from('http://scanblindspot.com'),{});
+ assert.deepEqual(from('https://scanblindspot.com.evil.example'),{});
  assert.deepEqual(from('https://evil.example/.vercel.app'),{});
  assert.deepEqual(from('https://a.b.vercel.app'),{});
  assert.deepEqual(from(null),{});

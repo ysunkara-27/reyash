@@ -15,22 +15,22 @@
   "redirects": [
     {
       "source": "/blindspot",
-      "destination": "https://readblindspot.vercel.app/",
+      "destination": "https://scanblindspot.vercel.app/",
       "permanent": true
     },
     {
       "source": "/blindspot/",
-      "destination": "https://readblindspot.vercel.app/",
+      "destination": "https://scanblindspot.vercel.app/",
       "permanent": true
     },
     {
       "source": "/blindspot/:path*",
-      "destination": "https://readblindspot.vercel.app/:path*",
+      "destination": "https://scanblindspot.vercel.app/:path*",
       "permanent": true
     },
     {
       "source": "/feedback",
-      "destination": "https://readblindspot.vercel.app/feedback",
+      "destination": "https://scanblindspot.vercel.app/feedback",
       "permanent": true
     },
     {

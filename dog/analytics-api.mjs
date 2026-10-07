@@ -15,7 +15,7 @@ const base64url=value=>btoa(value).replaceAll('+','-').replaceAll('/','_').repla
 const fromBase64url=value=>atob(value.replaceAll('-','+').replaceAll('_','/'));
 // Tracking and feedback also arrive from Blindspot's own domain and its Vercel preview deployments.
 // Only /analytics/* and /feedback/* get these extra origins; every other route keeps the base allow-list.
-const PUBLIC_ORIGINS=new Set(['https://readblindspot.com','https://www.readblindspot.com']);
+const PUBLIC_ORIGINS=new Set(['https://scanblindspot.com','https://www.scanblindspot.com']);
 const VERCEL_PREVIEW=/^https:\/\/[a-z0-9-]+\.vercel\.app$/i;
 export function publicCorsHeaders(request,base={}){
  if(base['access-control-allow-origin'])return base;
