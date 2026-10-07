@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#cde8ca">
+  <title>Blindspot feedback</title>
+  <link rel="stylesheet" href="/feedback/style.css">
+  <script type="module" src="/feedback/app.mjs"></script>
+</head>
+<body>
+  <main>
+    <header class="intro">
+      <p class="eyebrow">BLINDSPOT · <a href="/blindspot">BACK TO THE TRAINER</a></p>
+      <h1>Blindspot feedback</h1>
+      <p class="lede">Thanks for trying Blindspot. Five quick questions, about two minutes; everything is optional except the ratings.</p>
+    </header>
+
+    <form id="feedback-form" novalidate>
+      <fieldset class="field">
+        <legend>Role</legend>
+        <div class="segmented" role="radiogroup" aria-label="Role">
+          <label><input type="radio" name="role" value="radiologist"><span>Radiologist</span></label>
+          <label><input type="radio" name="role" value="resident"><span>Resident</span></label>
+          <label><input type="radio" name="role" value="medical_student"><span>Medical student</span></label>
+          <label><input type="radio" name="role" value="other_clinician"><span>Other clinician</span></label>
+          <label><input type="radio" name="role" value="other"><span>Other</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="field">
+        <legend>Years in practice <small>optional</small></legend>
+        <div class="chips" role="radiogroup" aria-label="Years in practice">
+          <label><input type="radio" name="years" value="<5"><span>Under 5</span></label>
+          <label><input type="radio" name="years" value="5-15"><span>5 to 15</span></label>
+          <label><input type="radio" name="years" value=">15"><span>Over 15</span></label>
+        </div>
+      </fieldset>
+
+      <div class="ratings">
+        <div class="field rating">
+          <label for="ease">How easy was it to use?<output for="ease" id="ease-value">3</output></label>
+          <input type="range" id="ease" name="ease" min="1" max="5" step="1" value="3">
+          <div class="ends" aria-hidden="true"><span>hard</span><span>easy</span></div>
+        </div>
+        <div class="field rating">
+          <label for="teaching">How useful would it be for teaching?<output for="teaching" id="teaching-value">3</output></label>
+          <input type="range" id="teaching" name="teaching" min="1" max="5" step="1" value="3">
+          <div class="ends" aria-hidden="true"><span>not useful</span><span>very</span></div>
+        </div>
+        <div class="field rating">
+          <label for="accuracy">How accurate were the outlines and explanations?<output for="accuracy" id="accuracy-value">3</output></label>
+          <input type="range" id="accuracy" name="accuracy" min="1" max="5" step="1" value="3">
+          <div class="ends" aria-hidden="true"><span>often wrong</span><span>reliable</span></div>
+        </div>
+        <div class="field rating">
+          <label for="recommend">Would you recommend it to trainees?<output for="recommend" id="recommend-value">3</output></label>
+          <input type="range" id="recommend" name="recommend" min="1" max="5" step="1" value="3">
+          <div class="ends" aria-hidden="true"><span>no</span><span>definitely</span></div>
+        </div>
+      </div>
+
+      <fieldset class="field">
+        <legend>Could this become a real tool?</legend>
+        <div class="segmented" role="radiogroup" aria-label="Could this become a real tool?">
+          <label><input type="radio" name="real_product" value="yes"><span>Yes</span></label>
+          <label><input type="radio" name="real_product" value="maybe"><span>Maybe</span></label>
+          <label><input type="radio" name="real_product" value="no"><span>No</span></label>
+        </div>
+      </fieldset>
+
+      <div class="field">
+        <label for="missing">What's missing or what would you change? <small>optional</small></label>
+        <textarea id="missing" name="missing" rows="4" maxlength="600" placeholder="Cases you wanted, outlines that looked off, anything that got in the way…"></textarea>
+        <div class="ends"><span></span><span id="missing-count">0 / 600</span></div>
+      </div>
+
+      <div class="field">
+        <label for="contact">Name or email <small>optional, if you're happy to be contacted</small></label>
+        <input type="text" id="contact" name="contact" maxlength="200" autocomplete="name email" placeholder="Dr A. Example · a@example.org">
+      </div>
+
+      <div class="actions">
+        <button type="submit" id="send">Send feedback</button>
+        <p id="form-error" class="error" role="alert"></p>
+      </div>
+    </form>
+
+    <section id="done" class="done" hidden>
+      <h2>Thank you — received.</h2>
+      <p>Your answers help decide what Blindspot becomes next.</p>
+      <p><a href="/blindspot">Back to Blindspot ↗</a></p>
+    </section>
+
+    <footer><p>Education only. Nothing here is clinical advice. Feedback is stored privately and read by Yashaswi Sunkara.</p></footer>
+  </main>
+</body>
+</html>

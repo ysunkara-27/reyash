@@ -1,3 +1,4 @@
+import {feedbackReport} from './feedback-api.mjs';
 const encoder=new TextEncoder();
 const SITES=new Set(['taskpup','home','amma','atlas','rides','bidpoints','apgovelections','pujarinet','writings','savetheworld','officehours','blindspot','other']);
 const HOUR=3600000;
@@ -92,9 +93,11 @@ async function report(env,now){
   SUM(CASE WHEN bucket>=? THEN value ELSE 0 END) AS day_value,
   SUM(value) AS week_value
   FROM analytics_events WHERE bucket>=? GROUP BY site,event ORDER BY site,week_count DESC,event`).bind(day,day,week));
+ let feedback={n:0,averages:{ease:null,teaching:null,accuracy:null,recommend:null},real_product:{yes:0,maybe:0,no:0},recent:[]};
+ try{feedback=await feedbackReport(env);}catch(error){console.error('Feedback report failed',error);}
  await env.DB.prepare('DELETE FROM analytics_activity WHERE bucket<?').bind(now-90*DAY).run();
  await env.DB.prepare('DELETE FROM analytics_events WHERE bucket<?').bind(now-90*DAY).run();
- return {generatedAt:now,trackingSince:(await env.DB.prepare('SELECT MIN(bucket) AS value FROM analytics_activity').first())?.value||null,windows:{liveMinutes:15},totals,sites,usernames,hourly,daily,recentAccounts,events};
+ return {generatedAt:now,trackingSince:(await env.DB.prepare('SELECT MIN(bucket) AS value FROM analytics_activity').first())?.value||null,windows:{liveMinutes:15},totals,sites,usernames,hourly,daily,recentAccounts,events,feedback};
 }
 
 export async function handleAnalytics(request,env,headers={}){

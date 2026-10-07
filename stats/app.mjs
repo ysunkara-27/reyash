@@ -25,7 +25,25 @@ function interactions(site,events){
  const list=rows.filter(row=>row.event!==SPEND_EVENT).map(row=>`<div><span>${escape(eventLabels[row.event]||row.event)}</span><strong>${number(row.day_count)} / ${number(row.week_count)}</strong></div>`).join('');
  return `<div class="interactions"><small>Interactions · 24h / 7d</small>${list||'<p class="empty">No interactions yet.</p>'}${spend?`<p class="spend">Tutor spend ${money(spend.day_value)} (24h) · ${money(spend.week_value)} (7d)</p>`:''}</div>`;
 }
+const roleLabels={radiologist:'Radiologist',resident:'Resident',medical_student:'Medical student',other_clinician:'Other clinician',other:'Other'};
+const yearLabels={'<5':'under 5 yrs','5-15':'5–15 yrs','>15':'over 15 yrs'};
+const verdictLabels={yes:'Yes',maybe:'Maybe',no:'No'};
+const oneDecimal=value=>value===null||value===undefined?'–':Number(value).toFixed(1);
+function feedback(data){
+ const fb=data.feedback||{n:0,averages:{},real_product:{},recent:[]};
+ $('feedback-count').textContent=fb.n?`${number(fb.n)} response${fb.n===1?'':'s'} so far.`:'No responses yet.';
+ const averages=[['Ease of use','ease'],['Useful for teaching','teaching'],['Outline accuracy','accuracy'],['Would recommend','recommend']].map(([label,key])=>`<article class="metric"><strong>${oneDecimal(fb.averages?.[key])}<small>/5</small></strong><span>${label}</span></article>`).join('');
+ const verdict=['yes','maybe','no'].map(key=>`<span><strong>${number(fb.real_product?.[key])}</strong> ${verdictLabels[key]}</span>`).join('');
+ $('feedback-summary').innerHTML=fb.n?`<div class="summary-grid feedback-grid">${averages}<article class="metric"><strong>${number(fb.n)}</strong><span>Responses</span></article></div><p class="verdict"><small>COULD THIS BECOME A REAL TOOL?</small>${verdict}</p>`:'';
+ $('feedback-recent').innerHTML=(fb.recent||[]).length?fb.recent.map(row=>`<article class="feedback-row">
+  <div class="feedback-meta"><strong>${escape(roleLabels[row.role]||row.role||'Unknown')}</strong>${row.years?` · ${escape(yearLabels[row.years]||row.years)}`:''} · ${ago(row.created)}</div>
+  <div class="feedback-scores"><span>ease ${escape(row.ease)}</span><span>teaching ${escape(row.teaching)}</span><span>accuracy ${escape(row.accuracy)}</span><span>recommend ${escape(row.recommend)}</span><span class="verdict-chip">${escape(verdictLabels[row.real_product]||row.real_product)}</span></div>
+  ${row.missing?`<p class="feedback-text">${escape(row.missing)}</p>`:''}
+  ${row.contact?`<p class="feedback-contact">${escape(row.contact)}</p>`:''}
+ </article>`).join(''):'<p class="empty">Responses will appear here as radiologists fill in the form.</p>';
+}
 function render(data){
+ feedback(data);
  if(!data.sites.some(site=>site.site==='atlas'))data.sites.push({site:'atlas',live:0,day:0,week:0,period:0,last_seen:null});
  if(!data.sites.some(site=>site.site==='blindspot')&&(data.events||[]).some(row=>row.site==='blindspot'))data.sites.push({site:'blindspot',live:0,day:0,week:0,period:0,last_seen:null});
  $('freshness').textContent=`Loaded ${new Date(data.generatedAt).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}`;

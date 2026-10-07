@@ -1,5 +1,6 @@
 import {handleRequests} from '../../../dog/requests-api.mjs';
 import {handleAnalytics} from '../../../dog/analytics-api.mjs';
+import {handleFeedback} from '../../../dog/feedback-api.mjs';
 import {handle} from './v2.mjs';
 import {handleDog} from '../../../dog/api.mjs';
 const json = (data, status = 200, headers = {}) => new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json', ...headers } });
@@ -23,6 +24,7 @@ export default {
     const path = new URL(request.url).pathname;
     if(path.startsWith('/analytics/')||path.startsWith('/stats/')) return handleAnalytics(request,env,headers);
     if(path==='/requests') return handleRequests(request,env,headers);
+    if(path.startsWith('/feedback/')) return handleFeedback(request,env,headers);
     if(path.startsWith('/dog/')) return handleDog(request,env,headers);
     if(path==='/health') return json({ok:true,version:2},200,headers);
     if(path.startsWith('/v2/')) return handle(request,env,{json,headers,hash,tokenFor,userFrom,defaultState});
