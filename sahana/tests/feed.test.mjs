@@ -46,3 +46,13 @@ test('saved archive survives removal, filters and spreadsheet export remain safe
  assert.equal(visibleJobs([{...job,eligibility:'later'}],tracker,{...f,view:'discover'},now).length,0);
  assert.match(csvCell('=HYPERLINK("bad")'),/^"'/);
 });
+
+test('credit minimums and graduation cutoffs do not imply a wrong class year',()=>{
+ assert.equal(matchJob({...base,description:'By start date, a minimum of 30 completed college-level credit hours. Preferred Qualifications A completed bachelor’s degree.'},now).eligibility,'review');
+ assert.equal(matchJob({...base,description:'By start date, a minimum of 30 completed college-level credit hours.'},now).credits,30);
+ assert.equal(matchJob({...base,description:'Basic Qualifications: A completed bachelor’s degree plus enrollment in a Master’s program.'},now).eligibility,'later');
+ assert.equal(matchJob({...base,description:'If you are graduating prior to September 2027, you will not be eligible.'},now).eligibility,'review');
+ assert.equal(matchJob({...base,description:'Undergraduate or graduate with at least 4 or more semesters.'},now).eligibility,'later');
+ assert.equal(matchJob({...base,title:'Student Research Assistant',description:'Analyze public health data.'},now).health,true);
+ assert.equal(matchJob({...base,location:'Fort Eustis, Virginia'},now).local,false);
+});
