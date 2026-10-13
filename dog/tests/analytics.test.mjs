@@ -103,3 +103,22 @@ test('publicCorsHeaders admits the Blindspot domain and Vercel previews without 
  assert.deepEqual(publicCorsHeaders(new Request('https://test/analytics/track',{headers:{Origin:'https://www.ysunkara.com'}}),base),base);
  assert.deepEqual(publicCorsHeaders(new Request('https://test/analytics/track',{headers:{Origin:'https://evil.example'}}),{vary:'Origin'}),{vary:'Origin'});
 });
+
+test('writing reads accumulate active time, depth and city-level location per session',async()=>{
+ const f=fixture();try{
+  const post=(body,cf)=>handleAnalytics(Object.assign(new Request('https://test/analytics/read',{method:'POST',body:JSON.stringify(body),headers:{'user-agent':'Mozilla/5.0 (iPhone)'}}),{}),f.env,{});
+  const base={site:'writings',path:'/writings/the-gigawatt-standard/',visitor:'browser_reader',session:'session_one',title:'The Gigawatt Standard',referrer:'https://news.ycombinator.com'};
+  assert.equal((await post({...base,seconds:0,depth:5})).status,200);
+  assert.equal((await post({...base,seconds:15,depth:40})).status,200);
+  assert.equal((await post({...base,seconds:999,depth:20})).status,200);
+  assert.equal((await post({...base,path:'/writings/'})).status,400);
+  assert.equal((await post({...base,session:'bad id!'})).status,400);
+  const row=f.db.prepare('SELECT path,seconds,depth,referrer,device FROM analytics_reads').get();
+  assert.deepEqual({...row},{path:'/writings/the-gigawatt-standard',seconds:75,depth:40,referrer:'news.ycombinator.com',device:'mobile'});
+  const token=(await (await f.request('/stats/login',{method:'POST',body:JSON.stringify({password:'password'})})).json()).token;
+  const report=await (await f.request('/stats/data',{headers:{authorization:'Bearer '+token}})).json();
+  assert.equal(report.writings.totals.readers,1);
+  assert.equal(report.writings.articles[0].title,'The Gigawatt Standard');
+  assert.equal(report.writings.recent[0].seconds,75);
+ }finally{f.db.close();}
+});

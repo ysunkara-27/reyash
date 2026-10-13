@@ -42,8 +42,26 @@ function feedback(data){
   ${row.contact?`<p class="feedback-contact">${escape(row.contact)}</p>`:''}
  </article>`).join(''):'<p class="empty">Responses will appear here as radiologists fill in the form.</p>';
 }
+const duration=value=>{const seconds=Math.round(Number(value)||0);if(seconds<60)return`${seconds}s`;const minutes=Math.floor(seconds/60);return minutes<60?`${minutes}m ${String(seconds%60).padStart(2,'0')}s`:`${Math.floor(minutes/60)}h ${minutes%60}m`;};
+const countryNames=(()=>{try{return new Intl.DisplayNames(['en'],{type:'region'});}catch{return null;}})();
+const place=row=>{const country=row.country?(row.country==='US'?'US':countryNames?.of(row.country)||row.country):'';const parts=[row.city,row.region,country].filter(Boolean);return parts.length?parts.join(', '):'Unknown location';};
+const articleName=row=>row.title||row.path.replace('/writings/','');
+function writings(data){
+ const w=data.writings||{totals:{},articles:[],places:[],referrers:[],daily:[],recent:[]};
+ const t=w.totals||{};
+ $('writing-totals').innerHTML=[['Reading now',t.live],['Readers',t.readers],['Reads',t.reads],['Total time',null,duration(t.seconds)]].map(([label,value,text])=>`<article class="metric"><strong>${text??number(value)}</strong><span>${label.toUpperCase()}</span></article>`).join('');
+ $('writing-articles').innerHTML=w.articles.length?w.articles.map(row=>`<article class="article-row"><div><h3><a href="${escape(row.path)}" target="_blank" rel="noopener">${escape(articleName(row))}</a></h3><small>Last read ${ago(row.last_read)}</small></div>
+  <div><strong>${number(row.readers)}</strong><span>READERS</span></div><div><strong>${number(row.reads)}</strong><span>READS · ${number(row.reads_week)} THIS WEEK</span></div>
+  <div><strong>${duration(row.avg_seconds)}</strong><span>AVG TIME</span></div><div><strong>${Math.round(row.avg_depth||0)}%</strong><span>AVG SCROLL</span></div>
+  <div><strong>${number(row.finished)}</strong><span>FINISHED</span></div></article>`).join(''):'<p class="empty">Reads will appear here once people open an article.</p>';
+ $('writing-places').innerHTML=w.places.length?w.places.map(row=>`<div class="table-row"><span>${escape(place(row))}</span><strong>${number(row.readers)} <em>readers · ${duration(row.seconds)}</em></strong></div>`).join(''):'<p class="empty">No locations yet.</p>';
+ $('writing-referrers').innerHTML=w.referrers.length?w.referrers.map(row=>`<div class="table-row"><span>${escape(row.referrer==='direct'?'Direct or unknown':row.referrer)}</span><strong>${number(row.reads)}</strong></div>`).join(''):'<p class="empty">No referrers yet.</p>';
+ $('writing-daily').innerHTML=bars(w.daily,row=>new Date(row.day+'T12:00:00').toLocaleDateString([],{month:'short',day:'numeric'}));
+ $('writing-recent').innerHTML=w.recent.length?w.recent.map(row=>`<div class="table-row"><em>${new Date(row.started).toLocaleString([],{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}</em><span>${escape(articleName(row))}</span><span>${escape(place(row))}</span><strong>${duration(row.seconds)}</strong><strong>${number(row.depth)}%</strong><em>${escape(row.device||'')}${row.referrer?' · '+escape(row.referrer):''}</em></div>`).join(''):'<p class="empty">No reads yet.</p>';
+}
 function render(data){
  feedback(data);
+ writings(data);
  if(!data.sites.some(site=>site.site==='atlas'))data.sites.push({site:'atlas',live:0,day:0,week:0,period:0,last_seen:null});
  if(!data.sites.some(site=>site.site==='blindspot')&&(data.events||[]).some(row=>row.site==='blindspot'))data.sites.push({site:'blindspot',live:0,day:0,week:0,period:0,last_seen:null});
  $('freshness').textContent=`Loaded ${new Date(data.generatedAt).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}`;
