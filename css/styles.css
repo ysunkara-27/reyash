@@ -397,7 +397,8 @@ body.section-active .profile-pic:hover {
     opacity: 0.8;
 }
 
-.resume-item .links a {
+.resume-item .links a,
+.resume-item h3 a {
     color: var(--color-text);
     text-decoration: underline;
     text-decoration-thickness: 1px;

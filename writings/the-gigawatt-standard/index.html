@@ -1,0 +1,1098 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Gigawatt Standard</title>
+<meta name="description" content="AI compute used to be counted in chips. Now it's bought by the gigawatt and it's about to get a futures market. An essay by Yash Sunkara.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Libre+Franklin:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<meta name="author" content="Yash Sunkara">
+<link rel="canonical" href="https://ysunkara.com/writings/the-gigawatt-standard">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Gigawatt Standard">
+<meta property="og:description" content="AI compute used to be counted in chips. Now it's bought by the gigawatt, and it's about to get a futures market. What that market is pricing in, and where I think it's wrong.">
+<meta property="og:url" content="https://ysunkara.com/writings/the-gigawatt-standard">
+<meta property="og:image" content="https://ysunkara.com/writings/the-gigawatt-standard/og.png">
+<meta property="article:published_time" content="2026-10-13">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Gigawatt Standard">
+<meta name="twitter:description" content="AI compute is now bought in gigawatts and about to get a futures market. What the first GPU forward curve says, and where I think it's wrong.">
+<meta name="twitter:image" content="https://ysunkara.com/writings/the-gigawatt-standard/og.png">
+<style>html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<style>
+/* Layout: magazine longform. Night-ground "camera" sections zoom between one GPU and every gigawatt the labs signed;
+   a narrow serif reading column carries the argument; charts pin in place and change as text cards scroll over them. */
+:root{
+  --paper:#f3f4f1; --paper-2:#e8eae5; --card:#ffffff;
+  --ink:#14171a; --ink-2:#454b52; --ink-3:#6c737b; --rule:#d3d7d1;
+  --night:#0b0e11; --night-2:#141920; --night-ink:#eef0eb; --night-ink-2:#a3abb3; --night-rule:#262c33;
+  --amber:#a35f00; --glow:#ffb22e; --glow-dim:#1e1b15;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#9aa1a9;
+  --n-custom:#22b07d; --n-amd:#e0662f; --n-nvidia:#3d8ae6; --n-other:#8d949c;
+  --zone-a:rgba(27,175,122,.10); --zone-b:rgba(163,95,0,.08); --zone-c:rgba(42,120,214,.10);
+  --f-serif:"Newsreader","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --f-sans:"Libre Franklin","Franklin Gothic Book","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --measure:37.5rem;
+  --cardw:min(380px,34vw);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#111417; --paper-2:#181c20; --card:#1b2025;
+    --ink:#e9ebe7; --ink-2:#b6bcc2; --ink-3:#8b939b; --rule:#2c3238;
+    --amber:#f2a93b; --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#6d747c;
+    --zone-a:rgba(25,158,112,.16); --zone-b:rgba(242,169,59,.10); --zone-c:rgba(57,135,229,.16);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111417; --paper-2:#181c20; --card:#1b2025;
+  --ink:#e9ebe7; --ink-2:#b6bcc2; --ink-3:#8b939b; --rule:#2c3238;
+  --amber:#f2a93b; --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#6d747c;
+  --zone-a:rgba(25,158,112,.16); --zone-b:rgba(242,169,59,.10); --zone-c:rgba(57,135,229,.16);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-serif);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+
+/* masthead */
+.masthead{position:fixed;top:0;left:0;right:0;z-index:40;padding-top:env(safe-area-inset-top,0px);
+  background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:saturate(1.2) blur(8px);-webkit-backdrop-filter:saturate(1.2) blur(8px);
+  border-bottom:1px solid var(--rule);transform:translateY(-110%);transition:transform .35s ease}
+.masthead.on{transform:none}
+.masthead .row{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.6rem 16px;max-width:76rem;margin:0 auto}
+.masthead .t{font:600 .95rem/1 var(--f-serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.masthead .part{font:500 .7rem/1.2 var(--f-sans);color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
+.progress{height:2px}
+.progress span{display:block;height:100%;width:0;background:var(--amber)}
+
+/* zoom stages (night camera) */
+.zsec{position:relative;background:var(--night);color:var(--night-ink)}
+.zstage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.zstage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero{height:520vh}
+.hero .shade{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 75% at 18% 90%,rgba(11,14,17,.94) 0%,rgba(11,14,17,.75) 42%,rgba(11,14,17,.12) 78%,rgba(11,14,17,0) 100%)}
+@media (max-width:640px){.hero .shade{background:linear-gradient(180deg,rgba(11,14,17,0) 0%,rgba(11,14,17,.3) 32%,rgba(11,14,17,.9) 60%,rgba(11,14,17,.96) 100%)}}
+.hero-copy{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:0 16px 6.2rem;max-width:76rem;margin:0 auto;will-change:opacity,transform}
+.kicker{font:600 .74rem/1.2 var(--f-sans);letter-spacing:.16em;text-transform:uppercase;color:var(--glow);margin:0 0 1.1rem}
+.hero h1{font-family:var(--f-serif);font-weight:300;font-variation-settings:"opsz" 72;font-size:clamp(3.1rem,10.5vw,8.6rem);line-height:.92;letter-spacing:-.025em;margin:0 0 1.4rem;max-width:11ch;text-wrap:balance}
+.dek{font:400 clamp(1.1rem,2vw,1.42rem)/1.45 var(--f-serif);max-width:36rem;margin:0 0 1.5rem;text-wrap:pretty}
+.byline{font:500 .82rem/1.4 var(--f-sans);color:var(--night-ink-2);margin:0}
+.byline strong{color:var(--night-ink);font-weight:600}
+.meter{position:absolute;z-index:2;left:16px;right:16px;bottom:1.4rem;max-width:76rem;margin:0 auto;display:flex;justify-content:space-between;gap:1rem;font:400 .72rem/1.4 var(--f-sans);color:var(--night-ink-2)}
+.meter .read{font:500 .8rem/1 var(--f-mono);color:var(--glow);white-space:nowrap}
+.caps{position:absolute;inset:0;pointer-events:none;z-index:3}
+.cap{position:absolute;left:50%;bottom:9vh;transform:translateX(-50%);text-align:center;opacity:0;width:max-content;max-width:92vw;padding:1rem 1.6rem 1.1rem;background:rgba(11,14,17,.82);border-radius:4px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.cap .big{font:300 clamp(2.2rem,6vw,4rem)/1 var(--f-serif);font-variation-settings:"opsz" 72;letter-spacing:-.02em;display:block}
+.cap .small{font:500 .82rem/1.4 var(--f-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--glow);display:block;margin-top:.6rem}
+.zlegend{position:absolute;z-index:3;right:16px;bottom:1.1rem;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:.3rem .9rem;margin:0;padding:0;list-style:none;font:500 .74rem/1.2 var(--f-sans);color:var(--night-ink-2);opacity:0;max-width:min(60vw,40rem)}
+.zlegend li{display:flex;align-items:center;gap:.4rem}
+.zsw{width:10px;height:10px;border-radius:2px;display:inline-block}
+.zsec .steps{position:relative;margin-top:-100vh;margin-top:-100svh;pointer-events:none;padding-bottom:10vh}
+@media (max-width:900px){.zlegend{left:16px;right:16px;justify-content:flex-start;max-width:none;bottom:auto;top:calc(52px + env(safe-area-inset-top,0px))}}
+
+/* prose */
+.prose{max-width:var(--measure);margin:0 auto;padding:4.5rem 16px;font-size:1.25rem;line-height:1.62}
+.prose p{margin:0 0 1.15em;text-wrap:pretty}
+.prose p:last-child{margin-bottom:0}
+.prose h3{font:600 .78rem/1.3 var(--f-sans);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:2.6em 0 1.1em}
+.dropcap::first-letter{float:left;font-weight:500;font-variation-settings:"opsz" 72;font-size:5.35em;line-height:.8;margin:.07em .09em 0 -.02em}
+.fn{font:600 .58em/0 var(--f-sans);vertical-align:super;color:var(--amber);text-decoration:none;margin-left:.08em;padding:0 .08em}
+.fn:hover{text-decoration:underline}
+.endmark{display:inline-block;width:.6em;height:.6em;background:var(--amber);margin-left:.3em}
+@media (max-width:640px){.prose{font-size:1.125rem;padding-block:3.25rem}}
+
+/* chapter breaks */
+.chapter{position:relative;background:var(--night);color:var(--night-ink);overflow:hidden;padding:clamp(6rem,20vh,12rem) 16px}
+.chapter .lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.chapter .lines path{fill:none;stroke:var(--night-rule);stroke-width:1.2}
+.chapter .lines path.pulse{stroke:var(--glow);stroke-width:1.6;stroke-dasharray:40 1400;stroke-dashoffset:1440;opacity:.85;animation:pulse 5.5s linear infinite}
+@keyframes pulse{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion: reduce){.chapter .lines path.pulse{animation:none;opacity:0}}
+.chapter .inner{position:relative;max-width:76rem;margin:0 auto;transform-origin:20% 50%;will-change:transform,opacity}
+.chapter .part{font:500 .78rem/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--glow);margin:0 0 1.2rem}
+.chapter h2{font:300 clamp(2.6rem,7.5vw,5.8rem)/.98 var(--f-serif);font-variation-settings:"opsz" 72;letter-spacing:-.02em;margin:0 0 1rem;max-width:14ch;text-wrap:balance}
+.chapter .cdek{font:italic 400 clamp(1.1rem,2vw,1.35rem)/1.45 var(--f-serif);color:var(--night-ink-2);margin:0;max-width:32rem}
+
+/* chart scrollies */
+.scrolly{position:relative}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.figure{position:absolute;inset:0;padding:5.2rem 2.5rem 3.2rem calc(var(--cardw) + max(2rem,4vw) + 3rem);display:flex;flex-direction:column;margin:0}
+.fig-head{display:flex;flex-direction:column;gap:.45rem;margin-bottom:.8rem;min-height:3.2rem}
+.fig-title{font:600 1rem/1.3 var(--f-sans);margin:0;text-wrap:balance}
+.legend{display:flex;flex-wrap:wrap;gap:.35rem 1rem;font:500 .76rem/1.2 var(--f-sans);color:var(--ink-2);margin:0;padding:0;list-style:none}
+.legend li{display:flex;align-items:center;gap:.4rem}
+.sw{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none}
+.sw.sq{border-radius:2px}
+.fig-body{position:relative;flex:1;min-height:0}
+.fig-body svg{display:block;width:100%;height:100%;overflow:visible}
+.fig-src{font:400 .72rem/1.35 var(--f-sans);color:var(--ink-3);margin:.6rem 0 0}
+.steps{position:relative;margin-top:-100vh;margin-top:-100svh;pointer-events:none;padding-bottom:20vh}
+.step{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:0 0 0 max(2rem,4vw)}
+.card{pointer-events:auto;width:var(--cardw);background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:1.25rem 1.4rem;
+  font:400 1.06rem/1.55 var(--f-serif);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 30px rgba(0,0,0,.07)}
+.card.dark{background:rgba(20,25,32,.92);border-color:var(--night-rule);color:var(--night-ink);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.card.dark .fn{color:var(--glow)}
+.card strong{font-weight:650}
+.card p{margin:0}
+.card p+p{margin-top:.7em}
+.steps .spacer{display:none}
+@media (max-width:900px){
+  :root{--cardw:min(92vw,430px)}
+  .figure{padding:4.1rem 16px 37svh}
+  .fig-head{min-height:0;margin-bottom:.5rem}
+  .fig-title{font-size:.92rem}
+  .legend{font-size:.7rem;gap:.25rem .7rem}
+  .fig-src{font-size:.66rem}
+  .step{justify-content:center;align-items:flex-end;padding:0 16px 3svh}
+  .card{background:color-mix(in srgb,var(--card) 95%,transparent);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);font-size:.97rem;line-height:1.5;padding:1rem 1.1rem}
+  .card.dark{background:rgba(20,25,32,.93)}
+  .steps .spacer{display:block;height:30svh}
+}
+
+/* chart text */
+.ax text{fill:var(--ink-3);font:500 11.5px var(--f-sans);font-variant-numeric:tabular-nums}
+.grid line{stroke:var(--rule);stroke-width:1;shape-rendering:crispEdges}
+.lbl{fill:var(--ink-2);font:500 12px var(--f-sans)}
+.lbl-s{fill:var(--ink-3);font:400 11.5px var(--f-sans)}
+.lbl-b{fill:var(--ink);font:600 13px var(--f-sans)}
+.val{fill:var(--ink);font:600 12.5px var(--f-sans);font-variant-numeric:tabular-nums}
+.halo{paint-order:stroke;stroke:var(--paper);stroke-width:4px;stroke-linejoin:round}
+.bar{fill:var(--ink-3)} .bar.hl{fill:var(--amber)} .bar.ext{fill:var(--ink-3);opacity:.35}
+.line{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.line.s1{stroke:var(--s1)} .line.s2{stroke:var(--s2)} .line.fwd{stroke:var(--s1);opacity:.55}
+.pt{stroke:var(--paper);stroke-width:2}
+.pt.s1{fill:var(--s1)} .pt.s2{fill:var(--s2)} .pt.fwd{fill:var(--paper);stroke:var(--s1);stroke-width:2}
+.anno-line{stroke:var(--ink-3);stroke-width:1}
+.callband{fill:var(--amber);opacity:.16}
+.callline{stroke:var(--amber);stroke-width:2}
+
+/* tooltip */
+.tip{position:fixed;left:0;top:0;z-index:60;max-width:270px;background:var(--ink);color:var(--paper);border-radius:3px;padding:.55rem .7rem;font:400 .78rem/1.4 var(--f-sans);pointer-events:none;box-shadow:0 6px 20px rgba(0,0,0,.18)}
+.tip b{font-weight:600}
+.tip .m{opacity:.75}
+
+/* data tables */
+details.data{max-width:var(--measure);margin:0 auto;padding:0 16px 1rem;font:400 .85rem/1.45 var(--f-sans);color:var(--ink-2)}
+details.data summary{cursor:pointer;font-weight:600;padding:.6rem 0;border-top:1px solid var(--rule)}
+details.data .tw{overflow-x:auto}
+details.data table{border-collapse:collapse;width:100%;margin:.4rem 0 1rem;font-variant-numeric:tabular-nums}
+details.data th,details.data td{text-align:left;padding:.35rem .6rem .35rem 0;border-bottom:1px solid var(--rule);vertical-align:top}
+details.data th{font-weight:600;color:var(--ink)}
+details.data td.n{text-align:right}
+
+/* model */
+.model{max-width:68rem;margin:0 auto;padding:0 16px 1rem}
+.model-frame{border-top:2px solid var(--ink);padding-top:1.2rem}
+.model-head h4{font:600 1.05rem/1.3 var(--f-sans);margin:0 0 .3rem}
+.model-head p{font:400 .86rem/1.45 var(--f-sans);color:var(--ink-3);margin:0 0 1.2rem;max-width:44rem}
+.model-grid{display:grid;grid-template-columns:minmax(0,17rem) minmax(0,1fr);gap:2rem;align-items:start}
+.controls{display:flex;flex-direction:column;gap:1.1rem}
+.ctl label{display:flex;justify-content:space-between;gap:.5rem;font:500 .8rem/1.3 var(--f-sans);color:var(--ink-2);margin-bottom:.35rem}
+.ctl output{font:600 .86rem/1.3 var(--f-sans);color:var(--ink);font-variant-numeric:tabular-nums}
+.ctl .hint{font:400 .72rem/1.35 var(--f-sans);color:var(--ink-3);margin-top:.3rem}
+input[type=range]{width:100%;accent-color:var(--amber);height:1.4rem;margin:0}
+.btn{align-self:flex-start;font:600 .78rem/1 var(--f-sans);color:var(--ink);background:transparent;border:1px solid var(--rule);border-radius:3px;padding:.55rem .8rem;cursor:pointer}
+.btn:hover{border-color:var(--ink-3)}
+.mchart{position:relative;height:360px;min-width:0;touch-action:none}
+.mchart svg{display:block;width:100%;height:100%;overflow:visible;cursor:crosshair}
+.zone-a{fill:var(--zone-a)} .zone-b{fill:var(--zone-b)} .zone-c{fill:var(--zone-c)}
+.hurdle{fill:none;stroke-width:2}
+.hurdle.p{stroke:var(--s3)} .hurdle.c{stroke:var(--s1)}
+.you{fill:var(--ink);stroke:var(--paper);stroke-width:2.5}
+.you-line{stroke:var(--ink);stroke-width:1;opacity:.45}
+.readout{font:400 .95rem/1.5 var(--f-serif);color:var(--ink-2);margin:.9rem 0 0}
+.readout b{color:var(--ink);font-weight:650}
+.verdicts{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.2rem}
+.verdict{border-top:1px solid var(--rule);padding-top:.7rem}
+.verdict .k{font:600 .7rem/1.2 var(--f-sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:0 0 .3rem}
+.verdict .v{font:500 1.5rem/1.15 var(--f-serif);margin:0 0 .25rem;display:flex;align-items:center;gap:.5rem}
+.verdict .v .sw{width:12px;height:12px}
+.verdict .d{font:400 .78rem/1.4 var(--f-sans);color:var(--ink-3);margin:0;font-variant-numeric:tabular-nums}
+@media (max-width:820px){.model-grid{grid-template-columns:1fr}.mchart{height:300px}.verdicts{grid-template-columns:1fr}}
+
+/* calls */
+.calls{list-style:none;counter-reset:c;margin:1.6rem 0 0;padding:0;display:flex;flex-direction:column;gap:1.8rem}
+.calls li{counter-increment:c;display:grid;grid-template-columns:2.4rem minmax(0,1fr);gap:0 .6rem}
+.calls li::before{content:counter(c);font:300 2.3rem/1 var(--f-serif);font-variation-settings:"opsz" 72;color:var(--amber);grid-row:1 / span 3}
+.calls h4{font:600 1.25rem/1.3 var(--f-serif);margin:0 0 .35rem;text-wrap:balance}
+.calls p{font-size:1.06rem;line-height:1.58;margin:0}
+.calls .wrong{font:400 .86rem/1.45 var(--f-sans);color:var(--ink-3);margin-top:.45rem}
+
+/* notes */
+.notes{border-top:1px solid var(--rule);background:var(--paper-2)}
+.notes .prose{font-size:.98rem;line-height:1.55;padding-block:3.5rem}
+.notes h3{margin-top:0}
+.notes ol{padding-left:1.6rem;margin:0;font:400 .84rem/1.5 var(--f-sans);color:var(--ink-2)}
+.notes ol li{margin-bottom:.55rem;padding-left:.2rem;scroll-margin-top:5rem}
+.notes ol li:target{background:color-mix(in srgb,var(--amber) 14%,transparent)}
+.notes ol a{color:var(--ink);text-decoration-color:var(--rule);text-underline-offset:2px;word-break:break-word}
+.about{max-width:var(--measure);margin:0 auto;padding:2.5rem 16px 4rem;font:400 .95rem/1.55 var(--f-serif);color:var(--ink-2)}
+.about b{color:var(--ink)}
+
+/* reading-mode toggle, preface, references */
+.readtoggle{position:absolute;z-index:5;top:calc(16px + env(safe-area-inset-top,0px));right:16px;font:600 .74rem/1 var(--f-sans);letter-spacing:.03em;color:var(--night-ink);background:rgba(11,14,17,.62);border:1px solid var(--night-rule);border-radius:999px;padding:.62rem .95rem;cursor:pointer;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.readtoggle:hover{border-color:var(--glow);color:var(--glow)}
+.masthead .rowr{display:flex;align-items:center;gap:.6rem;min-width:0}
+.masthead .mt{font:600 .68rem/1 var(--f-sans);color:var(--ink-2);background:none;border:1px solid var(--rule);border-radius:999px;padding:.38rem .62rem;cursor:pointer;white-space:nowrap}
+.masthead .mt:hover{border-color:var(--ink-3);color:var(--ink)}
+.masthead .rowl{display:flex;align-items:center;gap:.75rem;min-width:0}
+.masthead .back{font:500 .7rem/1.2 var(--f-sans);color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;text-decoration:none}
+.masthead .back:hover{color:var(--ink)}
+@media (max-width:520px){.masthead .part{display:none}}
+.preface{font:italic 400 1.04rem/1.55 var(--f-serif);color:var(--ink-2);border-left:2px solid var(--amber);padding:.15rem 0 .15rem 1rem;margin:0 0 2.2rem !important}
+sup.ref{font:600 .6em/0 var(--f-sans);vertical-align:super;margin-left:.05em}
+sup.ref a{color:var(--amber);text-decoration:none;padding:0 .08em}
+sup.ref a:hover{text-decoration:underline}
+.card.dark sup.ref a{color:var(--glow)}
+/* eviction panel */
+.evpanel{position:absolute;z-index:3;right:24px;top:84px;width:min(360px,30vw);background:rgba(11,14,17,.88);border:1px solid var(--night-rule);border-radius:4px;padding:1rem 1.1rem;font:500 .78rem/1.35 var(--f-sans);color:var(--night-ink-2);opacity:0;transition:opacity .4s}
+.evpanel h5{font:600 .68rem/1.2 var(--f-sans);letter-spacing:.12em;text-transform:uppercase;color:var(--night-ink-2);margin:0 0 .8rem}
+.evrow{margin-bottom:.85rem;transition:opacity .4s}
+.evrow:last-child{margin-bottom:0}
+.evrow .lab{display:flex;justify-content:space-between;gap:.6rem;color:var(--night-ink);margin-bottom:.35rem}
+.evrow .lab b{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.evbar{position:relative;height:12px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
+.evbar i{position:absolute;top:0;bottom:0;left:0;border-radius:2px;background:currentColor;transition:width .6s cubic-bezier(.3,.7,.2,1),left .6s cubic-bezier(.3,.7,.2,1)}
+.evbar i.ext{opacity:.4}
+.evrow.h100{color:var(--glow)} .evrow.newc{color:var(--n-nvidia)}
+.evrow .note{font-weight:400;color:var(--night-ink-2);margin-top:.35rem}
+@media (max-width:900px){.evpanel{left:16px;right:16px;width:auto;top:calc(52px + env(safe-area-inset-top,0px));padding:.7rem .85rem}.evpanel h5{margin-bottom:.5rem}.evrow{margin-bottom:.5rem}}
+/* text-only mode */
+.plain-only{display:none}
+html.plain .plain-only{display:inline}
+html.plain .hero{height:auto}
+html.plain .hero .zstage{position:relative;height:auto;overflow:visible;padding:6.5rem 0 3.5rem}
+html.plain #hzCanvas,html.plain .hero .shade,html.plain .meter,html.plain .caps{display:none}
+html.plain .hero-copy{position:relative;padding-bottom:0;opacity:1 !important;transform:none !important}
+html.plain .zsec:not(.hero){background:var(--paper);color:var(--ink)}
+html.plain .zsec:not(.hero) .zstage,html.plain .scrolly .stage,html.plain .model,html.plain details.data,html.plain .interactive-only,html.plain .steps .spacer,html.plain .zlegend,html.plain .evpanel{display:none !important}
+html.plain .steps{margin:0 auto !important;padding:0 16px 1rem !important;max-width:var(--measure)}
+html.plain .step{min-height:0 !important;display:block;padding:0 !important}
+html.plain .card,html.plain .card.dark{width:auto;background:none !important;border:0;box-shadow:none;padding:0;color:var(--ink);font-size:1.25rem;line-height:1.62;margin:0 0 1.15em;backdrop-filter:none;-webkit-backdrop-filter:none;border-radius:0}
+html.plain .card.dark sup.ref a{color:var(--amber)}
+html.plain .chapter{padding-block:3.5rem}
+html.plain .prose{padding-block:2.5rem}
+html.plain .chapter .inner{transform:none !important;opacity:1 !important}
+@media (max-width:640px){html.plain .card,html.plain .card.dark{font-size:1.125rem}}
+</style>
+</head>
+<body>
+<header class="masthead" id="masthead">
+  <div class="row"><span class="rowl"><a class="back" href="/writings">← Writings</a><span class="t">The Gigawatt Standard</span></span><span class="rowr"><span class="part" id="mhPart">Introduction</span><button class="mt" id="mtToggle" type="button" aria-pressed="false">Text-only version</button></span></div>
+  <div class="progress"><span id="prog"></span></div>
+</header>
+
+<!-- HERO: zooms in from one gigawatt to one GPU -->
+<section class="zsec hero" id="hz" aria-label="Title">
+  <div class="zstage">
+    <canvas id="hzCanvas" aria-hidden="true"></canvas>
+    <button class="readtoggle" id="readToggle" type="button" aria-pressed="false">Text-only version</button>
+    <div class="shade" id="hzShade"></div>
+    <div class="hero-copy" id="hzCopy">
+      <p class="kicker">Compute · Essay</p>
+      <h1>The Gigawatt Standard</h1>
+      <p class="dek">AI compute used to be counted in chips. Now it’s bought by the gigawatt, and it’s about to get a futures market. I wanted to know what that market is pricing in, and where I think it’s wrong.</p>
+      <p class="byline">By <strong>Yash Sunkara</strong> · October 2026 · 8 min read</p>
+    </div>
+    <div class="meter" id="hzMeter" aria-hidden="true"><span class="read"><span id="meterVal">0</span> MW <span id="meterGW"></span></span><span>Each square is one megawatt. Scroll to zoom in.</span></div>
+    <div class="caps" aria-hidden="true">
+      <div class="cap" data-i="1"><span class="big">1 megawatt</span><span class="small">About ten racks</span></div>
+      <div class="cap" data-i="2"><span class="big">1 rack</span><span class="small">72 GPUs</span></div>
+      <div class="cap" data-i="3"><span class="big">1 GPU</span><span class="small">How the industry used to keep score</span></div>
+      <div class="cap" data-i="4"><span class="big">Inside the chip</span><span class="small">The die, plus the memory stacked beside it</span></div>
+    </div>
+  </div>
+</section>
+
+<main>
+<div class="prose" data-part="Introduction">
+  <p class="preface">A quick note: I’m trying out the scrollytelling style The New York Times Magazine uses, because I love how they tell stories. If you’d rather just read, there’s a text-only version at the top.</p>
+  <p class="dropcap">In my policy class, we learned about utility regulation: the rules for who gets to build power infrastructure and what they can charge for it. Around the same time, I kept seeing headlines about insane AI valuations and new apps launching every week. All of that has to come from somewhere, and a lot of it comes back to the stuff we were studying.</p>
+  <p>It reminded me of high school, when I was the youth representative on Stafford County’s utilities commission. It was about as boring as it sounds, but I wanted to learn how the stuff underneath everything actually works. I didn’t expect utilities to end up at the center of AI.</p>
+  <p>In early 2024, Meta described its AI plans by counting chips: 350,000 Nvidia H100s by the end of the year.<sup class="ref"><a href="#src-1" aria-label="Source 1">1</a></sup> Nobody talks like that anymore. AMD’s deal with Anthropic in July was for two gigawatts.<sup class="ref"><a href="#src-2" aria-label="Source 2">2</a></sup> OpenAI’s deal with Broadcom is for ten.<sup class="ref"><a href="#src-3" aria-label="Source 3">3</a></sup> Jensen Huang says a one-gigawatt AI data center costs $50 to $60 billion all in.<sup class="ref"><a href="#src-4" aria-label="Source 4">4</a></sup></p>
+  <p>The next step is already happening. CME and ICE both want to list futures on GPU rental prices. CME was set to launch H100 and B200 contracts on October 5, until the CFTC extended its review to November 9, citing “novel or complex issues.”<sup class="ref"><a href="#src-5" aria-label="Source 5">5</a></sup> Once compute has a futures market, it has a public price for next year. So I went through the deals, the rental data and the first forward curves to figure out what that price says, and whether I agree with it.</p>
+</div>
+
+<section class="chapter" data-part="I · Counting in Gigawatts" aria-labelledby="h-1">
+  <svg class="lines" viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M-20 70 Q 360 150 720 70 T 1460 70"/><path class="pulse" d="M-20 70 Q 360 150 720 70 T 1460 70"/>
+    <path d="M-20 100 Q 360 180 720 100 T 1460 100"/><path d="M-20 130 Q 360 210 720 130 T 1460 130"/>
+  </svg>
+  <div class="inner"><p class="part">Part I</p><h2 id="h-1">Counting in Gigawatts</h2><p class="cdek">Zooming out from one chip to everything the labs have signed</p></div>
+</section>
+
+<!-- LEDGER: zooms out from one GPU to every gigawatt -->
+<section class="zsec" id="zoom" data-part="I · Counting in Gigawatts" aria-label="Zoom from one GPU to 43 gigawatts of announced deals">
+  <div class="zstage">
+    <canvas id="zCanvas" aria-hidden="true"></canvas>
+    <ul class="zlegend" id="zLegend">
+      <li><span class="zsw" style="background:var(--n-custom)"></span>Custom chips</li>
+      <li><span class="zsw" style="background:var(--n-amd)"></span>AMD</li>
+      <li><span class="zsw" style="background:var(--n-nvidia)"></span>Nvidia</li>
+      <li><span class="zsw" style="background:var(--n-other)"></span>Cerebras</li>
+      <li><span class="zsw" style="background:var(--n-custom);opacity:.45"></span>Dimmer: potential (2028 TPUs)</li>
+      <li><span class="zsw" style="background:var(--glow)"></span>Actually running</li>
+    </ul>
+  </div>
+  <div class="steps">
+    <div class="spacer"></div>
+    <div class="step"><div class="card dark"><p><strong><span class="interactive-only">This is one GPU,</span><span class="plain-only">Start with one GPU,</span></strong> an Nvidia H100. It rents for about $2.85 an hour right now.<sup class="ref"><a href="#src-6" aria-label="Source 6">6</a></sup></p></div></div>
+    <div class="step"><div class="card dark"><p><strong>72 of them make one NVL72 rack.</strong> That rack cost about $3 million in 2025.<sup class="ref"><a href="#src-7" aria-label="Source 7">7</a></sup> Morgan Stanley estimates the new Vera Rubin version at about $7.8 million, and around $2 million of that is just memory.<sup class="ref"><a href="#src-8" aria-label="Source 8">8</a></sup></p></div></div>
+    <div class="step"><div class="card dark"><p><strong>Ten racks is about a megawatt,</strong> roughly 720 GPUs.</p></div></div>
+    <div class="step"><div class="card dark"><p><strong>A thousand megawatts is a gigawatt.</strong> That’s about what one nuclear reactor puts out.</p></div></div>
+    <div class="step"><div class="card dark"><p><strong>Since September 2025, OpenAI and Anthropic have announced about 43 gigawatts of chip deals sized like this.</strong><sup class="ref"><a href="#src-9" aria-label="Source 9">9</a></sup> 33 are custom chips like Google’s TPUs and Amazon’s Trainium. AMD has 8. Nvidia has 1, after its 10-gigawatt letter of intent with OpenAI never turned into a contract.<sup class="ref"><a href="#src-10" aria-label="Source 10">10</a></sup></p></div></div>
+    <div class="step"><div class="card dark"><p><strong>Here’s what’s actually running.</strong> OpenAI had about 1.9 gigawatts at the end of 2025.<sup class="ref"><a href="#src-11" aria-label="Source 11">11</a></sup></p></div></div>
+    <div class="spacer"></div>
+  </div>
+</section>
+
+<details class="data">
+  <summary>Data for this graphic</summary>
+  <div class="tw"><table>
+    <thead><tr><th>Buyer</th><th>Counterparty</th><th>Chip</th><th class="n">GW</th><th>Announced</th></tr></thead>
+    <tbody>
+      <tr><td>OpenAI</td><td>AMD</td><td>AMD MI450</td><td class="n">6</td><td>Oct 2025</td></tr>
+      <tr><td>OpenAI</td><td>Broadcom</td><td>Custom</td><td class="n">10</td><td>Oct 2025</td></tr>
+      <tr><td>OpenAI</td><td>Cerebras</td><td>Cerebras</td><td class="n">0.75</td><td>Jan 2026</td></tr>
+      <tr><td>OpenAI</td><td>Amazon</td><td>Custom (Trainium)</td><td class="n">2</td><td>Feb 2026</td></tr>
+      <tr><td>Anthropic</td><td>Microsoft and Nvidia</td><td>Nvidia</td><td class="n">1</td><td>Nov 2025</td></tr>
+      <tr><td>Anthropic</td><td>Google and Broadcom</td><td>Custom (TPU), 2026</td><td class="n">1</td><td>Oct 2025</td></tr>
+      <tr><td>Anthropic</td><td>Google and Broadcom</td><td>Custom (TPU), 2027</td><td class="n">5</td><td>Apr–Sep 2026</td></tr>
+      <tr><td>Anthropic</td><td>Google and Broadcom</td><td>Custom (TPU), 2028, potential</td><td class="n">10</td><td>Sep 2026</td></tr>
+      <tr><td>Anthropic</td><td>Amazon</td><td>Custom (Trainium)</td><td class="n">5</td><td>Apr 2026</td></tr>
+      <tr><td>Anthropic</td><td>AMD</td><td>AMD MI450</td><td class="n">2</td><td>Jul 2026</td></tr>
+      <tr><td>OpenAI</td><td>Nvidia</td><td>Nvidia (letter of intent, shelved; not drawn)</td><td class="n">10</td><td>Sep 2025</td></tr>
+    </tbody>
+  </table></div>
+</details>
+
+<div class="prose" data-part="I · Counting in Gigawatts">
+  <p>Two things stood out to me.</p>
+  <p>First, Nvidia barely shows up. Some of that is just how Nvidia sells. Its chips mostly reach the labs through clouds like Oracle and Microsoft, under contracts written in dollars, so they don’t appear here. Nvidia is fine. It booked $89 billion of data-center revenue last quarter.<sup class="ref"><a href="#src-12" aria-label="Source 12">12</a></sup> But when a lab signs with a chipmaker directly and picks the chip itself, it keeps picking the cheaper gigawatt. That makes sense once you remember the labs are the most cash-strapped buyers in this market. OpenAI expects to burn close to $280 billion through 2030, according to the Financial Times.<sup class="ref"><a href="#src-13" aria-label="Source 13">13</a></sup></p>
+  <p>Second, signed and running are very different numbers. A gigawatt deal is basically an option on power that might take years to show up. The typical power project that came online in the U.S. in 2025 waited more than five years to connect to the grid.<sup class="ref"><a href="#src-14" aria-label="Source 14">14</a></sup> The chip isn’t the bottleneck anymore. The watt is.</p>
+</div>
+
+<section class="chapter" data-part="II · The Curve" aria-labelledby="h-2">
+  <svg class="lines" viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M-20 300 Q 360 220 720 300 T 1460 300"/><path class="pulse" d="M-20 270 Q 360 190 720 270 T 1460 270"/>
+    <path d="M-20 270 Q 360 190 720 270 T 1460 270"/><path d="M-20 240 Q 360 160 720 240 T 1460 240"/>
+  </svg>
+  <div class="inner"><p class="part">Part II</p><h2 id="h-2">The Curve</h2><p class="cdek">What the first GPU futures are pricing in</p></div>
+</section>
+
+<section class="scrolly" id="rent" data-part="II · The Curve">
+  <div class="stage">
+    <figure class="figure" aria-label="GPU rental prices per GPU and per kilowatt, then the H100 price history and forward curve">
+      <div class="fig-head">
+        <p class="fig-title" id="rentTitle"></p>
+        <ul class="legend" id="rentLegend"></ul>
+      </div>
+      <div class="fig-body" id="rentBody"></div>
+      <p class="fig-src" id="rentSrc"></p>
+    </figure>
+  </div>
+  <div class="steps">
+    <div class="spacer"></div>
+    <div class="step"><div class="card"><p><strong>Here’s what each GPU rents for this week.</strong><sup class="ref"><a href="#src-6" aria-label="Source 6">6</a></sup> Nvidia’s newest chip, the B300, costs 4.4 times as much per hour as an A100 from 2020.</p></div></div>
+    <div class="step"><div class="card"><p><strong>Now divide by how much power each chip draws.</strong> The spread drops to about 1.4 to 1.7 times. Per watt, the market is already pricing these chips almost the same.</p></div></div>
+    <div class="step"><div class="card"><p><strong>The H100 had a big year.</strong> Silicon Data’s index went from $2.00 in December to $2.85 now.<sup class="ref"><a href="#src-6" aria-label="Source 6">6</a></sup> A four-year-old chip went up more than 40%.</p></div></div>
+    <div class="step"><div class="card"><p><strong>Zoom out, and the forward curve tells a different story.</strong> In September, Silicon Data’s H100 curve priced a year out at about $2.14, around 19% below spot.<sup class="ref"><a href="#src-15" aria-label="Source 15">15</a></sup> The B200 curve was about 12% below.<sup class="ref"><a href="#src-16" aria-label="Source 16">16</a></sup> The market thinks this rally fades.</p></div></div>
+    <div class="step"><div class="card"><p><strong>My call is lower than that.</strong> I think the H100 is under $2 an hour by the end of 2027.</p></div></div>
+    <div class="spacer"></div>
+  </div>
+</section>
+
+<details class="data">
+  <summary>Data for this graphic</summary>
+  <div class="tw"><table><thead><tr><th>GPU (Oct. 12, 2026)</th><th class="n">$/GPU-hour</th><th class="n">Rated power</th><th class="n">$/kW-hour</th></tr></thead><tbody id="genTable"></tbody></table></div>
+  <div class="tw"><table><thead><tr><th>Date</th><th>Series</th><th class="n">$/GPU-hour</th></tr></thead><tbody id="rentTable"></tbody></table></div>
+</details>
+
+<div class="prose" data-part="II · The Curve">
+  <p>The per-watt result is what got me interested in futures in the first place. If rent mostly tracks the power a chip uses, then compute is starting to trade like an energy commodity. The exchanges seem to agree. ICE’s second compute contract, with a startup called NATIVX, settles on an “energy-normalized” compute index and is meant to trade next to ICE’s power and gas futures.<sup class="ref"><a href="#src-17" aria-label="Source 17">17</a></sup></p>
+  <p>So why do I think the H100 curve is still too high? It comes down to what happens inside a data center when power is the limit.</p>
+</div>
+
+<section class="zsec" id="evict" data-part="II · The Curve" aria-label="Zoom into one megawatt of a data center as H100s are swapped for B300s">
+  <div class="zstage">
+    <canvas id="evCanvas" aria-hidden="true"></canvas>
+    <div class="evpanel" id="evPanel" aria-hidden="true">
+      <h5>Revenue per megawatt, per hour</h5>
+      <div class="evrow h100"><div class="lab"><span>H100s</span><b>$4,100</b></div><div class="evbar"><i style="width:62.6%"></i></div></div>
+      <div class="evrow newc" id="evNew" style="opacity:0"><div class="lab"><span id="evNewLab">B300s</span><b id="evNewVal"></b></div><div class="evbar"><i id="evLo"></i><i class="ext" id="evExt"></i></div><div class="note" id="evNote"></div></div>
+    </div>
+  </div>
+  <div class="steps">
+    <div class="spacer"></div>
+    <div class="step"><div class="card dark"><p><strong>Picture a data center with a fixed amount of power.</strong> <span class="interactive-only">Every square here is one megawatt. </span>You can’t get more power, so the question is what you put on each megawatt.</p></div></div>
+    <div class="step"><div class="card dark"><p><strong>Here’s one megawatt filled with H100s,</strong> about 1,400 of them. At today’s index they earn about $4,100 an hour together.</p></div></div>
+    <div class="step"><div class="card dark"><p><strong>Now swap in B300s.</strong> Each one draws more power, so only about 700 to 900 fit. But they earn $4,750 to $6,050 an hour, depending on how you rate their power.</p></div></div>
+    <div class="step"><div class="card dark"><p><strong>But you have to pay for them.</strong> At about $69,000 per GPU slot,<sup class="ref"><a href="#src-7" aria-label="Source 7">7</a></sup> spread over five years, that’s $1,100 to $1,400 an hour. After that, swapping ranges from 11% worse to 13% better. Basically a wash, which is why people still rent H100s.</p></div></div>
+    <div class="step"><div class="card dark"><p><strong>That changes when newer chips earn about a third more per watt.</strong> Then pulling the H100s out pays for itself. Vera Rubin is already in full production.<sup class="ref"><a href="#src-12" aria-label="Source 12">12</a></sup> I don’t think the H100 dies because demand goes away. I think it gets kicked out of its power slot.</p></div></div>
+    <div class="spacer"></div>
+  </div>
+</section>
+
+<div class="prose" data-part="II · The Curve">
+  <p>That’s also why I’d read the H100 and B200 curves together, as a spread. Both slope down, but the H100 slopes down faster. If I’m right about eviction, that gap gets wider.</p>
+  <p>There’s already a floor under part of this market. It’s just private. Nvidia now guarantees minimum revenue to some neoclouds that buy its chips and will rent back their idle capacity.<sup class="ref"><a href="#src-18" aria-label="Source 18">18</a></sup> In one SemiAnalysis example, the guarantee works out to an average of about $2.36 an hour over six years.<sup class="ref"><a href="#src-19" aria-label="Source 19">19</a></sup> That’s a put option, written by the company selling the chips. Lenders want that protection because, as SemiAnalysis puts it, there’s no active derivatives market to tell them what a GPU will be worth later. That’s the real case for compute futures. Lenders need a public price for what a GPU is worth in three years, and right now they’re guessing.</p>
+</div>
+
+<section class="chapter" data-part="III · Watts or Dollars" aria-labelledby="h-3">
+  <svg class="lines" viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M-20 160 Q 360 240 720 160 T 1460 160"/><path class="pulse" d="M-20 190 Q 360 270 720 190 T 1460 190"/>
+    <path d="M-20 190 Q 360 270 720 190 T 1460 190"/><path d="M-20 220 Q 360 300 720 220 T 1460 220"/>
+  </svg>
+  <div class="inner"><p class="part">Part III</p><h2 id="h-3">Watts or Dollars</h2><p class="cdek">Which chip you should buy depends on what you’re short on</p></div>
+</section>
+
+<div class="prose" data-part="III · Watts or Dollars">
+  <p>So who should buy which chip? The Next Platform puts Nvidia’s Vera Rubin systems at about $40 billion per gigawatt and custom accelerator systems at about $15 billion.<sup class="ref"><a href="#src-20" aria-label="Source 20">20</a></sup> Nvidia’s pitch is that it gets more work out of every watt.</p>
+  <p>I think the answer depends on what you run out of first. If you have money but not power, every watt matters, so you buy whatever does the most with each one. If you have power but not money, every dollar matters. I built a small model to see where that line actually falls.<span class="interactive-only"> Drag the dot.</span></p>
+</div>
+
+<section class="model" id="model" data-part="III · Watts or Dollars" aria-labelledby="mh">
+  <div class="model-frame">
+    <div class="model-head">
+      <h4 id="mh">How much better does Nvidia need to be?</h4>
+      <p>The lines show how much more output per watt Nvidia needs to beat a custom chip. Below the green line, custom chips win either way. Above the blue line, Nvidia wins either way. In between, it depends on whether watts or dollars run out first.</p>
+    </div>
+    <div class="model-grid">
+      <div class="controls">
+        <div class="ctl"><label for="mR">Revenue per gigawatt-year <output id="oR"></output></label><input type="range" id="mR" min="5" max="40" step="0.5"><div class="hint">What a gigawatt of current-generation compute earns</div></div>
+        <div class="ctl"><label for="mK">Nvidia’s output-per-watt advantage <output id="oK"></output></label><input type="range" id="mK" min="1" max="3" step="0.05"><div class="hint">Useful output per watt vs. a good custom chip</div></div>
+        <div class="ctl"><label for="mN">Nvidia systems per gigawatt <output id="oN"></output></label><input type="range" id="mN" min="20" max="60" step="1"></div>
+        <div class="ctl"><label for="mX">Custom systems per gigawatt <output id="oX"></output></label><input type="range" id="mX" min="8" max="30" step="1"></div>
+        <button class="btn" id="mReset" type="button">Reset to defaults</button>
+      </div>
+      <div style="min-width:0">
+        <div class="mchart" id="mChart"></div>
+        <p class="readout" id="mRead"></p>
+        <div class="verdicts">
+          <div class="verdict"><p class="k">If watts run out first</p><p class="v" id="vW"></p><p class="d" id="vWd"></p></div>
+          <div class="verdict"><p class="k">If dollars run out first</p><p class="v" id="vD"></p><p class="d" id="vDd"></p></div>
+        </div>
+      </div>
+    </div>
+    <p class="fig-src">My model. Systems are written off over five years and a $15 billion facility over 20; electricity is $0.7 billion per gigawatt-year. Financing and taxes are left out. Method in the notes.</p>
+  </div>
+</section>
+
+<div class="prose" data-part="III · Watts or Dollars">
+  <p>With my defaults, Nvidia needs about 1.25 times the output per watt of a custom chip to win when power is the constraint, but about 1.9 times when money is. My guess is the real number is somewhere in between. If that’s right, it explains the ledger. Hyperscalers and neoclouds are short on power, so they keep buying Nvidia. The labs are short on cash, so they sign for custom chips.</p>
+  <h3>What I’m watching</h3>
+  <ol class="calls">
+    <li><h4>H100 under $2 an hour by the end of 2027.</h4><p>Silicon Data’s illustrative strip has December 2027 around $2.16.<sup class="ref"><a href="#src-15" aria-label="Source 15">15</a></sup> I’m taking the under.</p><p class="wrong">I’m wrong if it holds above $2.50.</p></li>
+    <li><h4>The H100–B200 spread gets wider.</h4><p>Newer chips hold their value better than the curve implies while power stays tight.</p><p class="wrong">I’m wrong if the B200 falls as fast as the H100.</p></li>
+    <li><h4>2028 is when money gets tighter than power.</h4><p>Nvidia is already backstopping its customers’ lenders,<sup class="ref"><a href="#src-18" aria-label="Source 18">18</a></sup> and CoreWeave’s interest expense is a quarter of its revenue.<sup class="ref"><a href="#src-21" aria-label="Source 21">21</a></sup> When that flips, custom chips win more of the spending. I expect Broadcom’s AI revenue to reach 40% of Nvidia’s data-center revenue in 2028, up from about 19% last quarter.<sup class="ref"><a href="#src-22" aria-label="Source 22">22</a></sup></p><p class="wrong">I’m wrong if it’s still under 25%.</p></li>
+    <li><h4>Lenders, not labs, become the first big users of GPU futures.</h4><p>They’re the ones holding six-year risk on chips that reprice every year.</p><p class="wrong">I’m wrong if the first big hedger named publicly is an AI lab.</p></li>
+  </ol>
+  <h3>The standard</h3>
+  <p>Compute used to be counted in chips. Now it’s bought in gigawatts, and soon it’ll have a futures curve anyone can look up. If you want to know where AI infrastructure is heading, I’d watch that curve more closely than any product launch.</p>
+  <p>Looking forward to writing more. Stay tuned.<span class="endmark" aria-hidden="true"></span></p>
+</div>
+</main>
+
+<section class="notes" id="notes" data-part="Notes and sources">
+  <div class="prose">
+    <h3>How I did the math</h3>
+    <p><b>Zoom.</b> One square = one GPU; 72 make an NVL72 rack; ten racks (720 GPUs, about 1.4 kW each including server and cooling) make about a megawatt; 1,000 megawatts make a gigawatt. The ledger counts compute deals sized in gigawatts that OpenAI or Anthropic announced from September 2025 to October 2026, at their announced ceilings. Deals written only in dollars (Oracle, Azure, AWS’s original $38 billion) aren’t included, which undercounts Nvidia.</p>
+    <p><b>Per-watt prices.</b> Silicon Data index values on Oct. 12, 2026, divided by rated GPU power: A100 400 W; MI300X 750 W; H100 and H200 700 W; B200 1,000–1,200 W; B300 1,100–1,400 W (HGX vs. Grace Blackwell ratings).</p>
+    <p><b>Eviction test.</b> A megawatt of GPU rated power holds about 1,429 H100s at $2.85 an hour, or 714 to 909 B300s at $6.65. B300 capital is $69,000 per GPU slot (a GB300 NVL72 rack at just under $5 million, ÷ 72), straight-line over five years. Interest is left out, which would make swapping less attractive.</p>
+    <p><b>Model.</b> Annual cost per gigawatt = systems ÷ 5 + $15B facility ÷ 20 + $0.7B electricity. A custom gigawatt earns R a year; an Nvidia gigawatt earns k × R. If watts are scarce, compare profit per gigawatt. If dollars are scarce, compare profit per dollar of capital. The $20B default R is about 465,000 B200s per facility gigawatt × $5.94 an hour × 8,760 hours × 85% utilization.</p>
+    <p><b>Forward curve.</b> Silicon Data’s no-arbitrage implied forwards from Sept. 7, 2026, plus its illustrative 2027 strip. Exchange-listed contracts haven’t traded yet. This is analysis, not investment advice.</p>
+    <h3>Sources</h3>
+    <ol>
+      <li id="src-1">Meta Engineering, “Building Meta’s GenAI Infrastructure,” Mar. 12, 2024. <a href="https://engineering.fb.com/2024/03/12/data-center-engineering/building-metas-genai-infrastructure/" target="_blank" rel="noopener">engineering.fb.com</a></li>
+      <li id="src-2">AMD, “AMD and Anthropic announce strategic partnership,” July 2026. <a href="https://newsroom.amd.com/news/amd-anthropic-strategic-partnership/" target="_blank" rel="noopener">newsroom.amd.com</a></li>
+      <li id="src-3">OpenAI, “OpenAI and Broadcom announce strategic collaboration,” Oct. 13, 2025. <a href="https://openai.com/index/openai-and-broadcom-announce-strategic-collaboration/" target="_blank" rel="noopener">openai.com</a></li>
+      <li id="src-4">Benzinga, on Barclays’ analysis of Huang’s $50–60 billion per gigawatt, Sept. 30, 2025. <a href="https://benzinga.com/markets/equities/25/09/47935027/nvidias-jensen-math-of-50-billion-revenue-per-gw-gets-a-reality-check-heres-what-barclays-analysts-project-for-nvda" target="_blank" rel="noopener">benzinga.com</a></li>
+      <li id="src-5">CME Group, “CME Group and Silicon Data to launch compute futures on October 5,” Aug. 11, 2026 (<a href="https://www.cmegroup.com/media-room/press-releases/2026/8/11/cme_group_and_silicondatatolaunchcomputefuturesonoctober5tounloc.html" target="_blank" rel="noopener">cmegroup.com</a>); CFTC letter extending review to Nov. 9, 2026, Sept. 21, 2026 (<a href="https://www.cftc.gov/filings/documents/2026/orgdcmnymexcompcontr260921.pdf" target="_blank" rel="noopener">cftc.gov</a>); ICE and Ornn GPU compute futures, May 19, 2026 (<a href="https://www.businesswire.com/news/home/20260519470467/en/ICE-and-Ornn-to-Launch-GPU-Compute-Futures-Contracts" target="_blank" rel="noopener">businesswire.com</a>).</li>
+      <li id="src-6">Silicon Data: <a href="https://www.silicondata.com/products/silicon-index/h100" target="_blank" rel="noopener">GPU rental indexes</a>; <a href="https://www.silicondata.com/blog/h100-price-spike" target="_blank" rel="noopener">“H100 price spike,” Jan. 9, 2026</a>; <a href="https://www.silicondata.com/blog/h200-vs-h100-rental-prices-may-july-2026" target="_blank" rel="noopener">H200 vs. H100, May–July 2026</a>. Earlier readings via <a href="https://spectrum.ieee.org/gpu-prices" target="_blank" rel="noopener">IEEE Spectrum</a>.</li>
+      <li id="src-7">Wing Venture Capital, “How much does an Nvidia NVL72 cost?” Aug. 2026. <a href="https://www.wing.vc/content/how-much-does-an-nvidia-nvl72-cost" target="_blank" rel="noopener">wing.vc</a></li>
+      <li id="src-8">Tom’s Hardware, on Morgan Stanley’s Vera Rubin cost estimate, May 21, 2026. <a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/nvidias-memory-costs-soar-485-percent-latest-ai-systems-now-cost-usd7-8-million-to-build-memory-now-comprises-25-percent-of-the-total-cost-rubin-gpus-a-mere-usd50-000-apiece" target="_blank" rel="noopener">tomshardware.com</a></li>
+      <li id="src-9">Deal announcements: <a href="https://openai.com/index/openai-amd-strategic-partnership/" target="_blank" rel="noopener">OpenAI–AMD</a>; <a href="https://openai.com/index/openai-and-broadcom-announce-strategic-collaboration/" target="_blank" rel="noopener">OpenAI–Broadcom</a>; <a href="https://openai.com/index/cerebras-partnership/" target="_blank" rel="noopener">OpenAI–Cerebras</a>; <a href="https://openai.com/index/amazon-partnership/" target="_blank" rel="noopener">OpenAI–Amazon</a>; <a href="https://www.anthropic.com/news/microsoft-nvidia-anthropic-announce-strategic-partnerships" target="_blank" rel="noopener">Anthropic–Microsoft–Nvidia</a>; <a href="https://www.anthropic.com/news/anthropic-amazon-compute" target="_blank" rel="noopener">Anthropic–Amazon</a>; <a href="https://newsroom.amd.com/news/amd-anthropic-strategic-partnership/" target="_blank" rel="noopener">Anthropic–AMD</a>; Anthropic’s TPU schedule per Broadcom, via <a href="https://www.nextplatform.com/connect/2026/09/10/broadcom-rides-rocketing-trend-for-custom-ai-accelerators/5295681" target="_blank" rel="noopener">The Next Platform</a>.</li>
+      <li id="src-10">DatacenterDynamics, “Nvidia plans $30bn investment in upcoming OpenAI funding round,” Feb. 2026 (citing the Financial Times). <a href="https://www.datacenterdynamics.com/en/news/nvidia-plans-30bn-investment-in-upcoming-openai-funding-round/" target="_blank" rel="noopener">datacenterdynamics.com</a></li>
+      <li id="src-11">Sarah Friar, “A business that scales with the value of intelligence,” OpenAI, Jan. 18, 2026. <a href="https://openai.com/index/a-business-that-scales-with-the-value-of-intelligence/" target="_blank" rel="noopener">openai.com</a></li>
+      <li id="src-12">Nvidia, second-quarter fiscal 2027 results, Aug. 26, 2026. <a href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2027" target="_blank" rel="noopener">nvidianews.nvidia.com</a></li>
+      <li id="src-13">The Star, “OpenAI forecasts cash burn near $280 billion by 2030, FT reports,” Sept. 19, 2026. <a href="https://www.thestar.com.my/tech/tech-news/2026/09/19/openai-forecasts-cash-burn-near-280-billion-by-2030-ft-reports" target="_blank" rel="noopener">thestar.com.my</a></li>
+      <li id="src-14">Lawrence Berkeley National Laboratory, “Queued Up,” 2026 edition. <a href="https://emp.lbl.gov/news/backlog-power-plants-seeking-transmission-grid-connection-eased-somewhat-2025-amidst" target="_blank" rel="noopener">emp.lbl.gov</a></li>
+      <li id="src-15">Silicon Data, “A practitioner’s guide to hedging with compute futures,” 2026 (H100 forward curve as of Sept. 7, 2026). <a href="https://www.silicondata.com/blog/practitioners-guide-compute-future-hedge-step-by-step" target="_blank" rel="noopener">silicondata.com</a></li>
+      <li id="src-16">Silicon Data, “B200 rental price: August 2026 update,” Sept. 2026. <a href="https://www.silicondata.com/blog/b200-rental-price-august-2026-update" target="_blank" rel="noopener">silicondata.com</a></li>
+      <li id="src-17">ICE, “ICE and NATIVX to launch energy-normalized compute futures contracts,” July 1, 2026. <a href="https://ir.theice.com/press/news-details/2026/ICE-and-NATIVX-to-Launch-Energy-Normalized-Compute-Futures-Contracts/default.aspx" target="_blank" rel="noopener">ir.theice.com</a></li>
+      <li id="src-18">Capacity, “Nvidia now agrees to rent back unused GPU capacity from neocloud operators,” Aug. 14, 2026. <a href="https://capacityglobal.com/news/nvidia-now-agrees-to-rent-back-unused-gpu-capacity-from-neocloud-operators-if-customer-demand-falls-short/" target="_blank" rel="noopener">capacityglobal.com</a></li>
+      <li id="src-19">SemiAnalysis, “Nvidia GPU debt backstop unleashes the AI project trinity,” July 6, 2026. <a href="https://newsletter.semianalysis.com/i/204512487/how-to-price-a-gpu-loan" target="_blank" rel="noopener">semianalysis.com</a></li>
+      <li id="src-20">Timothy Prickett Morgan, “Broadcom rides rocketing trend for custom AI accelerators,” The Next Platform, Sept. 10, 2026. <a href="https://www.nextplatform.com/connect/2026/09/10/broadcom-rides-rocketing-trend-for-custom-ai-accelerators/5295681" target="_blank" rel="noopener">nextplatform.com</a></li>
+      <li id="src-21">CoreWeave, second-quarter 2026 results, Aug. 11, 2026. <a href="https://investors.coreweave.com/news/news-details/2026/CoreWeave-Reports-Strong-Second-Quarter-2026-Results/default.aspx" target="_blank" rel="noopener">investors.coreweave.com</a></li>
+      <li id="src-22">Nasdaq, “Broadcom Q3 earnings call highlights,” Sept. 2026 (AI revenue $16.7B vs. Nvidia data-center revenue $89.0B). <a href="https://www.nasdaq.com/articles/broadcom-q3-earnings-call-highlights" target="_blank" rel="noopener">nasdaq.com</a></li>
+    </ol>
+  </div>
+</section>
+
+<footer class="about">
+  <p><b>Yash Sunkara</b> studies computer science and public policy at the University of Virginia and builds software tools. Figures are as of Oct. 12, 2026. Corrections welcome.</p>
+</footer>
+
+<div class="tip" id="tip" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+(function(){
+"use strict";
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const DUR = reduce ? 0 : 900;
+const $ = (s, r=document) => r.querySelector(s);
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const tip = $('#tip');
+function showTip(html, ev){ tip.innerHTML = html; tip.hidden = false; moveTip(ev); }
+function moveTip(ev){ const pad=14, r=tip.getBoundingClientRect(); let x=ev.clientX+pad, y=ev.clientY+pad;
+  if (x + r.width > innerWidth - 8) x = ev.clientX - r.width - pad; if (y + r.height > innerHeight - 8) y = ev.clientY - r.height - pad;
+  tip.style.transform = `translate(${Math.max(8,x)}px,${Math.max(8,y)}px)`; }
+function hideTip(){ tip.hidden = true; }
+function onResize(fn){ let t; addEventListener('resize', () => { clearTimeout(t); t = setTimeout(fn, 140); }); }
+const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+/* ======================= ZOOM ENGINE ======================= */
+const GEO = (() => {
+  const RW=8, RH=9, RG=1.2, MC=5, MR=2, MG=3, GC=25, GR=40, BG=80;
+  const rPW=RW+RG, rPH=RH+RG, mwW=MC*rPW-RG, mwH=MR*rPH-RG, mPW=mwW+MG, mPH=mwH+MG;
+  return { RW, RH, RG, MC, MR, MG, GC, GR, BG, rPW, rPH, mwW, mwH, mPW, mPH, gwW: GC*mPW-MG, gwH: GR*mPH-MG };
+})();
+const FOCUS = { mw: 20*GEO.GC + 12, rack: 7, gpu: 4*GEO.RW + 3 };
+const mwXY = (b, i) => [b.x + (i % GEO.GC)*GEO.mPW, b.y + Math.floor(i / GEO.GC)*GEO.mPH];
+const rackXY = (mx, my, j) => [mx + (j % GEO.MC)*GEO.rPW, my + Math.floor(j / GEO.MC)*GEO.rPH];
+function focusRects(b){
+  const [mx,my] = mwXY(b, FOCUS.mw), [rx,ry] = rackXY(mx, my, FOCUS.rack);
+  const gx = rx + (FOCUS.gpu % GEO.RW), gy = ry + Math.floor(FOCUS.gpu / GEO.RW);
+  return { gpu:{x:gx,y:gy,w:1,h:1}, rack:{x:rx,y:ry,w:GEO.RW,h:GEO.RH}, mw:{x:mx,y:my,w:GEO.mwW,h:GEO.mwH}, block:{x:b.x,y:b.y,w:GEO.gwW,h:GEO.gwH} };
+}
+const hex2rgb = h => { h = h.replace('#',''); if (h.length===3) h = h.split('').map(c => c+c).join(''); const n = parseInt(h,16); return [n>>16&255, n>>8&255, n&255]; };
+const mixc = (a, b, t) => [0,1,2].map(i => Math.round(a[i] + (b[i]-a[i])*t));
+const rgb = c => `rgb(${c[0]},${c[1]},${c[2]})`;
+function fit(r, frac, vis){ const s = Math.min(vis.w*frac/r.w, vis.h*frac/r.h); return { cx: r.x + r.w/2, cy: r.y + r.h/2, s }; }
+function union(a, b){ const x = Math.min(a.x,b.x), y = Math.min(a.y,b.y); return { x, y, w: Math.max(a.x+a.w, b.x+b.w) - x, h: Math.max(a.y+a.h, b.y+b.h) - y }; }
+function bounds(list){ let x0=Infinity,y0=Infinity,x1=-Infinity,y1=-Infinity; list.forEach(b => { x0=Math.min(x0,b.x); y0=Math.min(y0,b.y); x1=Math.max(x1,b.x+GEO.gwW); y1=Math.max(y1,b.y+GEO.gwH); }); return { x:x0, y:y0, w:x1-x0, h:y1-y0 }; }
+function ease(f, hold){ const u = clamp((f - hold)/(1 - 2*hold), 0, 1); return u*u*(3 - 2*u); }
+function camAt(stops, t, hold){
+  if (t <= 0) return { ...stops[0] }; if (t >= stops.length - 1) return { ...stops[stops.length-1] };
+  const i = clamp(Math.floor(t), 0, stops.length - 2), A = stops[i], B = stops[i+1], e = ease(t - i, hold);
+  if (Math.abs(A.s - B.s) < 1e-9) return { cx: A.cx + (B.cx-A.cx)*e, cy: A.cy + (B.cy-A.cy)*e, s: A.s };
+  const s = Math.exp(Math.log(A.s) + (Math.log(B.s) - Math.log(A.s))*e);
+  const Fx = (A.cx*A.s - B.cx*B.s)/(A.s - B.s), Fy = (A.cy*A.s - B.cy*B.s)/(A.s - B.s);
+  return { cx: Fx - (Fx - A.cx)*A.s/s, cy: Fy - (Fy - A.cy)*A.s/s, s };
+}
+const T = [0.5, 2.4, 10];
+function lods(s, minLevel){
+  let out = [[0,1]];
+  for (let k = T.length - 1; k >= 0; k--){ if (s >= T[k]){ const a = Math.min(1, (s/T[k] - 1)/0.45); out = a < 1 ? [[k,1-a],[k+1,a]] : [[k+1,1]]; break; } }
+  out = out.map(([l,a]) => [Math.max(l, minLevel), a]);
+  if (out.length === 2 && out[0][0] === out[1][0]) out = [[out[0][0], 1]];
+  return out;
+}
+
+class World {
+  constructor(cv){ this.cv = cv; this.ctx = cv.getContext('2d'); this.tex = new Map(); }
+  size(){ const r = this.cv.getBoundingClientRect(); this.W = r.width; this.H = r.height; const d = Math.min(2, devicePixelRatio || 1);
+    this.cv.width = Math.round(this.W*d); this.cv.height = Math.round(this.H*d); this.ctx.setTransform(d,0,0,d,0,0); }
+  texture(c, n){
+    const key = c.join(',') + '|' + n; if (this.tex.has(key)) return this.tex.get(key);
+    const TS = 0.5, cv = document.createElement('canvas'); cv.width = Math.ceil(GEO.gwW*TS); cv.height = Math.ceil(GEO.gwH*TS);
+    const x = cv.getContext('2d'); x.fillStyle = rgb(c);
+    for (let i=0;i<n;i++){ const [mx,my] = mwXY({x:0,y:0}, i); x.fillRect(mx*TS, my*TS, GEO.mwW*TS, GEO.mwH*TS); }
+    this.tex.set(key, cv); return cv;
+  }
+  draw(cam, ax, ay, blocks, o){
+    const ctx = this.ctx, W = this.W, H = this.H, s = cam.s;
+    ctx.globalAlpha = 1; ctx.fillStyle = o.bg; ctx.fillRect(0,0,W,H);
+    const X = wx => (wx - cam.cx)*s + ax, Y = wy => (wy - cam.cy)*s + ay;
+    const vx0 = cam.cx - ax/s, vy0 = cam.cy - ay/s, vx1 = vx0 + W/s, vy1 = vy0 + H/s;
+    const L = lods(s, o.minLevel || 0);
+    for (const b of blocks){
+      if (b.alpha <= 0.002) continue;
+      if (b.x > vx1 || b.y > vy1 || b.x + GEO.gwW < vx0 || b.y + GEO.gwH < vy0) continue;
+      for (const [lv, la] of L){
+        const A = la*b.alpha; if (A <= 0.002) continue;
+        if (lv === 0){
+          if (b.mix && b.mix.t > 0 && b.mix.t < 1){
+            ctx.globalAlpha = A*(1 - b.mix.t); ctx.drawImage(this.texture(b.mix.a, b.n), X(b.x), Y(b.y), GEO.gwW*s, GEO.gwH*s);
+            ctx.globalAlpha = A*b.mix.t; ctx.drawImage(this.texture(b.mix.b, b.n), X(b.x), Y(b.y), GEO.gwW*s, GEO.gwH*s);
+          } else { ctx.globalAlpha = A; ctx.drawImage(this.texture(b.c, b.n), X(b.x), Y(b.y), GEO.gwW*s, GEO.gwH*s); }
+          continue;
+        }
+        ctx.globalAlpha = A;
+        const c0 = clamp(Math.floor((vx0 - b.x)/GEO.mPW), 0, GEO.GC-1), c1 = clamp(Math.floor((vx1 - b.x)/GEO.mPW), 0, GEO.GC-1);
+        const r0 = clamp(Math.floor((vy0 - b.y)/GEO.mPH), 0, GEO.GR-1), r1 = clamp(Math.floor((vy1 - b.y)/GEO.mPH), 0, GEO.GR-1);
+        const lit = b.ranks ? b.lit : Infinity, cs = rgb(b.c), cd = o.dim;
+        for (let r=r0; r<=r1; r++) for (let c=c0; c<=c1; c++){
+          const i = r*GEO.GC + c; if (i >= b.n) continue;
+          const on = !b.ranks || b.ranks[i] < lit, mx = b.x + c*GEO.mPW, my = b.y + r*GEO.mPH;
+          ctx.fillStyle = on ? cs : cd;
+          if (lv === 1){ ctx.fillRect(X(mx), Y(my), GEO.mwW*s, GEO.mwH*s); continue; }
+          for (let j=0;j<10;j++){
+            const [rx,ry] = rackXY(mx, my, j);
+            if (rx > vx1 || ry > vy1 || rx + GEO.RW < vx0 || ry + GEO.RH < vy0) continue;
+            if (lv === 2){ ctx.fillRect(X(rx), Y(ry), GEO.RW*s, GEO.RH*s); continue; }
+            const g = 0.11, w = (1 - 2*g)*s, det = s > 42;
+            for (let k=0;k<72;k++){
+              const gx = rx + (k % GEO.RW), gy = ry + Math.floor(k / GEO.RW);
+              if (gx > vx1 || gy > vy1 || gx + 1 < vx0 || gy + 1 < vy0) continue;
+              const px = X(gx + g), py = Y(gy + g);
+              ctx.fillStyle = on ? cs : cd; ctx.fillRect(px, py, w, w);
+              if (det && on){
+                ctx.fillStyle = 'rgba(255,255,255,.38)'; ctx.fillRect(px + w*0.32, py + w*0.3, w*0.36, w*0.4);
+                ctx.fillStyle = 'rgba(255,255,255,.2)';
+                for (let h=0; h<3; h++){ ctx.fillRect(px + w*0.14, py + w*(0.3 + h*0.14), w*0.12, w*0.11); ctx.fillRect(px + w*0.74, py + w*(0.3 + h*0.14), w*0.12, w*0.11); }
+              }
+            }
+          }
+        }
+      }
+    }
+    ctx.globalAlpha = 1;
+    if (o.focus && o.focus.a > 0.01){ const f = o.focus.r; ctx.strokeStyle = `rgba(255,255,255,${0.9*o.focus.a})`; ctx.lineWidth = 1.5;
+      const pad = 3; ctx.strokeRect(X(f.x) - pad, Y(f.y) - pad, f.w*s + 2*pad, f.h*s + 2*pad); }
+    if (o.labels) for (const l of o.labels){ if (l.a <= 0.01) continue;
+      const fs = l.size || 13;
+      ctx.globalAlpha = l.a; ctx.font = `600 ${fs}px "Libre Franklin", "Helvetica Neue", Arial, sans-serif`; ctx.textBaseline = 'top';
+      ctx.lineWidth = 4; ctx.lineJoin = 'round'; ctx.strokeStyle = 'rgba(11,14,17,.85)'; ctx.fillStyle = '#eef0eb';
+      const x = X(l.x) + 8, y = Y(l.y) + 8; ctx.strokeText(l.text, x, y); ctx.fillText(l.text, x, y);
+      if (l.sub){ ctx.font = `500 ${fs - 2}px "Libre Franklin", "Helvetica Neue", Arial, sans-serif`; ctx.strokeText(l.sub, x, y + fs + 4); ctx.fillStyle = '#c9ced3'; ctx.fillText(l.sub, x, y + fs + 4); }
+      ctx.globalAlpha = 1; }
+  }
+}
+function stepT(steps){
+  const m = innerHeight/2, cs = steps.map(el => { const r = el.getBoundingClientRect(); return r.top + r.height/2; });
+  if (m <= cs[0]) return 0;
+  for (let i=0;i<cs.length-1;i++) if (m <= cs[i+1]) return i + (m - cs[i])/(cs[i+1] - cs[i]);
+  return cs.length - 1;
+}
+const COL = () => ({ bg: cssv('--night') || '#0b0e11', glow: hex2rgb(cssv('--glow') || '#ffb22e'), dim: cssv('--glow-dim') || '#1e1b15',
+  custom: hex2rgb(cssv('--n-custom') || '#22b07d'), amd: hex2rgb(cssv('--n-amd') || '#e0662f'), nvidia: hex2rgb(cssv('--n-nvidia') || '#3d8ae6'), other: hex2rgb(cssv('--n-other') || '#8d949c') });
+
+/* ---------------- hero: zoom in ---------------- */
+(function hero(){
+  const sec = $('#hz'), world = new World($('#hzCanvas')), C = COL();
+  const copy = $('#hzCopy'), meter = $('#hzMeter'), shade = $('#hzShade'), caps = [...sec.querySelectorAll('.cap')];
+  const ranks = (() => { let seed = 42; const rnd = () => (seed = (seed*16807) % 2147483647)/2147483647;
+    const k = d3.range(1000).map(i => (i % GEO.GC)/GEO.GC*0.55 + (GEO.GR - 1 - Math.floor(i/GEO.GC))/GEO.GR*0.3 + rnd()*0.42);
+    const order = d3.range(1000).sort((a,b) => k[a] - k[b]); const r = new Int16Array(1000); order.forEach((ci, rank) => r[ci] = rank); return r; })();
+  const block = { x:0, y:0, n:1000, c:C.glow, alpha:1, ranks, lit: reduce ? 1000 : 0 };
+  let stops = [], vis, raf = null;
+  function layout(){ world.size(); vis = { x:0, y:0, w: world.W, h: world.H };
+    const f = focusRects(block); stops = [fit(f.block, world.W < 640 ? 0.96 : 0.92, vis), fit(f.mw, 0.62, vis), fit(f.rack, 0.42, vis), fit(f.gpu, 0.22, vis), fit(f.gpu, world.W < 640 ? 0.62 : 0.5, vis)]; }
+  function dieLabels(cam, a){
+    if (a <= 0.01) return;
+    const ctx = world.ctx, s = cam.s, ax = world.W/2, ay = world.H/2, f = focusRects(block).gpu, g = 0.11, w = (1 - 2*g)*s;
+    const px = (f.x + g - cam.cx)*s + ax, py = (f.y + g - cam.cy)*s + ay, nar = world.W < 640;
+    ctx.save(); ctx.globalAlpha = a; ctx.lineWidth = 1.3; ctx.strokeStyle = '#eef0eb'; ctx.lineJoin = 'round'; ctx.textBaseline = 'middle';
+    const txt = (t, sub, x, y, align) => { ctx.textAlign = align; ctx.font = '600 16px "Libre Franklin", Arial, sans-serif'; ctx.lineWidth = 5; ctx.strokeStyle = 'rgba(11,14,17,.9)'; ctx.strokeText(t, x, y); ctx.fillStyle = '#eef0eb'; ctx.fillText(t, x, y);
+      ctx.font = '500 13px "Libre Franklin", Arial, sans-serif'; ctx.strokeText(sub, x, y + 19); ctx.fillStyle = '#d9dde1'; ctx.fillText(sub, x, y + 19); };
+    const lead = (x1, y1, x2, y2) => { ctx.lineWidth = 1.3; ctx.strokeStyle = 'rgba(238,240,235,.85)'; ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke(); ctx.beginPath(); ctx.arc(x1, y1, 3, 0, Math.PI*2); ctx.fillStyle = '#eef0eb'; ctx.fill(); };
+    if (!nar){
+      lead(px + w*0.6, py + w*0.36, px + w + 20, py + w*0.16); txt('GPU die', 'Does the math', px + w + 28, py + w*0.16, 'left');
+      lead(px + w*0.2, py + w*0.6, px - 20, py + w*0.8); txt('HBM memory', 'The fastest-rising cost in the rack', px - 28, py + w*0.8, 'right');
+    } else {
+      lead(px + w*0.5, py + w*0.32, px + w*0.5, py - 22); txt('GPU die', 'Does the math', px + w*0.5, py - 44, 'center');
+      lead(px + w*0.2, py + w*0.66, px + w*0.2, py + w + 14); txt('HBM memory', 'Fastest-rising cost', px + w*0.2, py + w + 30, 'left');
+    }
+    ctx.restore();
+  }
+  function progress(){ const r = sec.getBoundingClientRect(), span = sec.offsetHeight - innerHeight; return clamp(-r.top/span, 0, 1)*(stops.length - 1); }
+  function render(){
+    raf = null; if (!world.W) return; const t = progress(), cam = camAt(stops, t, 0.1);
+    const fr = focusRects(block), fa = clamp((t - 0.25)/0.35, 0, 1)*(1 - clamp((t - 3.2)/0.3, 0, 1));
+    const fRect = t < 1.5 ? fr.mw : t < 2.5 ? fr.rack : fr.gpu;
+    world.draw(cam, world.W/2, world.H/2, [block], { bg: C.bg, dim: C.dim, minLevel: 1, focus: { r: fRect, a: fa } });
+    dieLabels(cam, clamp((t - 3.45)/0.35, 0, 1));
+    const o = 1 - clamp(t/0.5, 0, 1);
+    copy.style.opacity = meter.style.opacity = String(o); shade.style.opacity = String(0.25 + 0.75*o);
+    if (!reduce) copy.style.transform = `translateY(${(1-o)*-30}px)`;
+    caps.forEach(el => { const i = +el.dataset.i; el.style.opacity = String(clamp(1 - Math.abs(t - i)/0.42, 0, 1)); });
+  }
+  const req = () => { if (!raf) raf = requestAnimationFrame(render); };
+  layout(); render();
+  if (!reduce){ let t0 = null; const step = ts => { if (t0 === null) t0 = ts; const p = Math.min(1, (ts - t0)/3600), e = 1 - Math.pow(1-p, 2.4);
+      block.lit = Math.round(e*1000); $('#meterVal').textContent = block.lit.toLocaleString('en-US'); render();
+      if (p < 1) requestAnimationFrame(step); else $('#meterGW').textContent = '= 1 GW'; }; requestAnimationFrame(step); }
+  else { $('#meterVal').textContent = '1,000'; $('#meterGW').textContent = '= 1 GW'; }
+  addEventListener('scroll', req, { passive: true });
+  onResize(() => { layout(); render(); });
+})();
+
+/* ---------------- ledger: zoom out ---------------- */
+(function ledger(){
+  const sec = $('#zoom'), world = new World($('#zCanvas')), C = COL(), legend = $('#zLegend');
+  const steps = [...sec.querySelectorAll('.step')];
+  let blocks = [], live = [], stops = [], vis, ax, ay, groups = [], liveRect, focus, raf = null;
+  function layout(){
+    world.size();
+    const W = world.W, H = world.H, portrait = H > W*1.05, cols = portrait ? 5 : 9, g = GEO.BG;
+    const fams = [['custom', 33, 10], ['amd', 8, 0], ['nvidia', 1, 0], ['other', 0.75, 0]];
+    blocks = []; groups = []; let k = 0;
+    for (const [fam, gw, nOpt] of fams){
+      const full = Math.floor(gw), part = Math.round((gw - full)*1000), count = full + (part ? 1 : 0);
+      for (let i=0;i<count;i++){ const c = k % cols, r = Math.floor(k/cols);
+        const b = { x: c*(GEO.gwW + g), y: r*(GEO.gwH + g), n: i === full ? part : 1000, fam, opt: nOpt > 0 && i >= count - nOpt, alpha: 1 };
+        if (i === 0) groups.push({ b, fam }); blocks.push(b); k++; }
+    }
+    const L = bounds(blocks), lg = g*8;
+    const lx = L.x, ly = L.y + L.h + lg;
+    live = [{ x: lx, y: ly, n: 1000, fam: 'live', alpha: 0 }, { x: lx + GEO.gwW + g, y: ly, n: 900, fam: 'live', alpha: 0 }];
+    liveRect = bounds(live);
+    focus = blocks.find(b => b.fam === 'nvidia');
+    if (W > 900){ const left = Math.min(380, W*0.34) + Math.max(32, W*0.04) + 24; vis = { x: left, y: 60, w: W - left - 24, h: H - 110 }; }
+    else vis = { x: 12, y: 104, w: W - 24, h: H*0.62 - 116 };
+    ax = vis.x + vis.w/2; ay = vis.y + vis.h/2;
+    const f = focusRects(focus);
+    stops = [fit(f.gpu, 0.2, vis), fit(f.rack, 0.5, vis), fit(f.mw, 0.75, vis), fit(f.block, 0.85, vis), fit(L, 0.94, vis), fit(union(L, liveRect), 0.94, vis)];
+  }
+  const NAMES = { custom: ['Custom chips', '33 GW · Google TPU, AWS Trainium, Broadcom'], amd: ['AMD', '8 GW'], nvidia: ['Nvidia', '1 GW'], other: ['Cerebras', '0.75 GW'] };
+  function render(){
+    raf = null; if (!world.W) return; const t = stepT(steps), cam = camAt(stops, t, 0.16);
+    const m = ease(clamp((t - 3.25)/0.75, 0, 1), 0), la = ease(clamp(t - 4.1, 0, 1), 0);
+    blocks.forEach(b => { b.c = mixc(C.glow, C[b.fam], m); b.mix = { a: C.glow, b: C[b.fam], t: m };
+      b.alpha = (b.opt ? 1 - 0.55*m : 1)*(1 - 0.55*la); });
+    live.forEach(b => { b.c = C.glow; b.mix = null; b.alpha = la; });
+    const fr = focusRects(focus);
+    const fRect = t < 0.5 ? fr.gpu : t < 1.5 ? fr.rack : t < 2.5 ? fr.mw : fr.block;
+    const fa = t < 3.2 ? 1 : clamp((3.7 - t)/0.5, 0, 1);
+    const small = world.W < 640, lab = [];
+    if (m > 0.02) groups.forEach(gp => { const [n, sub] = NAMES[gp.fam]; lab.push({ x: gp.b.x, y: gp.b.y, text: n, sub: small && gp.fam === 'custom' ? '33 GW' : sub, a: m*(1 - 0.5*la), size: small ? 11 : 13 }); });
+    if (la > 0.02) lab.push({ x: live[0].x, y: live[0].y, text: 'Actually running', sub: 'OpenAI, end of 2025 · 1.9 GW', a: la, size: small ? 11 : 13 });
+    world.draw(cam, ax, ay, blocks.concat(live), { bg: C.bg, dim: C.dim, focus: { r: fRect, a: fa }, labels: lab });
+    legend.style.opacity = String(m);
+  }
+  const req = () => { if (!raf) raf = requestAnimationFrame(render); };
+  layout(); render();
+  addEventListener('scroll', () => { const r = sec.getBoundingClientRect(); if (r.bottom > -50 && r.top < innerHeight + 50) req(); }, { passive: true });
+  onResize(() => { layout(); render(); });
+})();
+
+/* ---------------- masthead, progress, chapter zoom ---------------- */
+(function chrome(){
+  const mh = $('#masthead'), prog = $('#prog'), part = $('#mhPart'), hero = $('#hz');
+  const chaps = [...document.querySelectorAll('.chapter .inner')];
+  function onScroll(){
+    const y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
+    mh.classList.toggle('on', y > hero.offsetHeight - 80);
+    prog.style.width = (max > 0 ? (y/max)*100 : 0) + '%';
+    if (reduce || document.documentElement.classList.contains('plain')) return;
+    chaps.forEach(el => { const r = el.parentNode.getBoundingClientRect(), d = ((r.top + r.height/2) - innerHeight/2)/innerHeight;
+      if (d > 1.3 || d < -1.3) return;
+      let sc, op = 1;
+      if (d > 0) sc = 1 - 0.3*Math.min(1, d);
+      else { const k = Math.min(1, -d); sc = 1 + 1.7*k*k; op = clamp(1 - (k - 0.08)*2.3, 0, 1); }
+      el.style.transform = `scale(${sc.toFixed(4)})`; el.style.opacity = op.toFixed(3); });
+  }
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) part.textContent = e.target.dataset.part; }), { rootMargin: '-45% 0px -54% 0px' });
+  document.querySelectorAll('[data-part]').forEach(el => io.observe(el));
+})();
+
+/* ---------------- scroll engine for chart scrollies ---------------- */
+function scrolly(section, onStep){
+  const steps = [...section.querySelectorAll('.step')]; let current = 0;
+  const io = new IntersectionObserver(entries => { entries.forEach(e => { if (!e.isIntersecting) return; const i = +e.target.dataset.i; if (i !== current){ current = i; onStep(i); } }); }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+  steps.forEach((s,i) => { s.dataset.i = i; io.observe(s); });
+}
+
+/* ======================= PART II — prices and the curve ======================= */
+(function rent(){
+  const pd = d3.timeParse('%Y-%m-%d');
+  const SD = [['2024-11-15',2.50,'Late 2024 (range $2.40–2.60)'],['2025-01-27',2.50,'Late Jan 2025'],['2025-02-15',2.30,'Feb 2025'],['2025-05-27',2.37,'May 27, 2025'],
+    null,['2025-12-09',2.00,'Dec 9, 2025'],['2026-01-06',2.20,'Jan 6, 2026'],['2026-05-04',2.57,'May 4, 2026'],['2026-05-31',2.73,'End of May 2026'],
+    ['2026-06-05',2.79,'Jun 5, 2026'],['2026-06-26',2.59,'Late Jun 2026'],['2026-07-27',2.75,'Jul 27, 2026'],['2026-09-07',2.63,'Sep 7, 2026'],['2026-10-12',2.85,'Oct 12, 2026']];
+  const SA = [['2025-10-15',1.70,'Oct 2025 (low)'],['2026-01-28',2.00,'Late Jan 2026'],['2026-03-15',2.35,'Mar 2026']];
+  const FW = [['2026-09-07',2.63,'Spot, Sep 7, 2026'],['2026-12-07',2.50,'3-month implied forward'],['2027-01-15',2.46,'Jan 2027 (illustrative strip)'],['2027-09-07',2.14,'12-month implied forward'],['2027-12-15',2.16,'Dec 2027 (illustrative strip)']];
+  const segs = []; let cur = [];
+  SD.forEach(r => { if (!r){ segs.push(cur); cur = []; } else cur.push({ d: pd(r[0]), v: r[1], lab: r[2], s:'Silicon Data index' }); }); segs.push(cur);
+  const sa = SA.map(r => ({ d: pd(r[0]), v: r[1], lab: r[2], s:'SemiAnalysis 1-year contract' }));
+  const fw = FW.map(r => ({ d: pd(r[0]), v: r[1], lab: r[2], s:'Silicon Data forward curve' }));
+  const GEN = [{ k:'A100', yr:'2020', p:1.51, kw:[0.4] }, { k:'MI300X', yr:'2023', p:2.64, kw:[0.75] }, { k:'H100', yr:'2022', p:2.85, kw:[0.7], hl:true },
+    { k:'H200', yr:'2024', p:3.35, kw:[0.7] }, { k:'B200', yr:'2025', p:5.94, kw:[1.0,1.2] }, { k:'B300', yr:'2025', p:6.65, kw:[1.1,1.4] }];
+  $('#genTable').innerHTML = GEN.map(g => `<tr><td>${g.k} (${g.yr})</td><td class="n">$${g.p.toFixed(2)}</td><td class="n">${g.kw.map(k => k*1000).join('–')} W</td><td class="n">${g.kw.map(k => '$'+(g.p/k).toFixed(2)).join(' to ')}</td></tr>`).join('');
+  const allPts = segs.flat().concat(sa, fw.slice(1));
+  $('#rentTable').innerHTML = allPts.slice().sort((a,b) => a.d - b.d).map(p => `<tr><td>${p.lab}</td><td>${p.s}</td><td class="n">$${p.v.toFixed(2)}</td></tr>`).join('');
+
+  const host = $('#rentBody'), svg = d3.select(host).append('svg').attr('role','img').attr('aria-label','GPU rental prices');
+  const gC = svg.append('g'), gL = svg.append('g');
+  let W = 0, H = 0, state = 0, domNow = null, anim = null;
+  const DA = [pd('2024-10-01'), pd('2026-11-15')], DB = [pd('2024-10-01'), pd('2028-01-31')];
+  const HEAD = [
+    ['Rental price per GPU-hour, Oct. 12, 2026', [['amber','H100'],['ink3','Other GPUs']], 'Source: Silicon Data index values. Year is each chip’s first shipments.'],
+    ['Rental price per kilowatt-hour of chip power, Oct. 12, 2026', [['amber','H100'],['ink3','Other GPUs'],['ext','Lighter: range of Blackwell power ratings']], 'My calculation: Silicon Data prices ÷ rated GPU power.'],
+    ['What it costs to rent one Nvidia H100 for an hour', [['s1','Silicon Data index'],['s2','SemiAnalysis 1-year contract']], 'Sources: Silicon Data (earlier readings via IEEE Spectrum); SemiAnalysis. No public readings June–November 2025.'],
+    ['H100 rental price, and what the forward curve expects', [['s1','Silicon Data index'],['s2','SemiAnalysis 1-year contract'],['fwd','Forward curve, Sept. 7']], 'Sources: Silicon Data implied forwards and illustrative 2027 strip; SemiAnalysis. Exchange futures have not traded yet.'],
+    ['H100 rental price, the forward curve, and my call', [['s1','Silicon Data index'],['fwd','Forward curve, Sept. 7'],['amber','My call']], 'Sources: Silicon Data; my forecast.'],
+  ];
+  function setHead(st){
+    $('#rentTitle').textContent = HEAD[st][0]; $('#rentSrc').textContent = HEAD[st][2];
+    $('#rentLegend').innerHTML = HEAD[st][1].map(([c,t]) => {
+      if (c==='amber') return `<li><span class="sw sq" style="background:var(--amber)"></span>${t}</li>`;
+      if (c==='ink3') return `<li><span class="sw sq" style="background:var(--ink-3)"></span>${t}</li>`;
+      if (c==='ext') return `<li><span class="sw sq" style="background:var(--ink-3);opacity:.35"></span>${t}</li>`;
+      if (c==='fwd') return `<li><span class="sw" style="background:transparent;border:2px solid var(--s1);opacity:.75"></span>${t}</li>`;
+      return `<li><span class="sw" style="background:var(--${c})"></span>${t}</li>`; }).join('');
+  }
+
+  function drawLine(st, dom){
+    gL.selectAll('*').remove();
+    if (st < 2) return;
+    const nar = W < 620, m = { l: 48, r: nar ? 46 : 96, t: 24, b: 34 };
+    const x = d3.scaleTime().domain(dom).range([m.l, W - m.r]), y = d3.scaleLinear().domain([1, 3.25]).range([H - m.b, m.t]);
+    gL.append('clipPath').attr('id', 'rclip').append('rect').attr('x', m.l).attr('y', 0).attr('width', W - m.l - m.r + 60).attr('height', H);
+    const grid = gL.append('g').attr('class','grid');
+    [1,1.5,2,2.5,3].forEach(t => grid.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(t)).attr('y2', y(t)));
+    const ax = gL.append('g').attr('class','ax');
+    [1,1.5,2,2.5,3].forEach(t => ax.append('text').attr('x', m.l - 8).attr('y', y(t) + 4).attr('text-anchor','end').text(`$${t.toFixed(2)}`));
+    const zoomed = dom[1] > DA[1], every = (zoomed || nar) ? d3.timeMonth.every(6) : d3.timeMonth.every(3);
+    x.ticks(every).forEach(t => ax.append('text').attr('x', x(t)).attr('y', H - m.b + 20).attr('text-anchor','middle').text(d3.timeFormat(t.getMonth()===0 ? '%Y' : '%b')(t)));
+    const g = gL.append('g').attr('clip-path', 'url(#rclip)');
+    const ln = d3.line().x(d => x(d.d)).y(d => y(d.v));
+    const fwA = clamp((dom[1] - DA[1])/(DB[1] - DA[1]), 0, 1);
+    const gx = (x(pd('2025-05-27')) + x(pd('2025-12-09')))/2;
+    if (!nar || !zoomed){ g.append('text').attr('class','lbl-s').attr('x', gx).attr('y', y(3.08)).attr('text-anchor','middle').text('Gap in'); g.append('text').attr('class','lbl-s').attr('x', gx).attr('y', y(3.08) + 14).attr('text-anchor','middle').text('public data'); }
+    if (fwA > 0.05){ const tx = x(pd('2026-10-12')); g.append('line').attr('class','anno-line').attr('x1', tx).attr('x2', tx).attr('y1', m.t).attr('y2', H - m.b).style('opacity', fwA);
+      g.append('text').attr('class','lbl-s').attr('x', tx + 5).attr('y', m.t + 10).style('opacity', fwA).text('Today'); }
+    if (st === 4){ const x0 = x(pd('2027-10-01')), x1 = x(pd('2027-12-31'));
+      g.append('rect').attr('class','callband').attr('x', x0).attr('width', x1 - x0).attr('y', y(2.0)).attr('height', y(1.6) - y(2.0));
+      g.append('line').attr('class','callline').attr('x1', x0).attr('x2', x1).attr('y1', y(2.0)).attr('y2', y(2.0));
+      g.append('text').attr('class','lbl-b halo').attr('x', x1).attr('y', y(1.6) + 18).attr('text-anchor','end').text('My call: under $2');
+    }
+    segs.forEach(sg => g.append('path').attr('class','line s1').attr('d', ln(sg)));
+    if (st < 4) g.append('path').attr('class','line s2').attr('d', ln(sa));
+    if (fwA > 0){ g.append('path').attr('class','line fwd').attr('d', ln(fw)).style('opacity', 0.55*fwA);
+      g.selectAll('circle.f').data(fw.slice(1)).enter().append('circle').attr('class','pt fwd').attr('r', 4).attr('cx', d => x(d.d)).attr('cy', d => y(d.v)).style('opacity', fwA); }
+    g.selectAll('circle.a').data(segs.flat()).enter().append('circle').attr('class','pt s1').attr('r', 4).attr('cx', d => x(d.d)).attr('cy', d => y(d.v));
+    if (st < 4) g.selectAll('circle.b').data(sa).enter().append('circle').attr('class','pt s2').attr('r', 4).attr('cx', d => x(d.d)).attr('cy', d => y(d.v));
+    const last = segs[1][segs[1].length - 1];
+    g.append('text').attr('class','val halo').attr('x', x(last.d) + 8).attr('y', y(last.v) - 8).text('$2.85');
+    if (st === 2){ const dec = segs[1][0]; g.append('text').attr('class','val halo').attr('x', x(dec.d) - 8).attr('y', y(dec.v) - 10).attr('text-anchor','end').text('$2.00 in Dec'); }
+    if (fwA > 0.6 && st >= 3){ const f12 = fw[3]; g.append('text').attr('class','val halo').attr('x', x(f12.d)).attr('y', y(f12.v) - 12).attr('text-anchor','middle').style('opacity', fwA).text('$2.14');
+      if (!nar) g.append('text').attr('class','lbl-s halo').attr('x', x(f12.d)).attr('y', y(f12.v) + 22).attr('text-anchor','middle').style('opacity', fwA).text('a year out, −19%'); }
+    const cross = gL.append('line').attr('class','anno-line').attr('y1', m.t).attr('y2', H - m.b).style('opacity', 0);
+    gL.append('rect').attr('x', m.l).attr('y', m.t).attr('width', W - m.l - m.r).attr('height', H - m.t - m.b).attr('fill','transparent')
+      .on('pointermove', ev => { const [mx] = d3.pointer(ev); let best = null, bd = 1e9;
+        allPts.forEach(p => { if (p.s === 'Silicon Data forward curve' && fwA < 0.5) return; if (p.d < dom[0] || p.d > dom[1]) return; const dd = Math.abs(x(p.d) - mx); if (dd < bd){ bd = dd; best = p; } });
+        if (!best) return; cross.attr('x1', x(best.d)).attr('x2', x(best.d)).style('opacity', 1);
+        showTip(`<b>$${best.v.toFixed(2)} an hour</b><br>${best.lab}<br><span class="m">${best.s}</span>`, ev); })
+      .on('pointerleave', () => { cross.style('opacity', 0); hideTip(); });
+  }
+
+  function animateDomain(target, st){
+    if (anim) cancelAnimationFrame(anim);
+    const from = domNow || target, t0 = performance.now(), D = DUR ? 1300 : 0;
+    const f = ts => { const p = D ? clamp((ts - t0)/D, 0, 1) : 1, e = d3.easeCubicInOut(p);
+      domNow = [new Date(+from[0] + (target[0] - from[0])*e), new Date(+from[1] + (target[1] - from[1])*e)];
+      drawLine(st, domNow); anim = p < 1 ? requestAnimationFrame(f) : null; };
+    anim = requestAnimationFrame(f);
+  }
+
+  function cols(st, animate){
+    const show = st <= 1, perKw = st === 1, nar = W < 620, m = { l: 40, r: 10, t: 34, b: 46 };
+    const T = s => (animate && DUR) ? s.transition().duration(DUR).ease(d3.easeCubicInOut) : s;
+    T(gC).style('opacity', show ? 1 : 0); gC.style('pointer-events', show ? 'all' : 'none');
+    const x = d3.scaleBand().domain(GEN.map(g => g.k)).range([m.l, W - m.r]).padding(0.3), y = d3.scaleLinear().domain([0, 7]).range([H - m.b, m.t]);
+    const bw = Math.min(24, x.bandwidth());
+    if (gC.select('g.grid').empty()){ ['grid','ax yax','ax xax','barsg','annog'].forEach(c => gC.append('g').attr('class', c)); }
+    const grid = gC.select('g.grid'); grid.selectAll('*').remove();
+    d3.range(0, 8).forEach(t => grid.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(t)).attr('y2', y(t)));
+    const yax = gC.select('g.yax'); yax.selectAll('*').remove();
+    d3.range(0, 8).forEach(t => yax.append('text').attr('x', m.l - 8).attr('y', y(t) + 4).attr('text-anchor','end').text(`$${t}`));
+    const xax = gC.select('g.xax'); xax.selectAll('*').remove();
+    GEN.forEach(g => { xax.append('text').attr('x', x(g.k) + x.bandwidth()/2).attr('y', H - m.b + 18).attr('text-anchor','middle').attr('class','lbl-b').style('font-size', nar ? '10px' : '12.5px').text(g.k);
+      xax.append('text').attr('x', x(g.k) + x.bandwidth()/2).attr('y', H - m.b + 33).attr('text-anchor','middle').text(g.yr); });
+    const val = g => perKw ? g.p/g.kw[0] : g.p, lowV = g => (perKw && g.kw.length > 1) ? g.p/g.kw[1] : val(g);
+    const path = (g, v, base) => { const x0 = x(g.k) + (x.bandwidth() - bw)/2, y0 = y(base || 0), y1 = y(v), r = Math.max(0, Math.min(4, (y0 - y1)/2));
+      return `M${x0},${y0}V${y1 + r}Q${x0},${y1} ${x0 + r},${y1}H${x0 + bw - r}Q${x0 + bw},${y1} ${x0 + bw},${y1 + r}V${y0}Z`; };
+    const b = gC.select('g.barsg').selectAll('g.cb').data(GEN, g => g.k);
+    const be = b.enter().append('g').attr('class','cb');
+    be.append('path').attr('class','bar ext'); be.append('path').attr('class', g => 'bar main' + (g.hl ? ' hl' : '')); be.append('text').attr('class','val').attr('text-anchor','middle');
+    const ba = be.merge(b);
+    ba.on('pointerenter', (ev,g) => showTip(`<b>${g.k}</b> (${g.yr})<br>$${g.p.toFixed(2)} per GPU-hour<br>${g.kw.map(k => k*1000).join('–')} W rated · ${g.kw.map(k => '$'+(g.p/k).toFixed(2)).join(' to ')} per kWh`, ev)).on('pointermove', moveTip).on('pointerleave', hideTip);
+    ba.each(function(g){ const el = d3.select(this);
+      if (!this.__init){ el.select('path.main').attr('d', path(g, 0)); el.select('path.ext').attr('d', path(g, 0, 0)); this.__init = true; }
+      const hi = show ? val(g) : 0, lo = show ? lowV(g) : 0;
+      T(el.select('path.main')).attr('d', path(g, lo)); T(el.select('path.ext')).attr('d', path(g, hi, Math.max(0, lo - 0.02)));
+      const txt = (perKw && g.kw.length > 1 && !nar) ? `$${lowV(g).toFixed(2)}–${val(g).toFixed(2)}` : `$${val(g).toFixed(2)}`;
+      T(el.select('text')).attr('x', x(g.k) + x.bandwidth()/2).attr('y', y(val(g)) - 9).text(txt).style('font-size', nar ? '10.5px' : null); });
+    const an = gC.select('g.annog'); an.selectAll('*').remove();
+    an.append('text').attr('class','lbl-b').attr('x', m.l + 4).attr('y', m.t - 12).text(perKw ? 'Spread, highest to lowest: 1.4× to 1.7×' : 'Spread, highest to lowest: 4.4×');
+  }
+
+  function render(st, animate){
+    const prev = state; state = st; W = host.clientWidth; H = host.clientHeight; svg.attr('viewBox', `0 0 ${W} ${H}`); setHead(st);
+    cols(st, animate);
+    const target = st >= 3 ? DB : DA;
+    gL.style('opacity', st >= 2 ? 1 : 0);
+    if (animate && st >= 2 && prev >= 2 && (prev >= 3) !== (st >= 3)) animateDomain(target, st);
+    else { if (anim){ cancelAnimationFrame(anim); anim = null; } domNow = target; drawLine(st, domNow); }
+  }
+  render(0, false);
+  scrolly($('#rent'), i => render(i, true));
+  onResize(() => render(state, false));
+})();
+
+/* ======================= PART III — the hurdle model ======================= */
+(function model(){
+  const DEF = { R: 20, k: 1.6, cn: 40, cx: 15 }, FAC = 15, ELEC = 0.7, LIFE = 5, FLIFE = 20;
+  const M = Object.assign({}, DEF), ids = { R:'mR', k:'mK', cn:'mN', cx:'mX' };
+  const outs = { R: v => `$${(+v).toFixed(1).replace(/\.0$/,'')}B`, k: v => `${(+v).toFixed(2)}×`, cn: v => `$${v}B`, cx: v => `$${v}B` };
+  const annual = c => c/LIFE + FAC/FLIFE + ELEC;
+  function hurdles(R){ const An = annual(M.cn), Ax = annual(M.cx); return { kp: 1 + (An - Ax)/R, kc: (((M.cn + FAC)/(M.cx + FAC))*(R - Ax) + An)/R, An, Ax }; }
+  const host = $('#mChart'), svg = d3.select(host).append('svg').attr('role','img').attr('aria-label','Output-per-watt advantage Nvidia needs to beat custom chips');
+  const m = { l: 46, r: 16, t: 14, b: 40 }; let W = 0, H = 0, x, y;
+  function draw(){
+    W = host.clientWidth; H = host.clientHeight; svg.attr('viewBox', `0 0 ${W} ${H}`); svg.selectAll('*').remove();
+    x = d3.scaleLinear().domain([5, 40]).range([m.l, W - m.r]); y = d3.scaleLinear().domain([1, 3]).range([H - m.b, m.t]);
+    svg.append('clipPath').attr('id','mclip').append('rect').attr('x', m.l).attr('y', m.t).attr('width', W - m.l - m.r).attr('height', H - m.t - m.b);
+    const grid = svg.append('g').attr('class','grid'); [1,1.5,2,2.5,3].forEach(t => grid.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(t)).attr('y2', y(t)));
+    const ax = svg.append('g').attr('class','ax');
+    [1,1.5,2,2.5,3].forEach(t => ax.append('text').attr('x', m.l - 8).attr('y', y(t) + 4).attr('text-anchor','end').text(`${t}×`));
+    [5,10,15,20,25,30,35,40].forEach(t => ax.append('text').attr('x', x(t)).attr('y', H - m.b + 18).attr('text-anchor','middle').text(`$${t}B`));
+    ax.append('text').attr('x', (m.l + W - m.r)/2).attr('y', H - 4).attr('text-anchor','middle').text('Revenue per gigawatt-year');
+    const pts = d3.range(5, 40.01, 0.25).map(R => ({ R, ...hurdles(R) })), g = svg.append('g').attr('clip-path','url(#mclip)');
+    const top = y.range()[1], bot = y.range()[0];
+    g.append('path').attr('class','zone-a').attr('d', d3.area().x(d => x(d.R)).y0(bot).y1(d => y(d.kp))(pts));
+    g.append('path').attr('class','zone-b').attr('d', d3.area().x(d => x(d.R)).y0(d => y(d.kp)).y1(d => y(d.kc))(pts));
+    g.append('path').attr('class','zone-c').attr('d', d3.area().x(d => x(d.R)).y0(d => y(d.kc)).y1(top)(pts));
+    g.append('path').attr('class','hurdle p').attr('d', d3.line().x(d => x(d.R)).y(d => y(d.kp))(pts));
+    g.append('path').attr('class','hurdle c').attr('d', d3.line().x(d => x(d.R)).y(d => y(d.kc))(pts));
+    const h = hurdles(34);
+    const lab = (k, t) => { if (W < 560) return; if (k > 1.04 && k < 2.96) svg.append('text').attr('class','lbl-s halo').attr('x', x(34)).attr('y', y(k) + 4).attr('text-anchor','middle').text(t); };
+    lab((1 + h.kp)/2, 'Custom wins either way'); lab((h.kp + h.kc)/2, 'Depends what runs out'); if (h.kc < 2.75) lab((h.kc + 3)/2, 'Nvidia wins either way');
+    const l5 = hurdles(6.5), kpR = hurdles(30).kp;
+    if (kpR < 2.9) svg.append('text').attr('class','lbl-b halo').attr('x', x(39.5)).attr('y', y(kpR) - 8).attr('text-anchor','end').text('If watts are scarce');
+    if (l5.kc < 2.9) svg.append('text').attr('class','lbl-b halo').attr('x', x(6.5)).attr('y', y(l5.kc) - 8).text('If dollars are scarce');
+    const you = svg.append('g'), ky = y(Math.min(3, M.k));
+    you.append('line').attr('class','you-line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', ky).attr('y2', ky);
+    you.append('line').attr('class','you-line').attr('y1', m.t).attr('y2', H - m.b).attr('x1', x(M.R)).attr('x2', x(M.R));
+    you.append('circle').attr('class','you').attr('r', 7).attr('cx', x(M.R)).attr('cy', ky);
+    const setFrom = ev => { const [px, py] = d3.pointer(ev, svg.node()); M.R = Math.round(clamp(x.invert(px), 5, 40)*2)/2; M.k = Math.round(clamp(y.invert(py), 1, 3)*20)/20; sync(); };
+    let dragging = false;
+    svg.on('pointerdown', ev => { dragging = true; svg.node().setPointerCapture(ev.pointerId); setFrom(ev); }).on('pointermove', ev => { if (dragging) setFrom(ev); }).on('pointerup pointercancel', () => { dragging = false; });
+  }
+  function update(){
+    const h = hurdles(M.R), pN = M.k*M.R - h.An, pX = M.R - h.Ax, rN = pN/(M.cn + FAC), rX = pX/(M.cx + FAC);
+    $('#mRead').innerHTML = `At <b>${outs.R(M.R)}</b> per gigawatt-year, Nvidia needs <b>${h.kp.toFixed(2)}×</b> the output per watt if watts run out first, and <b>${h.kc.toFixed(2)}×</b> if dollars run out first. You set its advantage at <b>${M.k.toFixed(2)}×</b>.`;
+    const v = (win, el) => { el.innerHTML = win ? '<span class="sw" style="background:var(--s1)"></span>Buy Nvidia' : '<span class="sw" style="background:var(--s3)"></span>Buy custom chips'; };
+    v(pN > pX, $('#vW')); v(rN > rX, $('#vD'));
+    $('#vWd').textContent = `Annual profit per gigawatt: Nvidia $${pN.toFixed(1)}B vs. custom $${pX.toFixed(1)}B`;
+    $('#vDd').textContent = `Annual return on capital: Nvidia ${(rN*100).toFixed(0)}% vs. custom ${(rX*100).toFixed(0)}%`;
+  }
+  function sync(){ Object.entries(ids).forEach(([k,id]) => { $('#'+id).value = M[k]; $('#o' + id.slice(1)).textContent = outs[k](M[k]); }); draw(); update(); }
+  Object.entries(ids).forEach(([k,id]) => $('#'+id).addEventListener('input', e => { M[k] = +e.target.value; sync(); }));
+  $('#mReset').addEventListener('click', () => { Object.assign(M, DEF); sync(); });
+  sync(); onResize(draw);
+})();
+
+/* ---------------- eviction: zoom into one megawatt ---------------- */
+(function evict(){
+  const sec = $('#evict'); if (!sec) return;
+  const cv = $('#evCanvas'), ctx = cv.getContext('2d'), steps = [...sec.querySelectorAll('.step')], panel = $('#evPanel'), C = COL();
+  const blue = hex2rgb(cssv('--n-nvidia') || '#3d8ae6'), bright = [170, 210, 255], grey = [52, 58, 66];
+  const S = 100, GAP = 12, HC = 12, HR = 7, FC = 6, FR = 3;
+  let W = 0, H = 0, stops = [], ax = 0, ay = 0, raf = null, lastSt = -1;
+  function layout(){
+    const r = cv.getBoundingClientRect(); W = r.width; H = r.height; const d = Math.min(2, devicePixelRatio || 1);
+    cv.width = Math.round(W*d); cv.height = Math.round(H*d); ctx.setTransform(d,0,0,d,0,0);
+    if (!W) return;
+    const hall = { x:0, y:0, w: HC*(S+GAP) - GAP, h: HR*(S+GAP) - GAP }, foc = { x: FC*(S+GAP), y: FR*(S+GAP), w: S, h: S };
+    let vis;
+    if (W > 900){ const left = Math.min(380, W*0.34) + Math.max(32, W*0.04) + 24, right = Math.min(360, W*0.3) + 40; vis = { x: left, y: 70, w: W - left - right, h: H - 110 }; }
+    else vis = { x: 12, y: 214, w: W - 24, h: Math.max(160, H*0.62 - 222) };
+    ax = vis.x + vis.w/2; ay = vis.y + vis.h/2;
+    const zin = fit(foc, 0.92, vis);
+    stops = [fit(hall, 0.96, vis), zin, zin, zin, zin];
+  }
+  const ROWS = {
+    2: { lab: 'B300s', val: '$4,750–6,050', lo: 4750, hi: 6045, note: 'Fewer chips, more revenue per watt' },
+    3: { lab: 'B300s, after paying for them', val: '$3,600–4,600', lo: 3625, hi: 4613, note: 'Roughly a wash with the H100s' },
+    4: { lab: 'What a new chip must earn', val: '$5,200–5,500', lo: 5196, hi: 5503, note: 'About a third more per watt than an H100' } };
+  function panelState(st){
+    if (st === lastSt) return; lastSt = st;
+    const row = $('#evNew'), R = ROWS[st];
+    if (!R){ row.style.opacity = '0'; return; }
+    row.style.opacity = '1'; $('#evNewLab').textContent = R.lab; $('#evNewVal').textContent = R.val; $('#evNote').textContent = R.note;
+    const pct = v => (v/6500*100).toFixed(1) + '%';
+    $('#evLo').style.width = pct(R.lo); $('#evExt').style.left = pct(R.lo); $('#evExt').style.width = pct(R.hi - R.lo);
+  }
+  function chips(sx, sy, sw, u, v, q, A){
+    const n1 = 38, c1 = sw/n1, g1 = c1*0.17, n2 = 30, c2 = sw/n2, g2 = c2*0.13, p = u*1.3 - 0.15;
+    if (u < 1){ ctx.fillStyle = rgb(C.glow);
+      for (let i=0;i<n1;i++){ const al = A*clamp(((i + 0.5)/n1 - p)*8, 0, 1); if (al <= 0.01) continue; ctx.globalAlpha = al;
+        for (let j=0;j<n1;j++) ctx.fillRect(sx + i*c1 + g1, sy + j*c1 + g1, c1 - 2*g1, c1 - 2*g1); } }
+    if (u > 0){
+      const capN = v*0.24*n2*n2, live = rgb(mixc(blue, bright, q*0.75)), dead = rgb(grey);
+      for (let i=0;i<n2;i++){ const al = A*clamp((p - (i + 0.5)/n2)*8, 0, 1); if (al <= 0.01) continue; ctx.globalAlpha = al;
+        for (let j=0;j<n2;j++){ const k = j*n2 + i; ctx.fillStyle = k < capN ? dead : live;
+          ctx.fillRect(sx + i*c2 + g2, sy + j*c2 + g2, c2 - 2*g2, c2 - 2*g2); } }
+      if (u > 0.02 && u < 0.98){ ctx.globalAlpha = A*0.8; ctx.fillStyle = '#ffffff'; ctx.fillRect(sx + p*sw - 1, sy - 6, 2, sw + 12); }
+      if (v > 0.35){ const h = Math.ceil(0.24*n2)*c2; ctx.globalAlpha = A*clamp((v - 0.35)/0.3, 0, 1);
+        ctx.font = `600 ${sw > 420 ? 15 : 12}px "Libre Franklin", Arial, sans-serif`; ctx.textBaseline = 'middle'; ctx.textAlign = 'center';
+        ctx.lineWidth = 5; ctx.strokeStyle = 'rgba(11,14,17,.9)'; ctx.strokeText('Paying for the hardware', sx + sw/2, sy + h/2); ctx.fillStyle = '#eef0eb'; ctx.fillText('Paying for the hardware', sx + sw/2, sy + h/2); ctx.textAlign = 'left'; }
+    }
+    ctx.globalAlpha = 1;
+  }
+  function render(){
+    raf = null; if (!W || document.documentElement.classList.contains('plain')) return;
+    const t = stepT(steps), cam = camAt(stops, t, 0.16), s = cam.s;
+    ctx.globalAlpha = 1; ctx.fillStyle = C.bg; ctx.fillRect(0,0,W,H);
+    const X = wx => (wx - cam.cx)*s + ax, Y = wy => (wy - cam.cy)*s + ay;
+    const z = clamp(t, 0, 1), u = ease(clamp(t - 1, 0, 1), 0.1), v = ease(clamp(t - 2, 0, 1), 0.1), q = ease(clamp(t - 3, 0, 1), 0.1);
+    for (let r=0;r<HR;r++) for (let c=0;c<HC;c++){
+      const sx = X(c*(S+GAP)), sy = Y(r*(S+GAP)), sw = S*s;
+      if (sx > W || sy > H || sx + sw < 0 || sy + sw < 0) continue;
+      const isF = c === FC && r === FR, a = isF ? 1 : 1 - 0.65*z, det = clamp((sw - 70)/110, 0, 1);
+      if (det < 1){ ctx.globalAlpha = a*(1 - det); ctx.fillStyle = rgb(C.glow); ctx.fillRect(sx, sy, sw, sw); }
+      if (det > 0) chips(sx, sy, sw, isF ? u : 0, isF ? v : 0, isF ? q : 0, a*det);
+    }
+    const fx = X(FC*(S+GAP)), fy = Y(FR*(S+GAP)), fw = S*s;
+    ctx.globalAlpha = clamp(z*3, 0, 1); ctx.strokeStyle = 'rgba(255,255,255,.9)'; ctx.lineWidth = 1.5; ctx.strokeRect(fx - 4, fy - 4, fw + 8, fw + 8);
+    if (z > 0.6){ ctx.globalAlpha = clamp((z - 0.6)/0.3, 0, 1); ctx.font = '600 13px "Libre Franklin", Arial, sans-serif'; ctx.textBaseline = 'bottom'; ctx.textAlign = 'left';
+      ctx.fillStyle = '#eef0eb'; ctx.fillText('1 megawatt', fx - 4, fy - 10); }
+    ctx.globalAlpha = 1;
+    panel.style.opacity = t > 0.55 ? '1' : '0';
+    panelState(t < 1.6 ? 1 : t < 2.6 ? 2 : t < 3.6 ? 3 : 4);
+  }
+  const req = () => { if (!raf) raf = requestAnimationFrame(render); };
+  layout(); render();
+  addEventListener('scroll', () => { const r = sec.getBoundingClientRect(); if (r.bottom > -50 && r.top < innerHeight + 50) req(); }, { passive: true });
+  onResize(() => { layout(); render(); });
+})();
+
+/* ---------------- reference previews ---------------- */
+(function refs(){
+  const esc = t => t.replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+  document.querySelectorAll('sup.ref a').forEach(a => {
+    const li = document.querySelector(a.getAttribute('href')); if (!li) return;
+    const txt = li.textContent.replace(/\s+/g, ' ').trim(), short = txt.length > 190 ? txt.slice(0, 187) + '…' : txt;
+    a.addEventListener('pointerenter', ev => { if (ev.pointerType === 'touch') return; showTip(`<b>Source ${esc(a.textContent)}</b><br>${esc(short)}`, ev); });
+    a.addEventListener('pointermove', moveTip); a.addEventListener('pointerleave', hideTip);
+  });
+})();
+
+/* ---------------- text-only mode ---------------- */
+(function readingMode(){
+  const root = document.documentElement, btns = [$('#readToggle'), $('#mtToggle')];
+  function set(on, jump){
+    root.classList.toggle('plain', on);
+    btns.forEach(b => { b.textContent = on ? 'Interactive version' : 'Text-only version'; b.setAttribute('aria-pressed', String(on)); });
+    try { localStorage.setItem('gw-plain', on ? '1' : '0'); } catch(e){}
+    if (jump) window.scrollTo(0, 0);
+    window.dispatchEvent(new Event('resize'));
+  }
+  let init = false; try { init = localStorage.getItem('gw-plain') === '1'; } catch(e){}
+  if (location.hash === '#read') init = true;
+  if (init) set(true, false);
+  btns.forEach(b => b.addEventListener('click', () => set(!root.classList.contains('plain'), true)));
+})();
+})();
+</script>
+</body>
+</html>
