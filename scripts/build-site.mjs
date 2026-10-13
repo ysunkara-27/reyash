@@ -1,13 +1,16 @@
 import {buildAtlas} from '../raas-planner/scripts/build_public.mjs';
 import { cp, mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { resolve, basename } from 'node:path';
+import { buildWritings } from './build-writings.mjs';
 
 // Publish public assets only, never the source checkout or local environment files.
 const root = resolve(import.meta.dirname, '..');
 const output = resolve(root, 'dist');
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
-const excluded = new Set(['api', 'tests', 'node_modules', 'README.md', 'feed']);
+const excluded = new Set(['api', 'tests', 'node_modules', 'README.md', 'feed', 'article.md', 'parts']);
+// Render Markdown essays and refresh the writing lists before copying them.
+await buildWritings();
 for (const path of ['index.html', 'assets', 'bidpoints', 'css', 'js', 'apgovelections', 'rides', 'pujarinet', 'writings', 'sahana', 'amma', 'stats', 'learn', 'feedback']) {
   await cp(resolve(root, path), resolve(output, path), {
     recursive: true,

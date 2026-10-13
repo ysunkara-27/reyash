@@ -1,0 +1,99 @@
+<section class="calc sim" id="simulator" aria-labelledby="sim-title">
+  <div class="calc-head">
+    <h3 id="sim-title">Model pricing simulator</h3>
+    <p class="calc-sub">Instinct hasn't said which model it runs. Pick two and compare what the same month of agent work would cost at public list prices. Token counts per step are assumptions; Instinct's export doesn't include them.</p>
+    <div class="calc-presets" role="group" aria-label="Workloads">
+      <button type="button" class="preset is-active" data-sim="mymonth">My month</button>
+      <button type="button" class="preset" data-sim="casual">Casual user</button>
+      <button type="button" class="preset" data-sim="watcher">One watcher</button>
+      <button type="button" class="preset preset-reset" id="sim-reset">Reset</button>
+    </div>
+  </div>
+
+  <div class="sim-models">
+    <div class="sim-model" id="sim-side-a">
+      <div class="field-row"><label for="sim-a">Model A</label></div>
+      <select id="sim-a" class="sim-select">
+        <option value="astra">GPT-6 Astra</option>
+        <option value="sol" selected>GPT-6.1 Sol</option>
+        <option value="luna">GPT-6 Luna</option>
+        <option value="custom">Custom prices</option>
+      </select>
+      <div class="sim-custom" id="sim-custom-a" hidden>
+        <label>Input $/M <input type="number" id="sim-a-in" min="0" step="0.01" value="2"></label>
+        <label>Cached $/M <input type="number" id="sim-a-cached" min="0" step="0.01" value="0.10"></label>
+        <label>Output $/M <input type="number" id="sim-a-out" min="0" step="0.01" value="10"></label>
+      </div>
+      <p class="sim-price" id="sim-a-price"></p>
+      <dl class="stats stats-sim">
+        <div class="stat"><dt>Per step</dt><dd id="sim-a-step"></dd></div>
+        <div class="stat stat-hero"><dt>Per month</dt><dd id="sim-a-month"></dd><span class="stat-sub" id="sim-a-year"></span></div>
+      </dl>
+      <div class="sim-bar"><div id="sim-a-bar"></div></div>
+    </div>
+
+    <div class="sim-vs" aria-hidden="true">vs</div>
+
+    <div class="sim-model" id="sim-side-b">
+      <div class="field-row"><label for="sim-b">Model B</label></div>
+      <select id="sim-b" class="sim-select">
+        <option value="astra" selected>GPT-6 Astra</option>
+        <option value="sol">GPT-6.1 Sol</option>
+        <option value="luna">GPT-6 Luna</option>
+        <option value="custom">Custom prices</option>
+      </select>
+      <div class="sim-custom" id="sim-custom-b" hidden>
+        <label>Input $/M <input type="number" id="sim-b-in" min="0" step="0.01" value="10"></label>
+        <label>Cached $/M <input type="number" id="sim-b-cached" min="0" step="0.01" value="1"></label>
+        <label>Output $/M <input type="number" id="sim-b-out" min="0" step="0.01" value="50"></label>
+      </div>
+      <p class="sim-price" id="sim-b-price"></p>
+      <dl class="stats stats-sim">
+        <div class="stat"><dt>Per step</dt><dd id="sim-b-step"></dd></div>
+        <div class="stat stat-hero"><dt>Per month</dt><dd id="sim-b-month"></dd><span class="stat-sub" id="sim-b-year"></span></div>
+      </dl>
+      <div class="sim-bar"><div id="sim-b-bar"></div></div>
+    </div>
+  </div>
+  <p class="sim-verdict" id="sim-verdict"></p>
+
+  <div class="calc-grid sim-grid">
+    <div class="calc-inputs">
+      <p class="group-label">Workload</p>
+      <div class="field">
+        <div class="field-row"><label for="sim-steps">Model steps per month</label><output id="out-sim-steps">14,424</output></div>
+        <input type="range" id="sim-steps" min="0" max="100" step="0.5" value="72">
+        <p class="hint">Logarithmic, 100 to 100,000. Each tool call or reply is one step. My month: 13,623 tool calls plus 801 replies.</p>
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="sim-long">Share from long-running jobs</label><output id="out-sim-long">92%</output></div>
+        <input type="range" id="sim-long" min="0" max="100" step="1" value="92">
+        <p class="hint">Only changes the split shown under each monthly total. Watchers re-read context on every check, so they dominate when they're on.</p>
+      </div>
+    </div>
+    <div class="calc-inputs">
+      <p class="group-label">Per step</p>
+      <div class="field">
+        <div class="field-row"><label for="sim-ctx">Context sent per step</label><output id="out-sim-ctx">25,000 tokens</output></div>
+        <input type="range" id="sim-ctx" min="0" max="100" step="0.5" value="60.7">
+        <p class="hint">Logarithmic, 1,000 to 200,000. System prompt, memory, conversation, page contents, screenshots.</p>
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="sim-cache">Share served from cache</label><output id="out-sim-cache">70%</output></div>
+        <input type="range" id="sim-cache" min="0" max="95" step="1" value="70">
+        <p class="hint">Repeated prefixes bill at the cached rate. Watchers cache well; fresh browsing caches badly.</p>
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="sim-out">Output tokens per step</label><output id="out-sim-out">300</output></div>
+        <input type="range" id="sim-out" min="50" max="3000" step="10" value="300">
+        <p class="hint">Includes reasoning tokens, which bill as output.</p>
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="sim-eff">Serving efficiency</label><output id="out-sim-eff">1.0×</output></div>
+        <input type="range" id="sim-eff" min="1" max="10" step="0.5" value="1">
+        <p class="hint">Divides both costs. Shinn claims 3× to 8× from batch-shaped serving on Instinct's own stack. 1× means list price.</p>
+      </div>
+    </div>
+  </div>
+  <p class="calc-foot">Prices are OpenAI's published standard-tier API rates as of October 2026, used as a public anchor. Instinct may run a different provider or its own models at a different cost. Tool fees, browser infrastructure, and telephony are not included.</p>
+</section>

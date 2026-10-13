@@ -1,0 +1,282 @@
+<!doctype html>
+<!-- Generated from article.md by scripts/build-writings.mjs. Edit article.md, not this file. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Will Instinct’s Survival Instincts Pay Off?</title>
+<meta name="description" content="A free AI assistant that spends money every time it works for you. What does a user cost, and where does the money come from?">
+<meta name="author" content="Yash Sunkara">
+<link rel="canonical" href="https://ysunkara.com/writings/instinct-survival-instincts">
+<link rel="preload" href="/css/ramboia-font-family/RamboiaTestVF.ttf" as="font" type="font/ttf" crossorigin>
+<meta property="og:type" content="article">
+<meta property="og:title" content="Will Instinct’s Survival Instincts Pay Off?">
+<meta property="og:description" content="A free AI assistant that spends money every time it works for you. What does a user cost, and where does the money come from?">
+<meta property="og:url" content="https://ysunkara.com/writings/instinct-survival-instincts">
+<meta property="og:image" content="https://ysunkara.com/writings/instinct-survival-instincts/og.png">
+<meta name="twitter:image" content="https://ysunkara.com/writings/instinct-survival-instincts/og.png">
+<meta property="article:published_time" content="2026-10-13">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Will Instinct’s Survival Instincts Pay Off?">
+<meta name="twitter:description" content="A free AI assistant that spends money every time it works for you. What does a user cost, and where does the money come from?">
+<link rel="stylesheet" href="/writings/article.css">
+<link rel="stylesheet" href="/writings/instinct-survival-instincts/interactive.css">
+</head>
+<body>
+<header class="masthead">
+  <div class="row"><a class="back" href="/writings">← Writings</a><span class="t">Will Instinct’s Survival Instincts Pay Off?</span></div>
+  <div class="progress"><span id="prog"></span></div>
+</header>
+<main>
+<header class="head">
+  <p class="kicker">AI · Essay</p>
+  <h1>Will Instinct’s Survival Instincts Pay Off?</h1>
+  <p class="dek">A free AI assistant that spends money every time it works for you. What does a user cost, and where does the money come from?</p>
+  <p class="byline">By <strong>Yash Sunkara</strong> · October 2026 · 9 min read</p>
+</header>
+<article class="prose">
+<p>Instinct does not have an app. You text it, call it, or email it, and it goes and does things: books the hotel, cancels the subscription you forgot about, phones the dentist who doesn’t take online bookings. It has its own phone number and its own computer. It is free, still invite-only, and as of late September it is worth $10 billion.</p>
+<p>In August the company raised $250 million at a $2.5 billion valuation. On September 28 it raised another $1 billion from Sequoia, Benchmark, and Coatue at $10 billion, a 4x markup in about a month, for a company that has <a href="https://techcrunch.com/2026/09/28/viral-ai-agent-instinct-raises-1b-series-c-at-a-10b-valuation/" target="_blank" rel="noopener">not shared user numbers or growth metrics</a>, let alone revenue. I’ve been using it for a month. Every time it does something for me, it spends money on compute, and I pay nothing. So what does a user cost, and where is the money supposed to come from?</p>
+<p>Founder Noah Shinn gave the most detailed answer so far in a <a href="https://colossus.com/episode/instinct-the-personal-agent/" target="_blank" rel="noopener">September 28 interview on Invest Like the Best</a>. Three numbers from it anchor everything below. Instinct is approaching $1 billion a year in transaction volume on a small invite-only base, about half of it travel. Three weeks after joining, there is a 40% chance a user has handed Instinct a credit card, a figure that, read literally, covers everyone who signed up, including people who already churned. And Shinn says he spends 40% of his time thinking about compute, because the amount he needs has been “doubling effectively every week.”</p>
+<p>The bet is to become the thing people route their spending through, and get paid by the merchants on the other side. The question is whether that money shows up before the compute bill does.</p>
+<h2 id="what-does-it-actually-cost-to-run-instinct">What does it actually cost to run Instinct?</h2>
+<p>Instinct has not said which models it runs or what it pays. Shinn described a custom inference setup he claims is 3x to 8x more efficient for work that can take minutes rather than milliseconds. That is a founder claim, not a data point.</p>
+<p>What I can do is reason from list prices. OpenAI’s <a href="https://openai.com/index/introducing-gpt-6-1-sol/" target="_blank" rel="noopener">current API tiers</a> run from $10 per million input tokens and $50 per million output for GPT-6 Astra, to $2 and $10 for GPT-6.1 Sol, to $0.10 and $0.50 for GPT-6 Luna, with cached input at a tenth of the input price for Astra and Luna and a twentieth for Sol. Those include OpenAI’s margin, but they are the best public anchor.</p>
+<p>Agent tasks get expensive because one request is never one model call. “Find me a flight to Boston Friday under $200” becomes a plan, a search, several results pages, a decision, a form, a confirmation check, and a message back. Each step re-sends the growing context. Browser steps add screenshots. Retries add all of it again. On one agentic benchmark OpenAI reported, where models run scientific workflows through a terminal at maximum reasoning effort, GPT-6.1 Sol averaged $5.47 per task and Astra $23.80.</p>
+<p>Here are my tiers. Every number in this table is an assumption.</p>
+<div class="tablewrap"><table><thead><tr><th>Task type</th><th>What it looks like</th><th>Low</th><th>Mid</th><th>High</th></tr></thead><tbody><tr><td>Simple</td><td>Send an email, add a calendar event, answer a question</td><td>$0.01</td><td>$0.05</td><td>$0.15</td></tr><tr><td>Medium</td><td>Research a trip, compare options across several sites</td><td>$0.30</td><td>$1.00</td><td>$3.00</td></tr><tr><td>Complex</td><td>Multi-step booking in a browser, forms, retries, a phone call</td><td>$1.50</td><td>$5.00</td><td>$20.00</td></tr></tbody></table></div>
+<p>Low is a Sol-class model with heavy caching. Mid is roughly Sol list price with overhead. High is Astra-class, or a task that goes sideways. None of this covers the persistent machine each agent runs on, telephony, or the proactive wake-ups where the agent checks your day at 6 a.m. unasked. And none of it is company burn: compute contracts, salaries, and capacity ordered months ahead sit on top.</p>
+<h2 id="how-i-actually-use-it">How I actually use it</h2>
+<p>Instinct will generate a usage export if you ask, so I asked. The first version it sent had more in it than I was supposed to get. A few minutes later, this came in:</p>
+<figure><img src="usage-text.png" alt="Instinct texting that it is pulling the first usage page because it had internal operating details, and replacing it with a user-facing version" loading="lazy"><figcaption>So the internal cost and tool numbers exist. I just don’t get to see them. Everything below comes from the replacement page.</figcaption></figure>
+<p>What I got back was the user-facing version. Between September 13 and October 13 I sent it 282 messages on 21 of 31 days. It sent me 801 replies and ran 57 background tasks. The tasks made 13,623 tool calls across the browser, Gmail, spreadsheets, Slack, LinkedIn, and my calendar.</p>
+<p>Two things surprised me. First, 92% of the tool calls came from just 10 long-running tasks. One of them, a daily job-application pipeline I set up in early October, made 6,173 tool calls in ten days: read a posting, open the employer’s form, ask me a one-word question, fill, submit, log. Three always-on watchers (inbox, Slack DMs, a tracking sheet) made another 4,550 calls, most of which found nothing to do. The 47 tasks that ran once and finished typically took about two minutes and 12 tool calls.</p>
+<p>Second, I bought nothing. Zero purchases, zero paid bookings. My two travel-related messages were questions.</p>
+<p>The export has no token counts or model names, so cost is still an estimate. If each tool call is one model step with 25,000 tokens of context, 70% cached, and 300 tokens out, my month cost about $285 at Sol prices, $16 at Luna prices, and $1,550 at Astra prices. Almost all of it is the standing jobs: at Sol prices each of my ten long-running tasks cost about $25 a month, while a one-off task cost under a dollar. Whichever model Instinct runs, I sat somewhere between a cheap user and a very expensive one, and I generated no revenue. The simulator below lets you try the same month on different models.</p>
+<section class="calc sim" id="simulator" aria-labelledby="sim-title">
+  <div class="calc-head">
+    <h3 id="sim-title">Model pricing simulator</h3>
+    <p class="calc-sub">Instinct hasn't said which model it runs. Pick two and compare what the same month of agent work would cost at public list prices. Token counts per step are assumptions; Instinct's export doesn't include them.</p>
+    <div class="calc-presets" role="group" aria-label="Workloads">
+      <button type="button" class="preset is-active" data-sim="mymonth">My month</button>
+      <button type="button" class="preset" data-sim="casual">Casual user</button>
+      <button type="button" class="preset" data-sim="watcher">One watcher</button>
+      <button type="button" class="preset preset-reset" id="sim-reset">Reset</button>
+    </div>
+  </div>
+
+  <div class="sim-models">
+    <div class="sim-model" id="sim-side-a">
+      <div class="field-row"><label for="sim-a">Model A</label></div>
+      <select id="sim-a" class="sim-select">
+        <option value="astra">GPT-6 Astra</option>
+        <option value="sol" selected>GPT-6.1 Sol</option>
+        <option value="luna">GPT-6 Luna</option>
+        <option value="custom">Custom prices</option>
+      </select>
+      <div class="sim-custom" id="sim-custom-a" hidden>
+        <label>Input $/M <input type="number" id="sim-a-in" min="0" step="0.01" value="2"></label>
+        <label>Cached $/M <input type="number" id="sim-a-cached" min="0" step="0.01" value="0.10"></label>
+        <label>Output $/M <input type="number" id="sim-a-out" min="0" step="0.01" value="10"></label>
+      </div>
+      <p class="sim-price" id="sim-a-price"></p>
+      <dl class="stats stats-sim">
+        <div class="stat"><dt>Per step</dt><dd id="sim-a-step"></dd></div>
+        <div class="stat stat-hero"><dt>Per month</dt><dd id="sim-a-month"></dd><span class="stat-sub" id="sim-a-year"></span></div>
+      </dl>
+      <div class="sim-bar"><div id="sim-a-bar"></div></div>
+    </div>
+
+    <div class="sim-vs" aria-hidden="true">vs</div>
+
+    <div class="sim-model" id="sim-side-b">
+      <div class="field-row"><label for="sim-b">Model B</label></div>
+      <select id="sim-b" class="sim-select">
+        <option value="astra" selected>GPT-6 Astra</option>
+        <option value="sol">GPT-6.1 Sol</option>
+        <option value="luna">GPT-6 Luna</option>
+        <option value="custom">Custom prices</option>
+      </select>
+      <div class="sim-custom" id="sim-custom-b" hidden>
+        <label>Input $/M <input type="number" id="sim-b-in" min="0" step="0.01" value="10"></label>
+        <label>Cached $/M <input type="number" id="sim-b-cached" min="0" step="0.01" value="1"></label>
+        <label>Output $/M <input type="number" id="sim-b-out" min="0" step="0.01" value="50"></label>
+      </div>
+      <p class="sim-price" id="sim-b-price"></p>
+      <dl class="stats stats-sim">
+        <div class="stat"><dt>Per step</dt><dd id="sim-b-step"></dd></div>
+        <div class="stat stat-hero"><dt>Per month</dt><dd id="sim-b-month"></dd><span class="stat-sub" id="sim-b-year"></span></div>
+      </dl>
+      <div class="sim-bar"><div id="sim-b-bar"></div></div>
+    </div>
+  </div>
+  <p class="sim-verdict" id="sim-verdict"></p>
+
+  <div class="calc-grid sim-grid">
+    <div class="calc-inputs">
+      <p class="group-label">Workload</p>
+      <div class="field">
+        <div class="field-row"><label for="sim-steps">Model steps per month</label><output id="out-sim-steps">14,424</output></div>
+        <input type="range" id="sim-steps" min="0" max="100" step="0.5" value="72">
+        <p class="hint">Logarithmic, 100 to 100,000. Each tool call or reply is one step. My month: 13,623 tool calls plus 801 replies.</p>
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="sim-long">Share from long-running jobs</label><output id="out-sim-long">92%</output></div>
+        <input type="range" id="sim-long" min="0" max="100" step="1" value="92">
+        <p class="hint">Only changes the split shown under each monthly total. Watchers re-read context on every check, so they dominate when they're on.</p>
+      </div>
+    </div>
+    <div class="calc-inputs">
+      <p class="group-label">Per step</p>
+      <div class="field">
+        <div class="field-row"><label for="sim-ctx">Context sent per step</label><output id="out-sim-ctx">25,000 tokens</output></div>
+        <input type="range" id="sim-ctx" min="0" max="100" step="0.5" value="60.7">
+        <p class="hint">Logarithmic, 1,000 to 200,000. System prompt, memory, conversation, page contents, screenshots.</p>
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="sim-cache">Share served from cache</label><output id="out-sim-cache">70%</output></div>
+        <input type="range" id="sim-cache" min="0" max="95" step="1" value="70">
+        <p class="hint">Repeated prefixes bill at the cached rate. Watchers cache well; fresh browsing caches badly.</p>
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="sim-out">Output tokens per step</label><output id="out-sim-out">300</output></div>
+        <input type="range" id="sim-out" min="50" max="3000" step="10" value="300">
+        <p class="hint">Includes reasoning tokens, which bill as output.</p>
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="sim-eff">Serving efficiency</label><output id="out-sim-eff">1.0×</output></div>
+        <input type="range" id="sim-eff" min="1" max="10" step="0.5" value="1">
+        <p class="hint">Divides both costs. Shinn claims 3× to 8× from batch-shaped serving on Instinct's own stack. 1× means list price.</p>
+      </div>
+    </div>
+  </div>
+  <p class="calc-foot">Prices are OpenAI's published standard-tier API rates as of October 2026, used as a public anchor. Instinct may run a different provider or its own models at a different cost. Tool fees, browser infrastructure, and telephony are not included.</p>
+</section>
+
+<p>That reframes the usual three user types. By messages I’m a regular user. By compute I’m a superuser. By revenue I’m worth nothing. A casual user asking fifteen questions a month might cost a few dollars; someone who hands it standing jobs costs an order of magnitude more, because standing jobs are where the tool calls live. The people who get the most out of the product are the ones who cost the most to serve.</p>
+<h2 id="where-the-money-comes-from">Where the money comes from</h2>
+<p>Shinn is explicit: no ads, and no subscription if he can avoid one. He wants a transaction take rate paid by merchants, the way Apple Pay gets paid, with users getting the product free.</p>
+<p>Take rates vary enormously, which is the attraction. Shinn’s own curve runs from Shopify at 2 to 3%, to Amazon above 10%, to Apple’s 30% app store cut. Travel is the wedge because <a href="https://fortune.com/2026/09/30/noah-shinn-instinct-ai-assistant-meta-muse-alexandr-wang-tech-series-c-ai-agent-mark-zuckerberg/" target="_blank" rel="noopener">half of Instinct’s volume is travel</a> and some boutique hotels pay upwards of 30% for a delivered booking. Flights pay single digits. He treats 30% as the top of the range, not the target.</p>
+<p>Here is where I get skeptical. A billion dollars of volume is not a billion dollars of revenue, and Shinn hasn’t said what Instinct collects. A lot of consumer spending goes to merchants with no reason to pay a new middleman: Amazon, Uber, DoorDash, the airlines. If Instinct books my flight, the airline owes it nothing unless a deal exists. The effective take on total volume is probably far below the headline rates in the categories that do pay.</p>
+<p>Think of two users. User A sends hundreds of messages, runs three watchers around the clock, and buys nothing. That’s me. User B asks for one thing, a $4,000 anniversary trip with two hotel nights paying 15%, and generates roughly $300 of commission for a few dollars of compute. The business works if there are enough Bs to carry the As, and if As become Bs. The 40% credit card number is the best evidence they do. But it’s also why free for everyone is a stated goal, not a promise. By Shinn’s account a $100 a month subscription would pay sooner, but he calls it a local optimum that venture money lets him skip. It is the obvious fallback if take rates disappoint.</p>
+<h2 id="muse-dots-and-the-problem-of-bigger-wallets">Muse, Dots, and the problem of bigger wallets</h2>
+<p>Instinct’s real competition is not other startups. Meta launched Muse in September, a free personal agent with an actual app, <a href="https://techcrunch.com/2026/09/28/viral-ai-agent-instinct-raises-1b-series-c-at-a-10b-valuation/" target="_blank" rel="noopener">integrated with Instagram DMs, Facebook Groups, and Marketplace</a>, that <a href="https://fortune.com/2026/09/30/noah-shinn-instinct-ai-assistant-meta-muse-alexandr-wang-tech-series-c-ai-agent-mark-zuckerberg/" target="_blank" rel="noopener">Apptopia estimates saw 2.8 million installs in its first twelve days</a>. OpenAI followed on September 29 with <a href="https://techcrunch.com/2026/09/29/openai-launches-dots-its-bubbly-agentic-avatar/" target="_blank" rel="noopener">Dots</a>: always-on agents powered by GPT-6 Astra that pursue goals in the background, reachable through ChatGPT, Slack, and Teams, and gated behind the paid Pro and Business Premium tiers.</p>
+<p>These are not identical products. Muse is a social-graph assistant from a company whose ad business can subsidize it indefinitely. Dots leans toward work, and OpenAI is charging from day one, which tells you something about what always-on agents cost. Instinct is the only one with no app, the only one that hasn’t said what model it runs, and the only one with no distribution it didn’t earn five invites at a time.</p>
+<p>Meta and OpenAI can lose money on agents forever because they are features. Instinct can’t, because it is the whole company. But Instinct’s retention number, 80% among users who have shared something sensitive, suggests people don’t casually leave once an inbox and a card are in. After a month, my inbox, calendar, and job search all run through it, and moving them would take a weekend. The danger is becoming a replaceable layer on someone else’s model. The defense is being the layer that knows you.</p>
+<h2 id="can-the-economics-work">Can the economics work?</h2>
+<p>Here is the model, with every input adjustable in the calculator that follows the table.</p>
+<div class="formula">Monthly variable cost = one-off tasks × cost per task + long-running jobs × cost per job per month.<br>Monthly revenue = commission-eligible spending × effective take rate.<br>Contribution = revenue minus cost.</div>
+<p>The long-running line is there because of what my export showed: watchers and daily pipelines are a different kind of cost from a request that finishes in two minutes. They run whether or not you ask, and they were 92% of my tool calls.</p>
+<div class="tablewrap"><table><thead><tr><th>Scenario</th><th>One-off tasks</th><th>Long-running jobs</th><th>Monthly cost</th><th>Eligible spend</th><th>Take rate</th><th>Revenue</th><th>Contribution</th><th>Break-even spend</th></tr></thead><tbody><tr><td>Optimistic</td><td>40 × $0.10</td><td>0.5 × $4</td><td>$6.00</td><td>$600</td><td>4%</td><td>$24.00</td><td>+$18.00</td><td>$150</td></tr><tr><td>Baseline</td><td>50 × $0.25</td><td>1 × $5</td><td>$17.50</td><td>$400</td><td>2%</td><td>$8.00</td><td>−$9.50</td><td>$875</td></tr><tr><td>Pessimistic</td><td>60 × $0.50</td><td>2 × $7.50</td><td>$45.00</td><td>$200</td><td>1%</td><td>$2.00</td><td>−$43.00</td><td>$4,500</td></tr><tr><td>My month</td><td>47 × $0.79</td><td>10 × $24.75</td><td>$285</td><td>$0</td><td>2%</td><td>$0</td><td>−$285</td><td>$14,250</td></tr></tbody></table></div>
+<p>Optimistic assumes Shinn’s efficiency claims are real, most users run no standing jobs, users spend heavily, and merchants pay. Baseline is mid-tier costs, one modest watcher per user, and a 2% blended take, Shopify territory. Pessimistic is Astra-class costs, two watchers, and most merchants refusing to pay. My month is my export at Sol prices: 47 one-off tasks and 10 standing jobs. To break even on me at 2%, Instinct would need me to route about $14,000 a month of commissionable spending through it. I’m a college student.</p>
+<section class="calc" id="calculator" aria-labelledby="calc-title">
+  <div class="calc-head">
+    <h3 id="calc-title">Try the economics yourself</h3>
+    <p class="calc-sub">Every number here is an assumption. None of it is Instinct's internal financial data. Drag the sliders or load a scenario.</p>
+    <div class="calc-presets" role="group" aria-label="Scenarios">
+      <button type="button" class="preset" data-preset="optimistic">Optimistic</button>
+      <button type="button" class="preset is-active" data-preset="baseline">Baseline</button>
+      <button type="button" class="preset" data-preset="pessimistic">Pessimistic</button>
+      <button type="button" class="preset" data-preset="mymonth">My month</button>
+      <button type="button" class="preset preset-reset" id="calc-reset">Reset</button>
+    </div>
+  </div>
+
+  <div class="calc-grid">
+    <div class="calc-inputs">
+      <p class="group-label">One-off tasks</p>
+      <div class="field">
+        <div class="field-row"><label for="in-tasks">Tasks per user per month</label><output id="out-tasks" for="in-tasks">50</output></div>
+        <input type="range" id="in-tasks" min="0" max="300" step="1" value="50">
+        <p class="hint">A request that starts, runs, and finishes: an email, a booking, a research question. My month: 47.</p>
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="in-cost">Average cost per task</label><output id="out-cost" for="in-cost">$0.25</output></div>
+        <input type="range" id="in-cost" min="0" max="100" step="0.5" value="42">
+        <p class="hint">Logarithmic, 1¢ to $20. Simple tasks sit near the left; multi-site browser work toward the right.</p>
+      </div>
+
+      <p class="group-label">Long-running jobs</p>
+      <div class="field">
+        <div class="field-row"><label for="in-jobs">Standing jobs per user</label><output id="out-jobs" for="in-jobs">1</output></div>
+        <input type="range" id="in-jobs" min="0" max="20" step="0.5" value="1">
+        <p class="hint">Always-on watchers and daily pipelines. Fractions are fine for an average user. My month: 10, and they were 92% of my tool calls.</p>
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="in-jobcost">Cost per job per month</label><output id="out-jobcost" for="in-jobcost">$5.00</output></div>
+        <input type="range" id="in-jobcost" min="0" max="100" step="0.5" value="43">
+        <p class="hint">Logarithmic, 50¢ to $200. A watcher that checks an inbox every few minutes re-reads its context thousands of times a month. My month, at Sol prices: about $25 each.</p>
+      </div>
+
+      <p class="group-label">Revenue</p>
+      <div class="field">
+        <div class="field-row"><label for="in-spend">Commission-eligible spending per month</label><output id="out-spend" for="in-spend">$400</output></div>
+        <input type="range" id="in-spend" min="0" max="3000" step="10" value="400">
+        <p class="hint">Only purchases where a merchant would actually pay Instinct. Flights on an airline site probably don't count.</p>
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="in-take">Effective take rate</label><output id="out-take" for="in-take">2.0%</output></div>
+        <input type="range" id="in-take" min="0" max="30" step="0.5" value="2">
+        <p class="hint">Shopify is 2 to 3%. Boutique hotels can pay 30%. Blended across everything is the number that matters.</p>
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="in-users">Active users</label><output id="out-users" for="in-users">1,000,000</output></div>
+        <input type="range" id="in-users" min="0" max="100" step="1" value="50">
+        <p class="hint">Logarithmic, 10,000 to 100 million. Instinct has not disclosed its user count.</p>
+      </div>
+    </div>
+
+    <div class="calc-outputs">
+      <dl class="stats">
+        <div class="stat"><dt>Revenue per user</dt><dd id="r-rev">$8.00</dd><span class="stat-sub">per month</span></div>
+        <div class="stat"><dt>Variable cost per user</dt><dd id="r-cost">$17.50</dd><span class="stat-sub" id="r-cost-sub">$12.50 tasks + $5.00 jobs</span></div>
+        <div class="stat stat-hero"><dt>Contribution per user</dt><dd id="r-contrib">−$9.50</dd><span class="stat-sub" id="r-contrib-sub">loses money on each user</span></div>
+        <div class="stat"><dt>Break-even spending</dt><dd id="r-be">$875</dd><span class="stat-sub">eligible spend needed per user per month</span></div>
+        <div class="stat"><dt>Across all users</dt><dd id="r-total">−$9.5M</dd><span class="stat-sub" id="r-total-sub">per month, −$114M a year</span></div>
+      </dl>
+      <div class="bar-wrap" aria-hidden="true">
+        <div class="bar-label"><span>Cost (tasks · jobs)</span><span>Revenue</span></div>
+        <div class="bar">
+          <div class="bar-stack"><div class="bar-cost" id="bar-cost"></div><div class="bar-jobs" id="bar-jobs"></div></div>
+          <div class="bar-rev" id="bar-rev"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <details class="mix">
+    <summary>Optional: build the average from a user mix</summary>
+    <p class="hint">Set the share of each user type. The profiles below are my assumptions. Applying the mix overwrites the task, job, and spending sliders with the blended values.</p>
+    <div class="mix-grid">
+      <div class="field"><div class="field-row"><label for="mix-casual">Casual</label><output id="out-mix-casual">60%</output></div><input type="range" id="mix-casual" min="0" max="100" value="60"><p class="hint">15 tasks at $0.20, no standing jobs, $100 eligible spend</p></div>
+      <div class="field"><div class="field-row"><label for="mix-regular">Regular</label><output id="out-mix-regular">30%</output></div><input type="range" id="mix-regular" min="0" max="100" value="30"><p class="hint">60 tasks at $0.40, 1 job at $8, $400 eligible spend</p></div>
+      <div class="field"><div class="field-row"><label for="mix-super">Superuser</label><output id="out-mix-super">10%</output></div><input type="range" id="mix-super" min="0" max="100" value="10"><p class="hint">150 tasks at $0.60, 8 jobs at $20, $1,200 eligible spend</p></div>
+    </div>
+    <div class="mix-foot">
+      <span id="mix-summary"></span>
+      <button type="button" class="preset" id="mix-apply">Apply mix</button>
+    </div>
+  </details>
+  <p class="calc-foot">Contribution is revenue minus variable compute cost only. Salaries, compute contracts bought ahead of demand, telephony, and the persistent machine behind each agent are not included.</p>
+</section>
+
+<p>Instinct hasn’t disclosed a user count, but if a billion dollars a year flows through something like 100,000 to 200,000 people, that is $400 to $800 of spending per user per month, right around the baseline break-even. Early adopters are affluent and travel-heavy. The economics may look fine for them and worse for the next ten million people, many of whom will look more like me.</p>
+<p>And contribution is not profit. Even at +$18 per user, a million users is about $216 million a year, for a company that just raised a billion dollars while rationing access until it can bring up more compute. A $10 billion valuation implies something like $1 billion in annual revenue at a software multiple. At a 2% take that is $50 billion in volume, fifty times today’s. In effect, investors are betting Instinct becomes something like an Expedia-scale marketplace, across every category, within a few years.</p>
+<h2 id="will-the-survival-instincts-pay-off">Will the survival instincts pay off?</h2>
+<p>I don’t know, and nobody outside the company does either. The bull case: an agent that knows you becomes the interface for your spending, merchants pay for the demand it routes, and the free product is the moat. The bear case: the users who love it most cost the most, the merchants who matter most won’t pay, and two companies with far more compute are giving away comparable products inside things people already use.</p>
+<p>One question keeps nagging at me. If Instinct is paid by merchants, how do I know it booked the hotel that was best for me rather than the one paying 30%? Shinn says influencing users against their own interest would be “a very dangerous world,” and I believe he means it. But an incentive doesn’t need bad intent to work on you. Travel agents, financial advisors, and search engines all started on the user’s side and ended up with disclosure rules. An agent holding your card and your inbox is a bigger version of the same problem, and I haven’t seen a design that resolves it beyond trust.</p>
+<p>Which is the strange thing about Instinct’s model. Its revenue arrives at the exact moment its incentives and mine could diverge. Right now I cost Instinct somewhere between a few dollars and a few hundred a month by my estimate, pay it nothing, and it has never once tried to sell me anything. That is either the most user-aligned product I’ve used or a company that hasn’t started collecting yet. I can’t tell which from the outside, and that is what I’d want to know before the first time it books a hotel for me.</p>
+</article>
+<section class="notes"><div class="prose">
+<h2 id="sources">Sources</h2>
+<ol><li>Sarah Perez, “Viral AI agent Instinct raises $1B Series C at a $10B valuation,” TechCrunch, September 28, 2026. <a href="https://techcrunch.com/2026/09/28/viral-ai-agent-instinct-raises-1b-series-c-at-a-10b-valuation/" target="_blank" rel="noopener">https://techcrunch.com/2026/09/28/viral-ai-agent-instinct-raises-1b-series-c-at-a-10b-valuation/</a></li><li>Noah Shinn interviewed by Patrick O’Shaughnessy, “Instinct: The Personal Agent,” Invest Like the Best, Episode 493, September 28, 2026. <a href="https://colossus.com/episode/instinct-the-personal-agent/" target="_blank" rel="noopener">https://colossus.com/episode/instinct-the-personal-agent/</a> (The full transcript is behind a login; the audio is public on YouTube and podcast apps. Where I quote Shinn, the wording is as reported in public write-ups of the episode.)</li><li>Marco Quiroz-Gutierrez, “Meet Noah Shinn: The 23-year-old college dropout whose viral AI assistant is emerging as a new challenger to Mark Zuckerberg’s Meta,” Fortune, September 30, 2026. <a href="https://fortune.com/2026/09/30/noah-shinn-instinct-ai-assistant-meta-muse-alexandr-wang-tech-series-c-ai-agent-mark-zuckerberg/" target="_blank" rel="noopener">https://fortune.com/2026/09/30/noah-shinn-instinct-ai-assistant-meta-muse-alexandr-wang-tech-series-c-ai-agent-mark-zuckerberg/</a></li><li>Lucas Ropek, “OpenAI launches Dots, its bubbly agentic avatar,” TechCrunch, September 29, 2026. <a href="https://techcrunch.com/2026/09/29/openai-launches-dots-its-bubbly-agentic-avatar/" target="_blank" rel="noopener">https://techcrunch.com/2026/09/29/openai-launches-dots-its-bubbly-agentic-avatar/</a></li><li>OpenAI, “Introducing GPT-6.1 Sol,” accessed October 13, 2026 (API pricing and per-task benchmark costs). <a href="https://openai.com/index/introducing-gpt-6-1-sol/" target="_blank" rel="noopener">https://openai.com/index/introducing-gpt-6-1-sol/</a></li></ol>
+<p>Usage figures in “How I actually use it” come from the 30-day usage export Instinct generated for my account on October 13, 2026. It is personal data, not a public source, and is not counted above.</p>
+</div></section>
+</main>
+<footer class="about"><p><b>Yash Sunkara</b> studies computer science and public policy at the University of Virginia and builds software tools. Corrections welcome.</p></footer>
+<script>
+(function(){var bar=document.getElementById('prog');function update(){var max=document.documentElement.scrollHeight-innerHeight;bar.style.width=(max>0?Math.min(100,scrollY/max*100):0)+'%';}addEventListener('scroll',update,{passive:true});addEventListener('resize',update);update();})();
+</script>
+<script src="/writings/instinct-survival-instincts/interactive.js" defer></script>
+</body>
+</html>

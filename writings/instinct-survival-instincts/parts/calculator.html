@@ -1,0 +1,90 @@
+<section class="calc" id="calculator" aria-labelledby="calc-title">
+  <div class="calc-head">
+    <h3 id="calc-title">Try the economics yourself</h3>
+    <p class="calc-sub">Every number here is an assumption. None of it is Instinct's internal financial data. Drag the sliders or load a scenario.</p>
+    <div class="calc-presets" role="group" aria-label="Scenarios">
+      <button type="button" class="preset" data-preset="optimistic">Optimistic</button>
+      <button type="button" class="preset is-active" data-preset="baseline">Baseline</button>
+      <button type="button" class="preset" data-preset="pessimistic">Pessimistic</button>
+      <button type="button" class="preset" data-preset="mymonth">My month</button>
+      <button type="button" class="preset preset-reset" id="calc-reset">Reset</button>
+    </div>
+  </div>
+
+  <div class="calc-grid">
+    <div class="calc-inputs">
+      <p class="group-label">One-off tasks</p>
+      <div class="field">
+        <div class="field-row"><label for="in-tasks">Tasks per user per month</label><output id="out-tasks" for="in-tasks">50</output></div>
+        <input type="range" id="in-tasks" min="0" max="300" step="1" value="50">
+        <p class="hint">A request that starts, runs, and finishes: an email, a booking, a research question. My month: 47.</p>
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="in-cost">Average cost per task</label><output id="out-cost" for="in-cost">$0.25</output></div>
+        <input type="range" id="in-cost" min="0" max="100" step="0.5" value="42">
+        <p class="hint">Logarithmic, 1¢ to $20. Simple tasks sit near the left; multi-site browser work toward the right.</p>
+      </div>
+
+      <p class="group-label">Long-running jobs</p>
+      <div class="field">
+        <div class="field-row"><label for="in-jobs">Standing jobs per user</label><output id="out-jobs" for="in-jobs">1</output></div>
+        <input type="range" id="in-jobs" min="0" max="20" step="0.5" value="1">
+        <p class="hint">Always-on watchers and daily pipelines. Fractions are fine for an average user. My month: 10, and they were 92% of my tool calls.</p>
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="in-jobcost">Cost per job per month</label><output id="out-jobcost" for="in-jobcost">$5.00</output></div>
+        <input type="range" id="in-jobcost" min="0" max="100" step="0.5" value="43">
+        <p class="hint">Logarithmic, 50¢ to $200. A watcher that checks an inbox every few minutes re-reads its context thousands of times a month. My month, at Sol prices: about $25 each.</p>
+      </div>
+
+      <p class="group-label">Revenue</p>
+      <div class="field">
+        <div class="field-row"><label for="in-spend">Commission-eligible spending per month</label><output id="out-spend" for="in-spend">$400</output></div>
+        <input type="range" id="in-spend" min="0" max="3000" step="10" value="400">
+        <p class="hint">Only purchases where a merchant would actually pay Instinct. Flights on an airline site probably don't count.</p>
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="in-take">Effective take rate</label><output id="out-take" for="in-take">2.0%</output></div>
+        <input type="range" id="in-take" min="0" max="30" step="0.5" value="2">
+        <p class="hint">Shopify is 2 to 3%. Boutique hotels can pay 30%. Blended across everything is the number that matters.</p>
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="in-users">Active users</label><output id="out-users" for="in-users">1,000,000</output></div>
+        <input type="range" id="in-users" min="0" max="100" step="1" value="50">
+        <p class="hint">Logarithmic, 10,000 to 100 million. Instinct has not disclosed its user count.</p>
+      </div>
+    </div>
+
+    <div class="calc-outputs">
+      <dl class="stats">
+        <div class="stat"><dt>Revenue per user</dt><dd id="r-rev">$8.00</dd><span class="stat-sub">per month</span></div>
+        <div class="stat"><dt>Variable cost per user</dt><dd id="r-cost">$17.50</dd><span class="stat-sub" id="r-cost-sub">$12.50 tasks + $5.00 jobs</span></div>
+        <div class="stat stat-hero"><dt>Contribution per user</dt><dd id="r-contrib">−$9.50</dd><span class="stat-sub" id="r-contrib-sub">loses money on each user</span></div>
+        <div class="stat"><dt>Break-even spending</dt><dd id="r-be">$875</dd><span class="stat-sub">eligible spend needed per user per month</span></div>
+        <div class="stat"><dt>Across all users</dt><dd id="r-total">−$9.5M</dd><span class="stat-sub" id="r-total-sub">per month, −$114M a year</span></div>
+      </dl>
+      <div class="bar-wrap" aria-hidden="true">
+        <div class="bar-label"><span>Cost (tasks · jobs)</span><span>Revenue</span></div>
+        <div class="bar">
+          <div class="bar-stack"><div class="bar-cost" id="bar-cost"></div><div class="bar-jobs" id="bar-jobs"></div></div>
+          <div class="bar-rev" id="bar-rev"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <details class="mix">
+    <summary>Optional: build the average from a user mix</summary>
+    <p class="hint">Set the share of each user type. The profiles below are my assumptions. Applying the mix overwrites the task, job, and spending sliders with the blended values.</p>
+    <div class="mix-grid">
+      <div class="field"><div class="field-row"><label for="mix-casual">Casual</label><output id="out-mix-casual">60%</output></div><input type="range" id="mix-casual" min="0" max="100" value="60"><p class="hint">15 tasks at $0.20, no standing jobs, $100 eligible spend</p></div>
+      <div class="field"><div class="field-row"><label for="mix-regular">Regular</label><output id="out-mix-regular">30%</output></div><input type="range" id="mix-regular" min="0" max="100" value="30"><p class="hint">60 tasks at $0.40, 1 job at $8, $400 eligible spend</p></div>
+      <div class="field"><div class="field-row"><label for="mix-super">Superuser</label><output id="out-mix-super">10%</output></div><input type="range" id="mix-super" min="0" max="100" value="10"><p class="hint">150 tasks at $0.60, 8 jobs at $20, $1,200 eligible spend</p></div>
+    </div>
+    <div class="mix-foot">
+      <span id="mix-summary"></span>
+      <button type="button" class="preset" id="mix-apply">Apply mix</button>
+    </div>
+  </details>
+  <p class="calc-foot">Contribution is revenue minus variable compute cost only. Salaries, compute contracts bought ahead of demand, telephony, and the persistent machine behind each agent are not included.</p>
+</section>

@@ -229,6 +229,91 @@ body.section-active .profile-pic:hover {
     z-index: 100;
 }
 
+.writing-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+}
+
+/* Points at the pencil icon from the landing view; hidden once a section is open. */
+.writing-callout {
+    max-width: 7.5rem;
+    padding-left: 0.4rem;
+    color: var(--color-text);
+    font-size: 0.95rem;
+    line-height: 1.25;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.writing-callout .arrow {
+    display: block;
+    width: max-content;
+    font-size: 1.1rem;
+    animation: nudge-up 1.6s ease-in-out infinite;
+}
+
+.writing-callout .arrow-left {
+    display: none;
+}
+
+.writing-callout:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+.writing-nav:has(.writing-callout) .tooltip {
+    display: none;
+}
+
+body.section-active .writing-callout {
+    opacity: 0;
+    pointer-events: none;
+}
+
+@keyframes nudge-up {
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+@keyframes nudge-left {
+    50% {
+        transform: translateX(-5px);
+    }
+}
+
+/* On phones the label sits beside the icon instead of under it. */
+@media (max-width: 600px) {
+    .writing-nav {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.6rem;
+    }
+
+    .writing-callout {
+        max-width: none;
+        padding-left: 0;
+        white-space: nowrap;
+    }
+
+    .writing-callout .arrow-up {
+        display: none;
+    }
+
+    .writing-callout .arrow-left {
+        display: inline-block;
+        animation-name: nudge-left;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .writing-callout .arrow {
+        animation: none;
+    }
+}
+
 /* Left-side navigation labels expand into the page, not off-screen. */
 .writing-nav .tooltip {
     left: 60px;

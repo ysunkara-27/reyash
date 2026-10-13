@@ -1,0 +1,94 @@
+/* Shared look for every Markdown essay under /writings. Matches The Gigawatt Standard's paper, ink and amber. */
+@font-face{font-family:"Ramboia";src:url("/css/ramboia-font-family/RamboiaTestVF.ttf") format("truetype-variations");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Ramboia";src:url("/css/ramboia-font-family/RamboiaTestVF-Italic.ttf") format("truetype-variations");font-weight:100 900;font-style:italic;font-display:swap}
+:root{
+  --paper:#f3f4f1; --paper-2:#e8eae5; --card:#ffffff;
+  --ink:#14171a; --ink-2:#454b52; --ink-3:#6c737b; --rule:#d3d7d1;
+  --amber:#a35f00; --pos-ink:#2d7a4f; --neg-ink:#b4473a;
+  --f-serif:"Ramboia",Georgia,serif;
+  --measure:37.5rem;
+  /* Names the interactive blocks use, mapped onto the site palette. */
+  --bg:var(--paper); --surface:var(--card); --fg:var(--ink); --muted:var(--ink-3);
+  --accent:var(--amber); --accent-soft:color-mix(in srgb,var(--amber) 12%,var(--card));
+  --pos:var(--pos-ink); --neg:var(--neg-ink);
+  --font-display:var(--f-serif); --font-body:var(--f-serif); --font-mono:var(--f-serif);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#111417; --paper-2:#181c20; --card:#1b2025;
+    --ink:#e9ebe7; --ink-2:#b6bcc2; --ink-3:#8b939b; --rule:#2c3238;
+    --amber:#f2a93b; --pos-ink:#6cc58f; --neg-ink:#e0786a;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111417; --paper-2:#181c20; --card:#1b2025;
+  --ink:#e9ebe7; --ink-2:#b6bcc2; --ink-3:#8b939b; --rule:#2c3238;
+  --amber:#f2a93b; --pos-ink:#6cc58f; --neg-ink:#e0786a;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-serif);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+img{max-width:100%}
+[hidden]{display:none!important}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+
+/* masthead */
+.masthead{position:sticky;top:0;z-index:40;padding-top:env(safe-area-inset-top,0px);background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:saturate(1.2) blur(8px);-webkit-backdrop-filter:saturate(1.2) blur(8px);border-bottom:1px solid var(--rule)}
+.masthead .row{display:flex;align-items:center;gap:.75rem;padding:.6rem 16px;max-width:76rem;margin:0 auto;min-width:0}
+.masthead .back{font:500 .7rem/1.2 var(--f-serif);color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;text-decoration:none}
+.masthead .back:hover{color:var(--ink)}
+.masthead .t{font:600 .95rem/1 var(--f-serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.progress{height:2px}
+.progress span{display:block;height:100%;width:0;background:var(--amber)}
+
+/* title block */
+.head{max-width:52rem;margin:0 auto;padding:clamp(3.5rem,10vh,6.5rem) 16px 2.5rem}
+.kicker{font:600 .74rem/1.2 var(--f-serif);letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin:0 0 1.1rem}
+.head h1{font-weight:300;font-size:clamp(2.6rem,7.5vw,5.4rem);line-height:.98;letter-spacing:-.025em;margin:0 0 1.4rem;text-wrap:balance}
+.dek{font:400 clamp(1.1rem,2vw,1.42rem)/1.45 var(--f-serif);color:var(--ink-2);max-width:36rem;margin:0 0 1.5rem;text-wrap:pretty}
+.byline{font:500 .82rem/1.4 var(--f-serif);color:var(--ink-3);margin:0;padding-top:1.25rem;border-top:1px solid var(--rule)}
+.byline strong{color:var(--ink);font-weight:600}
+
+/* prose */
+.prose{max-width:var(--measure);margin:0 auto;padding:1.5rem 16px 4.5rem;font-size:1.25rem;line-height:1.62}
+.prose > p,.notes p{margin:0 0 1.15em;text-wrap:pretty}
+.prose > p:first-of-type::first-letter{float:left;font-weight:500;font-size:5.35em;line-height:.8;margin:.07em .09em 0 -.02em}
+.prose h2{font-weight:400;font-size:clamp(1.7rem,3.4vw,2.2rem);line-height:1.15;letter-spacing:-.015em;margin:2.4em 0 .8em;text-wrap:balance}
+.prose h3{font-weight:500;font-size:1.35rem;line-height:1.25;margin:0 0 .4rem}
+.prose a{text-decoration-color:color-mix(in srgb,var(--amber) 70%,transparent);text-decoration-thickness:1px;text-underline-offset:.16em}
+.prose a:hover{color:var(--amber)}
+.prose strong{font-weight:600}
+.prose ul,.prose ol{padding-left:1.3rem;margin:0 0 1.15em}
+.prose hr{border:0;border-top:1px solid var(--rule);margin:2.5rem 0}
+.endmark{display:inline-block;width:.6em;height:.6em;background:var(--amber);margin-left:.3em}
+@media (max-width:640px){.prose{font-size:1.125rem}}
+
+/* tables, formula, figures */
+.tablewrap{overflow-x:auto;margin:1.5rem 0 1.75rem;-webkit-overflow-scrolling:touch}
+.prose table{border-collapse:collapse;width:100%;font-size:.86rem;line-height:1.4;font-variant-numeric:tabular-nums}
+.prose th,.prose td{text-align:left;padding:.55rem .7rem;border-bottom:1px solid var(--rule);vertical-align:top}
+.prose th{font-weight:600;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);border-bottom:2px solid var(--rule);white-space:nowrap}
+.prose td:nth-child(n+3),.prose th:nth-child(n+3){text-align:right;white-space:nowrap}
+.prose td:first-child{font-weight:600}
+.formula{font-size:.95rem;line-height:1.7;background:var(--card);border:1px solid var(--rule);border-left:2px solid var(--amber);border-radius:4px;padding:.9rem 1.1rem;margin:1rem 0 1.4rem}
+.prose figure{margin:2rem 0}
+.prose figure img{display:block;margin:0 auto;max-width:min(100%,400px);height:auto;border-radius:6px;border:1px solid var(--rule)}
+.prose figcaption{font-size:.88rem;line-height:1.45;color:var(--ink-3);text-align:center;max-width:30rem;margin:.8rem auto 0;text-wrap:pretty}
+
+/* interactive blocks break out of the reading column */
+.prose .calc{position:relative;left:50%;transform:translateX(-50%);width:min(880px,calc(100vw - 32px));max-width:none;margin:2.5rem 0;font-size:1rem;line-height:1.5}
+
+/* sources */
+.notes{border-top:1px solid var(--rule);background:var(--paper-2)}
+.notes .prose{font-size:.98rem;line-height:1.55;padding-block:3.5rem}
+.notes h2{font:600 .78rem/1.3 var(--f-serif);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:0 0 1.1em}
+.notes ol{font-size:.84rem;line-height:1.5;color:var(--ink-2);padding-left:1.6rem}
+.notes ol li{margin-bottom:.55rem;padding-left:.2rem}
+.notes ol a{color:var(--ink);text-decoration-color:var(--rule);word-break:break-word}
+.notes p{font-size:.84rem;color:var(--ink-2)}
+.calc-sub{margin-top:0}
+.about{max-width:var(--measure);margin:0 auto;padding:2.5rem 16px 4rem;font:400 .95rem/1.55 var(--f-serif);color:var(--ink-2)}
+.about b{color:var(--ink)}
