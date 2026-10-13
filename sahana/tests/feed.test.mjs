@@ -55,4 +55,6 @@ test('credit minimums and graduation cutoffs do not imply a wrong class year',()
  assert.equal(matchJob({...base,description:'Undergraduate or graduate with at least 4 or more semesters.'},now).eligibility,'later');
  assert.equal(matchJob({...base,title:'Student Research Assistant',description:'Analyze public health data.'},now).health,true);
  assert.equal(matchJob({...base,location:'Fort Eustis, Virginia'},now).local,false);
+ assert.equal(matchJob({...base,title:'Graduate Student Research Assistant'},now).eligibility,'later');
+ assert.equal(matchJob({...base,title:'Law Student Research Assistant'},now),null);
 });
