@@ -46,6 +46,46 @@
             line-height: 1.35;
         }
 
+        .writing-list {
+            list-style: none;
+            text-align: left;
+            margin-top: 4rem;
+            padding: 0;
+        }
+
+        .writing-entry {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding-bottom: 2.5rem;
+        }
+
+        .writing-entry a {
+            text-decoration: none;
+        }
+
+        .writing-entry h2 {
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 400;
+            letter-spacing: -0.02em;
+        }
+
+        .writing-entry a:hover h2 {
+            text-decoration: underline;
+            text-underline-offset: 0.15em;
+        }
+
+        .writing-dek {
+            max-width: 620px;
+            margin-top: 1rem;
+            font-size: clamp(1.1rem, 2.4vw, 1.35rem);
+            line-height: 1.45;
+        }
+
+        .writing-meta {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            opacity: 0.65;
+        }
+
         @media (max-width: 600px) {
             .writing-page {
                 width: min(100% - 3rem, 900px);
@@ -67,7 +107,15 @@
             <h1>Writings</h1>
             <a href="/" aria-label="Return to Yashaswi Sunkara's portfolio">Home</a>
         </header>
-        <p class="writing-intro">Essays, notes, and ideas from Yashaswi Sunkara. New writing is on its way.</p>
+        <ul class="writing-list">
+            <li class="writing-entry">
+                <a href="/writings/the-gigawatt-standard">
+                    <h2>The Gigawatt Standard</h2>
+                    <p class="writing-dek">AI compute used to be counted in chips. Now it’s bought by the gigawatt, and it’s about to get a futures market. What that market is pricing in, and where I think it’s wrong.</p>
+                    <p class="writing-meta">October 2026 · 8 min read</p>
+                </a>
+            </li>
+        </ul>
     </main>
 </body>
 
