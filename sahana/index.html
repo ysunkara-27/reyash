@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#214d43">
+  <meta name="description" content="Sahana’s internship field guide: healthcare data, public service, and a meaningful first step.">
+  <title>Sahana · A little closer to what’s next</title>
+  <link rel="icon" href="./mark.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to opportunities</a>
+<aside class="sidebar">
+  <a class="brand" href="./" aria-label="Sahana home"><span class="brand-icon">s<span>✳</span></span><span>sahana<span class="brand-sub">YOUR NEXT CHAPTER</span></span></a>
+  <div class="nav-label">YOUR FIELD GUIDE</div>
+  <nav aria-label="Main navigation">
+    <button class="nav-button active" data-view="discover"><span>◈</span> Discover <span class="nav-count" id="discover-count">—</span></button>
+    <button class="nav-button" data-view="saved"><span>♡</span> Saved <span class="nav-count" id="saved-count">0</span></button>
+    <button class="nav-button" data-view="applied"><span>✓</span> Applied <span class="nav-count" id="applied-count">0</span></button>
+    <button class="nav-button" data-view="programs"><span>⊞</span> Programs to watch</button>
+    <button class="nav-button" data-view="sources"><span>↻</span> Source check</button>
+  </nav>
+  <div class="sidebar-note"><span class="little-star">✳</span><h3>Small steps.<br>Meaningful work.</h3><p>You don’t need your whole career figured out. Just a good place to begin.</p></div>
+  <div class="profile"><span class="avatar">S</span><div><strong>Sahana’s shortlist</strong><span>George Mason University</span><span>Health Informatics · 2029 / 30</span></div></div>
+</aside>
+<div class="workspace">
+  <header class="topbar"><span>THE INTERNSHIP EDIT <span class="topbar-line">/</span> <span id="today"></span></span><span class="daily"><i></i> A fresh look, every day</span></header>
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy"><span class="eyebrow">HEALTH DATA. PUBLIC GOOD. YOUR FIRST STEP.</span><h1 id="hero-title">A little closer to<br><em>what’s next.</em><span class="hero-spark" aria-hidden="true">✳</span></h1><p>Internships with purpose, picked for your path.<br>Start with healthcare, data, and public service.</p><div class="profile-tags"><span>◉ &nbsp; George Mason</span><span>First year</span><span>Class of 2029 / 2030</span></div></div>
+      <div class="hero-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="art-card"><div class="art-card-top"><span>YOUR DIRECTION</span><span>↗</span></div><div class="art-bars"><i></i><i></i><i></i><i></i><i></i></div><strong>Data for<br>better health.</strong><div class="art-card-bottom"><span>Curiosity → impact</span><span>✳</span></div></div><div class="art-sticker">A GOOD<br>PLACE TO<br><em>begin.</em></div><span class="art-dot"></span></div>
+    </section>
+    <section class="overview" aria-label="Feed summary"><div><span class="stat-value" id="stat-open">—</span><span>roles to explore</span></div><div><span class="stat-value" id="stat-government">—</span><span>in government</span></div><div><span class="stat-value" id="stat-local">—</span><span>nearby or remote</span></div><div class="refresh-stat"><span class="refresh-icon">↻</span><div><strong id="updated">Checking the latest edit…</strong><span id="refresh-note">Daily source checks · 11:00 UTC</span></div><button class="icon-button" id="reload" aria-label="Reload the latest feed">↻</button></div></section>
+    <div id="feed-notice" class="notice" hidden role="status"></div>
+    <section class="board" aria-labelledby="section-title">
+      <div class="section-heading"><div><span class="eyebrow" id="section-kicker">GOOD WORK STARTS HERE</span><h2 id="section-title">Your opportunity board<span class="heading-dot">.</span></h2><p id="section-description">Government first. DC, Northern Virginia, and remote get a little extra love.</p></div><button class="text-button" id="export">Export your tracker ↗</button></div>
+      <div id="job-controls">
+        <div class="filter-tabs" role="group" aria-label="Opportunity category"><button class="selected" data-category="all">All opportunities</button><button data-category="government">Government</button><button data-category="healthcare">Healthcare</button><button data-category="data">Data & analysis</button><button data-category="testing">Testing & quality</button></div>
+        <div class="search-row"><label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search roles, organizations, or skills…" aria-label="Search opportunities"><kbd>/</kbd></label><label class="select-wrap"><span class="sr-only">Location</span><select id="location"><option value="all">All locations</option><option value="local">DC / VA / MD</option><option value="remote">Remote</option></select></label><label class="select-wrap"><span class="sr-only">Sort opportunities</span><select id="sort"><option value="fit">Best fit first</option><option value="deadline">Closing soon</option><option value="new">Recently found</option></select></label></div>
+        <div class="filter-bottom"><span id="result-count" aria-live="polite">Finding your next step…</span><label><input id="later" type="checkbox"> Include later-year / stretch roles</label><button class="text-button" id="reset">Reset filters</button></div>
+      </div>
+      <div class="board-layout"><div id="results" aria-live="polite"><div class="loading-card">Gathering the latest opportunities…</div></div><aside class="right-rail" id="right-rail"><div class="rail-card focus-card"><span class="eyebrow">MADE FOR YOUR START</span><h3>Potential over<br>perfect fit.</h3><p>First-year roles can be hard to spot. We flag education requirements, so you can focus your energy where it counts.</p><div class="rail-divider"></div><span class="mini-label">YOUR SEARCH COMPASS</span><ul><li><span>01</span> Government & public health</li><li><span>02</span> Data, analysis & informatics</li><li><span>03</span> DC / Northern VA + remote</li></ul><p class="small">US citizen · First-year undergraduate<br>Final eligibility is set by each employer.</p></div><div class="rail-card program-teaser"><span class="eyebrow">THINK ONE STEP AHEAD</span><h3>A program worth<br>keeping an eye on.</h3><span class="program-logo">NIH</span><strong>NIH Summer Internship Program</strong><p>Biomedical research. Real questions. A possible first chapter in health data.</p><button class="text-button" data-view="programs">Explore the program watchlist ↗</button></div><p class="storage-note">♡ Your saved roles and application status stay in this browser. Export a copy anytime.</p></aside></div>
+    </section>
+    <footer><a class="footer-brand" href="./">sahana<span>✳</span></a><span>Built for a promising beginning.</span><span>Official sources. Thoughtful next steps.</span></footer>
+  </main>
+</div>
+<dialog id="job-dialog"><div class="dialog-top"><span class="eyebrow">TAKE A CLOSER LOOK</span><button id="close-dialog" class="icon-button" aria-label="Close role details">×</button></div><div id="dialog-content"></div></dialog>
+<div id="toast" role="status" hidden></div>
+<noscript><p>This board needs JavaScript. <a href="https://www.usajobs.gov/Search/Results?hp=student">Browse federal student opportunities on USAJOBS.</a></p></noscript>
+</body>
+</html>

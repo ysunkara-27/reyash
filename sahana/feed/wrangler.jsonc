@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sahana-internship-feed",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-10-12",
+  "kv_namespaces": [{"binding":"FEED","id":"e9df355f1c2d4575a16d101970a5f284"}],
+  "triggers": {"crons":["0 11 * * *"]},
+  "vars": {"FEDERAL_URL":"https://www.ysunkara.com/api/sahana/jobs"},
+  "observability": {"enabled":true}
+}

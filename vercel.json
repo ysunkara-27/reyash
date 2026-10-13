@@ -10,9 +10,17 @@
     },
     "api/amma/custom.mjs": {
       "maxDuration": 60
+    },
+    "api/sahana/jobs.mjs": {
+      "maxDuration": 60
     }
   },
   "redirects": [
+    {
+      "source": "/sahana",
+      "destination": "/sahana/",
+      "permanent": true
+    },
     {
       "source": "/blindspot",
       "destination": "https://scanblindspot.com/",
@@ -85,6 +93,10 @@
     }
   ],
   "rewrites": [
+    {
+      "source": "/api/sahana/feed",
+      "destination": "https://sahana-internship-feed.sunkarayashaswi.workers.dev/feed"
+    },
     {
       "source": "/api/classes/:path*",
       "destination": "https://apgov-classroom.sunkarayashaswi.workers.dev/api/classes/:path*"
@@ -189,6 +201,27 @@
         {
           "key": "Cache-Control",
           "value": "no-cache"
+        }
+      ]
+    },
+    {
+      "source": "/sahana/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://hooraas-rides-api.sunkarayashaswi.workers.dev; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
         }
       ]
     }
