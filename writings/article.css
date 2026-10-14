@@ -92,3 +92,23 @@ a{color:inherit}
 .calc-sub{margin-top:0}
 .about{max-width:var(--measure);margin:0 auto;padding:2.5rem 16px 4rem;font:400 .95rem/1.55 var(--f-serif);color:var(--ink-2)}
 .about b{color:var(--ink)}
+
+/* scroll stories: a pinned graphic, with text steps scrolling past it */
+.story{position:relative;left:50%;transform:translateX(-50%);width:min(1080px,calc(100vw - 32px));margin:3rem 0;display:grid;grid-template-columns:minmax(0,22rem) minmax(0,1fr);gap:2.5rem;font-size:1.1rem;line-height:1.55}
+.story-graphic{grid-column:2;grid-row:1;align-self:start;position:sticky;top:calc(50vh - min(40vh,300px));height:min(80vh,600px);display:flex;flex-direction:column;justify-content:center;min-width:0}
+.story-steps{grid-column:1;grid-row:1;min-width:0}
+.story-step{min-height:78vh;display:flex;align-items:center}
+.story-step:first-child{min-height:60vh}
+.story-step:last-child{min-height:70vh}
+.story-card{background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:1.1rem 1.25rem;box-shadow:0 1px 0 rgba(0,0,0,.03);transition:opacity .35s ease}
+.story-card p{margin:0 0 .8em}
+.story-card p:last-child{margin-bottom:0}
+.story.is-live .story-step:not(.is-active) .story-card{opacity:.45}
+@media (max-width:720px){
+  .story{grid-template-columns:minmax(0,1fr);gap:0;margin:2rem 0;font-size:1rem}
+  .story-graphic{grid-column:1;top:calc(44px + env(safe-area-inset-top,0px));height:auto;min-height:0;padding:.75rem 0;background:var(--paper);z-index:1}
+  .story-steps{grid-column:1;grid-row:1;position:relative;z-index:2;padding:62vh 0 30vh}
+  .story-step,.story-step:first-child,.story-step:last-child{min-height:42vh;align-items:flex-start}
+  .story.is-live .story-step:not(.is-active) .story-card{opacity:0}
+}
+@media (prefers-reduced-motion:reduce){.story *,.story *::before,.story *::after{transition:none!important;animation:none!important}}

@@ -57,6 +57,21 @@ async function renderMarkdown(body, dir) {
     if (line.startsWith('<!--')) { while (i < lines.length && !lines[i].includes('-->')) i++; i++; continue; }
     const heading = line.match(/^(#{2,3})\s+(.*)$/);
     if (heading) { const level = heading[1].length; out.push(`<h${level} id="${slugify(heading[2])}">${inline(heading[2])}</h${level}>`); i++; continue; }
+    // ::: story <name> <graphic.html>  ...steps separated by +++ ...  :::
+    const story = line.match(/^:::\s*story\s+([a-z0-9-]+)\s+(\S+)\s*$/);
+    if (story) {
+      const steps = [[]];
+      for (i++; i < lines.length && lines[i].trim() !== ':::'; i++) {
+        if (lines[i].trim() === '+++') steps.push([]);
+        else steps.at(-1).push(lines[i]);
+      }
+      i++;
+      const graphic = await readFile(resolve(dir, story[2]), 'utf8');
+      const stepHtml = [];
+      for (const [index, step] of steps.entries()) stepHtml.push(`<div class="story-step" data-step="${index + 1}"><div class="story-card">\n${await renderMarkdown(step.join('\n'), dir)}\n</div></div>`);
+      out.push(`<section class="story story-${story[1]}" id="story-${story[1]}" data-step="${steps.length}" data-steps="${steps.length}">\n<div class="story-graphic">\n${graphic}\n</div>\n<div class="story-steps">\n${stepHtml.join('\n')}\n</div>\n</section>`);
+      continue;
+    }
     if (/^```/.test(line)) {
       const kind = line.slice(3).trim();
       const content = [];
@@ -90,7 +105,7 @@ async function renderMarkdown(body, dir) {
       continue;
     }
     const paragraph = [];
-    for (; i < lines.length && lines[i].trim() && !/^(#{2,3}\s|\||```|!\[|<|(\d+\.|[-*])\s)/.test(lines[i]); i++) paragraph.push(lines[i]);
+    for (; i < lines.length && lines[i].trim() && !/^(#{2,3}\s|\||```|!\[|<|:::|(\d+\.|[-*])\s)/.test(lines[i]); i++) paragraph.push(lines[i]);
     out.push(`<p>${paragraph.map(text => inline(text.trim())).join(' ')}</p>`);
   }
   return out.join('\n');
@@ -104,7 +119,8 @@ function page(meta, slug, bodyHtml, notesHtml, hasOg) {
   const title = plain(meta.title);
   const description = plain(meta.description || meta.dek || '');
   const extraStyles = (meta.styles || '').split(',').map(s => s.trim()).filter(Boolean).map(href => `<link rel="stylesheet" href="/writings/${slug}/${href}">`).join('\n');
-  const extraScripts = (meta.scripts || '').split(',').map(s => s.trim()).filter(Boolean).map(src => `<script src="/writings/${slug}/${src}" defer></script>`).join('\n');
+  const storyScript = bodyHtml.includes('class="story ') ? '<script src="/writings/story.js" defer></script>\n' : '';
+  const extraScripts = storyScript + (meta.scripts || '').split(',').map(s => s.trim()).filter(Boolean).map(src => `<script src="/writings/${slug}/${src}" defer></script>`).join('\n');
   const image = hasOg ? `${url}/og.png` : '';
   return `<!doctype html>
 <!-- Generated from article.md by scripts/build-writings.mjs. Edit article.md, not this file. -->

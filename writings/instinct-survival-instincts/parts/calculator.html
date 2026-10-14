@@ -56,6 +56,12 @@
     </div>
 
     <div class="calc-outputs">
+      <div class="be">
+        <div class="be-head"><span>Eligible spending vs. break-even</span><span class="be-read" id="be-read" aria-live="polite"></span></div>
+        <div class="be-track" aria-hidden="true"><div class="be-loss" id="be-loss"></div><div class="be-line" id="be-line"></div><div class="be-dot" id="be-dot"></div></div>
+        <div class="be-scale" aria-hidden="true"><span>$0 a month</span><span id="be-max"></span></div>
+        <div class="be-legend" aria-hidden="true"><span><i class="l-dot"></i>This user's eligible spending</span><span><i class="l-line"></i>Break-even</span></div>
+      </div>
       <dl class="stats">
         <div class="stat"><dt>Revenue per user</dt><dd id="r-rev">$8.00</dd><span class="stat-sub">per month</span></div>
         <div class="stat"><dt>Variable cost per user</dt><dd id="r-cost">$17.50</dd><span class="stat-sub" id="r-cost-sub">$12.50 tasks + $5.00 jobs</span></div>

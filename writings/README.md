@@ -58,6 +58,18 @@ Put an `og.png` (1200×630) in the folder to give the essay a link-preview image
   ````
 - `<!-- include: parts/thing.html -->` drops in an HTML block (calculators, embeds) from the folder
 - `## Sources` starts the grey sources section at the end
+- A scrolling story: a graphic that stays pinned while text steps scroll past it. Steps are separated by `+++`,
+  and the section's `data-step` attribute (1, 2, 3...) changes as each step reaches the middle of the screen,
+  so the graphic's CSS can show a different state per step. Without JavaScript it shows the last state.
+  ```
+  ::: story valuation parts/valuation.html
+  First step text.
+
+  +++
+
+  Second step text.
+  :::
+  ```
 
 Straight quotes become curly ones automatically.
 

@@ -29,7 +29,7 @@
     function render() {
       const s = read();
       const taskCost = s.tasks * s.cost, jobCost = s.jobs * s.jobCost, cost = taskCost + jobCost;
-      const rev = s.spend * s.take, contrib = rev - cost, be = s.take > 0 ? cost / s.take : Infinity, total = contrib * s.users;
+      const rev = s.spend * s.take, contrib = rev - cost, be = cost <= 0 ? 0 : s.take > 0 ? cost / s.take : Infinity, total = contrib * s.users;
       $('out-tasks').textContent = s.tasks;
       $('out-cost').textContent = fmt.money(s.cost, 2);
       $('out-jobs').textContent = s.jobs % 1 === 0 ? s.jobs : s.jobs.toFixed(1);
@@ -49,6 +49,20 @@
       $('r-total').textContent = fmt.big(total);
       $('r-total').className = cls;
       $('r-total-sub').textContent = 'per month, ' + fmt.big(total * 12) + ' a year';
+      // Break-even line: where this user's eligible spending sits against the spending that covers their cost.
+      const scaleMax = (x) => { const m = Math.pow(10, Math.floor(Math.log10(x))); return Math.ceil(x / m) * m; };
+      const top = scaleMax(Math.max(isFinite(be) ? be : 0, s.spend, 100) * 1.2);
+      const pct = (x) => Math.min(100, 100 * x / top) + '%';
+      $('be-max').textContent = fmt.money(top, 0) + ' a month';
+      $('be-dot').style.left = pct(s.spend);
+      $('be-line').hidden = !isFinite(be);
+      $('be-line').style.left = isFinite(be) ? pct(be) : '0%';
+      $('be-loss').style.width = isFinite(be) ? pct(be) : '100%';
+      const gap = s.spend - be;
+      $('be-read').textContent = !isFinite(be) ? (cost > 0 ? 'No take rate, so no spending breaks even' : 'Costs nothing, earns nothing')
+        : Math.abs(gap) < 0.005 ? 'Exactly at break-even'
+        : gap < 0 ? fmt.money(-gap, 0) + ' a month short of break-even'
+        : fmt.money(gap, 0) + ' a month above break-even';
       const mx = Math.max(cost, rev, 0.01);
       $('bar-cost').style.width = (100 * taskCost / mx) + '%';
       $('bar-jobs').style.width = (100 * jobCost / mx) + '%';
@@ -58,7 +72,7 @@
       optimistic: { tasks: 40, cost: 0.10, jobs: 0.5, jobCost: 4, spend: 600, take: 4 },
       baseline: { tasks: 50, cost: 0.25, jobs: 1, jobCost: 5, spend: 400, take: 2 },
       pessimistic: { tasks: 60, cost: 0.50, jobs: 2, jobCost: 7.5, spend: 200, take: 1 },
-      mymonth: { tasks: 47, cost: 0.79, jobs: 10, jobCost: 24.75, spend: 0, take: 2 },
+      mymonth: { tasks: 47, cost: 0.79, jobs: 10, jobCost: 24.787, spend: 0, take: 2 },
     };
     function setCost(c) { costExact = c; inCost.value = costMap.to(c).toFixed(2); }
     function setJobCost(c) { jobExact = c; inJobCost.value = jobMap.to(c).toFixed(2); }
@@ -128,7 +142,8 @@
     function prices(side) {
       const sel = $('sim-' + side).value;
       if (sel !== 'custom') return Object.assign({}, MODELS[sel]);
-      return { name: 'Custom', inp: +$('sim-' + side + '-in').value || 0, cached: +$('sim-' + side + '-cached').value || 0, out: +$('sim-' + side + '-out').value || 0 };
+      const val = (id) => Math.max(0, +$('sim-' + side + id).value || 0);
+      return { name: 'Custom', inp: val('-in'), cached: val('-cached'), out: val('-out') };
     }
     function stepCost(p, ctx, cacheShare, out) {
       return (ctx * (1 - cacheShare) * p.inp + ctx * cacheShare * p.cached + out * p.out) / 1e6;
