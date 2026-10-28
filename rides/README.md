@@ -37,4 +37,8 @@ The game uses three lanes on a 480 × 640 road, with incoming cars, cones, potho
 
 The `mode=traffic` leaderboard uses a new `rides_traffic_scores` table so old two-lane scores remain intact and do not compete with the new course. Creation is idempotent. Daily and all-time leaderboards, best-per-nickname scoring, and submission limits remain in place. Scores remain casual/unverified. Model tests simulate ten minutes of dodgeable gameplay.
 
+## Pattern panic
+
+Pattern panic is a daily seeded memory challenge: watch four color buttons light up, then repeat the growing sequence by tapping/clicking or pressing 1–4. Three lives allow retries; completed rounds score points, with streak bonuses and a saved personal best. Phone controls use large touch targets, with optional tones and vibration where supported. It uses a separate `rides_pattern_scores` table with daily and all-time boards. The API creates the table idempotently and keeps each game's scores separate. Scores are casual/unverified.
+
 Ideas & requests lives in a footer dialog. Its shared Worker endpoint `/requests?site=rides` stores a separate public request log; see the companion-club notes in `dog/README.md` for limits and storage. Deploy the shared Worker before publishing either updated frontend.

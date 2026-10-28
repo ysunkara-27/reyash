@@ -6,7 +6,8 @@ export async function handle(request,env,h){
  try{
  const path=new URL(request.url).pathname;
  if(path==='/v2/game'){
-  const scoreTable=new URL(request.url).searchParams.get('mode')==='traffic'?'rides_traffic_scores':'rides_endless_scores';
+  const mode=new URL(request.url).searchParams.get('mode');
+  const scoreTable=mode==='traffic'?'rides_traffic_scores':mode==='pattern'?'rides_pattern_scores':'rides_endless_scores';
    const today=dailyKey(),yesterday=dailyKey(new Date(Date.now()-86400000));
    await env.DB.prepare(`CREATE TABLE IF NOT EXISTS ${scoreTable} (period TEXT NOT NULL, name TEXT NOT NULL, score INTEGER NOT NULL, updated INTEGER NOT NULL, PRIMARY KEY(period,name))`).run();
    if(request.method==='POST'){

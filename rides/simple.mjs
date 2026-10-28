@@ -1,6 +1,7 @@
 import {mountFeatureLog} from './feature-log.mjs';
 import {plan,participants,destinations,today,pinned,recommendCars,applyCarPreset,removePerson} from './model.mjs';
 import {mountGame} from './game-endless.mjs';
+import {mountPatternGame} from './game-pattern.mjs?v=2';
 const API=location.hostname==='localhost'||location.hostname==='127.0.0.1'?(location.port==='8094'?'http://127.0.0.1:8790':'http://127.0.0.1:8787'):'https://hooraas-rides-api.sunkarayashaswi.workers.dev';
 mountFeatureLog({site:'rides',api:API,host:document.querySelector('footer')});
 const $=id=>document.getElementById(id),esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -33,6 +34,7 @@ function render(){
  if(admin){$('verify').textContent='Verify & post rides';const help=$('adminContent').querySelector('p.muted');if(help)help.textContent='Edits stay private until verified again. Manual edits keep other riders in their cars.'}
  if(!admin&&!e.verified){$('app').querySelectorAll('.cars,.car-count,.warning,p.muted').forEach(el=>el.remove());badge.remove();const empty=document.createElement('section');empty.className='not-posted';empty.innerHTML='<h2>Rides aren’t posted yet</h2><p>An admin is checking the plan. Check out the game or today’s raas set in the meantime.</p>';$('app').append(empty);$('copy').hidden=true;}
  mountGame($('app'),API);
+ mountPatternGame($('app'),API);
  const featured=data.featuredSet||{url:'https://www.youtube.com/watch?v=-u7ThyX0Pus',updated:'2026-09-15'};
  const watch=document.createElement('footer');watch.className='raas-watch';watch.innerHTML=`<a href="${esc(featured.url)}" target="_blank" rel="noopener noreferrer">Watch this raas set today ↗</a><small>Updated ${Number(featured.updated.slice(5,7))}/${Number(featured.updated.slice(8,10))}</small>${admin==='Yashaswi'?'<button id="editFeaturedSet">Edit featured set</button>':''}`;$('app').append(watch);
  if($('editFeaturedSet'))$('editFeaturedSet').onclick=()=>{$('routeContent').innerHTML=`<h2>Edit featured raas set</h2><form id="featuredForm"><label>YouTube link<input name="url" type="url" required maxlength="1000" value="${esc(featured.url)}"></label><label>Updated date<input name="updated" type="date" required value="${today()}"></label><button class="primary">Save featured set</button></form>`;$('featuredForm').onsubmit=async ev=>{ev.preventDefault();const next=structuredClone(data),fields=new FormData(ev.target);next.featuredSet={url:fields.get('url').trim(),updated:fields.get('updated')};try{await save(next);$('routePanel').close()}catch(err){notice(err.message)}};$('routePanel').showModal()};
