@@ -3,8 +3,17 @@ import { cp, mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { resolve, basename } from 'node:path';
 import { buildWritings } from './build-writings.mjs';
 
-// Publish public assets only, never the source checkout or local environment files.
 const root = resolve(import.meta.dirname, '..');
+const vercelConfig = JSON.parse(await readFile(resolve(root, 'vercel.json'), 'utf8'));
+// The Worker serves the classroom UI and API, so this route must ship with the portfolio.
+if (!vercelConfig.rewrites?.some(({ source, destination }) =>
+  source === '/dam-dilemma/:path*' &&
+  destination === 'https://dam-decision.sunkarayashaswi.workers.dev/dam-dilemma/:path*'
+)) {
+  throw new Error('vercel.json must route /dam-dilemma and its subpaths to the Dam Decision Worker.');
+}
+
+// Publish public assets only, never the source checkout or local environment files.
 const output = resolve(root, 'dist');
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
