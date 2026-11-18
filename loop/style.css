@@ -1,0 +1,97 @@
+:root {
+  color-scheme: dark;
+  font-family: system-ui, sans-serif;
+  background: #17161c;
+  color: #f9f4ec;
+  --muted: #c1b9c8;
+  --line: #4d4655;
+  --surface: #2b2732;
+  --accent: #e0fc87;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; }
+main { width: min(100% - 2rem, 37rem); margin: clamp(2rem, 8vh, 6rem) auto 2rem; }
+header { margin-bottom: 1.75rem; }
+.mark {
+  display: grid;
+  place-items: center;
+  width: 2.65rem;
+  height: 2.65rem;
+  border-radius: .8rem;
+  background: var(--accent);
+  color: #1b2310;
+  font-size: 1.85rem;
+  line-height: 1;
+}
+h1 { margin: .75rem 0 0; font-size: clamp(3.4rem, 10vw, 5rem); line-height: 1; letter-spacing: -.07em; }
+header p, .privacy { color: var(--muted); margin: .65rem 0 0; line-height: 1.5; }
+.deck { background: #221f28; border: 1px solid var(--line); border-radius: 1.25rem; padding: clamp(.9rem, 4vw, 1.5rem); }
+.drop-zone {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem .65rem;
+  padding: .9rem;
+  border: 1px dashed #766a80;
+  border-radius: .75rem;
+  background: var(--surface);
+  cursor: pointer;
+  font-weight: 650;
+}
+.drop-zone:hover, .drop-zone.dragging { border-color: var(--accent); }
+.drop-zone:focus-within, :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.drop-zone input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.drop-hint, .privacy, .shortcut { color: var(--muted); font-size: .85rem; font-weight: 400; }
+.privacy { margin-top: .9rem; }
+
+#player { margin-top: 1.2rem; }
+.track-label, .bounds label { display: block; font-size: .85rem; color: var(--muted); margin-bottom: .35rem; }
+button, select, input { font: inherit; }
+button, select, input[type=number] {
+  min-height: 2.65rem;
+  border: 1px solid var(--line);
+  border-radius: .55rem;
+  padding: .4rem .6rem;
+  background: var(--surface);
+  color: inherit;
+}
+button, select { cursor: pointer; }
+button:hover:enabled { border-color: var(--accent); }
+button:disabled, fieldset:disabled { opacity: .55; }
+#track { width: 100%; }
+.timeline { position: relative; margin: .9rem 0 1.25rem; }
+.rail { position: absolute; top: 17px; left: 9px; right: 9px; height: 6px; border-radius: 6px; background: var(--line); }
+#selection { position: absolute; top: 0; height: 100%; border-radius: inherit; background: #aeca69; }
+#seek { position: relative; display: block; appearance: none; width: 100%; height: 40px; margin: 0; background: transparent; cursor: pointer; }
+#seek::-webkit-slider-thumb { appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #fff9ee; border: 1px solid #17161c; }
+#seek::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: #fff9ee; border: 1px solid #17161c; }
+.time { display: flex; justify-content: space-between; font-size: .83rem; color: var(--muted); }
+.time, .bounds input { font-variant-numeric: tabular-nums; }
+fieldset { margin: 0; border: 0; border-top: 1px solid var(--line); padding: .65rem 0 0; min-width: 0; }
+legend { padding: 0 .5rem 0 0; font-weight: 650; }
+.bounds { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
+.bound { display: flex; gap: .35rem; }
+.bound input { width: 100%; min-width: 0; }
+.bound button { white-space: nowrap; font-size: .8rem; }
+.options, .transport { display: flex; flex-wrap: wrap; align-items: center; gap: .55rem 1rem; }
+.options { justify-content: space-between; margin-top: .6rem; }
+.text-button { background: transparent; border: 0; padding-inline: 0; color: var(--accent); font-size: .85rem; }
+.text-button:hover:enabled { text-decoration: underline; }
+.gap { display: flex; align-items: center; gap: .5rem; color: var(--muted); font-size: .85rem; }
+.gap select { color: #f9f4ec; }
+.transport { margin-top: 1rem; }
+#play { background: var(--accent); border-color: var(--accent); color: #1b2310; min-width: 7.5rem; font-weight: 750; }
+#play:hover:enabled { background: #efffba; }
+#status { font-size: .85rem; color: var(--muted); }
+#status:empty { display: none; }
+.shortcut { margin-left: auto; }
+kbd { border: 1px solid var(--line); border-radius: .25rem; padding: .07rem .3rem; }
+@media (max-width: 29rem) {
+  .bound { flex-wrap: wrap; }
+  .bound button { min-height: 2rem; }
+  .shortcut, .drop-hint { display: none; }
+}

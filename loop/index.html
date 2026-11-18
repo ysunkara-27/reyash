@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17161c">
+  <meta name="description" content="Repeat any part of a song for choreography practice. Audio stays in your browser.">
+  <title>Loop — Choreography practice</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/loop/style.css">
+  <script src="/loop/player.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <span class="mark" aria-hidden="true">↻</span>
+      <h1>Loop</h1>
+      <p>Repeat a section of a song while you choreograph.</p>
+    </header>
+
+    <section class="deck" aria-label="Audio looper">
+      <label id="drop-zone" class="drop-zone" for="files">
+        <input id="files" type="file" accept="audio/*,.mp3,.wav,.m4a,.aac,.ogg,.opus,.flac,.aif,.aiff,.webm" multiple>
+        <span id="file-action">Choose audio files</span>
+        <span class="drop-hint">or drop them here</span>
+      </label>
+
+      <div id="player" hidden>
+        <label class="track-label" for="track">Track</label>
+        <select id="track"></select>
+
+        <div class="timeline">
+          <div class="rail" aria-hidden="true"><div id="selection"></div></div>
+          <input id="seek" type="range" min="0" max="0" step="any" value="0" aria-label="Playback position" disabled>
+          <div class="time"><span id="position">0:00.00</span><span id="duration">0:00.00</span></div>
+        </div>
+
+        <fieldset id="settings" disabled>
+          <legend>Loop range</legend>
+          <div class="bounds">
+            <div>
+              <label for="start">Start (seconds)</label>
+              <div class="bound">
+                <input id="start" type="number" min="0" step="any" inputmode="decimal" value="0" required>
+                <button id="set-start" type="button" aria-label="Set loop start to current position">Set here</button>
+              </div>
+            </div>
+            <div>
+              <label for="end">End (seconds)</label>
+              <div class="bound">
+                <input id="end" type="number" min="0" step="any" inputmode="decimal" required>
+                <button id="set-end" type="button" aria-label="Set loop end to current position">Set here</button>
+              </div>
+            </div>
+          </div>
+          <div class="options">
+            <button id="whole" class="text-button" type="button">Use whole track</button>
+            <label class="gap" for="gap">Rest between repeats
+              <select id="gap">
+                <option value="0">None</option>
+                <option value="1">1 sec</option>
+                <option value="2">2 sec</option>
+                <option value="3">3 sec</option>
+              </select>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="transport">
+          <button id="play" type="button" aria-keyshortcuts="Space" disabled>Play loop</button>
+          <span id="status" role="status"></span>
+          <span class="shortcut"><kbd>Space</kbd> play / pause</span>
+        </div>
+      </div>
+      <audio id="audio" preload="metadata"></audio>
+      <noscript>Enable JavaScript to play audio.</noscript>
+    </section>
+    <p class="privacy">Audio stays in this tab. Your files and settings clear when you reload or close it.</p>
+  </main>
+</body>
+</html>

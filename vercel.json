@@ -94,6 +94,10 @@
   ],
   "rewrites": [
     {
+      "source": "/loop",
+      "destination": "/loop/index.html"
+    },
+    {
       "source": "/api/sahana/feed",
       "destination": "https://sahana-internship-feed.sunkarayashaswi.workers.dev/feed"
     },
@@ -115,6 +119,15 @@
     }
   ],
   "headers": [
+    {
+      "source": "/loop/:path*",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'none'; script-src 'self'; style-src 'self'; media-src blob:; img-src data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+        }
+      ]
+    },
     {
       "source": "/atlas/:path*",
       "headers": [

@@ -11,7 +11,7 @@ await mkdir(output, { recursive: true });
 const excluded = new Set(['api', 'tests', 'node_modules', 'README.md', 'feed', 'article.md', 'parts']);
 // Render Markdown essays and refresh the writing lists before copying them.
 await buildWritings();
-for (const path of ['index.html', 'assets', 'bidpoints', 'css', 'js', 'apgovelections', 'rides', 'pujarinet', 'writings', 'sahana', 'amma', 'stats', 'learn', 'feedback']) {
+for (const path of ['index.html', 'assets', 'bidpoints', 'css', 'js', 'apgovelections', 'rides', 'pujarinet', 'writings', 'sahana', 'amma', 'stats', 'learn', 'loop', 'feedback']) {
   await cp(resolve(root, path), resolve(output, path), {
     recursive: true,
     filter: source => !basename(source).startsWith('.') && !excluded.has(basename(source)),
@@ -30,7 +30,7 @@ async function injectAnalytics(directory) {
   for (const entry of await readdir(directory, { withFileTypes: true })) {
     const path = resolve(directory, entry.name);
     if (entry.isDirectory()) await injectAnalytics(path);
-    else if (entry.name.endsWith('.html') && !path.includes('/stats/')) {
+    else if (entry.name.endsWith('.html') && !path.includes('/stats/') && !path.includes('/loop/')) {
       const html = await readFile(path, 'utf8');
       if (!html.includes('/js/analytics.js')) await writeFile(path, html.replace('</head>', '  <script defer src="/js/analytics.js"></script>\n</head>'));
     }
