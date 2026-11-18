@@ -94,6 +94,10 @@
   ],
   "rewrites": [
     {
+      "source": "/links",
+      "destination": "/links/index.html"
+    },
+    {
       "source": "/dam-dilemma/:path*",
       "destination": "https://dam-decision.sunkarayashaswi.workers.dev/dam-dilemma/:path*"
     },
