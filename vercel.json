@@ -94,6 +94,22 @@
   ],
   "rewrites": [
     {
+      "source": "/ProviderTask",
+      "destination": "/ProviderTask/index.html"
+    },
+    {
+      "source": "/ProviderTask/",
+      "destination": "/ProviderTask/index.html"
+    },
+    {
+      "source": "/UEPrototype",
+      "destination": "/UEPrototype/index.html"
+    },
+    {
+      "source": "/UEPrototype/",
+      "destination": "/UEPrototype/index.html"
+    },
+    {
       "source": "/links",
       "destination": "/links/index.html"
     },
