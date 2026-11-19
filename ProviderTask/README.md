@@ -2,7 +2,7 @@
 
 Interactive implementation of the final KY Behavioral Health homepage and Provider Directory designs supplied in task1.pdf and the three reference screenshots. The final detailed designs govern styling and layout; the earlier survey homepage is not used.
 
-- `/ProviderTask/` shows all resource groups with larger text, clear category headings, and blue provider-directory links. On phones those links appear first within their category. The homepage stays before the directory, without a task prompt or preselected search criteria.
+- `/ProviderTask/` shows all resource groups with larger text, clear category headings, and consistently styled resource links. The homepage stays before the directory, without a task prompt or preselected search criteria.
 - `#directory` supports independent provider-name and keyword search and optional health-plan, service, provider-type and county filters.
 - Steps animate closed/open, retain selections, show answered/skipped status, and remain editable.
 - All 120 Kentucky counties have actual geographic boundaries. Map and autocomplete selections share state; hover previews the county; tags remove selections; the statewide and county reset controls are always visible in the location step.

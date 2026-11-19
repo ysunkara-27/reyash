@@ -24,7 +24,7 @@ function header(page) {
     <a href="${home}" class="kynect-brand"><img src="/UEPrototype/assets/kynect.png" alt="kynect"><span>Kentucky benefits &amp;<br> community resources</span></a>
     <nav aria-label="Main navigation">${page === 'home' ? '<a href="#assistance-section" data-section="assistance-section">Assistance</a>' : `<a href="${home}">Home</a>`}
     ${page === 'home' ? '<a href="#about-section" data-section="about-section">About</a><a href="#contact-section" data-section="contact-section">Contact</a>' : decoy('About') + decoy('Contact')}
-    ${page === 'resources' || page === 'detail' ? `<a class="find-help" href="${assistance}">Find help and resources</a>` : ''}
+    ${page === 'resources' || page === 'detail' ? `<a href="${assistance}">Find help and resources</a>` : ''}
     </nav></div></header>
     <div class="kynect-bar"><div class="ky-wrap"><span>Connecting Kentuckians to the support they need.</span><nav aria-label="Support">
       ${decoy('Help')}${decoy('♙ &nbsp; Sign in')}<label class="ky-language">◎ <select aria-label="Language" id="ky-language"><option value="">English</option><option>Español</option></select></label>
@@ -41,7 +41,7 @@ function landing() {
       <h1>How can we Assist you?</h1><p>A little support can make a big difference. Let’s find the right place to start.</p>
       <div class="benefit-cards">
         <article><h2><span aria-hidden="true">♡</span> Health insurance</h2><p>Explore health coverage and enrollment.</p><p>Find a health plan that fits your needs.</p>${decoy('Explore coverage →', 'secondary')}</article>
-        <article class="benefits-featured"><h2><span aria-hidden="true">⊙</span> Benefits</h2><p>Find programs and support for everyday needs.</p><p>Food, family, housing and more.</p><a class="primary" href="${assistance}">Find assistance →</a></article>
+        <article><h2><span aria-hidden="true">⊙</span> Benefits</h2><p>Find programs and support for everyday needs.</p><p>Food, family, housing and more.</p><a class="secondary" href="${assistance}">Find assistance →</a></article>
         <article><h2><span aria-hidden="true">♙</span> Services / Resources</h2><p>Connect with services in your community.</p><p>Discover local support, close to home.</p>${decoy('Find resources →', 'secondary')}</article>
       </div>
     </div></section>

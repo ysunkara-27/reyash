@@ -25,8 +25,8 @@ const check=(key,value)=>{const el=[...d.querySelectorAll(`input[data-key="${key
 const route=async hash=>{w.location.hash=hash;await new Promise(r=>setTimeout(r,20))};
 assert.equal(d.querySelectorAll('.resource-section').length,3);
 assert.ok(d.querySelectorAll('.resource-link').length>=40);
-assert.equal(d.querySelectorAll('.resource-link.highlight').length,2);
-assert.equal(d.querySelectorAll('.resource-link.highlight[href="#directory"]').length,2);
+assert.equal(d.querySelectorAll('.resource-link.highlight').length,0);
+assert.equal(d.querySelectorAll('.resource-link[href="#directory"]').length,2);
 assert.ok(d.querySelector('main').classList.contains('home-page'));
 await route('directory');
 assert.equal(d.querySelector('main').classList.contains('home-page'),false);

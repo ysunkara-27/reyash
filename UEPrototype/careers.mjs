@@ -71,9 +71,9 @@ function showJobs(container) {
   container.innerHTML = `<div class="results-bar"><h2>${matches.length} matching ${matches.length === 1 ? 'job' : 'jobs'}</h2>
     <span>${matches.length ? `Showing 1–${matches.length} of ${matches.length}` : 'Showing 0 of 0'}</span></div>
     <div class="chips">${Object.entries(applied).filter(([, value]) => value).map(([key, value]) => `<button type="button" class="chip" data-remove="${key}" aria-label="Remove ${esc(value)} filter">${esc(value)} ×</button>`).join('')}</div>
-    ${matches.length ? matches.map(job => `<article class="job-card${job.newest ? ' new-job' : ''}">
+    ${matches.length ? matches.map(job => `<article class="job-card">
       ${job.newest ? '<span class="new-label">NEW</span>' : ''}<h3>${job.title}</h3><p>${job.department}</p>
-      <div class="job-card-bottom"><div><span class="job-location"><span class="pin-icon" aria-hidden="true"></span>${job.city}</span><span>Closes ${job.closes}</span><span>${job.type}</span></div>${job.description ? `<a href="#careers/job/${job.id}" class="${job.newest ? 'primary' : 'secondary'}">View Job</a>` : decoy('View Job', 'secondary')}</div>
+      <div class="job-card-bottom"><div><span class="job-location"><span class="pin-icon" aria-hidden="true"></span>${job.city}</span><span>Closes ${job.closes}</span><span>${job.type}</span></div>${job.description ? `<a href="#careers/job/${job.id}" class="secondary">View Job</a>` : decoy('View Job', 'secondary')}</div>
     </article>`).join('') : '<p class="job-card empty">No jobs match your filters. Clear a filter or try a different keyword.</p>'}
     <p class="sample">Illustrative job listings · Not live vacancies</p>`;
 }
