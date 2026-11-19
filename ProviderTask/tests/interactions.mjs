@@ -42,7 +42,9 @@ click('[data-toggle="3"]');click('#select-all');assert.equal(d.querySelectorAll(
 click('#clear-counties');assert.equal(d.querySelectorAll('.county.selected').length,0);
 click('[data-toggle="0"]');assert.equal(d.querySelector('input[value="Anthem"]').checked,true);
 click('#clear-filters');assert.equal(d.querySelectorAll('input[data-key]:checked').length,0);assert.equal(d.querySelectorAll('.result-card').length,500);
-input('#provider-name','Bluegrass Family Counseling');d.querySelector('#provider-search').dispatchEvent(new w.Event('submit',{cancelable:true,bubbles:true}));assert.equal(d.querySelectorAll('.result-card').length,1);
+input('#provider-name','Bluegrass Family Counseling');d.querySelector('#provider-search').dispatchEvent(new w.Event('submit',{cancelable:true,bubbles:true}));assert.ok([...d.querySelectorAll('.result-name')].some(el=>el.textContent==='Bluegrass Family Counseling'));
+input('#provider-name','Todd psychologist');d.querySelector('#provider-search').dispatchEvent(new w.Event('submit',{cancelable:true,bubbles:true}));assert.ok(d.querySelectorAll('.result-card').length>0);
+assert.match(d.querySelector('#results .tag').textContent,/Keyword: Todd psychologist/);
 input('#provider-name','no such provider');d.querySelector('#provider-search').dispatchEvent(new w.Event('submit',{cancelable:true,bubbles:true}));assert.equal(d.querySelectorAll('.result-card').length,0);assert.match(d.querySelector('.empty').textContent,/Try removing/);
 click('[data-remove-name]');assert.equal(d.querySelectorAll('.result-card').length,500);
 click('[data-toggle="1"]');check('services','Residential treatment');assert.equal(d.querySelectorAll('.result-card').length,123);click('[data-remove-filter="services"]');assert.equal(d.querySelectorAll('.result-card').length,500);
