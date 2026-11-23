@@ -1,0 +1,285 @@
+{
+  "version": 1,
+  "copiedPaths": [
+    "index.html",
+    "assets",
+    "bidpoints",
+    "css",
+    "js",
+    "apgovelections",
+    "rides",
+    "pujarinet",
+    "writings",
+    "links",
+    "sahana",
+    "amma",
+    "stats",
+    "learn",
+    "loop",
+    "feedback",
+    "ProviderTask",
+    "UEPrototype",
+    "blog11",
+    "helloflow"
+  ],
+  "pages": [
+    {
+      "path": "/",
+      "file": "index.html",
+      "title": "Yashaswi"
+    },
+    {
+      "path": "/amma/",
+      "file": "amma/index.html",
+      "title": "Amma · Your next chapter"
+    },
+    {
+      "path": "/atlas/",
+      "file": "atlas/index.html",
+      "title": "Raas Atlas · Lineups & history"
+    },
+    {
+      "path": "/bidpoints/",
+      "file": "bidpoints/index.html",
+      "title": "Nationals Bid Point Tracker"
+    },
+    {
+      "path": "/blog11/",
+      "file": "blog11/index.html",
+      "title": "Jobs | Jobboard"
+    },
+    {
+      "path": "/blog11/employer.html",
+      "file": "blog11/employer.html",
+      "title": "Careers"
+    },
+    {
+      "path": "/elections/",
+      "file": "apgovelections/index.html",
+      "title": "Election Control Center"
+    },
+    {
+      "path": "/feedback/",
+      "file": "feedback/index.html",
+      "title": "Blindspot feedback",
+      "live": false
+    },
+    {
+      "path": "/helloflow/",
+      "file": "helloflow/index.html",
+      "title": "Hello · A little fresh air"
+    },
+    {
+      "path": "/learn/",
+      "file": "learn/index.html",
+      "title": "Learn — Data science practice"
+    },
+    {
+      "path": "/links/",
+      "file": "links/index.html",
+      "title": "Links — Yashaswi Sunkara"
+    },
+    {
+      "path": "/loop/",
+      "file": "loop/index.html",
+      "title": "Loop — Choreography practice"
+    },
+    {
+      "path": "/officehours/",
+      "file": "officehours/index.html",
+      "title": "UX Studio Screen"
+    },
+    {
+      "path": "/ProviderTask/",
+      "file": "ProviderTask/index.html",
+      "title": "Department for Behavioral Health, Developmental and Intellectual Disabilities"
+    },
+    {
+      "path": "/pujarinet/",
+      "file": "pujarinet/index.html",
+      "title": "PujariNet"
+    },
+    {
+      "path": "/rides/",
+      "file": "rides/index.html",
+      "title": "HooRaas Rides"
+    },
+    {
+      "path": "/sahana/",
+      "file": "sahana/index.html",
+      "title": "Sahana · A little closer to what’s next"
+    },
+    {
+      "path": "/savetheworld/",
+      "file": "savetheworld/index.html",
+      "title": "Save the World — A Usability Emergency"
+    },
+    {
+      "path": "/stats/",
+      "file": "stats/index.html",
+      "title": "Site pulse · Yashaswi"
+    },
+    {
+      "path": "/UEPrototype/",
+      "file": "UEPrototype/index.html",
+      "title": "UE Prototype"
+    },
+    {
+      "path": "/writings/",
+      "file": "writings/index.html",
+      "title": "Writings — Yashaswi Sunkara"
+    },
+    {
+      "path": "/writings/instinct-survival-instincts/",
+      "file": "writings/instinct-survival-instincts/index.html",
+      "title": "Will Instinct’s Survival Instincts Pay Off?"
+    },
+    {
+      "path": "/writings/the-gigawatt-standard/",
+      "file": "writings/the-gigawatt-standard/index.html",
+      "title": "The Gigawatt Standard"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/helloflow",
+      "destination": "/helloflow/",
+      "permanent": false
+    },
+    {
+      "source": "/blog11",
+      "destination": "/blog11/",
+      "permanent": true
+    },
+    {
+      "source": "/sahana",
+      "destination": "/sahana/",
+      "permanent": true
+    },
+    {
+      "source": "/blindspot",
+      "destination": "https://scanblindspot.com/",
+      "permanent": true
+    },
+    {
+      "source": "/blindspot/",
+      "destination": "https://scanblindspot.com/",
+      "permanent": true
+    },
+    {
+      "source": "/blindspot/:path*",
+      "destination": "https://scanblindspot.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/feedback",
+      "destination": "https://scanblindspot.com/feedback",
+      "permanent": true
+    },
+    {
+      "source": "/elections",
+      "destination": "/elections/",
+      "permanent": false
+    },
+    {
+      "source": "/blindspots",
+      "destination": "/blindspot",
+      "permanent": false
+    },
+    {
+      "source": "/blindspots/:path*",
+      "destination": "/blindspot/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/atlas",
+      "destination": "/atlas/",
+      "permanent": false
+    },
+    {
+      "source": "/amma",
+      "destination": "/amma/",
+      "permanent": true
+    },
+    {
+      "source": "/dog/",
+      "destination": "https://taskpup.lol/",
+      "permanent": true
+    },
+    {
+      "source": "/dog/:path+/",
+      "destination": "https://taskpup.lol/:path*/",
+      "permanent": true
+    },
+    {
+      "source": "/dog",
+      "destination": "https://taskpup.lol/",
+      "permanent": true
+    },
+    {
+      "source": "/dog/:path*",
+      "destination": "https://taskpup.lol/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/kwatnoskiapgov",
+      "destination": "/elections/",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/ProviderTask",
+      "destination": "/ProviderTask/index.html"
+    },
+    {
+      "source": "/ProviderTask/",
+      "destination": "/ProviderTask/index.html"
+    },
+    {
+      "source": "/UEPrototype",
+      "destination": "/UEPrototype/index.html"
+    },
+    {
+      "source": "/UEPrototype/",
+      "destination": "/UEPrototype/index.html"
+    },
+    {
+      "source": "/links",
+      "destination": "/links/index.html"
+    },
+    {
+      "source": "/dam-dilemma/:path*",
+      "destination": "https://dam-decision.sunkarayashaswi.workers.dev/dam-dilemma/:path*"
+    },
+    {
+      "source": "/loop",
+      "destination": "/loop/index.html"
+    },
+    {
+      "source": "/api/sahana/feed",
+      "destination": "https://sahana-internship-feed.sunkarayashaswi.workers.dev/feed"
+    },
+    {
+      "source": "/api/classes/:path*",
+      "destination": "https://apgov-classroom.sunkarayashaswi.workers.dev/api/classes/:path*"
+    },
+    {
+      "source": "/elections/",
+      "destination": "/apgovelections/index.html"
+    },
+    {
+      "source": "/elections/:path*",
+      "destination": "/apgovelections/:path*"
+    },
+    {
+      "source": "/pujarinet/:path*",
+      "destination": "/pujarinet/index.html"
+    }
+  ],
+  "serverlessFiles": [
+    "api/amma/jobs.mjs",
+    "api/amma/custom.mjs",
+    "api/sahana/jobs.mjs"
+  ]
+}

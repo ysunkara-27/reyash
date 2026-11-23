@@ -2,8 +2,11 @@ import {buildAtlas} from '../raas-planner/scripts/build_public.mjs';
 import { cp, mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { resolve, basename } from 'node:path';
 import { buildWritings } from './build-writings.mjs';
+import { readContract, validateBuild, validateSource } from './production-routes.mjs';
 
 const root = resolve(import.meta.dirname, '..');
+const contract = await readContract(root);
+await validateSource(root, contract);
 const vercelConfig = JSON.parse(await readFile(resolve(root, 'vercel.json'), 'utf8'));
 // The Worker serves the classroom UI and API, so this route must ship with the portfolio.
 if (!vercelConfig.rewrites?.some(({ source, destination }) =>
@@ -20,15 +23,11 @@ await mkdir(output, { recursive: true });
 const excluded = new Set(['api', 'tests', 'node_modules', 'README.md', 'feed', 'article.md', 'parts']);
 // Render Markdown essays and refresh the writing lists before copying them.
 await buildWritings();
-for (const path of ['index.html', 'assets', 'bidpoints', 'css', 'js', 'apgovelections', 'rides', 'pujarinet', 'writings', 'links', 'sahana', 'amma', 'stats', 'learn', 'loop', 'feedback', 'ProviderTask', 'UEPrototype', 'blog11', 'helloflow']) {
+for (const path of contract.copiedPaths) {
   await cp(resolve(root, path), resolve(output, path), {
     recursive: true,
     filter: source => !basename(source).startsWith('.') && !excluded.has(basename(source)),
   });
-}
-// Fail the deployment if the Hello Flow entry point or either required asset is omitted.
-for (const file of ['index.html', 'app.mjs', 'style.css']) {
-  await readFile(resolve(output, 'helloflow', file));
 }
 // Preserve the downloadable election classroom materials, alongside the compiled app.
 await mkdir(resolve(output, 'kwatnoskiapgov'), { recursive: true });
@@ -51,4 +50,5 @@ async function injectAnalytics(directory) {
 }
 await buildAtlas(resolve(root,'raas-planner'),resolve(output,'atlas'));
 await injectAnalytics(output);
+await validateBuild(root, output);
 console.log('Built portfolio and all public sub-sites in dist/');

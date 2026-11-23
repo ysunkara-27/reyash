@@ -9,7 +9,11 @@
 
 `vercel.json` installs and builds Save the World and Office Hours. `node scripts/build-site.mjs` assembles their outputs and the existing static sites into `dist/`. Only `dist/` is published. Election classroom downloads remain under `/kwatnoskiapgov/`; the election app is under `/apgovelections/`.
 
-For a manual release, run `vercel link --project reyash`, then `vercel --prod`. Normal pushes to `main` deploy through the existing GitHub integration.
+Read `AGENTS.md` and [the release safety skill](skills/ysunkara-release-safety/SKILL.md) before publishing. Prepare releases from the latest `origin/main`; this shared workspace may contain older configuration and unrelated unpublished apps. Port only the requested changes into a clean checkout. Normal pushes to `main` deploy through the existing GitHub integration.
+
+`config/production-routes.json` records published page identities, copied directories, redirects, rewrites and serverless source files. `scripts/build-site.mjs` reads the copy list and validates the final output with `scripts/production-routes.mjs`. Missing pages, initial local scripts/stylesheets, routing rules or API source fail the Vercel build before promotion. Register new endpoints in the contract; update existing entries only for intentional changes.
+
+Run `node --test scripts/production-routes.test.mjs` and the complete build command from `vercel.json` in the release checkout. After the exact commit's deployment is Ready, run `node scripts/production-routes.mjs --live https://www.ysunkara.com`. This read-only check verifies page identities, scripts/stylesheets and redirect destinations. Exercise the changed app and probe touched APIs separately. The contract does not test every downstream API dependency or guarantee uptime.
 
 ## Data and environment
 
