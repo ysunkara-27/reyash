@@ -17,6 +17,11 @@
   },
   "redirects": [
     {
+      "source": "/blog11",
+      "destination": "/blog11/",
+      "permanent": true
+    },
+    {
       "source": "/sahana",
       "destination": "/sahana/",
       "permanent": true

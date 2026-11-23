@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A fictional desktop job search and application prototype.">
+  <meta name="theme-color" content="#214f8b">
+  <title>Jobs | Jobboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="jobs.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="#" aria-label="Jobboard home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>Jobboard<span class="brand-period">.</span></a>
+      <div id="search-slot" class="search-slot"></div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#" data-nav="search">Jobs</a>
+        <a href="#my-jobs" data-nav="my">My jobs</a>
+      </nav>
+      <div class="session"><span class="avatar" aria-hidden="true">MC</span><span class="session-name">Maya Chen</span></div>
+    </div>
+  </header>
+  <main id="app"></main>
+  <dialog id="application" aria-labelledby="application-title"></dialog>
+  <footer class="shell footer"><span>Jobboard</span><span>Simulation · Fictional listings</span></footer>
+</body>
+</html>
