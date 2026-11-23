@@ -17,6 +17,11 @@
   },
   "redirects": [
     {
+      "source": "/helloflow",
+      "destination": "/helloflow/",
+      "permanent": false
+    },
+    {
       "source": "/blog11",
       "destination": "/blog11/",
       "permanent": true

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6f5ef">
+<meta name="description" content="Hello — a little fresh air, a familiar voice. A clickable walking prototype.">
+<title>Hello · A little fresh air</title>
+<link rel="stylesheet" href="./style.css">
+<script type="module" src="./app.mjs"></script>
+</head>
+<body>
+<div class="layout">
+
+<main class="phone" aria-label="Hello mobile prototype">
+<div class="statusbar" aria-hidden="true"><span id="clock">10:07</span><span>▮▮▮ &nbsp; ◔ &nbsp; ▰</span></div>
+<header><a class="wordmark" href="./" aria-label="Restart Hello">Hello <span aria-hidden="true">👋</span></a><span class="demo-label">PROTOTYPE</span></header>
+<div id="screen"></div>
+<div class="home-indicator" aria-hidden="true"></div>
+</main>
+<div id="announcement" class="sr-only" role="status" aria-live="polite"></div>
+</div>
+</body>
+</html>
